@@ -1,0 +1,1 @@
+ <div class="divider divider-neutral mt-10 mb-5"><h2 class="text-2xl font-semibold mb-4">{{ $slot }}</h2></div>

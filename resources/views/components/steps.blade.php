@@ -2,8 +2,8 @@
     $active = isset($active) ? (int) trim($active) : 0;
 @endphp
 
-<ul class="steps steps-vertical absolute -ml-5">
-@for($i=0;$i<=13;$i++ )
+<ul class="steps -ml-5 -mr-10">
+@for($i=1;$i<=12;$i++ )
 @php
    if($i==0){
     $link ="/";
@@ -12,6 +12,7 @@
     $link ="/part-".$i;
    }
 @endphp
-  <a href="{{ $link }}" class="step {{ $i < $active ? 'step-success' : ($i == $active ? 'step-primary' : '') }}"></a>
+  <a href="{{ $link }}" class="step {{ $i < $active ? '' : ($i == $active ? 'step-primary' : '') }}"></a>
 @endfor
 </ul>
+

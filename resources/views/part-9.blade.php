@@ -1,197 +1,42 @@
 <x-layout>
-            <x-steps>
-    <x-slot:active>9</x-slot:active>
-    </x-steps>
-    <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold text-center mb-6">Bahagian I: Rapid Entire Body Assessment (REBA)</h1>
 
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-        <p class="text-lg mb-4">Penilaian ini digunakan untuk menilai risiko gangguan muskuloskeletal (MSD) berdasarkan postur dan tugas berulang. Sila pilih sejauh mana setiap kenyataan ini menggambarkan keadaan anda semasa bekerja.</p>
-
-        <form action="" method="POST">
-            @csrf
-
-            <h2 class="text-2xl font-semibold mb-4">Keletihan</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I1" value="1" class="mr-2" />
-                    <span>Risiko sangat rendah (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I1" value="2" class="mr-2" />
-                    <span>Risiko rendah (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I1" value="4" class="mr-2" />
-                    <span>Risiko sederhana (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I1" value="6" class="mr-2" />
-                    <span>Risiko tinggi (6)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I1" value="8" class="mr-2" />
-                    <span>Risiko sangat tinggi (8)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Selepas seharian bekerja, saya sukar untuk memulihkan tenaga saya.</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I2" value="1" class="mr-2" />
-                    <span>Risiko sangat rendah (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I2" value="2" class="mr-2" />
-                    <span>Risiko rendah (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I2" value="4" class="mr-2" />
-                    <span>Risiko sederhana (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I2" value="6" class="mr-2" />
-                    <span>Risiko tinggi (6)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I2" value="8" class="mr-2" />
-                    <span>Risiko sangat tinggi (8)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Di tempat kerja, saya rasa keletihan fizikal.</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I3" value="1" class="mr-2" />
-                    <span>Risiko sangat rendah (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I3" value="2" class="mr-2" />
-                    <span>Risiko rendah (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I3" value="4" class="mr-2" />
-                    <span>Risiko sederhana (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I3" value="6" class="mr-2" />
-                    <span>Risiko tinggi (6)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I3" value="8" class="mr-2" />
-                    <span>Risiko sangat tinggi (8)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Saya sukar untuk mencari semangat untuk kerja saya.</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I4" value="1" class="mr-2" />
-                    <span>Risiko sangat rendah (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I4" value="2" class="mr-2" />
-                    <span>Risiko rendah (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I4" value="4" class="mr-2" />
-                    <span>Risiko sederhana (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I4" value="6" class="mr-2" />
-                    <span>Risiko tinggi (6)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I4" value="8" class="mr-2" />
-                    <span>Risiko sangat tinggi (8)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Saya berasa sangat tidak suka terhadap pekerjaan saya.</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I5" value="1" class="mr-2" />
-                    <span>Risiko sangat rendah (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I5" value="2" class="mr-2" />
-                    <span>Risiko rendah (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I5" value="4" class="mr-2" />
-                    <span>Risiko sederhana (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I5" value="6" class="mr-2" />
-                    <span>Risiko tinggi (6)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I5" value="8" class="mr-2" />
-                    <span>Risiko sangat tinggi (8)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Saya sinis tentang kerja saya memberi makna kepada orang lain.</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I6" value="1" class="mr-2" />
-                    <span>Risiko sangat rendah (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I6" value="2" class="mr-2" />
-                    <span>Risiko rendah (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I6" value="4" class="mr-2" />
-                    <span>Risiko sederhana (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I6" value="6" class="mr-2" />
-                    <span>Risiko tinggi (6)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I6" value="8" class="mr-2" />
-                    <span>Risiko sangat tinggi (8)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Saya sukar untuk kekal fokus di tempat kerja.</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I7" value="1" class="mr-2" />
-                    <span>Risiko sangat rendah (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I7" value="2" class="mr-2" />
-                    <span>Risiko rendah (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I7" value="4" class="mr-2" />
-                    <span>Risiko sederhana (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I7" value="6" class="mr-2" />
-                    <span>Risiko tinggi (6)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="I7" value="8" class="mr-2" />
-                    <span>Risiko sangat tinggi (8)</span>
-                </label>
-            </div>
-
-            <div class="mt-6">
-                    <br><br>
-             <a href="/part-8" class="w-full mt-4 p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"><< Kembali</a>
-        <a href="/part-10" class="w-full mt-4 p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">Seterusnya>></a>
-            </div>
+<x-title-section>
+<x-slot:title1>BAHAGIAN I: Penilaian Anggota Keseluruhan Tubuh (REBA)</x-slot:title1>
+<x-slot:title2>SECTION I: Rapid Entire Body Assessment (REBA)</x-slot:title2>
+<x-slot:description>Penilaian Anggota Keseluruhan Tubuh (atau Rapid Entire Body Assessment, RELA) ialah instrumen penilaian ergonomik yang digunakan secara meluas untuk menilai risiko gangguan muskuloskeletal (MSD) akibat postur dan tugas berulang. Ia menganalisis postur, daya, pergerakan, dan faktor persekitaran kerja. Ia memberikan skor yang menunjukkan risiko kecederaan. Skor yang lebih tinggi menandakan risiko MSD yang lebih besar, memerlukan intervensi ergonomik. REBA digunakan dalam pelbagai industri untuk mencegah kecederaan akibat pergerakan berulang atau postur janggal.</x-slot:description>
+</x-title-section>
+<br>
+<a href="../img/gambar reba.png" target="_blank">
+<img src="../img/gambar reba.png" alt="Gambar REBA" class="mx-auto mb-5"></a>
+<br>
+<x-accordion>
+    <x-slot:title>JUMLAH SKOR REBA :</x-slot:title>
+    <x-slot:description>
+<p class="text-red-500 font-bold">*paparan julat skor diperolehi dan status </p><br>
+<p class="text-red-500 font-bold ml-5">Rujukan julat skor dan status:<br>
+1 (risiko sangat rendah)<br>
+2-3 (risiko rendah, perubahan mungkin diperlukan)<br>
+4-7 (risiko sederhana, perlu siasatan lanjut dan perubahan dalam masa terdekat)<br>
+8-10 (risiko tinggi, lakukan siasatan segera dan implimentasikan perubahan)<br>
+11+ (risiko sangat tinggi, melaksanakan perubahan segera)
+</p><br>
+<p class="text-red-500 font-bold">
+SARANAN: ____________
+<ul class="list-disc text-red-500 font-bold ml-5">
+    <li>Jika ‘risiko sangat rendah’, saranan: Walaupun hasil ujian REBA menunjukkan risiko kecederaan muskuloskeletal (MSD) yang sangat rendah, anda tetap perlu mengekalkan amalan ergonomik yang baik. Ini termasuklah menjaga postur yang betul, melakukan regangan dan senaman ringan, memastikan persekitaran kerja yang selesa, mengambil rehat berkala, meningkatkan pemahaman tentang ergonomik, menjaga keseimbangan kerja-hidup, dan melakukan pemantauan berkala bagi mengurangkan risiko kecederaan dan menjaga kesihatan fizikal dalam jangka masa panjang.</li>
+    <li>Jika ‘risiko rendah, perubahan mungkin diperlukan’, saranan: Walaupun risiko kecederaan muskuloskeletal (MSD) anda rendah, penambahbaikan postur kerja, ergonomik peralatan kerja, rehat berkala, senaman, keseimbangan kerja-hidup, pemantauan berterusan, dan sokongan dan latihan ergonomik adalah penting untuk mencegah peningkatan risiko dan memastikan keselesaan kerja.</li>
+    <li>Jika ‘risiko sederhana, perlu siasatan lanjut dan perubahan dalam masa terdekat’, saranan: Tindakan segera adalah perlu untuk mengurangkan risiko kecederaan muskuloskeletal (MSD) melalui siasatan punca risiko, perubahan postur dan penyusunan semula peralatan kerja yang ergonomik, peningkatan kualiti tidur dan rehat, senaman dan regangan berkala, pengurangan beban kerja, sokongan sosial dan perbincangan dengan majikan, pemantauan dan penyesuaian berterusan, serta latihan ergonomik. Langkah-langkah ini bertujuan memastikan keselesaan dan kesejahteraan fizikal dalam aktiviti harian pekerjaan. </li>
+    <li>Jika ‘risiko tinggi, lakukan siasatan segera dan implimentasikan perubahan’, saranan: Anda perlu segera menjalani penilaian kesihatan oleh profesional untuk mengenal pasti masalah postur atau pergerakan, diikuti dengan siasatan terperinci mengenai aktiviti harian atau pekerjaan anda. Perubahan perlu dilaksanakan, termasuk mengubah postur, menggunakan alat bantuan, melakukan latihan penguatan otot, dan pemantauan berkala untuk memastikan perubahan tersebut memberi kesan positif terhadap kesihatan tubuh anda.</li>
+    <li>Jika ‘risiko sangat tinggi, melaksanakan perubahan segera’, saranan: Anda perlu segera mendapatkan penilaian profesional daripada ahli fisioterapi atau doktor untuk mengenal pasti punca masalah postur atau pergerakan. Langkah-langkah pembetulan postur, rehat yang mencukupi, penggunaan alat sokongan, latihan penguatan otot, dan pemantauan berterusan perlu dilaksanakan untuk mengurangkan risiko kecederaan serius atau masalah kesihatan yang berpanjangan. Pendidikan kesihatan tentang postur yang betul dan teknik mengelakkan beban berlebihan juga penting untuk pencegahan jangka panjang.</li>
+</ul>
+    </x-slot:description>
+</x-accordion>
         </form>
-    </div>
-</div>
+
+        <x-navigation>
+            <x-slot:active>9</x-slot:active>
+            <x-slot:link1>/part-8</x-slot:link1>
+            <x-slot:link2>/part-10</x-slot:link2>
+        </x-navigation>
+
 </x-layout>

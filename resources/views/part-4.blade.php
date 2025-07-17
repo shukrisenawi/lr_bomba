@@ -1,272 +1,61 @@
 <x-layout>
-        <x-steps>
-    <x-slot:active>4</x-slot:active>
-    </x-steps>
-    <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold text-center mb-6">Bahagian D: Impak Latihan di Tempat Kerja</h1>
 
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-        <p class="text-lg mb-4">Soal-selidik ini digunakan untuk menilai impak latihan yang telah dijalankan terhadap prestasi kerja anda. Sila tandakan sejauh mana setiap kenyataan berikut berlaku kepada anda.</p>
-
+<x-title-section>
+<x-slot:title1>BAHAGIAN D: Impak Latihan Di Tempat Kerja</x-slot:title1>
+<x-slot:title2>SECTION D: Training Impact at Work (TIAW)</x-slot:title2>
+<x-slot:description>Instrumen Impak Latihan di Tempat Kerja (atau Training Impact at Work) merupakan alat penilaian yang dirancang khusus untuk mengukur keberkesanan program latihan dalam lingkungan kerja. Instrumen ini bertujuan untuk menilai sejauh mana latihan telah mencapai objektif yang ditetapkan, serta pengaruhnya terhadap prestasi individu, pasukan, dan organisasi secara keseluruhan.</x-slot:description>
+</x-title-section>
+<p class="font-bold">
+Kenyataan berikut berkaitan impak latihan di tempat kerja. Sila nyatakan sejauh mana setiap kenyataan ini berlaku kepada anda.
+</p>
+<br>
         <form action="" method="POST">
             @csrf
+            @foreach(["Kualiti kerja saya telah bertambah baik", "Saya membuat sedikit kesilapan di tempat kerja", "Saya melakukan kerja saya dengan lebih cepat.", "Keyakinan diri saya telah meningkat.", 'Motivasi saya untuk bekerja telah bertambah baik.', 'Kualiti kerja saya yang tidak berkaitan dengan kursus telah bertambah baik.', 'Saya mencadangkan perubahan rutin kerja yang lebih kerap.', 'Saya sering menggunakan kemahiran yang dipelajari semasa latihan.',
+                'Saya berasa lebih terbuka kepada perubahan.', 'Saya mengambil kesempatan untuk mempraktikkan kemahiran baharu yang saya pelajari.', 'Rakan sekerja saya boleh belajar daripada saya.', 'Saya dapat mengingat kandungan kursus dengan baik.'] as $index => $question)
 
-            <h2 class="text-2xl font-semibold mb-4">Kualiti kerja saya telah bertambah baik</h2>
+            <x-radio-button-choose :choose="3">
+                <x-slot:id>D{{ $index + 1 }}</x-slot:id>
+                <x-slot:label>{{ $index + 1 }}. {{ $question }}</x-slot:label>
+            </x-radio-button-choose>
+                @endforeach
 
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D1" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D1" value="2" class="mr-2" />
-                    <span>Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D1" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D1" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D1" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
+<br>
 
-            <h2 class="text-2xl font-semibold mb-4">Saya membuat sedikit kesilapan di tempat kerja</h2>
+        <x-reference>
+<x-slot:title>Rujukan</x-slot:title>
+<x-slot:description><ol class="list-decimal list-inside mb-4">
+    <li class="font-bold">
+        Abbad, G., Andrade, J. E. B., & Sallorenzo, L. H. (2004). Self-assessment of training impact at work: validation of a measurement scale. Revista Interamericana de Psicologia/Interamerican Journal of Psychology, 38(2), 277-284.
+    </li>
+    <li>
+        A two sub-scale structure was found (a=0.86; r=.56) accounting for 60 percent of the impact variability. A single factor structure was also found and it is similarly reliable (a=.90), accounting for 45 percent of the variability. Both structures are useful, reliable and valid.
+    </li>
+</ol></x-slot:description>
+</x-reference>
 
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D2" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D2" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D2" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D2" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D2" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
+<x-accordion>
+    <x-slot:title>JUMLAH SKOR TIAW:</x-slot:title>
+    <x-slot:description><p class="font-bold text-red-500">
+    *paparan nilai sebenar skor diperolehi dan status (lemah/sederhana/baik/cemerlang)
+<br>
 
-            <h2 class="text-2xl font-semibold mb-4">Saya melakukan kerja saya dengan lebih cepat</h2>
+Rujukan julat skor dan status:<br>
+7-27 Lemah &nbsp;&nbsp;&nbsp; 28-36 Sederhana  &nbsp;&nbsp;&nbsp; 37-43 Baik      &nbsp;&nbsp;&nbsp;  44-49 Cemerlang
+<br><br>
+SARANAN: ____________
+<ul class="list-disc mx-10 text-red-500 font-bold">
+    <li>Jika ‘Lemah’, saranan: Anda perlu memberikan perhatian kepada aspek penjagaan kesihatan fizikal dan mental, mengikuti lebih banyak latihan berkaitan kerja serta memberikan komitmen sepenuhnya kepada tanggungjawab kerja,</li>
+    <li>Jika ‘Sederhana’, saranan: Anda perlu meningkatkan keupayaan kerja dari aspek latihan fizikal dan kemahiran teknikal yang komprehensif serta pengurusan mental dan emosi yang lebih baik.</li>
+    <li>Jika ‘Baik’, saranan: Tahniah atas keupayaan kerja anda yang baik. Kekalkan pencapaian ini atau boleh terus berusaha untuk meningkatkan potensi dan pengembangan diri dengan lebih baik dalam pekerjaan.</li>
+    <li>Jika ‘Cemerlang’, saranan: Tahniah atas keupayaan kerja anda yang cemerlang. Kekalkan pencapaian ini disamping boleh membantu rakan sekerja untuk meningkatkan potensi dan pengembangan diri mereka dalam pekerjaan.</li>
+</ul></x-slot:description>
+</x-accordion>
+        <x-navigation>
+            <x-slot:active>4</x-slot:active>
+            <x-slot:link1>/part-3</x-slot:link1>
+            <x-slot:link2>/part-5</x-slot:link2>
+        </x-navigation>
 
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D3" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D3" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D3" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D3" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D3" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Keyakinan diri saya telah meningkat</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D4" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D4" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D4" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D4" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D4" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Motivasi saya untuk bekerja telah bertambah baik</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D5" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D5" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D5" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D5" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D5" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Kualiti kerja saya yang tidak berkaitan dengan kursus telah bertambah baik</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D6" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D6" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D6" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D6" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D6" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Saya mencadangkan perubahan rutin kerja yang lebih kerap</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D7" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D7" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D7" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D7" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D7" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Saya sering menggunakan kemahiran yang dipelajari semasa latihan</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D8" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D8" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D8" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D8" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D8" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Saya berasa lebih terbuka kepada perubahan</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D9" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D9" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D9" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D9" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D9" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
-
-            <h2 class="text-2xl font-semibold mb-4">Saya mengambil kesempatan untuk mempraktikkan kemahiran baharu yang saya pelajari</h2>
-
-            <div class="flex items-center space-x-4 mb-6">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D10" value="1" class="mr-2" />
-                    <span>Sangat tidak setuju (1)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D10" value="2" class="mr-2" />
-                    <span> Tidak setuju (2)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D10" value="3" class="mr-2" />
-                    <span>Tidak pasti (3)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D10" value="4" class="mr-2" />
-                    <span>Setuju (4)</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="D10" value="5" class="mr-2" />
-                    <span>Sangat setuju (5)</span>
-                </label>
-            </div>
-
-            <div class="mt-6">
-               <br><br>
-             <a href="/part-3" class="w-full mt-4 p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"><< Kembali</a>
-        <a href="/part-5" class="w-full mt-4 p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">Seterusnya>></a>
-            </div>
         </form>
-    </div>
-</div>
 </x-layout>

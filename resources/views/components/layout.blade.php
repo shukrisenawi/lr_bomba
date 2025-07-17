@@ -6,6 +6,7 @@
     @vite('resources/css/app.css')
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Soal Selidik Responden</title>
+    <link rel="icon" href="../img/icon.ico" type="image/x-icon">
 </head>
 <body class="h-full">
 <div class="min-h-full">

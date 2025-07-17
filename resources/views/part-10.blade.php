@@ -1,112 +1,32 @@
 <x-layout>
-            <x-steps>
+
+<x-title-section>
+<x-slot:title1>BAHAGIAN J: Soal-selidik Muskuloskeletel Nordic (NMQ)</x-slot:title1>
+<x-slot:title2>SECTION J: Nordic Musculoskeletel Questionnaire (NMQ)</x-slot:title2>
+<x-slot:description>Soal Selidik Muskuloskeletal Nordic (NMQ) ialah satu alat penilaian kendiri yang digunakan untuk menilai kesakitan muskuloskeletal pada orang dewasa, dengan menilai kekerapan, keterukan, dan kesan kesakitan tersebut terhadap kehidupan seharian melalui pelbagai bahagian badan.</x-slot:description>
+</x-title-section>
+
+<br>
+<a href="../img/tubuh manusia.png" target="_blank">
+<img src="../img/tubuh manusia.png" alt="Gambar" class="mx-auto mb-5"></a>
+<br>
+<x-reference>
+<x-slot:title>Rujukan</x-slot:title>
+<x-slot:description><ol class="list-decimal list-inside mb-4">
+    <li class="font-bold">
+        Dawson AP, Steele EJ, Hodges PW, Stewart S (2009) Development and test-retest reliability of an extended version of the Nordic Musculoskeletal Questionnaire (NMQ-E): a screening instrument for musculoskeletal pain. J Pain 10(5):517–526.
+    </li>
+    <li class="font-bold">
+        Kuorinka I, Jonsson B, Kilbom A, Vinterberg H, Biering-Sørensen F, Andersson G et al (1987) Standardised Nordic questionnaires for the analysis of musculoskeletal symptoms. Appl Ergon 18(3):233–237
+    </li>
+    <li>The Nordic Musculoskeletal Questionnaire (NMQ) was explicitly designed to evaluate the prevalence and consequences of MSK pain, it has high reliability and validity, and is the most widely used questionnaire to assess MSK pain in the Nordic countries. The NMQ is a descriptive tool, not a scoring tool. It provides information on pain prevalence and impact on activities within specific body regions, allowing researchers and clinicians to assess musculoskeletal health in a systematic way. The core output of the NMQ is the prevalence of musculoskeletal symptoms. This is calculated as a percentage for each of the nine body regions and for each of the key questions (12-month prevalence, 7-day prevalence, and activity limitation). High prevalence rates in specific body regions or among particular groups can help prioritize ergonomic interventions and resources. A \"Yes\" response indicates the presence of a symptom but does not provide a clinical diagnosis. Individuals reporting significant or persistent symptoms should be referred for a clinical evaluation by a healthcare professional.</li>
+</ol></x-slot:description>
+</x-reference>
+<br>
+<p class="font-bold text-red-500">*Tiada paparan skor dan status ditunjukkan bagi bahagian ini. Data yang dikumpulkan akan dianalisa kemudian</p>
+<x-navigation>
     <x-slot:active>10</x-slot:active>
-    </x-steps>
-    <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold text-center mb-6">Bahagian J: Soal-selidik Muskuloskeletal Nordic (NMQ)</h1>
-
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-        <p class="text-lg mb-4">Soal-selidik ini digunakan untuk menilai prevalensi kesakitan muskuloskeletal yang anda alami pada bahagian tubuh tertentu. Sila tandakan "Ya" atau "Tidak" berdasarkan pengalaman anda.</p>
-
-        <form action="" method="POST">
-            @csrf
-
-            <h2 class="text-2xl font-semibold mb-4">Bahagian Tubuh yang Mengalami Sakit</h2>
-
-            <div class="space-y-4 mb-6">
-                @foreach([
-                    'Leher',
-                    'Bahu',
-                    'Lengan',
-                    'Punggung',
-                    'Siku',
-                    'Pergelangan tangan',
-                    'Pinggang',
-                    'Paha',
-                    'Kaki'
-                ] as $index => $body_part)
-                <div class="flex items-center">
-                    <label for="NMQ{{ $index }}" class="mr-4">{{ $body_part }}</label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="NMQ{{ $index }}" value="yes" class="mr-2" />
-                        <span>Ya</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="NMQ{{ $index }}" value="no" class="mr-2" />
-                        <span>Tidak</span>
-                    </label>
-                </div>
-                @endforeach
-            </div>
-
-            <h2 class="text-2xl font-semibold mt-6 mb-4">Berapa kerap anda mengalami sakit pada bahagian tubuh yang dinyatakan?</h2>
-
-            <div class="space-y-4 mb-6">
-                @foreach([
-                    'Leher',
-                    'Bahagian atas punggung',
-                    'Bahu',
-                    'Lengan',
-                    'Siku',
-                    'Punggung',
-                    'Kaki',
-                    'Pinggang'
-                ] as $index => $body_part)
-                <div class="flex items-center">
-                    <label for="NMQF{{ $index }}" class="mr-4">{{ $body_part }}</label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="NMQF{{ $index }}" value="0" class="mr-2" />
-                        <span>Tidak pernah</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="NMQF{{ $index }}" value="1" class="mr-2" />
-                        <span>Jarang-jarang</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="NMQF{{ $index }}" value="2" class="mr-2" />
-                        <span>Kerap</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="NMQF{{ $index }}" value="3" class="mr-2" />
-                        <span>Sentiasa</span>
-                    </label>
-                </div>
-                @endforeach
-            </div>
-
-            <h2 class="text-2xl font-semibold mt-6 mb-4">Adakah kesakitan tersebut menyebabkan kesukaran dalam aktiviti harian anda?</h2>
-
-            <div class="space-y-4 mb-6">
-                @foreach([
-                    'Leher',
-                    'Bahagian atas punggung',
-                    'Bahu',
-                    'Lengan',
-                    'Siku',
-                    'Punggung',
-                    'Kaki',
-                    'Pinggang'
-                ] as $index => $body_part)
-                <div class="flex items-center">
-                    <label for="NMQA{{ $index }}" class="mr-4">{{ $body_part }}</label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="NMQA{{ $index }}" value="yes" class="mr-2" />
-                        <span>Ya</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="NMQA{{ $index }}" value="no" class="mr-2" />
-                        <span>Tidak</span>
-                    </label>
-                </div>
-                @endforeach
-            </div>
-
-            <div class="mt-6">
-                   <br><br>
-             <a href="/part-9" class="w-full mt-4 p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"><< Kembali</a>
-        <a href="/part-11" class="w-full mt-4 p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">Seterusnya>></a>
-            </div>
-        </form>
-    </div>
-</div>
+    <x-slot:link1>/part-9</x-slot:link1>
+    <x-slot:link2>/part-11</x-slot:link2>
+</x-navigation>
 </x-layout>
