@@ -9,7 +9,7 @@
     <link rel="icon" href="../img/icon.ico" type="image/x-icon">
 </head>
 <body class="h-full">
-<div class="min-h-full">
+<div class="min-h-full" style="background-image: url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp);background-attachment: fixed; background-size: cover; background-position: center;">
     <div class="max-w-4xl mx-auto p-6">
         <div class="max-w-4xl mx-auto p-6">
 
