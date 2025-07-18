@@ -1,0 +1,127 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreRespondentRequest;
+use App\Models\Respondent;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class RegisterController extends Controller
+{
+    // Tampilkan halaman persetujuan
+    public function create()
+    {
+        return view('register.index');
+    }
+
+    // Simpan persetujuan
+    public function storeConsent(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'persetujuan' => 'required|accepted',
+        ]);
+
+        $request->session()->put('respondent_data', [
+            'name' => $request->name,
+            'email' => $request->email,
+            'consent_given' => true,
+        ]);
+
+        return redirect()->route('register.demography');
+    }
+
+    // Tampilkan halaman demografi
+    public function showDemographyForm(Request $request)
+    {
+        $respondentData = $request->session()->get('respondent_data');
+
+        if (!$respondentData) {
+            return redirect()->route('register.create');
+        }
+
+        return view('register.create', ['session' => (object)$respondentData]);
+    }
+
+    // Simpan data demografi
+    public function storeDemography(Request $request)
+    {
+        $respondentData = $request->session()->get('respondent_data');
+
+        if (!$respondentData) {
+            return redirect()->route('register.create');
+        }
+        try {
+            $validated = $request->validate([
+                'phone_number' => 'nullable|string|max:20',
+                'age' => 'required|integer|min:45',
+                'place_of_birth' => 'nullable|string|max:255',
+                'gender' => 'required',
+                'ethnicity' => 'required',
+                'marital_status' => 'required',
+                'education_level' => 'required|string',
+                'monthly_income_self' => 'required|numeric',
+                'monthly_income_spouse' => 'nullable|numeric',
+                'other_income' => 'nullable|numeric',
+                'current_position' => 'required|string|max:255',
+                'grade' => 'nullable|string',
+                'location' => 'nullable|string',
+                'position' => 'nullable|string',
+                'state' => 'nullable|string',
+                'years_of_service' => 'required|integer',
+                'service_status' => 'required',
+                'password' => 'required|string|min:8|confirmed',
+            ], [
+                'age.min' => 'Umur harus sekurang-kurangnya 45 tahun',
+                'password.confirmed' => 'Pengulangan kata laluan tidak sama',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        }
+
+        $user = User::create([
+            'name' => $respondentData['name'],
+            'email' => $respondentData['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+        if ($user) {
+            // Buat data responden
+            Respondent::create([
+                'user_id' => $user->id,
+                'phone_number' => $validated['phone_number'],
+                'age' => $validated['age'],
+                'place_of_birth' => $validated['place_of_birth'],
+                'gender' => $validated['gender'],
+                'ethnicity' => $validated['ethnicity'],
+                'marital_status' => $validated['marital_status'],
+                'education_level' => $validated['education_level'],
+                'monthly_income_self' => $validated['monthly_income_self'],
+                'monthly_income_spouse' => $validated['monthly_income_spouse'] ?? null,
+                'other_income' => $validated['other_income'] ?? null,
+                'current_position' => $validated['current_position'],
+                'grade' => $validated['grade'] ?? null,
+                'location' => $validated['location'] ?? null,
+                'position' => $validated['position'] ?? null,
+                'state' => $validated['state'] ?? null,
+                'years_of_service' => $validated['years_of_service'],
+                'service_status' => $validated['service_status'],
+                'consent_given' => true,
+            ]);
+        }
+        $request->session()->forget('respondent_data');
+
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+        Auth::attempt($credentials);
+
+        return redirect()->route('login')->with('success', 'Pendaftaran berjaya! Sila log masuk.');
+    }
+}
