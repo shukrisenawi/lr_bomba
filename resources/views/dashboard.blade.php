@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="flex justify-between items-center mb-5 sm:mb-10">
-        <h1 class="font-bold text-center text-xl sm:text-2xl flex-1">Kajian Pembangunan Profil Kesejahteraan
+        <h1 class="font-bold text-center text-xl sm:text-2xl">Kajian Pembangunan Profil Kesejahteraan
             Pekerja Berusia di Jabatan Bomba dan Penyelamat Di Lembah Klang, Malaysia</h1>
 
         <form action="{{ route('logout') }}" method="POST" class="ml-4">

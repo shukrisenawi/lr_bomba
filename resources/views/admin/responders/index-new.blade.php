@@ -3,8 +3,8 @@
 @section('title', 'Senarai Responder - Admin')
 
 @section('content')
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div class="container mx-auto px-4 py-8">
+    <div>
+        <div class="container mx-auto">
             <!-- Header Section -->
             <div class="mb-8">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -29,7 +29,7 @@
             </div>
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                 <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-blue-100 text-blue-600">
@@ -133,7 +133,7 @@
                                     Responder
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Email
+                                    Hubungi
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Lokasi
@@ -158,21 +158,15 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <div
-                                                    class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-semibold">
-                                                    {{ substr($responder['name'], 0, 1) }}
-                                                </div>
-                                            </div>
-                                            <div class="ml-4">
+                                            <div class="text-left">
                                                 <div class="text-sm font-medium text-gray-900">{{ $responder['name'] }}
                                                 </div>
-                                                <div class="text-sm text-gray-500">{{ $responder['gender'] }},
+                                                <div class="text-sm text-gray-500">
                                                     {{ $responder['age'] }} tahun</div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-6 py-4 whitespace-nowrap text-left">
                                         <div class="text-sm text-gray-900">{{ $responder['email'] }}</div>
                                         <div class="text-sm text-gray-500">{{ $responder['phone'] }}</div>
                                     </td>

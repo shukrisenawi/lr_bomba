@@ -38,7 +38,8 @@
         <main class="min-h-screen"
             style="background-image: url({{ asset('img/background.webp') }});background-attachment: fixed; background-size: cover; background-position: center;">
             <div class="flex justify-center m-auto p-2 sm:p-10">
-                <div class="w-full sm:w-[800px] bg-white rounded-3xl p-5 sm:p-10 block text-center">
+                <div
+                    class="w-full sm:w-[800px]  bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl p-5 sm:p-10 block text-center">
                     @yield('content')
                 </div>
             </div>
