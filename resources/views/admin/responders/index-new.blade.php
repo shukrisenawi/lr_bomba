@@ -127,13 +127,13 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <input type="checkbox" class="rounded border-gray-300">
+                                    Bil
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Responder
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Kontak
+                                    Email
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Lokasi
@@ -154,7 +154,7 @@
                                 <tr class="hover:bg-gray-50 transition-colors duration-200 responder-row"
                                     data-gender="{{ $responder['gender'] }}" data-location="{{ $responder['location'] }}">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <input type="checkbox" class="rounded border-gray-300 responder-checkbox">
+                                        {{ $index + 1 }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">

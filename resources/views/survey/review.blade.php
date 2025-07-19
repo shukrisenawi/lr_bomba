@@ -20,22 +20,7 @@
 
                                 @if ($answer)
                                     <p><strong>Jawapan Anda:</strong>
-                                        @if ($question['type'] === 'single_choice' || $question['type'] === 'scale')
-                                            @php
-                                                $displayText = $answer->answer;
-                                                if (isset($question['options']) && is_array($question['options'])) {
-                                                    foreach ($question['options'] as $option) {
-                                                        if ($option === $answer->answer) {
-                                                            $displayText = $option;
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                            @endphp
-                                            {{ $displayText }}
-                                        @else
-                                            {{ $answer->answer }}
-                                        @endif
+                                        {{ getDisplayTextForAnswer($question, $answer->answer) }}
                                     </p>
                                     <a href="{{ route('survey.edit', [$section, $question['id']]) }}"
                                         class="btn btn-warning btn-sm mt-2">

@@ -26,6 +26,43 @@ if (!function_exists('getOptionText')) {
     }
 }
 
+if (!function_exists('getDisplayTextForAnswer')) {
+    /**
+     * Get the display text for a survey answer based on question type
+     *
+     * @param array $question The question array from survey JSON
+     * @param string $storedAnswer The stored answer value
+     * @return string The display text for the answer
+     */
+    function getDisplayTextForAnswer($question, $storedAnswer)
+    {
+        if (empty($storedAnswer)) {
+            return 'Tiada jawapan';
+        }
+
+        $type = $question['type'] ?? 'text';
+
+        switch ($type) {
+            case 'single_choice':
+            case 'scale':
+                return getOptionText($question, $storedAnswer);
+
+            case 'multiple_choice':
+                if (is_array($storedAnswer)) {
+                    $displayTexts = [];
+                    foreach ($storedAnswer as $answer) {
+                        $displayTexts[] = getOptionText($question, $answer);
+                    }
+                    return implode(', ', $displayTexts);
+                }
+                return getOptionText($question, $storedAnswer);
+
+            default:
+                return $storedAnswer;
+        }
+    }
+}
+
 if (!function_exists('calculate_section_score')) {
     /**
      * Calculate section score based on answers
