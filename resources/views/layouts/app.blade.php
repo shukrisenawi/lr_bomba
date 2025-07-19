@@ -13,6 +13,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles -->
     @stack('styles')
@@ -35,7 +36,7 @@
 
         <!-- Page Content -->
         <main class="min-h-screen"
-            style="background-image: url(../img/background.webp);background-attachment: fixed; background-size: cover; background-position: center;">
+            style="background-image: url({{ asset('img/background.webp') }});background-attachment: fixed; background-size: cover; background-position: center;">
             <div class="flex justify-center m-auto p-2 sm:p-10">
                 <div class="w-full sm:w-[800px] bg-white rounded-3xl p-5 sm:p-10 block text-center">
                     @yield('content')

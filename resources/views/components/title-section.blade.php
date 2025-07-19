@@ -1,4 +1,4 @@
-<div class="hero rounded-t-4xl mb-5" style="background-image: url(../img/background.webp);">
+<div class="hero rounded-t-4xl mb-5" style="background-image: url({{ asset('img/background.webp') }});">
     <div class="hero-overlay"></div>
     <div class="hero-content text-neutral-content text-center">
         <div class="m-5">

@@ -4,11 +4,16 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 // Laluan untuk pendaftaran
 Route::get('/', function () {
-    return view('index');
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    } else {
+        return redirect()->route('register.create');
+    }
 })->name('home');
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
 Route::post('/register', [RegisterController::class, 'storeConsent'])->name('register.store-consent');
@@ -27,12 +32,21 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
     Route::prefix('survey')->group(function () {
         Route::get('/{section}', [SurveyController::class, 'show'])->name('survey.show');
         Route::post('/{section}', [SurveyController::class, 'store'])->name('survey.store');
         Route::get('/{section}/results', [SurveyController::class, 'results'])->name('survey.results');
         Route::get('/{section}/review', [SurveyController::class, 'review'])->name('survey.review');
+        Route::get('/{section}/edit/{question}', [SurveyController::class, 'edit'])->name('survey.edit');
+        Route::put('/{section}/update/{question}', [SurveyController::class, 'update'])->name('survey.update');
     });
 });
+
+// Admin Routes
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/responders', [AdminController::class, 'responders'])->name('admin.responders');
+        Route::get('/responders/{id}', [AdminController::class, 'showResponder'])->name('admin.responder.show');
+    });
+});
+

@@ -106,6 +106,63 @@ class SurveyController extends Controller
         ]);
     }
 
+    public function edit($section, $questionId)
+    {
+        $user = Auth::user();
+        $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
+
+        $response = SurveyResponse::where('user_id', $user->id)
+            ->where('survey_id', $section)
+            ->firstOrFail();
+
+        $questions = collect($surveyData['sections'])
+            ->where('id', $section)
+            ->first()['questions'] ?? [];
+
+        $question = collect($questions)->where('id', $questionId)->first();
+        if (!$question) {
+            abort(404, 'Soalan tidak dijumpai');
+        }
+
+        $answer = SurveyAnswer::where('response_id', $response->id)
+            ->where('question_id', $questionId)
+            ->first();
+
+        return view('survey.edit', [
+            'section' => $section,
+            'question' => $question,
+            'answer' => $answer,
+            'sectionTitle' => $surveyData['sections'][array_search($section, array_column($surveyData['sections'], 'id'))]['title_BM']
+        ]);
+    }
+
+    public function update(Request $request, $section, $questionId)
+    {
+        $request->validate([
+            'answer' => 'required'
+        ]);
+
+        $response = SurveyResponse::where('user_id', Auth::id())
+            ->where('survey_id', $section)
+            ->firstOrFail();
+
+        $answer = SurveyAnswer::where('response_id', $response->id)
+            ->where('question_id', $questionId)
+            ->first();
+
+        if ($answer) {
+            $answer->update(['answer' => $request->answer]);
+        } else {
+            SurveyAnswer::create([
+                'response_id' => $response->id,
+                'question_id' => $questionId,
+                'answer' => $request->answer
+            ]);
+        }
+
+        return redirect()->route('survey.review', $section)->with('success', 'Jawapan berjaya dikemaskini');
+    }
+
     private function calculateProgress($answered, $allQuestions)
     {
         $total = count($allQuestions);

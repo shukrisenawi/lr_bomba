@@ -32,4 +32,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Respondent::class);
     }
+
+    // Relasi ke tabel survey_responses
+    public function surveyResponses()
+    {
+        return $this->hasMany(SurveyResponse::class);
+    }
 }

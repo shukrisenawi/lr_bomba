@@ -13,7 +13,7 @@
 
 <body class="h-full">
     <div class="min-h-full"
-        style="background-image: url(../img/background.webp);background-attachment: fixed; background-size: cover; background-position: center;">
+        style="background-image: url({{ asset('img/background.webp') }});background-attachment: fixed; background-size: cover; background-position: center;">
         {{ $slot }}
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.2/dist/sweetalert2.all.min.js"></script>
