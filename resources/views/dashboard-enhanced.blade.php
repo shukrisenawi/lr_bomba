@@ -1,0 +1,219 @@
+@extends('layouts.app')
+
+@section('title', 'Dashboard')
+
+@section('content')
+    <!-- Enhanced Header -->
+    <div class="mb-8">
+        <div class="glass-card p-6 mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center">
+                <div class="text-center sm:text-left mb-4 sm:mb-0">
+                    <h1 class="text-2xl sm:text-3xl font-bold gradient-text mb-2">
+                        Kajian Pembangunan Profil Kesejahteraan
+                    </h1>
+                    <p class="text-gray-600 text-sm sm:text-base">
+                        Pekerja Berusia di Jabatan Bomba dan Penyelamat Di Lembah Klang, Malaysia
+                    </p>
+                </div>
+                <form action="{{ route('logout') }}" method="POST" class="ml-4">
+                    @csrf
+                    <button type="submit" class="btn btn-error btn-sm glass-card hover:bg-red-500 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Access Card -->
+    <div class="mb-8">
+        <div class="glass-card p-6 floating">
+            <div class="flex items-center">
+                <div
+                    class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mr-4">
+                    <i class="fas fa-users-cog text-white text-2xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Akses Halaman Admin</h3>
+                    <p class="text-gray-600 mb-4">Akses senarai responder dan jawapan mereka</p>
+                    <a href="{{ route('admin.responders') }}" class="btn-enhanced inline-flex items-center">
+                        <i class="fas fa-eye mr-2"></i>
+                        Lihat Senarai Responder
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Survey Sections Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach ($sections as $section => $title)
+            <div class="card-enhanced glass-card p-6 text-center">
+                <!-- Section Icon -->
+                <div
+                    class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-{{ getSectionIcon($section) }} text-white text-2xl"></i>
+                </div>
+
+                <!-- Section Title -->
+                <h3 class="text-xl font-bold text-gray-800 mb-4">{{ $title }}</h3>
+
+                <!-- Progress Ring -->
+                <div class="relative w-32 h-32 mx-auto mb-4">
+                    <svg class="w-32 h-32 transform -rotate-90">
+                        <circle stroke="#e5e7eb" stroke-width="8" fill="none" r="52" cx="64" cy="64" />
+                        <circle stroke="url(#gradient{{ $section }})" stroke-width="8" fill="none" r="52"
+                            cx="64" cy="64" stroke-dasharray="326.73"
+                            stroke-dashoffset="{{ 326.73 - (326.73 * $progress[$section]) / 100 }}" />
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-2xl font-bold text-gray-800">{{ $progress[$section] }}%</span>
+                    </div>
+                </div>
+
+                <!-- Status Badge -->
+                <div class="mb-4">
+                    @if (isset($responses[$section]))
+                        @if ($responses[$section]->completed)
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <i class="fas fa-check-circle mr-1"></i>
+                                Selesai
+                            </span>
+                        @else
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                <i class="fas fa-clock mr-1"></i>
+                                Dalam Proses
+                            </span>
+                        @endif
+                    @else
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                            <i class="fas fa-play-circle mr-1"></i>
+                            Belum Dimulakan
+                        </span>
+                    @endif
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-2">
+                    @if (isset($responses[$section]))
+                        @if ($responses[$section]->completed)
+                            <a href="{{ route('survey.review', $section) }}" class="btn-enhanced w-full text-sm">
+                                <i class="fas fa-search mr-1"></i>
+                                Semak Jawapan
+                            </a>
+                        @else
+                            <a href="{{ route('survey.show', $section) }}" class="btn-enhanced w-full text-sm">
+                                <i class="fas fa-play mr-1"></i>
+                                Sambung
+                            </a>
+                        @endif
+                    @else
+                        <a href="{{ route('survey.show', $section) }}" class="btn-enhanced w-full text-sm">
+                            <i class="fas fa-play mr-1"></i>
+                            Mulakan
+                        </a>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <!-- Welcome Animation -->
+    <div class="mt-12 text-center">
+        <div class="glass-card p-6 max-w-md mx-auto">
+            <div
+                class="w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-heart text-white text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-800 mb-2">Selamat Datang!</h3>
+            <p class="text-gray-600 text-sm">
+                Terima kasih kerana menyertai kajian ini. Jawapan anda sangat berharga untuk kami.
+            </p>
+        </div>
+    </div>
+@endsection
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/enhanced-design.css') }}">
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border-radius: 1.5rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-enhanced {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px 0 rgba(102, 126, 234, 0.6);
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    <script>
+        // Add interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress rings on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const circles = entry.target.querySelectorAll('circle');
+                        circles.forEach(circle => {
+                            circle.style.transition = 'stroke-dashoffset 1.5s ease-in-out';
+                        });
+                    }
+                });
+            });
+
+            document.querySelectorAll('svg').forEach(ring => {
+                observer.observe(ring.parentElement);
+            });
+        });
+    </script>
+@endpush
+
+@php
+    function getSectionIcon($section)
+    {
+        $icons = [
+            'A' => 'user',
+            'B' => 'briefcase',
+            'C' => 'heart',
+            'D' => 'users',
+            'E' => 'chart-line',
+            'F' => 'comments',
+        ];
+        return $icons[$section] ?? 'file-alt';
+    }
+@endphp

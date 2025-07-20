@@ -77,7 +77,7 @@ class SurveyController extends Controller
         $sectionIndex = array_search($section, array_column($surveyData['sections'], 'id'));
         $sectionTitle = $sectionIndex !== false ? $surveyData['sections'][$sectionIndex]['title_BM'] : 'Bahagian ' . $section;
 
-        return view('survey.question', [
+        return view('survey.question-beautiful', [
             'section' => $section,
             'question' => $currentQuestion,
             'progress' => $this->calculateProgress($answeredQuestions, $questions),
@@ -190,7 +190,7 @@ class SurveyController extends Controller
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
-        return view('survey.results', [
+        return view('survey.results-enhanced', [
             'section' => $section,
             'response' => $response,
             'sectionData' => $sectionData
@@ -206,13 +206,66 @@ class SurveyController extends Controller
 
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
         $questions = collect($surveyData['sections'])->where('id', $section)->first()['questions'] ?? [];
+        $questions = collect($questions); // Convert array to collection
 
-        return view('survey.review', [
+        return view('survey.review-enhanced', [
             'section' => $section,
             'response' => $response,
             'questions' => $questions,
             'sectionTitle' => $surveyData['sections'][array_search($section, array_column($surveyData['sections'], 'id'))]['title_BM']
         ]);
+    }
+
+    public function create()
+    {
+        return view('survey.create');
+    }
+
+    public function storeSurvey(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'section' => 'required|string|max:10',
+            'category' => 'required|string|max:50',
+            'questions' => 'required|array|min:1',
+            'questions.*.text' => 'required|string|max:500',
+            'questions.*.type' => 'required|in:single_choice,multiple_choice,text,numeric,rating',
+            'questions.*.options' => 'nullable|array',
+            'questions.*.options.*' => 'nullable|string|max:255'
+        ]);
+
+        // In a real application, this would save to database
+        // For now, we'll create a JSON file structure
+
+        $surveyData = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'section' => $request->section,
+            'category' => $request->category,
+            'questions' => []
+        ];
+
+        foreach ($request->questions as $index => $questionData) {
+            $question = [
+                'id' => $index + 1,
+                'text' => $questionData['text'],
+                'text_BM' => $questionData['text'], // For now, same as text
+                'type' => $questionData['type']
+            ];
+
+            if (in_array($questionData['type'], ['single_choice', 'multiple_choice']) && isset($questionData['options'])) {
+                $question['options'] = $questionData['options'];
+            }
+
+            $surveyData['questions'][] = $question;
+        }
+
+        // Save to JSON file (in real app, use database)
+        $filePath = storage_path('app/survey/custom_' . $request->section . '.json');
+        file_put_contents($filePath, json_encode($surveyData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+        return redirect()->route('dashboard')->with('success', 'Soal selidik berjaya dicipta!');
     }
 
     public function edit($section, $questionId)
@@ -237,7 +290,7 @@ class SurveyController extends Controller
             ->where('question_id', $questionId)
             ->first();
 
-        return view('survey.edit', [
+        return view('survey.edit-enhanced', [
             'section' => $section,
             'question' => $question,
             'answer' => $answer,

@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('survey')->group(function () {
+        Route::get('/create', [SurveyController::class, 'create'])->name('survey.create');
+        Route::post('/create', [SurveyController::class, 'storeSurvey'])->name('survey.store-survey');
         Route::get('/{section}', [SurveyController::class, 'show'])->name('survey.show');
         Route::post('/{section}', [SurveyController::class, 'store'])->name('survey.store');
         Route::get('/{section}/results', [SurveyController::class, 'results'])->name('survey.results');

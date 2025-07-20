@@ -31,7 +31,7 @@ class DashboardController extends Controller
             $progress[$key] = $this->calculateProgress($answeredQuestions[$key], $questions[$key]);
         }
 
-        return view('dashboard', [
+        return view('dashboard-enhanced', [
             'sections' => $sections,
             'responses' => $userResponses,
             'progress' => $progress
