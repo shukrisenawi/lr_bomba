@@ -147,7 +147,7 @@
 
     <!-- Form persetujuan -->
     <h2 class="text-2xl font-semibold text-black-400 underline mb-4">Persetujuan Menjadi Responden</h2>
-    <p class="text-gray-700 mb-4">
+    <p class="text-gray-700 mb-4" id="formRegister">
         Sila masukkan nama dan email di sini sekiranya anda telah membaca dan memahami kandungan halaman ini.
     </p>
     @if ($errors->any())

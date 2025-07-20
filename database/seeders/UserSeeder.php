@@ -21,14 +21,5 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'remember_token' => \Illuminate\Support\Str::random(10),
         ]);
-
-        // Create regular users
-        User::create([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('12345678'),
-            'remember_token' => \Illuminate\Support\Str::random(10),
-        ]);
     }
 }
