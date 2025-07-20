@@ -2,7 +2,7 @@
     @section('title', 'BAHAGIAN A: Latarbelakang Demografi Responden')
 
     @if ($errors->any())
-        <div class="alert alert-danger mb-5">
+        <div role="alert" class="alert alert-error alert-soft mb-5">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>

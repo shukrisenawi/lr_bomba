@@ -150,7 +150,15 @@
     <p class="text-gray-700 mb-4">
         Sila masukkan nama dan email di sini sekiranya anda telah membaca dan memahami kandungan halaman ini.
     </p>
-
+    @if ($errors->any())
+        <div role="alert" class="alert alert-error alert-soft mb-5">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('register.store-consent') }}" method="POST">
         @csrf
         <div class="mb-4">
