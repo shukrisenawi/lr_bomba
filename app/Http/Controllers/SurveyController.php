@@ -24,7 +24,9 @@ class SurveyController extends Controller
         try {
             $surveyData = json_decode(file_get_contents($surveyPath), true);
 
+
             if (!$surveyData || !isset($surveyData['sections'])) {
+
                 return redirect()->route('dashboard')->with('error', 'Struktur soal selidik tidak sah.');
             }
         } catch (\Exception $e) {
@@ -43,11 +45,47 @@ class SurveyController extends Controller
         // Find section data
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
+
         if (!$sectionData) {
             return redirect()->route('dashboard')->with('error', 'Bahagian soal selidik tidak dijumpai.');
         }
 
-        $questions = $sectionData['questions'] ?? [];
+        // Handle both regular questions and subsection questions
+        $questions = [];
+
+        // Get regular questions
+        if (isset($sectionData['questions']) && !empty($sectionData['questions'])) {
+            $questions = $sectionData['questions'];
+        }
+
+        // Handle subsection questions for sections like C
+        if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
+            foreach ($sectionData['subsections'] as $subsection) {
+                if (isset($subsection['questions']) && !empty($subsection['questions'])) {
+                    foreach ($subsection['questions'] as $question) {
+                        // Add subsection info to each question
+                        $question['subsection_name'] = $subsection['name'];
+                        $questions[] = $question;
+                    }
+                }
+            }
+        }
+
+        // Normalize question structure to handle "option" vs "options" key inconsistency
+        $questions = array_map(function ($question) {
+            // Handle the case where "option" is used instead of "options"
+            if (isset($question['option']) && !isset($question['options'])) {
+                $question['options'] = $question['option'];
+                unset($question['option']);
+            }
+
+            // Ensure options is always an array, even if empty
+            if (!isset($question['options'])) {
+                $question['options'] = [];
+            }
+
+            return $question;
+        }, $questions);
 
         if (empty($questions)) {
             return redirect()->route('dashboard')->with('error', 'Tiada soalan dalam bahagian ini.');
@@ -110,7 +148,6 @@ class SurveyController extends Controller
         $question = collect($questions)->where('id', $request->question_id)->first();
 
         $answerData = $this->processAnswerData($question, $request->answer, $response->id, $request->question_id);
-
         SurveyAnswer::create($answerData);
 
         return redirect()->route('survey.show', $section);
@@ -146,31 +183,44 @@ class SurveyController extends Controller
         $answerText = '';
         $answerValue = $selectedValue;
         $score = null;
-        $str = '';
-        foreach ($question['options'] as $key => $option) {
-            if (is_array($option)) {
-                // Object format with text and value
-                if ($key === $selectedValue) {
-                    $answerText = $option['text'];
-                    // Extract score from parentheses in text
-                    if (preg_match('/\((\d+)\)/', $option['text'], $matches)) {
-                        $score = (int)$matches[1];
+
+        // Handle different option formats
+        if (isset($question['options'])) {
+            foreach ($question['options'] as $key => $option) {
+                // Check if this is the selected option
+                $isSelected = false;
+
+                if (is_array($option)) {
+                    // Object format with text and value
+                    if (isset($option['value']) && $option['value'] == $selectedValue) {
+                        $isSelected = true;
+                        $answerText = $option['text'] ?? '';
+                    } elseif (is_numeric($key) && $key == $selectedValue) {
+                        $isSelected = true;
+                        $answerText = $option['text'] ?? '';
                     }
-                    break;
+                } else {
+                    // String format
+                    if (is_numeric($key) && $key == $selectedValue) {
+                        $isSelected = true;
+                        $answerText = $option;
+                    } elseif ($option == $selectedValue) {
+                        $isSelected = true;
+                        $answerText = $option;
+                    }
                 }
-            } else {
-                if ($key == $selectedValue) {
-                    // String format - extract score from parentheses
-                    $answerText = $option;
-                    if (preg_match('/\((\d+)\)/', $option, $matches)) {
+
+                if ($isSelected) {
+                    // Extract score from parentheses in text
+                    $textToParse = is_array($option) ? ($option['text'] ?? '') : $option;
+                    if (preg_match('/\((\d+)\)/', $textToParse, $matches)) {
                         $score = (int)$matches[1];
                     }
                     break;
                 }
             }
         }
-        // dd($str);
-        // exit;
+
         return [
             'response_id' => $responseId,
             'question_id' => $questionId,
@@ -319,7 +369,6 @@ class SurveyController extends Controller
         $answer = SurveyAnswer::where('response_id', $response->id)
             ->where('question_id', $questionId)
             ->first();
-
 
         $answerData = $this->processAnswerData($question, $request->answer, $response->id, $questionId);
 

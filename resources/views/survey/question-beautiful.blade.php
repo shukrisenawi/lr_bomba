@@ -76,7 +76,7 @@
                             @foreach ($question['options'] as $index => $option)
                                 @php
                                     $optionText = is_array($option) ? $option['text'] ?? '' : $option;
-                                    $optionValue = is_array($option) ? $option['value'] ?? $optionText : $option;
+                                    $optionValue = $index;
                                 @endphp
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $optionValue }}" class="peer sr-only"
