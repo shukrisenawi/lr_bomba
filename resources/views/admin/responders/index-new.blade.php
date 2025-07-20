@@ -29,7 +29,7 @@
             </div>
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                 <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-blue-100 text-blue-600">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
 
-                <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                {{-- <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-purple-100 text-purple-600">
                             <i class="fas fa-calendar-alt text-2xl"></i>
@@ -82,12 +82,12 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Search and Filter Section -->
             <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div class="lg:col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Cari Responder</label>
                         <div class="relative">

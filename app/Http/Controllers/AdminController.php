@@ -71,6 +71,6 @@ class AdminController extends Controller
         // Debug dump to check data
         // dd($user, $responses);
 
-        return view('admin.responders.show-new', compact('user', 'responses'));
+        return view('admin.responders.show-enhanced', compact('user', 'responses'));
     }
 }
