@@ -22,13 +22,30 @@ class DashboardController extends Controller
                 ['user_id' => $user->id, 'survey_id' => $key],
                 ['completed' => false]
             );
-            $questions[$key] = collect($surveyData['sections'])
-                ->where('id', $key)
-                ->first()['questions'] ?? [];
+
+            // Find section in survey data
+            $sectionData = collect($surveyData['sections'])->where('id', $key)->first();
+
+            // Handle different section structures
+            $totalQuestions = 0;
+            if (isset($sectionData['questions'])) {
+                $totalQuestions = count($sectionData['questions']);
+            } elseif (isset($sectionData['subsections'])) {
+                // For sections like C that use subsections
+                foreach ($sectionData['subsections'] as $subsection) {
+                    if (isset($subsection['questions'])) {
+                        $totalQuestions += count($subsection['questions']);
+                    }
+                }
+            }
 
             // Get answered questions
             $answeredQuestions[$key] = $response[$key]->answers()->pluck('question_id')->toArray();
-            $progress[$key] = $this->calculateProgress($answeredQuestions[$key], $questions[$key]);
+            $answeredCount = count($answeredQuestions[$key]);
+
+            // Calculate progress
+            $progress[$key] = $totalQuestions > 0 ? round(($answeredCount / $totalQuestions) * 100) : 0;
+            $progress[$key] = max(0, min(100, $progress[$key]));
         }
 
         return view('dashboard-enhanced', [

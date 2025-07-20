@@ -70,19 +70,20 @@
                             <linearGradient id="gradient{{ $section }}" x1="0%" y1="0%" x2="100%"
                                 y2="100%">
                                 <stop offset="0%"
-                                    style="stop-color:{{ getProgressColor($progress[$section], 'start') }};stop-opacity:1" />
+                                    style="stop-color:{{ getProgressColor($progress[$section] ?? 0, 'start') }};stop-opacity:1" />
                                 <stop offset="100%"
-                                    style="stop-color:{{ getProgressColor($progress[$section], 'end') }};stop-opacity:1" />
+                                    style="stop-color:{{ getProgressColor($progress[$section] ?? 0, 'end') }};stop-opacity:1" />
                             </linearGradient>
                         </defs>
                         <circle stroke="#e5e7eb" stroke-width="8" fill="none" r="52" cx="64" cy="64" />
                         <circle stroke="url(#gradient{{ $section }})" stroke-width="8" fill="none" r="52"
                             cx="64" cy="64" stroke-dasharray="326.73"
-                            stroke-dashoffset="{{ 326.73 - (326.73 * $progress[$section]) / 100 }}" />
+                            stroke-dashoffset="{{ 326.73 - (326.73 * ($progress[$section] ?? 0)) / 100 }}" />
                     </svg>
+
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="text-2xl font-bold {{ getProgressTextColor($progress[$section]) }}">
-                            {{ $progress[$section] }}%
+                        <span class="text-2xl font-bold {{ getProgressTextColor($progress[$section] ?? 0) }}">
+                            {{ $progress[$section] ?? 0 }}%
                         </span>
                     </div>
                 </div>
