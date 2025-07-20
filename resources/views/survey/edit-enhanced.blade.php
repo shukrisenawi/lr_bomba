@@ -222,7 +222,7 @@
 
 @push('scripts')
     <script>
-        // Add interactive features
+        // Enhanced validation and interactive features
         document.addEventListener('DOMContentLoaded', function() {
             // Animate radio buttons
             const radioOptions = document.querySelectorAll('label.block');
@@ -235,17 +235,24 @@
                 });
             });
 
-            // Form validation enhancement
+            // Enhanced form validation
             const form = document.querySelector('form');
+            const validator = new SurveyValidator(form);
+
+            // Add real-time validation feedback
+            const inputs = form.querySelectorAll('input[name="answer"]');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validator.validateField(this);
+                });
+            });
+
+            // Add loading state for submit button
             form.addEventListener('submit', function(e) {
-                const checked = document.querySelector('input[name="answer"]:checked');
-                if (!checked && document.querySelectorAll('input[type="radio"]').length > 0) {
-                    e.preventDefault();
-                    // Add shake animation
-                    form.style.animation = 'shake 0.5s';
-                    setTimeout(() => {
-                        form.style.animation = '';
-                    }, 500);
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Menyimpan...';
+                    submitBtn.disabled = true;
                 }
             });
 
@@ -257,6 +264,3 @@
         });
     </script>
 @endpush
-
-// Form validation enhancement
-const form = document.querySelector('form'); form.addEventListener('submit', function(e) {
