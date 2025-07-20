@@ -21,7 +21,6 @@ class AdminController extends Controller
     public function responders()
     {
         $responders = User::with(['respondent', 'surveyResponses'])
-            ->whereHas('surveyResponses')
             ->get()
             ->map(function ($user) {
                 return [
@@ -68,6 +67,9 @@ class AdminController extends Controller
                 }),
             ];
         });
+
+        // Debug dump to check data
+        // dd($user, $responses);
 
         return view('admin.responders.show-new', compact('user', 'responses'));
     }

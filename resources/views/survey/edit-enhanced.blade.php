@@ -76,10 +76,12 @@
                                     @php
                                         $optionText = is_array($option) ? $option['text'] ?? '' : $option;
                                         $optionValue = is_array($option) ? $option['value'] ?? $key : $key;
-                                        $currentAnswer = is_array($answer->value ?? null)
-                                            ? json_encode($answer->value)
-                                            : $answer->value ?? '';
-                                        $isChecked = $currentAnswer == $optionValue;
+                                        $currentAnswer = $answer->value ?? null;
+                                        if (is_array($currentAnswer)) {
+                                            $isChecked = in_array($optionValue, $currentAnswer);
+                                        } else {
+                                            $isChecked = $currentAnswer == $optionValue;
+                                        }
                                     @endphp
 
                                     <label class="block">
@@ -91,11 +93,10 @@
                                                 hover:bg-indigo-50 hover:shadow-lg peer-checked:border-indigo-600
                                                 peer-checked:bg-indigo-50 peer-checked:shadow-lg">
                                             <div
-                                                class="w-6 h-6 border-2 border-gray-300 rounded-full mr-4
-                                                    flex items-center justify-center peer-checked:border-indigo-600">
+                                                class="radio-indicator w-6 h-6 border-2 border-gray-300 rounded-full mr-4
+                                                    flex items-center justify-center transition-all duration-300">
                                                 <div
-                                                    class="w-3 h-3 bg-indigo-600 rounded-full opacity-0
-                                                        peer-checked:opacity-100 transition-all duration-300">
+                                                    class="radio-dot w-3 h-3 bg-white rounded-full opacity-0 transition-all duration-300">
                                                 </div>
                                             </div>
                                             <span class="text-gray-700 font-medium">{{ $optionText }}</span>
@@ -196,9 +197,19 @@
             outline: none;
         }
 
-        /* Radio button animations */
+        /* Radio button animations and styling */
         .peer:checked~div {
             transform: scale(1.02);
+        }
+
+        /* Fix for radio button visual indicator */
+        .peer:checked~div .radio-indicator {
+            border-color: #4f46e5 !important;
+            background-color: #4f46e5 !important;
+        }
+
+        .peer:checked~div .radio-dot {
+            opacity: 1 !important;
         }
 
         /* Floating animation */

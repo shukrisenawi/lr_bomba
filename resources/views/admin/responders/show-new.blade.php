@@ -3,8 +3,8 @@
 @section('title', 'Maklumat Responder - ' . $user->name)
 
 @section('content')
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div class="container mx-auto px-4 py-8">
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 admin-enhanced">
+        <div class="admin-responsive py-8">
             <!-- Header Section -->
             <div class="mb-8">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -33,21 +33,24 @@
             </div>
 
             <!-- Profile Overview Card -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="admin-card mb-6 p-6 admin-fade-in">
                 <div class="flex flex-col md:flex-row items-center gap-6">
-                    <div class="flex-shrink-0">
-                        <div
-                            class="w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
-                            {{ substr($user->name, 0, 1) }}
-                        </div>
-                    </div>
+                    <!-- Avatar removed as per request -->
+                    <!--
+                                <div class="flex-shrink-0">
+                                    <div
+                                        class="w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
+                                        {{ substr($user->name, 0, 1) }}
+                                    </div>
+                                </div>
+                                -->
                     <div class="flex-1 text-center md:text-left">
                         <h2 class="text-2xl font-bold text-gray-900">{{ $user->name }}</h2>
                         <p class="text-gray-600">{{ $user->email }}</p>
                         <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-3">
-                            <span class="badge badge-primary">{{ $user->respondent->gender ?? '-' }}</span>
-                            <span class="badge badge-secondary">{{ $user->respondent->age ?? '-' }} tahun</span>
-                            <span class="badge badge-accent">{{ $user->respondent->location ?? '-' }}</span>
+                            <span class="badge badge-primary">{{ optional($user->respondent)->gender ?? '-' }}</span>
+                            <span class="badge badge-secondary">{{ optional($user->respondent)->age ?? '-' }} tahun</span>
+                            <span class="badge badge-accent">{{ optional($user->respondent)->location ?? '-' }}</span>
                         </div>
                     </div>
                     <div class="text-center md:text-right">

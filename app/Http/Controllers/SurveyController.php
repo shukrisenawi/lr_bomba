@@ -262,8 +262,14 @@ class SurveyController extends Controller
             ->firstOrFail();
 
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
-        $questions = collect($surveyData['sections'])->where('id', $section)->first()['questions'] ?? [];
-        $questions = collect($questions); // Convert array to collection
+        $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
+
+        if (!$sectionData) {
+            return redirect()->route('dashboard')->with('error', 'Bahagian soal selidik tidak dijumpai.');
+        }
+
+        // Extract all questions including those in subsections
+        $questions = collect($this->extractAllQuestions($sectionData));
 
         return view('survey.review-enhanced', [
             'section' => $section,
