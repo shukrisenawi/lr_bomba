@@ -62,13 +62,80 @@ class SurveyController extends Controller
             ->where('survey_id', $section)
             ->firstOrFail();
 
-        SurveyAnswer::create([
-            'response_id' => $response->id,
-            'question_id' => $request->question_id,
-            'answer' => $request->answer
-        ]);
+        // Get survey data to determine question type
+        $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
+        $questions = collect($surveyData['sections'])
+            ->where('id', $section)
+            ->first()['questions'] ?? [];
+
+        $question = collect($questions)->where('id', $request->question_id)->first();
+
+        $answerData = $this->processAnswerData($question, $request->answer, $response->id, $request->question_id);
+
+        SurveyAnswer::create($answerData);
 
         return redirect()->route('survey.show', $section);
+    }
+
+    /**
+     * Process answer data based on question type
+     */
+    private function processAnswerData($question, $selectedAnswer, $responseId, $questionId)
+    {
+        $baseData = [
+            'response_id' => $responseId,
+            'question_id' => $questionId,
+            'answer' => $selectedAnswer,
+            'value' => null,
+            'score' => null
+        ];
+
+        // Handle radio button questions (single_choice)
+        if ($question && $question['type'] === 'single_choice') {
+            return $this->processRadioButtonAnswer($question, $selectedAnswer, $responseId, $questionId);
+        }
+
+        // For other question types, just store the answer as-is
+        return $baseData;
+    }
+
+    /**
+     * Process radio button answer to extract text, value, and score
+     */
+    private function processRadioButtonAnswer($question, $selectedValue, $responseId, $questionId)
+    {
+        $answerText = '';
+        $answerValue = $selectedValue;
+        $score = null;
+
+        foreach ($question['options'] as $option) {
+            if (is_array($option)) {
+                // Object format with text and value
+                if (isset($option['value']) && $option['value'] === $selectedValue) {
+                    $answerText = $option['text'];
+                    // Extract score from parentheses in text
+                    if (preg_match('/\((\d+)\)/', $option['text'], $matches)) {
+                        $score = (int)$matches[1];
+                    }
+                    break;
+                }
+            } else {
+                // String format - extract score from parentheses
+                $answerText = $option;
+                if (preg_match('/\((\d+)\)/', $option, $matches)) {
+                    $score = (int)$matches[1];
+                }
+                break;
+            }
+        }
+
+        return [
+            'response_id' => $responseId,
+            'question_id' => $questionId,
+            'answer' => $answerText,
+            'value' => $answerValue,
+            'score' => $score
+        ];
     }
 
     public function results($section)
@@ -146,18 +213,24 @@ class SurveyController extends Controller
             ->where('survey_id', $section)
             ->firstOrFail();
 
+        // Get survey data to determine question type
+        $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
+        $questions = collect($surveyData['sections'])
+            ->where('id', $section)
+            ->first()['questions'] ?? [];
+
+        $question = collect($questions)->where('id', $questionId)->first();
+
         $answer = SurveyAnswer::where('response_id', $response->id)
             ->where('question_id', $questionId)
             ->first();
 
+        $answerData = $this->processAnswerData($question, $request->answer, $response->id, $questionId);
+
         if ($answer) {
-            $answer->update(['answer' => $request->answer]);
+            $answer->update($answerData);
         } else {
-            SurveyAnswer::create([
-                'response_id' => $response->id,
-                'question_id' => $questionId,
-                'answer' => $request->answer
-            ]);
+            SurveyAnswer::create($answerData);
         }
 
         return redirect()->route('survey.review', $section)->with('success', 'Jawapan berjaya dikemaskini');

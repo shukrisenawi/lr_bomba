@@ -5,11 +5,14 @@
         @foreach ($data as $key => $option)
             @php
                 $check = $value && $key == $value ? 'checked="checked"' : '';
+                // Handle both string and array/object formats
+                $optionText = is_array($option) ? $option['text'] ?? ($option['label'] ?? '') : $option;
+                $optionValue = is_array($option) ? $option['value'] ?? $key : $key;
             @endphp
             <div class="px-5 py-1">
-                <input type="radio" id="{{ $id . '_' . $key }}" name="{{ $id }}" value="{{ $key }}"
-                    class="radio radio-sm" {{ $check }}>
-                <label class="cursor-pointer" for="{{ $id . '_' . $key }}" class="ml-2">{{ $option }}</label>
+                <input type="radio" id="{{ $id . '_' . $optionValue }}" name="{{ $id }}"
+                    value="{{ $optionValue }}" class="radio radio-sm" {{ $check }}>
+                <label class="cursor-pointer ml-2" for="{{ $id . '_' . $optionValue }}">{{ $optionText }}</label>
             </div>
         @endforeach
 

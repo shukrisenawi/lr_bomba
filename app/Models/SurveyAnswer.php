@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SurveyAnswer extends Model
 {
-    protected $fillable = ['response_id', 'question_id', 'answer'];
+    protected $fillable = ['response_id', 'question_id', 'answer', 'value', 'score'];
 
     public function response(): BelongsTo
     {

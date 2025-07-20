@@ -20,7 +20,7 @@
         @method('PUT')
         <input type="hidden" name="question_id" value="{{ $question['id'] }}">
 
-        <h4>{{ $question['text'] }}</h4>
+        <h4>{{ $question['text_BM'] ?? $question['text'] }}</h4>
 
         @if ($question['type'] === 'single_choice')
             <div class="form-group">
