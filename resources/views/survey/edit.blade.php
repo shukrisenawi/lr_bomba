@@ -24,12 +24,25 @@
 
         @if ($question['type'] === 'single_choice')
             <div class="form-group">
+
                 @foreach ($question['options'] as $key => $option)
+                    @php
+                        // Handle both string and array option formats
+                        $optionText = is_array($option) ? $option['text'] ?? ($option['label'] ?? '') : $option;
+                        $optionValue = is_array($option) ? $option['value'] ?? $key : $key;
+
+                        // Ensure answer is string for comparison
+                        $currentAnswer = is_array($answer->value ?? null)
+                            ? json_encode($answer->value)
+                            : $answer->value ?? '';
+                        $isChecked = $currentAnswer == $optionValue;
+                    @endphp
+
                     <div class="form-check">
-                        <input type="radio" id="answer_{{ $key }}" name="answer" value="{{ $key }}"
-                            class="form-check-input" {{ $answer && $answer->answer == $key ? 'checked' : '' }}>
+                        <input type="radio" id="answer_{{ $key }}" name="answer" value="{{ $optionValue }}"
+                            class="form-check-input" {{ $isChecked ? 'checked' : '' }}>
                         <label class="form-check-label" for="answer_{{ $key }}">
-                            {{ $option }}
+                            {{ $optionText }}
                         </label>
                     </div>
                 @endforeach
@@ -37,7 +50,7 @@
         @elseif($question['type'] === 'numeric')
             <div class="form-group">
                 <input type="number" name="answer" id="answer" class="form-control"
-                    value="{{ $answer ? $answer->answer : '' }}" required>
+                    value="{{ is_array($answer->answer ?? null) ? '' : $answer->answer ?? '' }}" required>
                 @if (isset($question['unit']))
                     <small class="text-muted">Unit: {{ $question['unit'] }}</small>
                 @endif
@@ -45,12 +58,12 @@
         @elseif($question['type'] === 'text')
             <div class="form-group">
                 <input type="text" name="answer" id="answer" class="form-control"
-                    value="{{ $answer ? $answer->answer : '' }}" required>
+                    value="{{ is_array($answer->answer ?? null) ? '' : $answer->answer ?? '' }}" required>
             </div>
         @else
             <div class="form-group">
                 <input type="text" name="answer" id="answer" class="form-control"
-                    value="{{ $answer ? $answer->answer : '' }}" required>
+                    value="{{ is_array($answer->answer ?? null) ? '' : $answer->answer ?? '' }}" required>
             </div>
         @endif
 

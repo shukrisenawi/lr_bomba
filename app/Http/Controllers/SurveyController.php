@@ -7,13 +7,29 @@ use App\Models\SurveyAnswer;
 use App\Models\SurveyScore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SurveyController extends Controller
 {
     public function show($section)
     {
         $user = Auth::user();
-        $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
+
+        // Validate survey file exists
+        $surveyPath = storage_path('app/survey/1st_draft.json');
+        if (!file_exists($surveyPath)) {
+            return redirect()->route('dashboard')->with('error', 'Fail soal selidik tidak dijumpai.');
+        }
+
+        try {
+            $surveyData = json_decode(file_get_contents($surveyPath), true);
+
+            if (!$surveyData || !isset($surveyData['sections'])) {
+                return redirect()->route('dashboard')->with('error', 'Struktur soal selidik tidak sah.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'Ralat membaca fail soal selidik.');
+        }
 
         // Get or create survey response
         $response = SurveyResponse::firstOrCreate(
@@ -24,16 +40,29 @@ class SurveyController extends Controller
         // Get answered questions
         $answeredQuestions = $response->answers()->pluck('question_id')->toArray();
 
-        // Find next unanswered question
-        $questions = collect($surveyData['sections'])
-            ->where('id', $section)
-            ->first()['questions'] ?? [];
+        // Find section data
+        $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
+        if (!$sectionData) {
+            return redirect()->route('dashboard')->with('error', 'Bahagian soal selidik tidak dijumpai.');
+        }
+
+        $questions = $sectionData['questions'] ?? [];
+
+        if (empty($questions)) {
+            return redirect()->route('dashboard')->with('error', 'Tiada soalan dalam bahagian ini.');
+        }
+
+        // Find next unanswered question
         $currentQuestion = null;
+        $unansweredQuestions = [];
+
         foreach ($questions as $question) {
             if (!in_array($question['id'], $answeredQuestions)) {
-                $currentQuestion = $question;
-                break;
+                $unansweredQuestions[] = $question;
+                if (!$currentQuestion) {
+                    $currentQuestion = $question;
+                }
             }
         }
 
@@ -43,11 +72,21 @@ class SurveyController extends Controller
             $response->update(['completed' => true]);
             return redirect()->route('survey.results', $section);
         }
+
+        // Find section title safely
+        $sectionIndex = array_search($section, array_column($surveyData['sections'], 'id'));
+        $sectionTitle = $sectionIndex !== false ? $surveyData['sections'][$sectionIndex]['title_BM'] : 'Bahagian ' . $section;
+
         return view('survey.question', [
             'section' => $section,
             'question' => $currentQuestion,
             'progress' => $this->calculateProgress($answeredQuestions, $questions),
-            'sectionTitle' => $surveyData['sections'][array_search($section, array_column($surveyData['sections'], 'id'))]['title_BM']
+            'sectionTitle' => $sectionTitle,
+            'debug_info' => config('app.debug') ? [
+                'total_questions' => count($questions),
+                'answered' => count($answeredQuestions),
+                'remaining' => count($unansweredQuestions)
+            ] : null
         ]);
     }
 
@@ -107,11 +146,11 @@ class SurveyController extends Controller
         $answerText = '';
         $answerValue = $selectedValue;
         $score = null;
-
-        foreach ($question['options'] as $option) {
+        $str = '';
+        foreach ($question['options'] as $key => $option) {
             if (is_array($option)) {
                 // Object format with text and value
-                if (isset($option['value']) && $option['value'] === $selectedValue) {
+                if ($key === $selectedValue) {
                     $answerText = $option['text'];
                     // Extract score from parentheses in text
                     if (preg_match('/\((\d+)\)/', $option['text'], $matches)) {
@@ -120,15 +159,18 @@ class SurveyController extends Controller
                     break;
                 }
             } else {
-                // String format - extract score from parentheses
-                $answerText = $option;
-                if (preg_match('/\((\d+)\)/', $option, $matches)) {
-                    $score = (int)$matches[1];
+                if ($key == $selectedValue) {
+                    // String format - extract score from parentheses
+                    $answerText = $option;
+                    if (preg_match('/\((\d+)\)/', $option, $matches)) {
+                        $score = (int)$matches[1];
+                    }
+                    break;
                 }
-                break;
             }
         }
-
+        // dd($str);
+        // exit;
         return [
             'response_id' => $responseId,
             'question_id' => $questionId,
@@ -224,6 +266,7 @@ class SurveyController extends Controller
         $answer = SurveyAnswer::where('response_id', $response->id)
             ->where('question_id', $questionId)
             ->first();
+
 
         $answerData = $this->processAnswerData($question, $request->answer, $response->id, $questionId);
 
