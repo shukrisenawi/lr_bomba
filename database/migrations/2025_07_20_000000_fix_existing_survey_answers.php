@@ -21,8 +21,13 @@ return new class extends Migration
 
         // Process each section and question
         foreach ($surveyData['sections'] as $section) {
+            // Skip sections that don't have questions
+            if (!isset($section['questions'])) {
+                continue;
+            }
+
             foreach ($section['questions'] as $question) {
-                if ($question['type'] === 'single_choice') {
+                if (isset($question['type']) && $question['type'] === 'single_choice') {
                     $this->fixRadioButtonAnswers($question);
                 }
             }
