@@ -56,7 +56,7 @@
             <div class="card-enhanced glass-card p-6 text-center">
                 <!-- Section Icon -->
                 <div
-                    class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    class="w-16 h-16 bg-gradient-to-r {{ getSectionGradient($section) }} rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-{{ getSectionIcon($section) }} text-white text-2xl"></i>
                 </div>
 
@@ -66,13 +66,24 @@
                 <!-- Progress Ring -->
                 <div class="relative w-32 h-32 mx-auto mb-4">
                     <svg class="w-32 h-32 transform -rotate-90">
+                        <defs>
+                            <linearGradient id="gradient{{ $section }}" x1="0%" y1="0%" x2="100%"
+                                y2="100%">
+                                <stop offset="0%"
+                                    style="stop-color:{{ getProgressColor($progress[$section], 'start') }};stop-opacity:1" />
+                                <stop offset="100%"
+                                    style="stop-color:{{ getProgressColor($progress[$section], 'end') }};stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
                         <circle stroke="#e5e7eb" stroke-width="8" fill="none" r="52" cx="64" cy="64" />
                         <circle stroke="url(#gradient{{ $section }})" stroke-width="8" fill="none" r="52"
                             cx="64" cy="64" stroke-dasharray="326.73"
                             stroke-dashoffset="{{ 326.73 - (326.73 * $progress[$section]) / 100 }}" />
                     </svg>
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="text-2xl font-bold text-gray-800">{{ $progress[$section] }}%</span>
+                        <span class="text-2xl font-bold {{ getProgressTextColor($progress[$section]) }}">
+                            {{ $progress[$section] }}%
+                        </span>
                     </div>
                 </div>
 
@@ -105,9 +116,9 @@
                 <div class="space-y-2">
                     @if (isset($responses[$section]))
                         @if ($responses[$section]->completed)
-                            <a href="{{ route('survey.review', $section) }}" class="btn-enhanced w-full text-sm">
+                            <a href="{{ route('survey.results', $section) }}" class="btn-enhanced w-full text-sm">
                                 <i class="fas fa-search mr-1"></i>
-                                Semak Jawapan
+                                Lihat Score
                             </a>
                         @else
                             <a href="{{ route('survey.show', $section) }}" class="btn-enhanced w-full text-sm">
@@ -215,5 +226,44 @@
             'F' => 'comments',
         ];
         return $icons[$section] ?? 'file-alt';
+    }
+
+    function getSectionGradient($section)
+    {
+        $gradients = [
+            'A' => 'from-blue-500 to-purple-500',
+            'B' => 'from-green-500 to-teal-500',
+            'C' => 'from-pink-500 to-red-500',
+            'D' => 'from-yellow-500 to-orange-500',
+            'E' => 'from-indigo-500 to-pink-500',
+            'F' => 'from-purple-500 to-blue-500',
+        ];
+        return $gradients[$section] ?? 'from-gray-500 to-gray-600';
+    }
+
+    function getProgressColor($percentage, $type = 'start')
+    {
+        if ($percentage >= 76) {
+            return $type === 'start' ? '#10b981' : '#059669'; // Green
+        } elseif ($percentage >= 51) {
+            return $type === 'start' ? '#f59e0b' : '#d97706'; // Yellow
+        } elseif ($percentage >= 26) {
+            return $type === 'start' ? '#f97316' : '#ea580c'; // Orange
+        } else {
+            return $type === 'start' ? '#ef4444' : '#dc2626'; // Red
+        }
+    }
+
+    function getProgressTextColor($percentage)
+    {
+        if ($percentage >= 76) {
+            return 'text-green-600';
+        } elseif ($percentage >= 51) {
+            return 'text-yellow-600';
+        } elseif ($percentage >= 26) {
+            return 'text-orange-600';
+        } else {
+            return 'text-red-600';
+        }
     }
 @endphp
