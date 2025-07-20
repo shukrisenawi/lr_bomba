@@ -26,19 +26,19 @@
                                     <span class="font-semibold text-gray-700">Skor Keseluruhan</span>
                                     <span class="text-2xl font-bold text-purple-600">{{ $score->score }}/100</span>
                                 </div>
-
-                                <div
-                                    class="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-                                    <span class="font-semibold text-gray-700">Kategori</span>
-                                    <span
-                                        class="px-3 py-1 rounded-full text-sm font-medium
+                                @if ($score->category)
+                                    <div
+                                        class="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+                                        <span class="font-semibold text-gray-700">Kategori</span>
+                                        <span
+                                            class="px-3 py-1 rounded-full text-sm font-medium
                                                 @if (str_contains(strtolower($score->category), 'tinggi')) bg-green-100 text-green-800
                                                 @elseif(str_contains(strtolower($score->category), 'sederhana')) bg-yellow-100 text-yellow-800
                                                 @else bg-red-100 text-red-800 @endif">
-                                        {{ $score->category }}
-                                    </span>
-                                </div>
-
+                                            {{ $score->category }}
+                                        </span>
+                                    </div>
+                                @endif
                                 <div
                                     class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
                                     <span class="font-semibold text-gray-700">Status</span>
@@ -49,30 +49,31 @@
                             </div>
                         </div>
                     </div>
+                    @if ($score->recommendation)
+                        <!-- Recommendations Section -->
+                        <div class="space-y-6 mb-10">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                                Cadangan & Tindakan
+                            </h3>
 
-                    <!-- Recommendations Section -->
-                    <div class="space-y-6 mb-10">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4">
-                            <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
-                            Cadangan & Tindakan
-                        </h3>
-
-                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 hidden sm:block">
-                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-info text-white text-sm"></i>
+                            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 hidden sm:block">
+                                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-info text-white text-sm"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="sm:ml-4">
-                                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Analisis Mendalam</h4>
-                                    <p class="text-gray-600 leading-relaxed">
-                                        {{ $score->recommendation }}
-                                    </p>
+                                    <div class="sm:ml-4">
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Analisis Mendalam</h4>
+                                        <p class="text-gray-600 leading-relaxed">
+                                            {{ $score->recommendation }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                     <hr class="mb-5">
                 @endforeach
             @else

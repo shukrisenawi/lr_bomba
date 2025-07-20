@@ -434,26 +434,47 @@ class SurveyController extends Controller
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
         $answers = $response->answers()->get();
 
-        // Implement scoring logic based on section
         $score = 0;
+        $maxPossibleScore = 0;
         $category = '';
         $recommendation = '';
 
-        // Example for Section B (Work Ability Index)
-        if ($section === 'B') {
-            foreach ($answers as $answer) {
-                // Extract numeric value from answer
-                if (preg_match('/\((\d+)\)/', $answer->answer, $matches)) {
-                    $score += (int)$matches[1];
-                } elseif (is_numeric($answer->answer)) {
-                    $score += (int)$answer->answer;
-                }
+        // Calculate actual score and max possible score
+        foreach ($answers as $answer) {
+            // Extract numeric value from answer if available
+            if ($answer->score !== null) {
+                $score += (int)$answer->score;
+            } elseif (preg_match('/\((\d+)\)/', $answer->answer, $matches)) {
+                $score += (int)$matches[1];
+            } elseif (is_numeric($answer->answer)) {
+                $score += (int)$answer->answer;
             }
+        }
 
-            // Determine category based on score ranges
+        // Calculate max possible score for this section
+        $questions = $this->extractAllQuestions($sectionData);
+        foreach ($questions as $question) {
+            if (isset($question['options'])) {
+                $maxOptionScore = 0;
+                foreach ($question['options'] as $option) {
+                    if (is_array($option) && isset($option['value'])) {
+                        $maxOptionScore = max($maxOptionScore, (int)$option['value']);
+                    } elseif (preg_match('/\((\d+)\)/', $option, $matches)) {
+                        $maxOptionScore = max($maxOptionScore, (int)$matches[1]);
+                    }
+                }
+                $maxPossibleScore += $maxOptionScore;
+            }
+        }
+
+        // Normalize score to 100-point scale if maxPossibleScore > 0
+        $normalizedScore = $maxPossibleScore > 0 ? round(($score / $maxPossibleScore) * 100) : 0;
+
+        // Determine category based on score ranges
+        if (isset($sectionData['scoring']['ranges'])) {
             foreach ($sectionData['scoring']['ranges'] as $range) {
                 list($min, $max) = explode('-', $range['score']);
-                if ($score >= $min && $score <= $max) {
+                if ($normalizedScore >= $min && $normalizedScore <= $max) {
                     $category = $range['category'];
                     $recommendation = $sectionData['scoring']['recommendations'][$category];
                     break;
@@ -465,7 +486,7 @@ class SurveyController extends Controller
         SurveyScore::create([
             'response_id' => $response->id,
             'section' => $section,
-            'score' => $score,
+            'score' => $normalizedScore,
             'category' => $category,
             'recommendation' => $recommendation
         ]);
