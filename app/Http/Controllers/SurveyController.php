@@ -146,7 +146,7 @@ class SurveyController extends Controller
             ->first()['questions'] ?? [];
 
         $question = collect($questions)->where('id', $request->question_id)->first();
-
+        // dd($surveyData['sections']);
         $answerData = $this->processAnswerData($question, $request->answer, $response->id, $request->question_id);
         SurveyAnswer::create($answerData);
 

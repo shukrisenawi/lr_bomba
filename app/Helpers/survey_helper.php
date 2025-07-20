@@ -77,3 +77,74 @@ if (!function_exists('calculate_section_score')) {
         return 0;
     }
 }
+
+if (!function_exists('find_question_by_id')) {
+    /**
+     * Find a question by ID within nested sections and subsections
+     *
+     * @param array $sectionData The section data containing questions and subsections
+     * @param string|int $questionId The question ID to find
+     * @return array|null The question data if found, null otherwise
+     */
+    function find_question_by_id($sectionData, $questionId)
+    {
+        // First, check regular questions in the section
+        if (isset($sectionData['questions']) && is_array($sectionData['questions'])) {
+            foreach ($sectionData['questions'] as $question) {
+                if (isset($question['id']) && $question['id'] == $questionId) {
+                    return $question;
+                }
+            }
+        }
+
+        // Then, check questions within subsections
+        if (isset($sectionData['subsections']) && is_array($sectionData['subsections'])) {
+            foreach ($sectionData['subsections'] as $subsection) {
+                if (isset($subsection['questions']) && is_array($subsection['questions'])) {
+                    foreach ($subsection['questions'] as $question) {
+                        if (isset($question['id']) && $question['id'] == $questionId) {
+                            return $question;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+}
+
+if (!function_exists('get_all_questions_from_section')) {
+    /**
+     * Get all questions from a section, including those in subsections
+     *
+     * @param array $sectionData The section data
+     * @return array Array of all questions in the section
+     */
+    function get_all_questions_from_section($sectionData)
+    {
+        $questions = [];
+
+        // Add regular questions
+        if (isset($sectionData['questions']) && is_array($sectionData['questions'])) {
+            foreach ($sectionData['questions'] as $question) {
+                $questions[] = $question;
+            }
+        }
+
+        // Add questions from subsections
+        if (isset($sectionData['subsections']) && is_array($sectionData['subsections'])) {
+            foreach ($sectionData['subsections'] as $subsection) {
+                if (isset($subsection['questions']) && is_array($subsection['questions'])) {
+                    foreach ($subsection['questions'] as $question) {
+                        // Add subsection context to question
+                        $question['subsection_name'] = $subsection['name'] ?? '';
+                        $questions[] = $question;
+                    }
+                }
+            }
+        }
+
+        return $questions;
+    }
+}
