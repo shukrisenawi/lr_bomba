@@ -50,26 +50,27 @@ class SurveyController extends Controller
             return redirect()->route('dashboard')->with('error', 'Bahagian soal selidik tidak dijumpai.');
         }
 
-        // Handle both regular questions and subsection questions
-        $questions = [];
+        // Extract all questions including those in subsections
+        $questions = $this->extractAllQuestions($sectionData);
 
-        // Get regular questions
+        // Add subsection info to questions from subsections
+        $questionsWithSubsection = [];
         if (isset($sectionData['questions']) && !empty($sectionData['questions'])) {
-            $questions = $sectionData['questions'];
+            $questionsWithSubsection = $sectionData['questions'];
         }
 
-        // Handle subsection questions for sections like C
         if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
             foreach ($sectionData['subsections'] as $subsection) {
                 if (isset($subsection['questions']) && !empty($subsection['questions'])) {
                     foreach ($subsection['questions'] as $question) {
                         // Add subsection info to each question
                         $question['subsection_name'] = $subsection['name'];
-                        $questions[] = $question;
+                        $questionsWithSubsection[] = $question;
                     }
                 }
             }
         }
+        $questions = $questionsWithSubsection;
 
         // Normalize question structure to handle "option" vs "options" key inconsistency
         $questions = array_map(function ($question) {
@@ -141,13 +142,19 @@ class SurveyController extends Controller
 
         // Get survey data to determine question type
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
-        $questions = collect($surveyData['sections'])
-            ->where('id', $section)
-            ->first()['questions'] ?? [];
+        $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
-        $question = collect($questions)->where('id', $request->question_id)->first();
-        // dd($surveyData['sections']);
+        if (!$sectionData) {
+            return redirect()->route('survey.show', $section)->with('error', 'Bahagian soal selidik tidak dijumpai.');
+        }
+        // Extract all questions including those in subsections
+        $questions = collect($this->extractAllQuestions($sectionData));
+        $question = $questions->where('id', $request->question_id)->first();
+
+
         $answerData = $this->processAnswerData($question, $request->answer, $response->id, $request->question_id);
+
+
         SurveyAnswer::create($answerData);
 
         return redirect()->route('survey.show', $section);
@@ -183,10 +190,10 @@ class SurveyController extends Controller
         $answerText = '';
         $answerValue = $selectedValue;
         $score = null;
-
         // Handle different option formats
-        if (isset($question['options'])) {
-            foreach ($question['options'] as $key => $option) {
+        if (isset($question['options']) || isset($question['option'])) {
+            $options = isset($question['options']) ? $question['options'] : $question['option'];
+            foreach ($options as $key => $option) {
                 // Check if this is the selected option
                 $isSelected = false;
 
@@ -327,11 +334,15 @@ class SurveyController extends Controller
             ->where('survey_id', $section)
             ->firstOrFail();
 
-        $questions = collect($surveyData['sections'])
-            ->where('id', $section)
-            ->first()['questions'] ?? [];
+        $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
-        $question = collect($questions)->where('id', $questionId)->first();
+        if (!$sectionData) {
+            abort(404, 'Bahagian soal selidik tidak dijumpai');
+        }
+
+        // Extract all questions including those in subsections
+        $questions = collect($this->extractAllQuestions($sectionData));
+        $question = $questions->where('id', $questionId)->first();
         if (!$question) {
             abort(404, 'Soalan tidak dijumpai');
         }
@@ -360,11 +371,15 @@ class SurveyController extends Controller
 
         // Get survey data to determine question type
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
-        $questions = collect($surveyData['sections'])
-            ->where('id', $section)
-            ->first()['questions'] ?? [];
+        $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
-        $question = collect($questions)->where('id', $questionId)->first();
+        if (!$sectionData) {
+            return redirect()->route('survey.review', $section)->with('error', 'Bahagian soal selidik tidak dijumpai.');
+        }
+
+        // Extract all questions including those in subsections
+        $questions = collect($this->extractAllQuestions($sectionData));
+        $question = $questions->where('id', $questionId)->first();
 
         $answer = SurveyAnswer::where('response_id', $response->id)
             ->where('question_id', $questionId)
@@ -386,6 +401,32 @@ class SurveyController extends Controller
         $total = count($allQuestions);
         $answeredCount = count($answered);
         return $total > 0 ? round(($answeredCount / $total) * 100) : 0;
+    }
+
+    /**
+     * Extract all questions from a section, including those in subsections
+     */
+    private function extractAllQuestions($sectionData)
+    {
+        $questions = [];
+
+        // Get regular questions
+        if (isset($sectionData['questions']) && !empty($sectionData['questions'])) {
+            $questions = $sectionData['questions'];
+        }
+
+        // Handle subsection questions
+        if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
+            foreach ($sectionData['subsections'] as $subsection) {
+                if (isset($subsection['questions']) && !empty($subsection['questions'])) {
+                    foreach ($subsection['questions'] as $question) {
+                        $questions[] = $question;
+                    }
+                }
+            }
+        }
+
+        return $questions;
     }
 
     private function calculateScore($response, $section, $surveyData)
