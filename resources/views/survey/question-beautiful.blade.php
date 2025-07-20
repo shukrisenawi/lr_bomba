@@ -14,17 +14,7 @@
 
                 <!-- Enhanced Progress Indicator -->
                 <div class="text-center">
-                    <div class="relative w-24 h-24">
-                        <svg class="w-24 h-24 transform -rotate-90">
-                            <circle stroke="#e5e7eb" stroke-width="6" fill="none" r="42" cx="48" cy="48" />
-                            <circle stroke="url(#progressGradient)" stroke-width="6" fill="none" r="42" cx="48"
-                                cy="48" stroke-dasharray="263.89"
-                                stroke-dashoffset="{{ 263.89 - (263.89 * $progress) / 100 }}" />
-                        </svg>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-xl font-bold text-gray-800">{{ $progress }}%</span>
-                        </div>
-                    </div>
+                    <x-survey-progress :progress="$progress" size="large" />
                     <p class="text-sm text-gray-600 mt-2">Kemajuan</p>
                 </div>
             </div>
