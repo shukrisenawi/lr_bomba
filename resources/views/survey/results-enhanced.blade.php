@@ -65,8 +65,7 @@
                                         </div>
                                     </div>
                                     <div class="sm:ml-4">
-                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Analisis Mendalam</h4>
-                                        <p class="text-gray-600 leading-relaxed">
+                                        <p class="text-gray-600 leading-relaxed text-left">
                                             {{ $score->recommendation }}
                                         </p>
                                     </div>

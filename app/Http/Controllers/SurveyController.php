@@ -5,12 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\SurveyResponse;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyScore;
+use App\Services\ScoreCalculationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SurveyController extends Controller
 {
+    protected $scoreService;
+
+    public function __construct(ScoreCalculationService $scoreService)
+    {
+        $this->scoreService = $scoreService;
+    }
+
     public function show($section)
     {
         $user = Auth::user();
@@ -104,7 +112,6 @@ class SurveyController extends Controller
                 }
             }
         }
-
         if (!$currentQuestion) {
             // All questions answered, calculate score
             $this->calculateScore($response, $section, $surveyData);
@@ -259,6 +266,7 @@ class SurveyController extends Controller
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
+        $this->calculateScore($response, $section, $surveyData);
         return view('survey.results-enhanced', [
             'section' => $section,
             'response' => $response,
@@ -452,61 +460,102 @@ class SurveyController extends Controller
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
         $answers = $response->answers()->get();
 
-        $score = 0;
-        $maxPossibleScore = 0;
+        $totalScore = 0;
         $category = '';
         $recommendation = '';
 
-        // Calculate actual score and max possible score
+        // Calculate actual score by summing all score values
         foreach ($answers as $answer) {
-            // Extract numeric value from answer if available
             if ($answer->score !== null) {
-                $score += (int)$answer->score;
-            } elseif (preg_match('/\((\d+)\)/', $answer->answer, $matches)) {
-                $score += (int)$matches[1];
-            } elseif (is_numeric($answer->answer)) {
-                $score += (int)$answer->answer;
+                $totalScore += (int)$answer->score;
             }
         }
-
-        // Calculate max possible score for this section
-        $questions = $this->extractAllQuestions($sectionData);
-        foreach ($questions as $question) {
-            if (isset($question['options'])) {
-                $maxOptionScore = 0;
-                foreach ($question['options'] as $option) {
-                    if (is_array($option) && isset($option['value'])) {
-                        $maxOptionScore = max($maxOptionScore, (int)$option['value']);
-                    } elseif (preg_match('/\((\d+)\)/', $option, $matches)) {
-                        $maxOptionScore = max($maxOptionScore, (int)$matches[1]);
-                    }
-                }
-                $maxPossibleScore += $maxOptionScore;
-            }
-        }
-
-        // Normalize score to 100-point scale if maxPossibleScore > 0
-        $normalizedScore = $maxPossibleScore > 0 ? round(($score / $maxPossibleScore) * 100) : 0;
-
         // Determine category based on score ranges
         if (isset($sectionData['scoring']['ranges'])) {
             foreach ($sectionData['scoring']['ranges'] as $range) {
                 list($min, $max) = explode('-', $range['score']);
-                if ($normalizedScore >= $min && $normalizedScore <= $max) {
+                if ($totalScore >= $min && $totalScore <= $max) {
                     $category = $range['category'];
-                    $recommendation = $sectionData['scoring']['recommendations'][$category];
+                    $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
                     break;
                 }
             }
+        } else {
+            $category = '';
+            $recommendation = '';
         }
 
-        // Save the score
-        SurveyScore::create([
-            'response_id' => $response->id,
-            'section' => $section,
-            'score' => $normalizedScore,
-            'category' => $category,
-            'recommendation' => $recommendation
-        ]);
+        // Save the score using the service
+        $this->scoreService->updateResponseScore($response, $section, $totalScore, $category, $recommendation);
     }
+    // private function calculateScore($response, $section, $surveyData)
+    // {
+    //     $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
+    //     $answers = $response->answers()->get();
+
+    //     $totalScore = 0;
+    //     $maxPossibleScore = 0;
+    //     $category = '';
+    //     $recommendation = '';
+
+    //     // Calculate actual score by summing all score values
+    //     foreach ($answers as $answer) {
+    //         if ($answer->score !== null) {
+    //             $totalScore += (int)$answer->score;
+    //         }
+    //     }
+
+    //     // Calculate max possible score for this section
+    //     $questions = $this->extractAllQuestions($sectionData);
+    //     foreach ($questions as $question) {
+    //         if (isset($question['options'])) {
+    //             $maxOptionScore = 0;
+    //             foreach ($question['options'] as $option) {
+    //                 if (is_array($option) && isset($option['value'])) {
+    //                     $maxOptionScore = max($maxOptionScore, (int)$option['value']);
+    //                 } elseif (preg_match('/\((\d+)\)/', is_array($option) ? ($option['text'] ?? '') : $option, $matches)) {
+    //                     $maxOptionScore = max($maxOptionScore, (int)$matches[1]);
+    //                 }
+    //             }
+    //             $maxPossibleScore += $maxOptionScore;
+    //         } elseif (isset($question['type']) && $question['type'] === 'scale') {
+    //             // For scale questions, max is usually 5 or 10
+    //             $maxPossibleScore += isset($question['max']) ? (int)$question['max'] : 5;
+    //         }
+    //     }
+
+    //     // Normalize score to 100-point scale if maxPossibleScore > 0
+    //     $normalizedScore = $maxPossibleScore > 0 ? round(($totalScore / $maxPossibleScore) * 100) : 0;
+
+    //     // Determine category based on score ranges
+    //     if (isset($sectionData['scoring']['ranges'])) {
+    //         foreach ($sectionData['scoring']['ranges'] as $range) {
+    //             list($min, $max) = explode('-', $range['score']);
+    //             if ($normalizedScore >= $min && $normalizedScore <= $max) {
+    //                 $category = $range['category'];
+    //                 $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
+    //                 break;
+    //             }
+    //         }
+    //     } else {
+    //         // Default categorization if no ranges defined
+    //         if ($normalizedScore >= 80) {
+    //             $category = 'Cemerlang';
+    //             $recommendation = 'Lanjutkan amalan sihat anda';
+    //         } elseif ($normalizedScore >= 60) {
+    //             $category = 'Baik';
+    //             $recommendation = 'Tingkatkan lagi usaha anda';
+    //         } elseif ($normalizedScore >= 40) {
+    //             $category = 'Sederhana';
+    //             $recommendation = 'Perlu perhatian dan penambahbaikan';
+    //         } else {
+    //             $category = 'Perlu Perhatian';
+    //             $recommendation = 'Segera dapatkan nasihat pakar';
+    //         }
+    //     }
+
+    //     // Save the score using the service
+    //     $this->scoreService->updateResponseScore($response, $section, $normalizedScore);
+    // }
+
 }
