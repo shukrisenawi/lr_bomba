@@ -52,7 +52,7 @@
                                     <div class="flex-1">
                                         <div class="flex items-center mb-3">
                                             <div
-                                                class="w-8 h-8 block bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                                                class="w-8 h-8 flex-shrink-0 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                                                 {{ $index + 1 }}
                                             </div>
                                             <h4 class="text-lg font-semibold text-gray-800 text-left">
