@@ -13,7 +13,80 @@
 
         <!-- Main Results Card -->
         <div class="glass-card mb-8 sm:p-5">
-            @if ($response->scores->isNotEmpty())
+            @if ($hasSubsections && !empty($subsectionScores))
+                <!-- Display Subsection Scores -->
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-chart-bar text-blue-500 mr-2"></i>
+                        Keputusan Mengikut Subseksyen
+                    </h3>
+                </div>
+
+                @foreach ($subsectionScores as $index => $subsection)
+                    <div class="mb-8 border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-3">{{ $subsection['name'] }}</h4>
+
+                        <!-- Subsection Score Details -->
+                        <div class="space-y-3">
+                            <div
+                                class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg">
+                                <span class="font-medium text-gray-700">Jumlah Skor</span>
+                                <span class="text-xl font-bold text-purple-600">{{ $subsection['score'] }}</span>
+                            </div>
+
+                            @if (isset($subsection['category']) && $subsection['category'])
+                                <div
+                                    class="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
+                                    <span class="font-medium text-gray-700">Kategori</span>
+                                    <span
+                                        class="px-3 py-1 rounded-full text-sm font-medium
+                                        @if (str_contains(strtolower($subsection['category']), 'cemerlang') ||
+                                                str_contains(strtolower($subsection['category']), 'tinggi')) bg-green-100 text-green-800
+                                        @elseif(str_contains(strtolower($subsection['category']), 'baik') ||
+                                                str_contains(strtolower($subsection['category']), 'sederhana')) bg-yellow-100 text-yellow-800
+                                        @else bg-red-100 text-red-800 @endif">
+                                        {{ $subsection['category'] }}
+                                    </span>
+                                </div>
+                            @endif
+
+                            <div
+                                class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
+                                <span class="font-medium text-gray-700">Status</span>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                    Selesai
+                                </span>
+                            </div>
+                        </div>
+
+                        @if (isset($subsection['recommendation']) && $subsection['recommendation'])
+                            <!-- Subsection Recommendations -->
+                            <div class="mt-4">
+                                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 hidden sm:block">
+                                            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-info text-white text-xs"></i>
+                                            </div>
+                                        </div>
+                                        <div class="sm:ml-3 text-left">
+                                            <h5 class="font-medium text-gray-800 mb-1">Cadangan:</h5>
+                                            <p class="text-gray-600 text-sm leading-relaxed">
+                                                {{ $subsection['recommendation'] }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
+                    @if (!$loop->last)
+                        <hr class="my-6 border-gray-200">
+                    @endif
+                @endforeach
+            @elseif ($response->scores->isNotEmpty())
+                <!-- Display Overall Scores (for sections without subsections) -->
                 @foreach ($response->scores as $score)
                     <!-- Score Visualization -->
                     <div class="gap-8 mb-8">
@@ -23,8 +96,8 @@
                             <div class="space-y-4">
                                 <div
                                     class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl">
-                                    <span class="font-semibold text-gray-700">Skor Keseluruhan</span>
-                                    <span class="text-2xl font-bold text-purple-600">{{ $score->score }}/100</span>
+                                    <span class="font-semibold text-gray-700">Jumlah Skor</span>
+                                    <span class="text-2xl font-bold text-purple-600">{{ $score->score }}</span>
                                 </div>
                                 @if ($score->category)
                                     <div

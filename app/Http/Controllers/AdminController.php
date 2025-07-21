@@ -47,29 +47,30 @@ class AdminController extends Controller
     {
         $user = User::with(['respondent', 'surveyResponses.answers', 'surveyResponses.scores'])->findOrFail($id);
 
-        $responses = $user->surveyResponses->map(function ($response) {
+        $questionMappingService = new \App\Services\SurveyQuestionMappingService();
+
+        $responses = $user->surveyResponses->map(function ($response) use ($questionMappingService) {
             return [
                 'id' => $response->id,
                 'survey_id' => $response->survey_id,
                 'completed' => $response->completed,
                 'created_at' => $response->created_at->toDateTimeString(),
-                'answers' => $response->answers->map(function ($answer) {
+                'answers' => $response->answers->map(function ($answer) use ($questionMappingService) {
+                    $context = $questionMappingService->getQuestionContext($answer->question_id);
                     return [
                         'question_id' => $answer->question_id,
-                        'answer' => $answer->answer,
+                        'question_context' => $context,
+                        'answer' => $answer->answer ?? '',
                     ];
                 }),
                 'scores' => $response->scores->map(function ($score) {
                     return [
-                        'category' => $score->category,
-                        'score' => $score->score,
+                        'category' => $score->category ?? 'Unknown',
+                        'score' => $score->score ?? 0,
                     ];
                 }),
             ];
         });
-
-        // Debug dump to check data
-        // dd($user, $responses);
 
         return view('admin.responders.show-enhanced', compact('user', 'responses'));
     }

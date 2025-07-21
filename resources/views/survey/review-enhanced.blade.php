@@ -34,9 +34,9 @@
                 </div>
             </div>
 
-            <!-- Questions List -->
+            <!-- Subsection Grouping -->
             <div class="p-8">
-                @if ($questions->isEmpty())
+                @if (empty($questionsBySubsection))
                     <div class="text-center py-12">
                         <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-exclamation-triangle text-gray-400 text-2xl"></i>
@@ -45,55 +45,74 @@
                         <p class="text-gray-500">Tiada soalan untuk disemak dalam bahagian ini.</p>
                     </div>
                 @else
-                    <div class="space-y-6">
-                        @foreach ($questions as $index => $question)
+                    <div class="space-y-8">
+                        @foreach ($questionsBySubsection as $subsectionName => $subsectionData)
                             <div class="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex-1">
-                                        <div class="flex items-center mb-3">
-                                            <div
-                                                class="w-8 h-8 flex-shrink-0 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
-                                                {{ $index + 1 }}
-                                            </div>
-                                            <h4 class="text-lg font-semibold text-gray-800 text-left">
-                                                {{ $question['text_BM'] ?? ($question['text'] ?? ($question['title'] ?? 'Soalan tanpa tajuk')) }}
-                                            </h4>
+                                @if ($subsectionName != 'main')
+                                    <div class="flex items-center mb-4">
+                                        <div
+                                            class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                                            {{ $loop->index + 1 }}
                                         </div>
-
-                                        @php
-                                            $answer = $response->answers
-                                                ->where('question_id', $question['id'] ?? null)
-                                                ->first();
-                                        @endphp
-
-                                        <div class="ml-11">
-                                            @if ($answer)
-                                                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-                                                    <div class="flex items-center mb-2">
-                                                        <i class="fas fa-check-circle text-green-600 mr-2"></i>
-                                                        <span class="font-semibold text-green-800">Jawapan Anda: <span
-                                                                class="text-green-700">
-                                                                {{ getDisplayTextForAnswer($question, $answer->answer ?? '') }}
-                                                            </span></span>
-                                                    </div>
-
-                                                </div>
-
-                                                {{-- <a href="{{ route('survey.edit', [$section, $question['id'] ?? 0]) }}"
-                                                    class="inline-flex items-center px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors">
-                                                    <i class="fas fa-edit mr-2"></i>
-                                                    Edit Jawapan
-                                                </a> --}}
-                                            @else
-                                                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-                                                    <div class="flex items-center">
-                                                        <i class="fas fa-times-circle text-red-600 mr-2"></i>
-                                                        <span class="font-semibold text-red-800">Belum dijawab</span>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-800">{{ $subsectionName }}</h3>
                                     </div>
+                                @endif
+                                @if (isset($subsectionData['score']) && $subsectionData['score'] !== null)
+                                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-semibold text-blue-800">Skor:
+                                                {{ $subsectionData['score'] }}</span>
+                                            <span
+                                                class="text-sm text-blue-600">{{ $subsectionData['category'] ?? 'Sederhana' }}</span>
+                                        </div>
+                                        <p class="text-sm text-blue-700 mt-2">
+                                            {{ $subsectionData['recommendation'] ?? '' }}
+                                        </p>
+                                    </div>
+                                @endif
+
+                                <div class="space-y-4">
+                                    @foreach ($subsectionData['questions'] as $index => $question)
+                                        <div class="border-l-4 border-blue-500 pl-4">
+                                            <div class="flex items-start mb-2">
+                                                <div
+                                                    class="min-w-6 min-h-6 w-auto h-auto px-2 py-1 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs mr-3 flex-shrink-0">
+                                                    {{ $index + 1 }}
+                                                </div>
+                                                <h4 class="text-md font-semibold text-gray-800 text-left flex-1">
+                                                    {{ $question['text_BM'] ?? ($question['text'] ?? ($question['title'] ?? 'Soalan tanpa tajuk')) }}
+                                                </h4>
+                                            </div>
+
+                                            @php
+                                                $answer = $response->answers
+                                                    ->where('question_id', $question['id'] ?? null)
+                                                    ->first();
+                                            @endphp
+
+                                            <div class="ml-8">
+                                                @if ($answer)
+                                                    <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-2">
+                                                        <div class="flex items-center mb-1">
+                                                            <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                                                            <span class="font-semibold text-green-800">Jawapan Anda:
+                                                                <span class="text-green-700">
+                                                                    {{ getDisplayTextForAnswer($question, $answer->answer ?? '') }}
+                                                                </span></span>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+                                                        <div class="flex items-center">
+                                                            <i class="fas fa-times-circle text-red-600 mr-2"></i>
+                                                            <span class="font-semibold text-red-800">Belum
+                                                                dijawab</span>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         @endforeach

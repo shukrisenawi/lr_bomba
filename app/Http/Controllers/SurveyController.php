@@ -6,6 +6,7 @@ use App\Models\SurveyResponse;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyScore;
 use App\Services\ScoreCalculationService;
+use App\Services\SubsectionScoreCalculationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -13,10 +14,12 @@ use Illuminate\Support\Facades\Log;
 class SurveyController extends Controller
 {
     protected $scoreService;
+    protected $subsectionScoreService;
 
-    public function __construct(ScoreCalculationService $scoreService)
+    public function __construct(ScoreCalculationService $scoreService, \App\Services\SubsectionScoreCalculationService $subsectionScoreService)
     {
         $this->scoreService = $scoreService;
+        $this->subsectionScoreService = $subsectionScoreService;
     }
 
     public function show($section)
@@ -266,17 +269,29 @@ class SurveyController extends Controller
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
+        // Calculate scores (including subsection scores)
         $this->calculateScore($response, $section, $surveyData);
+
+        // Calculate subsection scores if section has subsections
+        $subsectionScores = [];
+        $hasSubsections = isset($sectionData['subsections']) && !empty($sectionData['subsections']);
+
+        if ($hasSubsections) {
+            $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
+        }
+
         return view('survey.results-enhanced', [
             'section' => $section,
             'response' => $response,
-            'sectionData' => $sectionData
+            'sectionData' => $sectionData,
+            'subsectionScores' => $subsectionScores,
+            'hasSubsections' => $hasSubsections
         ]);
     }
 
     public function review($section)
     {
-        $response = SurveyResponse::with('answers')
+        $response = SurveyResponse::with(['answers', 'scores'])
             ->where('user_id', Auth::id())
             ->where('survey_id', $section)
             ->firstOrFail();
@@ -288,14 +303,51 @@ class SurveyController extends Controller
             return redirect()->route('dashboard')->with('error', 'Bahagian soal selidik tidak dijumpai.');
         }
 
-        // Extract all questions including those in subsections
-        $questions = collect($this->extractAllQuestions($sectionData));
+        // Check if this section has subsections
+        $hasSubsections = isset($sectionData['subsections']) && !empty($sectionData['subsections']);
+
+        $questionsBySubsection = [];
+        $subsectionScores = [];
+
+        if ($hasSubsections) {
+            // Group questions by subsections
+            foreach ($sectionData['subsections'] as $subsection) {
+                $questionsBySubsection[$subsection['name']] = [
+                    'questions' => $subsection['questions'] ?? [],
+                    'score' => null,
+                    'category' => null,
+                    'recommendation' => null
+                ];
+            }
+
+            // Get subsection scores if available
+            $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
+
+            // Map scores to subsections
+            foreach ($subsectionScores as $scoreData) {
+                if (isset($questionsBySubsection[$scoreData['name']])) {
+                    $questionsBySubsection[$scoreData['name']]['score'] = $scoreData['score'];
+                    $questionsBySubsection[$scoreData['name']]['category'] = $scoreData['category'];
+                    $questionsBySubsection[$scoreData['name']]['recommendation'] = $scoreData['recommendation'];
+                }
+            }
+        } else {
+            // Handle flat sections without subsections
+            $questionsBySubsection['main'] = [
+                'questions' => $sectionData['questions'] ?? [],
+                'score' => null,
+                'category' => null,
+                'recommendation' => null
+            ];
+        }
 
         return view('survey.review-enhanced', [
             'section' => $section,
             'response' => $response,
-            'questions' => $questions,
-            'sectionTitle' => $surveyData['sections'][array_search($section, array_column($surveyData['sections'], 'id'))]['title_BM']
+            'questionsBySubsection' => $questionsBySubsection,
+            'sectionTitle' => $surveyData['sections'][array_search($section, array_column($surveyData['sections'], 'id'))]['title_BM'],
+            'hasSubsections' => $hasSubsections,
+            'subsectionScores' => $subsectionScores
         ]);
     }
 
@@ -458,104 +510,42 @@ class SurveyController extends Controller
     private function calculateScore($response, $section, $surveyData)
     {
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
-        $answers = $response->answers()->get();
 
-        $totalScore = 0;
-        $category = '';
-        $recommendation = '';
-
-        // Calculate actual score by summing all score values
-        foreach ($answers as $answer) {
-            if ($answer->score !== null) {
-                $totalScore += (int)$answer->score;
-            }
-        }
-        // Determine category based on score ranges
-        if (isset($sectionData['scoring']['ranges'])) {
-            foreach ($sectionData['scoring']['ranges'] as $range) {
-                list($min, $max) = explode('-', $range['score']);
-                if ($totalScore >= $min && $totalScore <= $max) {
-                    $category = $range['category'];
-                    $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
-                    break;
-                }
-            }
+        if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
+            // Calculate subsection scores
+            $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
+            $this->subsectionScoreService->updateSubsectionScores($response, $subsectionScores);
         } else {
+            // Fallback to old total score calculation
+            $answers = $response->answers()->get();
+
+            $totalScore = 0;
             $category = '';
             $recommendation = '';
+
+            foreach ($answers as $answer) {
+                if ($answer->score !== null) {
+                    $totalScore += (int)$answer->score;
+                }
+            }
+            if (isset($sectionData['scoring']['ranges']) || isset($sectionData['scoring']['interpretation'])) {
+                $ranges = isset($sectionData['scoring']['ranges']) ? $sectionData['scoring']['ranges'] : $sectionData['scoring']['interpretation'];
+                foreach ($ranges as $range) {
+                    if (isset($sectionData['scoring']['ranges']))
+                        list($min, $max) = explode('-', $range['score']);
+                    else
+                        list($min, $max) = explode('-', $range['range']);
+                    if ($totalScore >= $min && $totalScore <= $max) {
+                        $category = $range['category'];
+                        $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
+                        break;
+                    }
+                }
+            } else {
+                $category = '';
+                $recommendation = '';
+            }
+            $this->scoreService->updateResponseScore($response, $section, $totalScore, $category, $recommendation);
         }
-
-        // Save the score using the service
-        $this->scoreService->updateResponseScore($response, $section, $totalScore, $category, $recommendation);
     }
-    // private function calculateScore($response, $section, $surveyData)
-    // {
-    //     $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
-    //     $answers = $response->answers()->get();
-
-    //     $totalScore = 0;
-    //     $maxPossibleScore = 0;
-    //     $category = '';
-    //     $recommendation = '';
-
-    //     // Calculate actual score by summing all score values
-    //     foreach ($answers as $answer) {
-    //         if ($answer->score !== null) {
-    //             $totalScore += (int)$answer->score;
-    //         }
-    //     }
-
-    //     // Calculate max possible score for this section
-    //     $questions = $this->extractAllQuestions($sectionData);
-    //     foreach ($questions as $question) {
-    //         if (isset($question['options'])) {
-    //             $maxOptionScore = 0;
-    //             foreach ($question['options'] as $option) {
-    //                 if (is_array($option) && isset($option['value'])) {
-    //                     $maxOptionScore = max($maxOptionScore, (int)$option['value']);
-    //                 } elseif (preg_match('/\((\d+)\)/', is_array($option) ? ($option['text'] ?? '') : $option, $matches)) {
-    //                     $maxOptionScore = max($maxOptionScore, (int)$matches[1]);
-    //                 }
-    //             }
-    //             $maxPossibleScore += $maxOptionScore;
-    //         } elseif (isset($question['type']) && $question['type'] === 'scale') {
-    //             // For scale questions, max is usually 5 or 10
-    //             $maxPossibleScore += isset($question['max']) ? (int)$question['max'] : 5;
-    //         }
-    //     }
-
-    //     // Normalize score to 100-point scale if maxPossibleScore > 0
-    //     $normalizedScore = $maxPossibleScore > 0 ? round(($totalScore / $maxPossibleScore) * 100) : 0;
-
-    //     // Determine category based on score ranges
-    //     if (isset($sectionData['scoring']['ranges'])) {
-    //         foreach ($sectionData['scoring']['ranges'] as $range) {
-    //             list($min, $max) = explode('-', $range['score']);
-    //             if ($normalizedScore >= $min && $normalizedScore <= $max) {
-    //                 $category = $range['category'];
-    //                 $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
-    //                 break;
-    //             }
-    //         }
-    //     } else {
-    //         // Default categorization if no ranges defined
-    //         if ($normalizedScore >= 80) {
-    //             $category = 'Cemerlang';
-    //             $recommendation = 'Lanjutkan amalan sihat anda';
-    //         } elseif ($normalizedScore >= 60) {
-    //             $category = 'Baik';
-    //             $recommendation = 'Tingkatkan lagi usaha anda';
-    //         } elseif ($normalizedScore >= 40) {
-    //             $category = 'Sederhana';
-    //             $recommendation = 'Perlu perhatian dan penambahbaikan';
-    //         } else {
-    //             $category = 'Perlu Perhatian';
-    //             $recommendation = 'Segera dapatkan nasihat pakar';
-    //         }
-    //     }
-
-    //     // Save the score using the service
-    //     $this->scoreService->updateResponseScore($response, $section, $normalizedScore);
-    // }
-
 }
