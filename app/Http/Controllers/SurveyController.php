@@ -174,14 +174,26 @@ class SurveyController extends Controller
         ];
 
         // Handle radio button questions (single_choice)
-        if ($question && $question['type'] === 'single_choice') {
-            return $this->processRadioButtonAnswer($question, $selectedAnswer, $responseId, $questionId);
+        if ($question) {
+            if ($question['type'] === 'single_choice')
+                return $this->processRadioButtonAnswer($question, $selectedAnswer, $responseId, $questionId);
+            else if ($question['type'] === 'scale')
+                return $this->processScaleAnswer($question, $selectedAnswer, $responseId, $questionId);
         }
 
         // For other question types, just store the answer as-is
         return $baseData;
     }
-
+    private function processScaleAnswer($question, $selectedValue, $responseId, $questionId)
+    {
+        return [
+            'response_id' => $responseId,
+            'question_id' => $questionId,
+            'answer' => $selectedValue,
+            'value' => $selectedValue,
+            'score' => $selectedValue
+        ];
+    }
     /**
      * Process radio button answer to extract text, value, and score
      */

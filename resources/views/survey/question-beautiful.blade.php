@@ -83,7 +83,7 @@
                                                 class="radio-dot w-3 h-3 bg-white rounded-full opacity-0 transition-all duration-300">
                                             </div>
                                         </div>
-                                        <span class="text-gray-700 font-medium">{{ $optionText }}</span>
+                                        <span class="text-gray-700 font-medium text-left">{{ $optionText }}</span>
                                     </div>
                                 </label>
                             @endforeach
@@ -109,6 +109,27 @@
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan:</span>
                                 <input type="text" name="answer" class="form-input-enhanced w-full text-lg"
                                     placeholder="Taip jawapan anda di sini" required>
+                            </label>
+                        </div>
+                    @elseif($question['type'] === 'scale')
+                        <div class="space-y-4">
+                            <label class="block">
+                                <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan:</span>
+
+                                <div class="w-full">
+                                    <input type="range" min="{{ $question['min'] }}" max="{{ $question['max'] }}"
+                                        value="0" class="range w-full" step="1" name="answer" />
+                                    <div class="flex justify-between px-2.5 mt-2 text-xs">
+                                        @for ($i = $question['min']; $i <= $question['max']; $i++)
+                                            <span>|</span>
+                                        @endfor
+                                    </div>
+                                    <div class="flex justify-between px-2.5 mt-2 text-xs">
+                                        @for ($i = $question['min']; $i <= $question['max']; $i++)
+                                            <span>{{ $i }}</span>
+                                        @endfor
+                                    </div>
+                                </div>
                             </label>
                         </div>
                     @else

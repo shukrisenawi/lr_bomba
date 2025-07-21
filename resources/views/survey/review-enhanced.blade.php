@@ -52,10 +52,10 @@
                                     <div class="flex-1">
                                         <div class="flex items-center mb-3">
                                             <div
-                                                class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                                                class="w-8 h-8 block bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                                                 {{ $index + 1 }}
                                             </div>
-                                            <h4 class="text-lg font-semibold text-gray-800">
+                                            <h4 class="text-lg font-semibold text-gray-800 text-left">
                                                 {{ $question['text_BM'] ?? ($question['text'] ?? ($question['title'] ?? 'Soalan tanpa tajuk')) }}
                                             </h4>
                                         </div>
@@ -71,18 +71,19 @@
                                                 <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
                                                     <div class="flex items-center mb-2">
                                                         <i class="fas fa-check-circle text-green-600 mr-2"></i>
-                                                        <span class="font-semibold text-green-800">Jawapan Anda:</span>
+                                                        <span class="font-semibold text-green-800">Jawapan Anda: <span
+                                                                class="text-green-700">
+                                                                {{ getDisplayTextForAnswer($question, $answer->answer ?? '') }}
+                                                            </span></span>
                                                     </div>
-                                                    <p class="text-green-700">
-                                                        {{ getDisplayTextForAnswer($question, $answer->answer ?? '') }}
-                                                    </p>
+
                                                 </div>
 
-                                                <a href="{{ route('survey.edit', [$section, $question['id'] ?? 0]) }}"
+                                                {{-- <a href="{{ route('survey.edit', [$section, $question['id'] ?? 0]) }}"
                                                     class="inline-flex items-center px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors">
                                                     <i class="fas fa-edit mr-2"></i>
                                                     Edit Jawapan
-                                                </a>
+                                                </a> --}}
                                             @else
                                                 <div class="bg-red-50 border border-red-200 rounded-lg p-4">
                                                     <div class="flex items-center">
