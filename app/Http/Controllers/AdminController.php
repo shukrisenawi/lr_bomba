@@ -45,7 +45,11 @@ class AdminController extends Controller
      */
     public function showResponder($id)
     {
-        $user = User::with(['respondent', 'surveyResponses.answers', 'surveyResponses.scores'])->findOrFail($id);
+        $user = User::with([
+            'respondent', 
+            'surveyResponses.answers', 
+            'surveyResponses.scores'
+        ])->findOrFail($id);
 
         $questionMappingService = new \App\Services\SurveyQuestionMappingService();
 
@@ -61,12 +65,16 @@ class AdminController extends Controller
                         'question_id' => $answer->question_id,
                         'question_context' => $context,
                         'answer' => $answer->answer ?? '',
+                        'score' => $answer->score,
+                        'value' => $answer->value,
                     ];
                 }),
                 'scores' => $response->scores->map(function ($score) {
                     return [
                         'category' => $score->category ?? 'Unknown',
                         'score' => $score->score ?? 0,
+                        'section' => $score->section ?? '',
+                        'recommendation' => $score->recommendation ?? '',
                     ];
                 }),
             ];

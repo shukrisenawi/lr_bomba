@@ -1,0 +1,99 @@
+{
+    "sections": {
+        "B": {
+            "name": "JCQ - Job Content Questionnaire",
+            "ranges": [
+                {
+                    "min": 75,
+                    "max": 100,
+                    "category": "Tinggi"
+                },
+                {
+                    "min": 50,
+                    "max": 74,
+                    "category": "Sederhana"
+                },
+                {
+                    "min": 0,
+                    "max": 49,
+                    "category": "Rendah"
+                }
+            ]
+        },
+        "D": {
+            "name": "IWPQ - Individual Work Performance Questionnaire",
+            "ranges": [
+                {
+                    "min": 70,
+                    "max": 100,
+                    "category": "Sangat tinggi"
+                },
+                {
+                    "min": 55,
+                    "max": 69,
+                    "category": "Tinggi"
+                },
+                {
+                    "min": 40,
+                    "max": 54,
+                    "category": "Sederhana"
+                },
+                {
+                    "min": 0,
+                    "max": 39,
+                    "category": "Rendah"
+                }
+            ]
+        },
+        "G": {
+            "name": "BAT - Burnout Assessment Tool",
+            "ranges": [
+                {
+                    "min": 70,
+                    "max": 100,
+                    "category": "Sangat tinggi"
+                },
+                {
+                    "min": 50,
+                    "max": 69,
+                    "category": "Tinggi"
+                },
+                {
+                    "min": 30,
+                    "max": 49,
+                    "category": "Sederhana"
+                },
+                {
+                    "min": 0,
+                    "max": 29,
+                    "category": "Rendah"
+                }
+            ]
+        }
+    },
+    "default": {
+        "name": "General Categorization",
+        "ranges": [
+            {
+                "min": 80,
+                "max": 100,
+                "category": "Cemerlang"
+            },
+            {
+                "min": 60,
+                "max": 79,
+                "category": "Baik"
+            },
+            {
+                "min": 40,
+                "max": 59,
+                "category": "Sederhana"
+            },
+            {
+                "min": 0,
+                "max": 39,
+                "category": "Perlu Perhatian"
+            }
+        ]
+    }
+}

@@ -40,16 +40,16 @@
                 </div>
 
                 <!-- <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-                                                                                                                    <div class="flex items-center">
-                                                                                                                        <div class="p-3 rounded-full bg-green-100 text-green-600">
-                                                                                                                            <i class="fas fa-chart-line text-2xl"></i>
-                                                                                                                        </div>
-                                                                                                                        <div class="ml-4">
-                                                                                                                            <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
-                                                                                                                            <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div> -->
+                                                                                                                                                    <div class="flex items-center">
+                                                                                                                                                        <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                                                                                                                                            <i class="fas fa-chart-line text-2xl"></i>
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="ml-4">
+                                                                                                                                                            <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
+                                                                                                                                                            <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                </div> -->
 
                 <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
                     <div class="flex items-center">
@@ -94,11 +94,11 @@
                         Tinjauan
                     </button>
                     <!-- <button type="button"
-                                                                                                                        class="tab-btn flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-indigo-500 transition-all duration-200"
-                                                                                                                        data-tab="analytics">
-                                                                                                                        <i class="fas fa-chart-bar mr-2"></i>
-                                                                                                                        Analitik
-                                                                                                                    </button> -->
+                                                                                                                                                        class="tab-btn flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-indigo-500 transition-all duration-200"
+                                                                                                                                                        data-tab="analytics">
+                                                                                                                                                        <i class="fas fa-chart-bar mr-2"></i>
+                                                                                                                                                        Analitik
+                                                                                                                                                    </button> -->
                 </nav>
             </div>
 
@@ -185,147 +185,151 @@
                     @else
                         <div class="space-y-6">
                             @foreach ($responses as $response)
-                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
-                                        <div class="flex justify-between items-center">
-                                            <div>
-                                                <h4 class="text-lg font-bold">
-                                                    {{ getFullSectionTitle($response['survey_id']) }}</h4>
-                                                <p class="text-blue-100 text-sm">{{ $response['created_at'] ?? 'N/A' }}</p>
+                                @if (count($response['answers']) > 0)
+                                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
+                                            <div class="flex justify-between items-center">
+                                                <div>
+                                                    <h4 class="text-lg font-bold">
+                                                        {{ getFullSectionTitle($response['survey_id']) }}</h4>
+                                                    <p class="text-blue-100 text-sm">{{ $response['created_at'] ?? 'N/A' }}
+                                                    </p>
+                                                </div>
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-sm font-medium {{ $response['completed'] ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white' }}">
+                                                    {{ $response['completed'] ? 'Selesai' : 'Dalam Proses' }}
+                                                </span>
                                             </div>
-                                            <span
-                                                class="px-3 py-1 rounded-full text-sm font-medium {{ $response['completed'] ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white' }}">
-                                                {{ $response['completed'] ? 'Selesai' : 'Dalam Proses' }}
-                                            </span>
                                         </div>
-                                    </div>
 
-                                    <div class="p-6">
-                                        @if (count($response['answers']) > 0)
-                                            <div class="space-y-6">
-                                                @php
-                                                    // Group answers by subsection
-                                                    $groupedAnswers = collect($response['answers'])->groupBy(function (
-                                                        $answer,
-                                                    ) {
-                                                        return $answer['question_context']['subsection_name'] ??
-                                                            'Lain-lain';
-                                                    });
+                                        <div class="p-6">
+                                            @if (count($response['answers']) > 0)
+                                                <div class="space-y-6">
+                                                    @php
+                                                        // Group answers by subsection
+                                                        $groupedAnswers = collect($response['answers'])->groupBy(
+                                                            function ($answer) {
+                                                                return $answer['question_context']['subsection_name'] ??
+                                                                    'Lain-lain';
+                                                            },
+                                                        );
 
-                                                    // Group scores by subsection
-                                                    $groupedScores = collect($response['scores'] ?? [])->groupBy(
-                                                        function ($score) {
-                                                            return $score['category'] ?? 'Lain-lain';
-                                                        },
-                                                    );
-                                                @endphp
+                                                        // Group scores by subsection
+                                                        $groupedScores = collect($response['scores'] ?? [])->groupBy(
+                                                            function ($score) {
+                                                                return $score['category'] ?? 'Lain-lain';
+                                                            },
+                                                        );
+                                                    @endphp
 
-                                                @foreach ($groupedAnswers as $subsectionName => $answers)
-                                                    <div class="subsection-group bg-gray-50 rounded-lg p-4">
-                                                        <div class="flex items-center justify-between mb-4">
-                                                            <div>
-                                                                @if ($subsectionName && $subsectionName !== 'Lain-lain')
-                                                                    <span class="text-lg font-bold text-green-700">
-                                                                        {{ $subsectionName }}
-                                                                    </span>
-                                                                @else
-                                                                    {{-- <span class="text-lg font-bold text-gray-700">
-                                                                        Soalan Umum
-                                                                    </span> --}}
+                                                    @foreach ($groupedAnswers as $subsectionName => $answers)
+                                                        <div class="subsection-group bg-gray-50 rounded-lg p-4">
+                                                            <div class="flex items-center justify-between mb-4">
+                                                                <div>
+                                                                    @if ($subsectionName && $subsectionName !== 'Lain-lain')
+                                                                        <span class="text-lg font-bold text-green-700">
+                                                                            {{ $subsectionName }}
+                                                                        </span>
+                                                                    @else
+                                                                        <span class="text-lg font-bold text-gray-700">
+                                                                            Soalan Umum
+                                                                        </span>
+                                                                    @endif
+                                                                </div>
+
+                                                                @if ($groupedScores->has($subsectionName))
+                                                                    @php
+                                                                        $subsectionScores =
+                                                                            $groupedScores[$subsectionName];
+                                                                    @endphp
+                                                                    <div class="flex flex-wrap gap-2">
+                                                                        @foreach ($subsectionScores as $score)
+                                                                            <div
+                                                                                class="bg-white rounded-md px-3 py-1 shadow-sm">
+                                                                                <span
+                                                                                    class="text-sm font-bold text-blue-600">
+                                                                                    {{ $score['score'] }}
+                                                                                </span>
+                                                                                <span class="text-xs text-gray-500 ml-1">
+                                                                                    {{ $score['category'] }}
+                                                                                </span>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
                                                                 @endif
                                                             </div>
 
-                                                            @if ($groupedScores->has($subsectionName))
-                                                                @php
-                                                                    $subsectionScores = $groupedScores[$subsectionName];
-                                                                @endphp
-                                                                <div class="flex flex-wrap gap-2">
-                                                                    @foreach ($subsectionScores as $score)
+                                                            <div class="space-y-3">
+                                                                @foreach ($answers as $answer)
+                                                                    <div class="bg-white rounded-lg p-4 shadow-sm">
                                                                         <div
-                                                                            class="bg-white rounded-md px-3 py-1 shadow-sm">
-                                                                            <span class="text-sm font-bold text-blue-600">
-                                                                                {{ $score['score'] }}
-                                                                            </span>
-                                                                            <span class="text-xs text-gray-500 ml-1">
-                                                                                {{ $score['category'] }}
-                                                                            </span>
+                                                                            class="text-sm font-medium text-gray-900 mb-2 text-left">
+                                                                            @php
+                                                                                // Extract just the question part from full context
+                                                                                $fullContext =
+                                                                                    $answer['question_context'][
+                                                                                        'full_context'
+                                                                                    ] ?? '';
+                                                                                if (
+                                                                                    preg_match(
+                                                                                        '/Soalan\s+[A-Z]?\d+\s*:\s*(.+)$/i',
+                                                                                        $fullContext,
+                                                                                        $matches,
+                                                                                    )
+                                                                                ) {
+                                                                                    echo trim($matches[1]);
+                                                                                } else {
+                                                                                    echo $fullContext;
+                                                                                }
+                                                                            @endphp
                                                                         </div>
-                                                                    @endforeach
+                                                                        <div class="text-sm text-gray-700 text-left">
+                                                                            <span class="font-medium">Jawapan:</span>
+                                                                            @if (is_array($answer['answer']))
+                                                                                {{ implode(', ', $answer['answer']) }}
+                                                                            @else
+                                                                                {{ $answer['answer'] }}
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+
+                                                            <!-- Display overall scores for this subsection -->
+                                                            @if ($groupedScores->has($subsectionName))
+                                                                <div class="mt-4 pt-3 border-t border-gray-200">
+                                                                    <h5 class="text-sm font-bold text-gray-700 mb-2">Skor
+                                                                        Keseluruhan:</h5>
+                                                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                                                        @foreach ($groupedScores[$subsectionName] as $score)
+                                                                            <div
+                                                                                class="bg-white rounded-md p-3 text-center border">
+                                                                                <div
+                                                                                    class="text-lg font-bold text-blue-600">
+                                                                                    {{ $score['score'] }}
+                                                                                </div>
+                                                                                <div
+                                                                                    class="text-sm text-gray-600 font-medium">
+                                                                                    {{ $score['category'] }}
+                                                                                </div>
+                                                                                @if (isset($score['recommendation']) && !empty($score['recommendation']))
+                                                                                    <div
+                                                                                        class="text-xs text-gray-500 mt-1">
+                                                                                        {{ Str::limit($score['recommendation'], 60) }}
+                                                                                    </div>
+                                                                                @endif
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
                                                                 </div>
                                                             @endif
                                                         </div>
-
-                                                        <div class="space-y-3">
-                                                            @foreach ($answers as $answer)
-                                                                <div class="bg-white rounded-lg p-4 shadow-sm">
-                                                                    <div
-                                                                        class="text-sm font-medium text-gray-900 mb-2 text-left">
-                                                                        @php
-                                                                            // Extract just the question part from full context
-                                                                            $fullContext =
-                                                                                $answer['question_context'][
-                                                                                    'full_context'
-                                                                                ] ?? '';
-                                                                            if (
-                                                                                preg_match(
-                                                                                    '/Soalan\s+[A-Z]?\d+\s*:\s*(.+)$/i',
-                                                                                    $fullContext,
-                                                                                    $matches,
-                                                                                )
-                                                                            ) {
-                                                                                echo trim($matches[1]);
-                                                                            } else {
-                                                                                echo $fullContext;
-                                                                            }
-                                                                        @endphp
-                                                                    </div>
-                                                                    <div class="text-sm text-gray-700 text-left">
-                                                                        <span class="font-medium">Jawapan:</span>
-                                                                        @if (is_array($answer['answer']))
-                                                                            {{ implode(', ', $answer['answer']) }}
-                                                                        @else
-                                                                            {{ $answer['answer'] }}
-                                                                        @endif
-                                                                    </div>
-                                                                    @if (isset($answer['score']) && $answer['score'] !== null)
-                                                                        <div class="mt-2">
-                                                                            <span
-                                                                                class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                                                                                Skor: {{ $answer['score'] }}
-                                                                            </span>
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-
-                                                        @if ($groupedScores->has($subsectionName))
-                                                            <div class="mt-4 pt-3 border-t border-gray-200">
-                                                                <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                                                    @foreach ($groupedScores[$subsectionName] as $score)
-                                                                        <div class="bg-white rounded-md p-2 text-center">
-                                                                            <div class="text-sm font-bold text-blue-600">
-                                                                                {{ $score['score'] }}
-                                                                            </div>
-                                                                            <div class="text-xs text-gray-600">
-                                                                                {{ $score['category'] }}
-                                                                            </div>
-                                                                            @if (isset($score['recommendation']))
-                                                                                <div class="text-xs text-gray-500 mt-1">
-                                                                                    {{ Str::limit($score['recommendation'], 50) }}
-                                                                                </div>
-                                                                            @endif
-                                                                        </div>
-                                                                    @endforeach
-                                                                </div>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
                         </div>
                     @endif

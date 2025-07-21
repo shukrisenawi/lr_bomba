@@ -270,6 +270,7 @@ class SurveyController extends Controller
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
         // Calculate scores (including subsection scores)
+
         $this->calculateScore($response, $section, $surveyData);
 
         // Calculate subsection scores if section has subsections
@@ -513,6 +514,7 @@ class SurveyController extends Controller
 
         if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
             // Calculate subsection scores
+            // dd($sectionData);
             $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
             $this->subsectionScoreService->updateSubsectionScores($response, $subsectionScores);
         } else {

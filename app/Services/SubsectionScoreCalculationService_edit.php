@@ -38,18 +38,13 @@ class SubsectionScoreCalculationService
                     $questionCount++;
                 }
 
-                // Calculate max possible score for this question
                 $maxScore = $this->calculateMaxScoreForQuestion($question);
                 $maxPossibleScore += $maxScore;
             }
 
             if ($questionCount > 0) {
-                // $normalizedScore = $maxPossibleScore > 0
-                //     ? round(($subsectionTotal / $maxPossibleScore) * 100)
-                //     : 0;
                 $normalizedScore = $subsectionTotal;
-                $category = $this->determineCategory($normalizedScore, $sectionData, $subsection['name']);
-
+                $category = $this->determineCategory($normalizedScore, $sectionData);
                 $recommendation = $this->getRecommendation($normalizedScore, $sectionData);
 
                 $subsectionScores[] = [
@@ -85,42 +80,63 @@ class SubsectionScoreCalculationService
             }
             return $maxScore > 0 ? $maxScore : 1;
         }
-
         return 1;
     }
 
     /**
-     * Determine category based on score ranges
+     * Load score categories from JSON configuration
      */
-    private function determineCategory(int $score, array $sectionData, string $subsectionSelect = ''): string
+    private function loadScoreCategories(): array
     {
-        if (isset($sectionData['scoring']['ranges']) || isset($sectionData['scoring']['interpretation'])) {
-            if (!isset($sectionData['scoring']['interpretation'][$subsectionSelect]))
-                $ranges = isset($sectionData['scoring']['ranges']) ? $sectionData['scoring']['ranges'] : $sectionData['scoring']['interpretation'];
-            else
-                $ranges = $sectionData['scoring']['interpretation'][$subsectionSelect];
+        static $scoreCategories = null;
 
-            foreach ($ranges as $range) {
-                $scoreRange = isset($sectionData['scoring']['ranges']) ? $range['score'] : (isset($range['range']) ? $range['range'] : false);
-                if ($scoreRange) {
-                    if (strpos($scoreRange, '-') !== false) {
-                        list($min, $max) = explode('-',   $scoreRange);
-                        if ($score >= (int)$min && $score <= (int)$max) {
-                            return $range['category'];
-                        }
-                    } elseif (strpos($scoreRange, '+') !== false) {
-                        // Handle ranges like "13+"
-                        $min = (int)str_replace('+', '',   $scoreRange);
-                        if ($score >= $min) {
-                            return $range['category'];
-                        }
-                    } else {
-                        // Handle single values
-                        if ($score == (int)  $scoreRange) {
-                            return $range['category'];
-                        }
-                    }
-                }
+        if ($scoreCategories === null) {
+            $configPath = config_path('score_categories.json');
+            if (file_exists($configPath)) {
+                $scoreCategories = json_decode(file_get_contents($configPath), true);
+            } else {
+                $scoreCategories = [];
+            }
+        }
+        return $scoreCategories;
+    }
+
+    /**
+     * Determine category based on score ranges from JSON configuration
+     */
+    private function determineCategory(int $score, array $sectionData): string
+    {
+        // Use JSON configuration for categorization
+        $categories = $this->loadScoreCategories();
+
+        if (!empty($categories)) {
+            $sectionId = $sectionData['id'] ?? null;
+
+            if ($sectionId && isset($categories['sections'][$sectionId])) {
+                $sectionConfig = $categories['sections'][$sectionId];
+                return $this->getCategoryFromRanges($score, $sectionConfig['ranges']);
+            }
+
+            if (isset($categories['default'])) {
+                return $this->getCategoryFromRanges($score, $categories['default']['ranges']);
+            }
+        }
+
+        // Fallback default categorization
+        if ($score >= 80) return 'Cemerlang';
+        if ($score >= 60) return 'Baik';
+        if ($score >= 40) return 'Sederhana';
+        return 'Perlu Perhatian';
+    }
+
+    /**
+     * Get category from score ranges
+     */
+    private function getCategoryFromRanges(int $score, array $ranges): string
+    {
+        foreach ($ranges as $range) {
+            if ($score >= $range['min'] && $score <= $range['max']) {
+                return $range['category'];
             }
         }
         return 'Perlu Perhatian';
@@ -139,6 +155,16 @@ class SubsectionScoreCalculationService
             }
         }
 
+        $recommendations = [
+            'Cemerlang' => 'Tahniah atas keupayaan kerja yang cemerlang. Kekalkan prestasi ini.',
+            'Baik' => 'Prestasi yang baik. Teruskan usaha untuk penambahbaikan berterusan.',
+            'Sederhana' => 'Perlu penambahbaikan. Fokus pada aspek yang perlu ditingkatkan.',
+            'Perlu Perhatian' => 'Perlu tindakan segera. Dapatkan bantuan profesional jika perlu.',
+            'Sangat tinggi' => 'Prestasi sangat memuaskan. Teruskan usaha untuk kekalkan tahap ini.',
+            'Tinggi' => 'Prestasi yang baik. Teruskan usaha untuk penambahbaikan.',
+            'Rendah' => 'Perlu tindakan segera untuk meningkatkan prestasi.'
+        ];
+
         $category = $this->determineCategory($score, $sectionData);
         return $recommendations[$category] ?? 'Teruskan usaha untuk penambahbaikan.';
     }
@@ -148,12 +174,10 @@ class SubsectionScoreCalculationService
      */
     public function updateSubsectionScores(SurveyResponse $response, array $subsectionScores): void
     {
-        // Clear existing subsection scores for this response
         SurveyScore::where('response_id', $response->id)
             ->where('section', 'like', $response->survey_id . '_subsection_%')
             ->delete();
 
-        // Create new subsection scores
         foreach ($subsectionScores as $index => $subsection) {
             SurveyScore::create([
                 'response_id' => $response->id,

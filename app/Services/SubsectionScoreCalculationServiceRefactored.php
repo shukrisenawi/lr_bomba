@@ -9,6 +9,11 @@ use App\Models\SurveyScore;
 class SubsectionScoreCalculationService
 {
     /**
+     * @var array Cached score categories configuration
+     */
+    private $scoreCategories;
+
+    /**
      * Calculate scores for each subsection within a section
      */
     public function calculateSubsectionScores(SurveyResponse $response, array $sectionData): array
@@ -44,12 +49,9 @@ class SubsectionScoreCalculationService
             }
 
             if ($questionCount > 0) {
-                // $normalizedScore = $maxPossibleScore > 0
-                //     ? round(($subsectionTotal / $maxPossibleScore) * 100)
-                //     : 0;
                 $normalizedScore = $subsectionTotal;
-                $category = $this->determineCategory($normalizedScore, $sectionData, $subsection['name']);
 
+                $category = $this->determineCategory($normalizedScore, $sectionData);
                 $recommendation = $this->getRecommendation($normalizedScore, $sectionData);
 
                 $subsectionScores[] = [
@@ -90,40 +92,84 @@ class SubsectionScoreCalculationService
     }
 
     /**
-     * Determine category based on score ranges
+     * Load score categories from JSON configuration
      */
-    private function determineCategory(int $score, array $sectionData, string $subsectionSelect = ''): string
+    private function loadScoreCategories(): array
     {
-        if (isset($sectionData['scoring']['ranges']) || isset($sectionData['scoring']['interpretation'])) {
-            if (!isset($sectionData['scoring']['interpretation'][$subsectionSelect]))
-                $ranges = isset($sectionData['scoring']['ranges']) ? $sectionData['scoring']['ranges'] : $sectionData['scoring']['interpretation'];
-            else
-                $ranges = $sectionData['scoring']['interpretation'][$subsectionSelect];
+        if ($this->scoreCategories === null) {
+            $configPath = config_path('score_categories.json');
+            if (file_exists($configPath)) {
+                $this->scoreCategories = json_decode(file_get_contents($configPath), true);
+            } else {
+                $this->scoreCategories = [];
+            }
+        }
+        return $this->scoreCategories;
+    }
 
-            foreach ($ranges as $range) {
-                $scoreRange = isset($sectionData['scoring']['ranges']) ? $range['score'] : (isset($range['range']) ? $range['range'] : false);
-                if ($scoreRange) {
-                    if (strpos($scoreRange, '-') !== false) {
-                        list($min, $max) = explode('-',   $scoreRange);
-                        if ($score >= (int)$min && $score <= (int)$max) {
-                            return $range['category'];
-                        }
-                    } elseif (strpos($scoreRange, '+') !== false) {
-                        // Handle ranges like "13+"
-                        $min = (int)str_replace('+', '',   $scoreRange);
-                        if ($score >= $min) {
-                            return $range['category'];
-                        }
-                    } else {
-                        // Handle single values
-                        if ($score == (int)  $scoreRange) {
-                            return $range['category'];
-                        }
+    /**
+     * Determine category based on score ranges from JSON configuration
+     */
+    private function determineCategory(int $score, array $sectionData): string
+    {
+        // First, check if section-specific ranges are provided in sectionData
+        if (isset($sectionData['scoring']['ranges'])) {
+            foreach ($sectionData['scoring']['ranges'] as $range) {
+                if (strpos($range['score'], '-') !== false) {
+                    list($min, $max) = explode('-', $range['score']);
+                    if ($score >= (int)$min && $score <= (int)$max) {
+                        return $range['category'];
+                    }
+                } elseif (strpos($range['score'], '+') !== false) {
+                    $min = (int)str_replace('+', '', $range['score']);
+                    if ($score >= $min) {
+                        return $range['category'];
+                    }
+                } else {
+                    if ($score == (int)$range['score']) {
+                        return $range['category'];
                     }
                 }
             }
         }
+
+        // Use JSON configuration for categorization
+        $categories = $this->loadScoreCategories();
+
+        if (!empty($categories)) {
+            $sectionId = $sectionData['id'] ?? null;
+
+            // Check for section-specific categorization
+            if ($sectionId && isset($categories['sections'][$sectionId])) {
+                $sectionConfig = $categories['sections'][$sectionId];
+                return $this->getCategoryFromRanges($score, $sectionConfig['ranges']);
+            }
+
+            // Use default categorization
+            if (isset($categories['default'])) {
+                return $this->getCategoryFromRanges($score, $categories['default']['ranges']);
+            }
+        }
+
+        // Fallback default categorization (if JSON config is missing)
+        if ($score >= 80) return 'Cemerlang';
+        if ($score >= 60) return 'Baik';
+        if ($score >= 40) return 'Sederhana';
         return 'Perlu Perhatian';
+    }
+
+    /**
+     * Get category from score ranges
+     */
+    private function getCategoryFromRanges(int $score, array $ranges): string
+    {
+        foreach ($ranges as $range) {
+            if ($score >= $range['min'] && $score <= $range['max']) {
+                return $range['category'];
+            }
+        }
+
+        return 'Perlu Perhatian'; // Default fallback
     }
 
     /**
@@ -138,6 +184,17 @@ class SubsectionScoreCalculationService
                 }
             }
         }
+
+        // Default recommendations
+        $recommendations = [
+            'Cemerlang' => 'Tahniah atas keupayaan kerja yang cemerlang. Kekalkan prestasi ini.',
+            'Baik' => 'Prestasi yang baik. Teruskan usaha untuk penambahbaikan berterusan.',
+            'Sederhana' => 'Perlu penambahbaikan. Fokus pada aspek yang perlu ditingkatkan.',
+            'Perlu Perhatian' => 'Perlu tindakan segera. Dapatkan bantuan profesional jika perlu.',
+            'Sangat tinggi' => 'Prestasi sangat memuaskan. Teruskan usaha untuk kekalkan tahap ini.',
+            'Tinggi' => 'Prestasi yang baik. Teruskan usaha untuk penambahbaikan.',
+            'Rendah' => 'Perlu tindakan segera untuk meningkatkan prestasi.'
+        ];
 
         $category = $this->determineCategory($score, $sectionData);
         return $recommendations[$category] ?? 'Teruskan usaha untuk penambahbaikan.';

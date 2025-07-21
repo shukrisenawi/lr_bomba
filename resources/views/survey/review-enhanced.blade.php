@@ -6,14 +6,8 @@
     <!-- Page Header -->
     <div class="mb-8">
         <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-2xl p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-2xl font-bold mb-2">Semakan Jawapan</h1>
-                    <p class="text-green-100">Sila semak semua jawapan anda sebelum meneruskan</p>
-                </div>
-                <div class="text-right">
-                    <div class="text-3xl font-bold">{{ $sectionTitle ?? 'Bahagian' }}</div>
-                </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">{{ $sectionTitle ?? 'Bahagian' }}</div>
             </div>
         </div>
     </div>
