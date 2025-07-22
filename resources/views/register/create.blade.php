@@ -47,24 +47,19 @@
             <x-slot:label>5. Tempat Lahir</x-slot:label>
         </x-input-text>
 
-        <x-input-text value="{{ old('phone_number') }}">
-            <x-slot:id>phone_number</x-slot:id>
-            <x-slot:label>6. No. H/P</x-slot:label>
-        </x-input-text>
-
         <x-radio-button :data="['Lelaki', 'Perempuan']" :value="old('gender')">
             <x-slot:id>gender</x-slot:id>
-            <x-slot:label>7. Jantina</x-slot:label>
+            <x-slot:label>6. Jantina</x-slot:label>
         </x-radio-button>
 
         <x-dropdown :data="['Melayu', 'Cina', 'India', 'Lain-lain']" :value="old('ethnicity')">
             <x-slot:id>ethnicity</x-slot:id>
-            <x-slot:label>8. Etnik</x-slot:label>
+            <x-slot:label>7. Etnik</x-slot:label>
         </x-dropdown>
 
         <x-dropdown :data="['Tidak pernah berkahwin', 'Berhijrah', 'Balu', 'Bercerai']" :value="old('marital_status')">
             <x-slot:id>marital_status</x-slot:id>
-            <x-slot:label>9. Status Perkahwinan</x-slot:label>
+            <x-slot:label>8. Status Perkahwinan</x-slot:label>
         </x-dropdown>
 
         <x-dropdown :data="[
