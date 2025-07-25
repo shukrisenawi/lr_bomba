@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'Admin Panel - Jabatan Bomba dan Penyelamat')</title>
-    
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -22,7 +22,7 @@
     <link rel="icon" href="{{ asset('img/icon.ico') }}" type="image/x-icon">
 </head>
 
-<body class="font-sans antialiased bg-gray-50">
+<body class="font-sans antialiased bg-gray-50" data-theme="light">
     <div class="min-h-screen">
         <!-- Admin Navigation -->
         <nav class="bg-white shadow-sm border-b border-gray-200">

@@ -20,7 +20,7 @@
     <link rel="icon" href="../img/icon.ico" type="image/x-icon">
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased" data-theme="light">
     <div class="min-h-screen bg-gray-100">
 
         {{-- @include('layouts.navigation') --}}

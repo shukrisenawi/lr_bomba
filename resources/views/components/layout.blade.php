@@ -11,7 +11,7 @@
     <link rel="icon" href="../img/icon.ico" type="image/x-icon">
 </head>
 
-<body class="h-full">
+<body class="h-full" data-theme="light">
     <div class="min-h-full"
         style="background-image: url({{ asset('img/background.webp') }});background-attachment: fixed; background-size: cover; background-position: center;">
         {{ $slot }}
