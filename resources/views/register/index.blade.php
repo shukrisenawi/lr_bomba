@@ -14,8 +14,9 @@
         <x-text-accordion>
             <x-slot:title>PENGENALAN</x-slot:title>
             <x-slot:description>
-                <p class="text-gray-700 mb-4">
-                <p> Kesejahteraan pekerja, terutama pekerja yang semakin berusia, adalah isu kritikal yang berpotensi
+                <p class="text-gray-700 mb-4 text-justify">
+                <p class="text-justify"> Kesejahteraan pekerja, terutama pekerja yang semakin berusia, adalah isu
+                    kritikal yang berpotensi
                     mempengaruhi prestasi, keselamatan, dan keseluruhan kualiti hidup mereka. Secara umumnya, anggota
                     Jabatan Bomba dan Penyelamat Malaysia (JBPM) sering menghadapi pelbagai cabaran samada dari segi
                     fizikal dan mental seiring dengan tugasan dan tanggungjawab mereka berhadapan dengan risiko
@@ -34,7 +35,8 @@
                     Penyelidikan Penuaan Malaysia (MyAgeing®), Universiti Putra Malaysia dengan sokongan dan kerjasama
                     dari pihak Jabatan Bomba dan Penyelamat Malaysia (JBPM) melalui pembiayaan geran kajian oleh pihak
                     National Institute of Occupational Safety and Health (NIOSH), Malaysia.</p>
-                <p>Justeru, tujuan survei ini dilaksanakan adalah bagi mengumpulkan maklumat dan informasi dari
+                <p class="text-justify">Justeru, tujuan survei ini dilaksanakan adalah bagi mengumpulkan maklumat dan
+                    informasi dari
                     tuan/puan berdasarkan pengetahuan dan pengalaman berkaitan isu, cabaran juga pandangan berkaitan
                     pekerjaan yang sedang dilakukan samada dalam aspek pengurusan kerja, keselamatan dan kesihatan
                     pekerjaan, produktiviti dan keupayaan kerja. Melalui input yang diperolehi ini, ia akan menjadi
@@ -46,7 +48,7 @@
         <x-text-accordion>
             <x-slot:title>APAKAH YANG PERLU ANDA LAKUKAN?</x-slot:title>
             <x-slot:description>
-                <p class="text-gray-700 mb-4">
+                <p class="text-gray-700 mb-4 text-justify">
                     Secara keseluruhan, keterlibatan dan kerjasama secara aktif daripada tuan/puan dalam memberikan
                     maklumat dan pandangan yang berkaitan adalah penting untuk membantu penyelidik dan pihak JBPM dalam
                     mengenalpasti isu dan cabaran yang dihadapi oleh tuan/puan di tempat kerja ke arah menambahbaik
@@ -75,7 +77,8 @@
             <x-slot:description>
                 <ol class=" list-decimal pl-5 text-gray-700 mb-4">
                     <li><strong>KEPADA ANDA SEBAGAI PESERTA?</strong></li>
-                    <p class="mb-4">Penglibatan tuan/puan dalam kajian ini memberi faedah/menafaat bukan sahaja kepada
+                    <p class="mb-4 text-justify">Penglibatan tuan/puan dalam kajian ini memberi faedah/menafaat bukan
+                        sahaja kepada
                         JBPM (dalam bentuk data dan maklumat untuk perancangan masa depan) tetapi juga kepada tuan/puan
                         kerana maklumat yang diberikan akan dapat membantu untuk penambahbaikan dalam polisi, program,
                         sokongan, kemudahan, dan kesejahteraan di tempat kerja. Hasil dapatan kajian ini akan
@@ -84,7 +87,7 @@
                         melengkapkan soal selidik survei kami, mengambil bahagian dalam perbincangan kumpulan atau
                         temubual dan penilaian berkaitan dalam kajian ini.</p>
                     <li><strong>KEPADA PENYELIDIK?</strong></li>
-                    <p>
+                    <p class="text-justify">
                         Penyelidik yang terlibat dalam kajian ini mendapat faedah/ menafaat manfaat dalam bentuk
                         pengetahuan baru, kemahiran penyelidikan yang lebih baik, serta peluang untuk memberi sumbangan
                         positif kepada pembangunan organisasi dan kesejahteraan pekerja berusia. Dengan membangunkan
@@ -101,7 +104,7 @@
         <x-text-accordion>
             <x-slot:title>ADAKAH IA BERISIKO?</x-slot:title>
             <x-slot:description>
-                <p class="text-gray-700 mb-4">
+                <p class="text-gray-700 mb-4 text-justify">
                     Risiko adalah minimal kerana ianya dikendalikan dengan pendekatan yang teliti dan beretika.
                     Penyelidik akan memastikan bahawa prosedur penyelidikan dilaksanakan dengan mengutamakan
                     kesejahteraan responden, memberikan maklumat yang jelas mengenai tujuan kajian, dan menjaga
@@ -115,7 +118,7 @@
         <x-text-accordion>
             <x-slot:title>ADAKAH MAKLUMAT DAN IDENTITI SAYA KEKAL RAHSIA?</x-slot:title>
             <x-slot:description>
-                <p class="text-gray-700 mb-4">
+                <p class="text-gray-700 mb-4 text-justify">
                     Dengan langkah-langkah perlindungan yang betul, penyelidik akan memastikan maklumat dan identiti
                     responden kajian ini akan kekal rahsia sejajar dengan pematuhan kepada Akta Perlindungan Data
                     Peribadi 2010. Pematuhan kepada prinsip kerahsiaan dan etika penyelidikan yang ketat adalah amat
@@ -132,7 +135,7 @@
             <x-slot:title>SIAPA YANG SAYA PERLU HUBUNGI SEKIRANYA
                 SAYA MEMPUNYAI SOALAN TAMBAHAN SEMASA MENGIKUTI PENYELIDIKAN INI?</x-slot:title>
             <x-slot:description>
-                <p class="text-gray-700 mb-4">
+                <p class="text-gray-700 mb-4 text-justify">
                     Pasukan penyelidik dari Institut Penyelidikan Penuaan Malaysia (MyAgeing®), UPM hanya bertindak
                     sebagai penyelidik sahaja di dalam kajian ini. Jika tuan/puan mempunyai sebarang pertanyaan lanjut,
                     sila hubungi Prof. Madya Ts. Dr. Mohd Nazim Mohtar (Ketua Penyelidik) melalui e-mel:
@@ -178,9 +181,13 @@
                 <label for="persetujuan">Saya bersetuju untuk menjadi responden dalam kajian ini</label>
             </div>
         </div>
-        <div class="flex justify-center mt-6">
-            <button type="submit" class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">Hantar
-                Persetujuan</button>
+        <div class="flex justify-center gap-4 mt-6">
+            <a href="/" type="submit" class="bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">
+                <i class="fa fas fa-home mr-2"></i>
+                << Kembali</a>
+                    <button type="submit"
+                        class=" cursor-pointer bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">Hantar
+                        Persetujuan</button>
         </div>
     </form>
 </x-layout-form>

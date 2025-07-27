@@ -1,10 +1,13 @@
 <x-layout>
-    <div class="max-w-4xl mx-auto opacity-95 sm:p-6">
-        <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold text-center mb-6">Log Masuk</h2>
+    <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 bg-white bg-opacity-90 p-10 rounded-xl shadow-lg">
+
+            <h2 class="text-center text-3xl font-extrabold text-gray-900">
+                Log Masuk
+            </h2>
             @if ($errors->any())
-                <div class="alert alert-danger mb-5">
-                    <ul>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+                    <ul class="list-disc list-inside">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -12,39 +15,49 @@
                 </div>
             @endif
             @if (session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4" role="alert">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login.submit') }}">
+            <form class="mt-8 space-y-6" method="POST" action="{{ route('login.submit') }}">
                 @csrf
-
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700 mb-2">E-mel</label>
-                    <input type="email" id="email" name="email"
-                        class="w-full p-2 border border-gray-300 rounded" required autofocus>
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="email" class="sr-only">E-mel</label>
+                        <input id="email" name="email" type="email" autocomplete="email" required
+                            class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                            placeholder="E-mel">
+                    </div>
+                    <div class="mt-4">
+                        <label for="password" class="sr-only">Kata Laluan</label>
+                        <input id="password" name="password" type="password" autocomplete="current-password" required
+                            class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                            placeholder="Kata Laluan">
+                    </div>
                 </div>
 
-                <div class="mb-6">
-                    <label for="password" class="block text-gray-700 mb-2">Kata Laluan</label>
-                    <input type="password" id="password" name="password"
-                        class="w-full p-2 border border-gray-300 rounded" required>
-                </div>
-
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <input type="checkbox" id="remember" name="remember" class="mr-2">
-                        <label for="remember" class="text-gray-700">Ingat saya</label>
+                        <input id="remember" name="remember" type="checkbox"
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-900">Ingat saya</label>
                     </div>
 
-                    <a href="/register" class="text-blue-600 hover:underline">Daftar Baru</a>
+                    <div class="text-sm">
+                        <a href="/register" class="font-medium text-blue-600 hover:text-blue-500">
+                            Daftar Baru
+                        </a>
+                    </div>
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
-                    Log Masuk
-                </button>
+                <div>
+                    <button type="submit"
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Log Masuk
+                    </button>
+                </div>
             </form>
         </div>
     </div>
-    </x-layout-form>
+</x-layout>

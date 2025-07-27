@@ -12,7 +12,8 @@ Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('dashboard');
     } else {
-        return redirect()->route('register.create');
+        return view('index-new');
+        // return redirect()->route('register.create');
     }
 })->name('home');
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
@@ -51,4 +52,3 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/responders/{id}', [AdminController::class, 'showResponder'])->name('admin.responder.show');
     });
 });
-

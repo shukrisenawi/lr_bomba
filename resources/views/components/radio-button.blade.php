@@ -1,6 +1,10 @@
 <div class="flex flex-col">
     <label class="font-medium text-gray-700">{{ $label }}</label>
     <div class="flex flex-col-4 mt-2 flex-wrap">
+        @php
+            $id = strval($id);
+            $value = strval($value);
+        @endphp
 
         @foreach ($data as $key => $option)
             @php
@@ -15,6 +19,10 @@
                 <label class="cursor-pointer ml-2" for="{{ $id . '_' . $optionValue }}">{{ $optionText }}</label>
             </div>
         @endforeach
+
+        @error($id)
+            <div style="color: red;">{{ $message }}</div>
+        @enderror
 
     </div>
 </div>
