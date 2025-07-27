@@ -24,7 +24,9 @@ class SubsectionScoreCalculationService
         $sectionId = $sectionData['id'] ?? '';
 
         // Special handling for Section G (BAT12)
-        if ($sectionId === 'G') {
+        if ($sectionId === 'D') {
+            return $this->calculateSectionDScores($response, $sectionData);
+        } else if ($sectionId === 'G') {
             return $this->calculateBat12SectionGScores($response, $sectionData);
         }
 
@@ -117,25 +119,41 @@ class SubsectionScoreCalculationService
 
         return $subsectionScores;
     }
-
-    /**
-     * Calculate Section D scores with specific division formulas
-     */
-    private function calculateSectionDScore(string $subsectionName, float $totalScore, int $questionCount): float
+    private function calculateSectionDScores(SurveyResponse $response, array $sectionData): array
     {
-        switch ($subsectionName) {
-            case 'Prestasi Tugas':
-                return $questionCount > 0 ? round($totalScore / 5, 2) : 0;
+        $service = new \App\Services\SectionDScoreCalculationService();
+        $scores = $service->calculateSectionDScores($response);
 
-            case 'Prestasi Kontekstual':
-                return $questionCount > 0 ? round($totalScore / 8, 2) : 0;
+        $subsectionScores = [];
 
-            case 'Perilaku Kerja Tidak Produktif':
-                return $questionCount > 0 ? round($totalScore / 5, 2) : 0;
+        // Create subsections for each BAT12 component
+        $components = [
+            'Prestasi Tugas' => 'Jumlah Skor Prestasi Tugas',
+            'Prestasi Kontekstual' => 'Jumlah Skor Prestasi Konteksual',
+            'Perilaku Kerja Tidak Produktif' => 'Jumlah Skor Perilaku Kerja Tidak Produktif',
+            'Keseluruhan' => 'Jumlah Skor Keseluruhan'
+        ];
 
-            default:
-                return $totalScore;
+        foreach ($components as $key => $name) {
+            $score = $scores[$key];
+            // $interpretation = $bat12Service->getBat12Interpretation($score);
+
+            $category = $this->determineCategory($score, $sectionData, $key);
+
+            $recommendation = $this->getRecommendation($score, $sectionData);
+
+            $subsectionScores[] = [
+                'name' => $name,
+                'score' => $score,
+                'raw_score' => $score,
+                'max_possible' => 4,
+                'category' => $category,
+                'recommendation' => $recommendation,
+                'question_count' => $key === 'Keseluruhan' ? 18 : ($key === 'Prestasi Tugas' ? 5 : ($key === 'Prestasi Kontekstual' ? 8 : 5))
+            ];
         }
+
+        return $subsectionScores;
     }
     /**
      * Calculate maximum possible score for a single question
@@ -220,8 +238,10 @@ class SubsectionScoreCalculationService
             }
         }
         $category = $this->determineCategory($score, $sectionData, $subsectionSelect);
+
         return $recommendations[$category] ?? 'Teruskan usaha untuk penambahbaikan.';
     }
+
 
     /**
      * Update or create score records for subsections
@@ -243,5 +263,19 @@ class SubsectionScoreCalculationService
                 'recommendation' => $subsection['recommendation']
             ]);
         }
+
+        // Special handling for Section D overall score
+        // if ($response->survey_id === 'D') {
+        //     $overallScore = $this->calculateSectionDOverallScore($subsectionScores);
+
+        //     // Add overall score as a separate entry
+        //     SurveyScore::create([
+        //         'response_id' => $response->id,
+        //         'section' => $response->survey_id . '_overall',
+        //         'score' => $overallScore,
+        //         'category' => 'Keseluruhan',
+        //         'recommendation' => 'JUMLAH SKOR KESELURUHAN: ' . $overallScore
+        //     ]);
+        // }
     }
 }
