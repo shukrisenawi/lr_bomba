@@ -13,6 +13,7 @@ class SubsectionScoreCalculationService
      */
     public function calculateSubsectionScores(SurveyResponse $response, array $sectionData): array
     {
+
         $subsectionScores = [];
 
         if (!isset($sectionData['subsections']) || empty($sectionData['subsections'])) {
@@ -21,6 +22,11 @@ class SubsectionScoreCalculationService
 
         $answers = $response->answers()->get()->keyBy('question_id');
         $sectionId = $sectionData['id'] ?? '';
+
+        // Special handling for Section G (BAT12)
+        if ($sectionId === 'G') {
+            return $this->calculateBat12SectionGScores($response, $sectionData);
+        }
 
         foreach ($sectionData['subsections'] as $subsection) {
             if (!isset($subsection['questions']) || empty($subsection['questions'])) {
@@ -72,9 +78,50 @@ class SubsectionScoreCalculationService
     }
 
     /**
+     * Calculate BAT12 Section G scores with specific formulas
+     */
+    private function calculateBat12SectionGScores(SurveyResponse $response, array $sectionData): array
+    {
+        $bat12Service = new \App\Services\Bat12ScoreCalculationService();
+        $bat12Scores = $bat12Service->calculateBat12SectionGScores($response);
+
+        $subsectionScores = [];
+
+        // Create subsections for each BAT12 component
+        $components = [
+            'Keletihan' => 'Jumlah Skor Kelelahan',
+            'Jarak mental' => 'Jumlah Skor Jarak Mental',
+            'Kemerosotan kognitif' => 'Jumlah Skor Kemerosotan Kognitif',
+            'Kemerosotan emosi' => 'Jumlah Skor Kemerosotan Emosi',
+            'Overall BAT12' => 'Jumlah Skor Keseluruhan BAT12'
+        ];
+
+        foreach ($components as $key => $name) {
+            $score = $bat12Scores[$key];
+            // $interpretation = $bat12Service->getBat12Interpretation($score);
+
+            $category = $this->determineCategory($score, $sectionData, $key);
+
+            $recommendation = $this->getRecommendation($score, $sectionData, $key);
+
+            $subsectionScores[] = [
+                'name' => $name,
+                'score' => $score,
+                'raw_score' => $score,
+                'max_possible' => 5,
+                'category' => $category,
+                'recommendation' => $recommendation,
+                'question_count' => $key === 'Overall BAT12' ? 23 : ($key === 'Keletihan' ? 8 : 5)
+            ];
+        }
+
+        return $subsectionScores;
+    }
+
+    /**
      * Calculate Section D scores with specific division formulas
      */
-    private function calculateSectionDScore(string $subsectionName, int $totalScore, int $questionCount): float
+    private function calculateSectionDScore(string $subsectionName, float $totalScore, int $questionCount): float
     {
         switch ($subsectionName) {
             case 'Prestasi Tugas':
@@ -115,7 +162,7 @@ class SubsectionScoreCalculationService
     /**
      * Determine category based on score ranges
      */
-    private function determineCategory(int $score, array $sectionData, string $subsectionSelect = ''): string
+    private function determineCategory(float $score, array $sectionData, string $subsectionSelect = ''): string
     {
         if (isset($sectionData['scoring']['ranges']) || isset($sectionData['scoring']['interpretation'])) {
             if (!isset($sectionData['scoring']['interpretation'][$subsectionSelect]))
@@ -123,8 +170,10 @@ class SubsectionScoreCalculationService
             else
                 $ranges = $sectionData['scoring']['interpretation'][$subsectionSelect];
 
+
             foreach ($ranges as $range) {
                 $scoreRange = isset($sectionData['scoring']['ranges']) ? $range['score'] : (isset($range['range']) ? $range['range'] : false);
+
                 if ($scoreRange) {
                     if (strpos($scoreRange, '-') !== false) {
                         list($min, $max) = explode('-',   $scoreRange);
@@ -152,17 +201,25 @@ class SubsectionScoreCalculationService
     /**
      * Get recommendation based on category
      */
-    private function getRecommendation(int $score, array $sectionData): string
+    private function getRecommendation(float $score, array $sectionData, string $subsectionSelect = ''): string
     {
+
         if (isset($sectionData['scoring']['recommendations'])) {
             foreach ($sectionData['scoring']['recommendations'] as $category => $recommendation) {
-                if ($this->determineCategory($score, $sectionData) === $category) {
-                    return $recommendation;
+
+                if ($subsectionSelect == '') {
+                    if ($this->determineCategory($score, $sectionData, $subsectionSelect) === $category) {
+                        return $recommendation;
+                    }
+                } else {
+                    if ($subsectionSelect === $category) {
+                        $categorySelect = $this->determineCategory($score, $sectionData, $subsectionSelect);
+                        return isset($recommendation[$categorySelect]) ? $recommendation[$categorySelect] : '';
+                    }
                 }
             }
         }
-
-        $category = $this->determineCategory($score, $sectionData);
+        $category = $this->determineCategory($score, $sectionData, $subsectionSelect);
         return $recommendations[$category] ?? 'Teruskan usaha untuk penambahbaikan.';
     }
 
