@@ -20,6 +20,7 @@ class SubsectionScoreCalculationService
         }
 
         $answers = $response->answers()->get()->keyBy('question_id');
+        $sectionId = $sectionData['id'] ?? '';
 
         foreach ($sectionData['subsections'] as $subsection) {
             if (!isset($subsection['questions']) || empty($subsection['questions'])) {
@@ -44,12 +45,15 @@ class SubsectionScoreCalculationService
             }
 
             if ($questionCount > 0) {
-                // $normalizedScore = $maxPossibleScore > 0
-                //     ? round(($subsectionTotal / $maxPossibleScore) * 100)
-                //     : 0;
-                $normalizedScore = $subsectionTotal;
-                $category = $this->determineCategory($normalizedScore, $sectionData, $subsection['name']);
+                // Special handling for Section D (Bahagian D) scoring
+                if ($sectionId === 'D') {
+                    $normalizedScore = $this->calculateSectionDScore($subsection['name'], $subsectionTotal, $questionCount);
+                } else {
+                    // Original calculation for other sections
+                    $normalizedScore = $subsectionTotal;
+                }
 
+                $category = $this->determineCategory($normalizedScore, $sectionData, $subsection['name']);
                 $recommendation = $this->getRecommendation($normalizedScore, $sectionData);
 
                 $subsectionScores[] = [
@@ -67,6 +71,25 @@ class SubsectionScoreCalculationService
         return $subsectionScores;
     }
 
+    /**
+     * Calculate Section D scores with specific division formulas
+     */
+    private function calculateSectionDScore(string $subsectionName, int $totalScore, int $questionCount): float
+    {
+        switch ($subsectionName) {
+            case 'Prestasi Tugas':
+                return $questionCount > 0 ? round($totalScore / 5, 2) : 0;
+
+            case 'Prestasi Kontekstual':
+                return $questionCount > 0 ? round($totalScore / 8, 2) : 0;
+
+            case 'Perilaku Kerja Tidak Produktif':
+                return $questionCount > 0 ? round($totalScore / 5, 2) : 0;
+
+            default:
+                return $totalScore;
+        }
+    }
     /**
      * Calculate maximum possible score for a single question
      */

@@ -514,9 +514,13 @@ class SurveyController extends Controller
 
         if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
             // Calculate subsection scores
-            // dd($sectionData);
             $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
             $this->subsectionScoreService->updateSubsectionScores($response, $subsectionScores);
+
+            // Special handling for Section D overall score calculation
+            if ($section === 'D') {
+                $this->calculateSectionDOverallScore($response, $subsectionScores);
+            }
         } else {
             // Fallback to old total score calculation
             $answers = $response->answers()->get();
@@ -549,5 +553,42 @@ class SurveyController extends Controller
             }
             $this->scoreService->updateResponseScore($response, $section, $totalScore, $category, $recommendation);
         }
+    }
+
+    /**
+     * Calculate Section D overall score based on the three subsection scores
+     */
+    private function calculateSectionDOverallScore($response, $subsectionScores)
+    {
+        $prestasiTugas = 0;
+        $prestasiKontekstual = 0;
+        $perilakuTidakProduktif = 0;
+
+        // Extract scores from subsections
+        foreach ($subsectionScores as $score) {
+            switch ($score['name']) {
+                case 'Prestasi Tugas':
+                    $prestasiTugas = $score['score'];
+                    break;
+                case 'Prestasi Kontekstual':
+                    $prestasiKontekstual = $score['score'];
+                    break;
+                case 'Perilaku Kerja Tidak Produktif':
+                    $perilakuTidakProduktif = $score['score'];
+                    break;
+            }
+        }
+
+        // Calculate overall score: (prestasi_tugas + prestasi_kontekstual + perilaku_tidak_produktif) / 3
+        $overallScore = round(($prestasiTugas + $prestasiKontekstual + $perilakuTidakProduktif) / 3, 2);
+
+        // Store the overall score as a separate record
+        $this->scoreService->updateResponseScore(
+            $response,
+            'D_overall',
+            $overallScore,
+            'Section D Overall',
+            'JUMLAH SKOR KESELURUHAN: ' . $overallScore
+        );
     }
 }
