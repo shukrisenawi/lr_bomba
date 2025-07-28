@@ -148,7 +148,7 @@
             <x-slot:label>Negeri</x-slot:label>
         </x-dropdown>
 
-        <x-input-text value="{{ old('years_of_service') }}" type="number">
+        <x-input-text value="{{ old('years_of_service') }}" type="numeric">
             <x-slot:id>years_of_service</x-slot:id>
             <x-slot:label>Tempoh Berkhidmat</x-slot:label>
         </x-input-text>

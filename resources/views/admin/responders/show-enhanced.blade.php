@@ -174,7 +174,7 @@
                                             class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 collapse-title font-bold">
                                             <div class="flex justify-between items-center">
                                                 <div>
-                                                    <h4 class="text-lg font-bold">
+                                                    <h4 class="text-lg font-bold text-left">
                                                         {{ getFullSectionTitle($response['survey_id']) }}</h4>
                                                 </div>
                                                 <div class="flex justify-between gap-5">
@@ -182,7 +182,7 @@
                                                         class="text-blue-100 text-sm m-auto">{{ $response['created_at'] ?? 'N/A' }}
                                                     </span>
                                                     <span
-                                                        class="px-3 py-1 rounded-full text-sm font-medium {{ $response['completed'] ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white' }}">
+                                                        class="px-3 h-[30px] py-1 rounded-full text-sm font-medium {{ $response['completed'] ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white' }}">
                                                         {{ $response['completed'] ? 'Selesai' : 'Dalam Proses' }}
                                                     </span>
                                                 </div>
@@ -256,10 +256,6 @@
                                                                     @if ($subsectionName && $subsectionName !== 'Lain-lain')
                                                                         <span class="text-lg font-bold text-green-700">
                                                                             {{ $subsectionName }}
-                                                                        </span>
-                                                                    @else
-                                                                        <span class="text-lg font-bold text-gray-700">
-                                                                            Soalan Umum
                                                                         </span>
                                                                     @endif
                                                                 </div>
