@@ -60,7 +60,17 @@
                 <form method="POST" action="{{ route('survey.store', $section) }}" class="space-y-6">
                     @csrf
                     <input type="hidden" name="question_id" value="{{ $question['id'] }}">
-
+                    @if (isset($question['image']))
+                        @php
+                            if ($question['type'] == 'image') {
+                                $attr = '';
+                            } else {
+                                $attr = 'class="m-auto max-h-[150px]"';
+                            }
+                        @endphp
+                        <a target="_blank" href="{{ $question['image'] }}" class=" w-full text-center"><img
+                                {{ $attr }} src="{{ $question['image'] }}" alt="gambar" /></a>
+                    @endif
                     @if ($question['type'] === 'single_choice')
                         <div class="space-y-4">
                             @foreach ($question['options'] as $index => $option)
@@ -133,24 +143,28 @@
                             </label>
                         </div>
                     @else
-                        <div class="space-y-4">
+                        <span class="font-bold text-red-500">Tiada paparan skor dan status ditunjukkan bagi bahagian ini.
+                            Data yang dikumpulkan akan dianalisa kemudian</span>
+                        {{-- <div class="space-y-4">
                             <label class="block">
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan:</span>
                                 <input type="text" name="answer" class="form-input-enhanced w-full text-lg"
                                     placeholder="Taip jawapan anda di sini" required>
                             </label>
-                        </div>
+                        </div> --}}
                     @endif
 
                     <!-- Enhanced Action Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 pt-8">
-                        <button type="submit"
-                            class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6
+                        @if ($question['type'] != 'image')
+                            <button type="submit"
+                                class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6
                                        rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700
                                        transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Hantar Jawapan
-                        </button>
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Hantar Jawapan
+                            </button>
+                        @endif
                         <a href="{{ route('dashboard') }}"
                             class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold
                                   hover:bg-gray-300 transition-all duration-300 text-center">

@@ -268,6 +268,13 @@
                                                             <div class="space-y-3">
                                                                 @foreach ($answers as $answer)
                                                                     <div class="bg-white rounded-lg p-2 shadow-sm">
+                                                                        @if (!empty($answer['question_context']['image']))
+                                                                            <div class="mb-2 text-center">
+                                                                                <img src="{{ asset($answer['question_context']['image']) }}"
+                                                                                    alt="Question Image"
+                                                                                    class="mx-auto max-h-48 object-contain" />
+                                                                            </div>
+                                                                        @endif
                                                                         <div
                                                                             class="text-sm font-medium text-gray-900 mb-2 text-left">
 

@@ -183,12 +183,14 @@ class SurveyController extends Controller
             'score' => null
         ];
 
-        // Handle radio button questions (single_choice)
+        // Handle different question types
         if ($question) {
             if ($question['type'] === 'single_choice')
                 return $this->processRadioButtonAnswer($question, $selectedAnswer, $responseId, $questionId);
             else if ($question['type'] === 'scale')
                 return $this->processScaleAnswer($question, $selectedAnswer, $responseId, $questionId);
+            else if ($question['type'] === 'numeric')
+                return $this->processNumericAnswer($question, $selectedAnswer, $responseId, $questionId);
         }
 
         // For other question types, just store the answer as-is
@@ -202,6 +204,23 @@ class SurveyController extends Controller
             'answer' => $selectedValue,
             'value' => $selectedValue,
             'score' => $selectedValue
+        ];
+    }
+
+    /**
+     * Process numeric answer for physical fitness tests
+     */
+    private function processNumericAnswer($question, $selectedValue, $responseId, $questionId)
+    {
+        // Convert to numeric value
+        $numericValue = is_numeric($selectedValue) ? (float)$selectedValue : 0;
+
+        return [
+            'response_id' => $responseId,
+            'question_id' => $questionId,
+            'answer' => $selectedValue . ' ' . ($question['unit'] ?? ''),
+            'value' => $numericValue,
+            'score' => $numericValue // For IPPT, the raw value is the score
         ];
     }
     /**
@@ -510,6 +529,12 @@ class SurveyController extends Controller
 
     private function calculateScore($response, $section, $surveyData)
     {
+        // Skip score calculation for sections I, J, and K
+        $excludedSections = ['I', 'J', 'K'];
+        if (in_array($section, $excludedSections)) {
+            return;
+        }
+
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
         if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
@@ -522,7 +547,8 @@ class SurveyController extends Controller
                 $this->calculateSectionDOverallScore($response, $subsectionScores);
             }
         } else {
-            // Fallback to old total score calculation
+            // Special handling for Section K (IPPT) - now excluded above
+            // Fallback to old total score calculation for other sections
             $answers = $response->answers()->get();
 
             $totalScore = 0;
@@ -590,5 +616,92 @@ class SurveyController extends Controller
         //     'Section D Overall',
         //     'JUMLAH SKOR KESELURUHAN: ' . $overallScore
         // );
+    }
+
+    /**
+     * Calculate IPPT (Individual Physical Proficiency Test) score for Section K
+     */
+    private function calculateIPPTScore($response, $sectionData)
+    {
+        $answers = $response->answers()->get();
+
+        // For IPPT, we calculate a composite score based on all physical tests
+        $totalTests = 0;
+        $completedTests = 0;
+        $averagePerformance = 0;
+
+        foreach ($answers as $answer) {
+            if ($answer->value !== null && $answer->value > 0) {
+                $completedTests++;
+                // For demonstration, we'll use a simple scoring system
+                // In a real implementation, this would use standardized fitness scoring tables
+                $averagePerformance += $this->calculateIndividualTestScore($answer->question_id, $answer->value);
+            }
+            $totalTests++;
+        }
+
+        // Calculate overall IPPT score as percentage
+        $totalScore = $completedTests > 0 ? round(($averagePerformance / $completedTests), 2) : 0;
+
+        // Determine category based on score
+        $category = '';
+        $recommendation = '';
+
+        if (isset($sectionData['scoring']['interpretation'])) {
+            foreach ($sectionData['scoring']['interpretation'] as $range) {
+                list($min, $max) = explode('-', $range['range']);
+                if ($totalScore >= $min && ($max == '100000' || $totalScore <= $max)) {
+                    $category = $range['category'];
+                    $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
+                    break;
+                }
+            }
+        }
+
+        $this->scoreService->updateResponseScore($response, 'K', $totalScore, $category, $recommendation);
+    }
+
+    /**
+     * Calculate individual test score for IPPT components
+     */
+    private function calculateIndividualTestScore($questionId, $value)
+    {
+        // Simplified scoring system - in reality this would use official IPPT scoring tables
+        // This is a basic implementation for demonstration
+        switch ($questionId) {
+            case 'K1': // Sit-ups
+                if ($value >= 45) return 85;
+                if ($value >= 35) return 75;
+                if ($value >= 25) return 65;
+                return 50;
+
+            case 'K2': // Standing jump
+                if ($value >= 240) return 85;
+                if ($value >= 220) return 75;
+                if ($value >= 200) return 65;
+                return 50;
+
+            case 'K3': // Pull-ups (male)
+            case 'K4': // Inclined pull-ups (female)
+                if ($value >= 12) return 85;
+                if ($value >= 8) return 75;
+                if ($value >= 4) return 65;
+                return 50;
+
+            case 'K5': // Shuttle run (lower is better)
+                if ($value <= 15.0) return 85;
+                if ($value <= 17.0) return 75;
+                if ($value <= 19.0) return 65;
+                return 50;
+
+            case 'K6': // 2.4km run (lower is better)
+                if ($value <= 10.0) return 85;
+                if ($value <= 12.0) return 75;
+                if ($value <= 14.0) return 65;
+                return 50;
+
+            default:
+                return 50;
+        }
     }
 }
