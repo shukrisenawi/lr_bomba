@@ -13,7 +13,6 @@ class SubsectionScoreCalculationService
      */
     public function calculateSubsectionScores(SurveyResponse $response, array $sectionData): array
     {
-
         $subsectionScores = [];
 
         if (!isset($sectionData['subsections']) || empty($sectionData['subsections'])) {
@@ -22,6 +21,11 @@ class SubsectionScoreCalculationService
 
         $answers = $response->answers()->get()->keyBy('question_id');
         $sectionId = $sectionData['id'] ?? '';
+
+        // Special handling for Section B - calculate as whole without subsections
+        if ($sectionId === 'B') {
+            return $this->calculateSectionBOverallScore($response, $sectionData);
+        }
 
         // Special handling for Section G (BAT12)
         if ($sectionId === 'D') {
@@ -77,6 +81,51 @@ class SubsectionScoreCalculationService
         }
 
         return $subsectionScores;
+    }
+
+    /**
+     * Calculate Section B overall score as a whole without subsections
+     */
+    private function calculateSectionBOverallScore(SurveyResponse $response, array $sectionData): array
+    {
+        $answers = $response->answers()->get()->keyBy('question_id');
+        $totalScore = 0;
+        $questionCount = 0;
+        $maxPossibleScore = 0;
+
+        // Calculate total score across all questions in all subsections
+        foreach ($sectionData['subsections'] as $subsection) {
+            if (!isset($subsection['questions']) || empty($subsection['questions'])) {
+                continue;
+            }
+
+            foreach ($subsection['questions'] as $question) {
+                $questionId = $question['id'];
+
+                if ($answers->has($questionId) && $answers[$questionId]->score !== null) {
+                    $totalScore += (int)$answers[$questionId]->score;
+                    $questionCount++;
+                }
+
+                // Calculate max possible score for this question
+                $maxScore = $this->calculateMaxScoreForQuestion($question);
+                $maxPossibleScore += $maxScore;
+            }
+        }
+
+        if ($questionCount > 0) {
+            return [[
+                'name' => 'Jumlah Skor Keseluruhan',
+                'score' => $totalScore,
+                'raw_score' => $totalScore,
+                'max_possible' => $maxPossibleScore,
+                'category' => '', // Empty category as requested
+                'recommendation' => '', // Empty recommendation as categories not needed
+                'question_count' => $questionCount
+            ]];
+        }
+
+        return [];
     }
 
     /**

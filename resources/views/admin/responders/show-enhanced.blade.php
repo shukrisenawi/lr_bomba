@@ -203,14 +203,25 @@
                                                                 </div>
                                                                 <div class="space-y-1">
                                                                     @foreach ($sectionData['scores'] as $score)
-                                                                        <div class="flex justify-between items-center">
-                                                                            <span class="text-sm text-gray-600">
-                                                                                {{ $score['category'] }}:
-                                                                            </span>
-                                                                            <span class="font-bold text-blue-600">
-                                                                                {{ number_format($score['score'], 2) }}
-                                                                            </span>
-                                                                        </div>
+                                                                        @if ($score['category'])
+                                                                            <div class="flex justify-between items-center">
+
+                                                                                <span
+                                                                                    class="text-sm text-gray-600 font-bold">
+                                                                                    {{ $score['category'] }}:
+                                                                                </span>
+
+                                                                                <span class="font-bold text-blue-600">
+                                                                                    {{ number_format($score['score'], 2) }}
+                                                                                </span>
+                                                                            </div>
+                                                                        @else
+                                                                            <div class="text-right -mt-6">
+                                                                                <span class="font-bold text-blue-600">
+                                                                                    {{ number_format($score['score'], 2) }}
+                                                                                </span>
+                                                                            </div>
+                                                                        @endif
                                                                     @endforeach
                                                                 </div>
                                                                 @if (isset($sectionData['scores'][0]['recommendation']) && $sectionData['scores'][0]['recommendation'])
