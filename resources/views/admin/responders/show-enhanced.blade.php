@@ -40,16 +40,16 @@
                 </div>
 
                 <!-- <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-                                                                                                                                                                                                                                                                        <div class="flex items-center">
-                                                                                                                                                                                                                                                                            <div class="p-3 rounded-full bg-green-100 text-green-600">
-                                                                                                                                                                                                                                                                                <i class="fas fa-chart-line text-2xl"></i>
-                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                            <div class="ml-4">
-                                                                                                                                                                                                                                                                                <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
-                                                                                                                                                                                                                                                                                <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
-                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                        <div class="flex items-center">
+                                                                                                                                                                                                                                                                                                            <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                                                                                                                                                                                                                                                                                                <i class="fas fa-chart-line text-2xl"></i>
+                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                            <div class="ml-4">
+                                                                                                                                                                                                                                                                                                                <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
+                                                                                                                                                                                                                                                                                                                <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
+                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                    </div> -->
 
                 <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
                     <div class="flex items-center">
@@ -93,12 +93,6 @@
                         <i class="fas fa-clipboard-list mr-2"></i>
                         Tinjauan
                     </button>
-                    <!-- <button type="button"
-                                                                                                                                                                                                                                                                            class="tab-btn flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-indigo-500 transition-all duration-200"
-                                                                                                                                                                                                                                                                            data-tab="analytics">
-                                                                                                                                                                                                                                                                            <i class="fas fa-chart-bar mr-2"></i>
-                                                                                                                                                                                                                                                                            Analitik
-                                                                                                                                                                                                                                                                        </button> -->
                 </nav>
             </div>
 
@@ -395,129 +389,6 @@
                             @endforeach
                         </div>
                     @endif
-                </div>
-
-                <!-- Analytics Tab -->
-                <div id="analytics-content" class="tab-pane hidden">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Completion Rate Chart -->
-                        <div class="bg-white rounded-xl shadow-lg p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Status Tinjauan</h3>
-                            <div class="flex items-center justify-center">
-                                <div class="relative w-48 h-48">
-                                    <svg class="w-48 h-48 transform -rotate-90">
-                                        @php
-                                            $total = $responses->count();
-                                            $completed = $responses->where('completed', true)->count();
-                                            $percentage = $total > 0 ? ($completed / $total) * 100 : 0;
-                                        @endphp
-                                        <circle cx="96" cy="96" r="80" stroke="#e5e7eb" stroke-width="12"
-                                            fill="none" />
-                                        <circle cx="96" cy="96" r="80" stroke="#10b981" stroke-width="12"
-                                            fill="none" stroke-dasharray="{{ 2 * pi() * 80 }}"
-                                            stroke-dashoffset="{{ 2 * pi() * 80 * (1 - $percentage / 100) }}"
-                                            class="transition-all duration-1000" />
-                                    </svg>
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <div class="text-center">
-                                            <div class="text-3xl font-bold text-gray-900">{{ round($percentage) }}%</div>
-                                            <div class="text-sm text-gray-600">Selesai</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Enhanced Average Scores -->
-                        <div class="bg-white rounded-xl shadow-lg p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                                <i class="fas fa-chart-line text-green-500 mr-2"></i>
-                                Skor Purata & Analitik
-                            </h3>
-                            @php
-                                $averageScores = [];
-                                $scoreRanges = [
-                                    'Cemerlang' => ['min' => 80, 'max' => 100, 'color' => 'green', 'count' => 0],
-                                    'Baik' => ['min' => 60, 'max' => 79, 'color' => 'yellow', 'count' => 0],
-                                    'Sederhana' => ['min' => 40, 'max' => 59, 'color' => 'orange', 'count' => 0],
-                                    'Perlu Perhatian' => ['min' => 0, 'max' => 39, 'color' => 'red', 'count' => 0],
-                                ];
-
-                                foreach ($responses as $response) {
-                                    foreach ($response['scores'] as $score) {
-                                        if (!isset($averageScores[$score['category']])) {
-                                            $averageScores[$score['category']] = [];
-                                        }
-                                        $averageScores[$score['category']][] = $score['score'];
-
-                                        // Categorize score
-                                        $scoreValue = $score['score'] ?? 0;
-                                        foreach ($scoreRanges as $range => $details) {
-                                            if ($scoreValue >= $details['min'] && $scoreValue <= $details['max']) {
-                                                $scoreRanges[$range]['count']++;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            @endphp
-
-                            @if (!empty($averageScores))
-                                <div class="space-y-4">
-                                    @foreach ($averageScores as $category => $scores)
-                                        @php
-                                            $avgScore = round(array_sum($scores) / count($scores), 1);
-                                            $colorClass = 'text-red-600';
-                                            if ($avgScore >= 80) {
-                                                $colorClass = 'text-green-600';
-                                            } elseif ($avgScore >= 60) {
-                                                $colorClass = 'text-yellow-600';
-                                            } elseif ($avgScore >= 40) {
-                                                $colorClass = 'text-orange-600';
-                                            }
-                                        @endphp
-                                        <div class="border rounded-lg p-3">
-                                            <div class="flex justify-between items-center mb-2">
-                                                <span
-                                                    class="text-sm font-semibold text-gray-700">{{ $category }}</span>
-                                                <span class="text-lg font-bold {{ $colorClass }}">
-                                                    {{ $avgScore }}
-                                                </span>
-                                            </div>
-                                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                                <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full"
-                                                    style="width: {{ min($avgScore * 1.25, 100) }}%"></div>
-                                            </div>
-                                            <div class="text-xs text-gray-500 mt-1">
-                                                Berdasarkan {{ count($scores) }} penilaian
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-
-                                <!-- Score Distribution -->
-                                <div class="mt-6 pt-4 border-t">
-                                    <h4 class="text-sm font-bold text-gray-700 mb-3">Taburan Skor</h4>
-                                    <div class="grid grid-cols-2 gap-2">
-                                        @foreach ($scoreRanges as $range => $details)
-                                            @if ($details['count'] > 0)
-                                                <div class="text-center p-2 rounded-md bg-{{ $details['color'] }}-50">
-                                                    <div class="text-lg font-bold text-{{ $details['color'] }}-600">
-                                                        {{ $details['count'] }}
-                                                    </div>
-                                                    <div class="text-xs text-{{ $details['color'] }}-700">
-                                                        {{ $range }}
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @else
-                                <p class="text-gray-500 text-center py-8">Tiada data skor tersedia</p>
-                            @endif
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

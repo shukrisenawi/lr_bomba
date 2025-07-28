@@ -12,6 +12,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 
@@ -79,7 +80,8 @@ class AdminController extends Controller
                 }),
             ];
         });
+        $scoreLabel = $this->scoreLabel;
 
-        return view('admin.responders.show-enhanced', compact('user', 'responses'));
+        return view('admin.responders.show-enhanced', compact('user', 'responses', 'scoreLabel'));
     }
 }

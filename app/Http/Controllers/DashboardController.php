@@ -12,7 +12,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
 
-        $sections = ['A' => 'Indek Kebolehan Bekerja ', 'B' => 'Soal-selidik Kandungan Kerja', 'C' => 'Impak Latihan Di Tempat Kerja', 'D' => 'Soal-selidik Prestasi Keja Individu', 'E' => 'Skala Kemurungan Psikologikal Kessler 6 ', 'F' => 'Skala Kemurungan CES-D', 'G' => 'Instrumen Penilaian Kepenatan', 'H' => 'Penilaian Anggota Keseluruhan Tubuh (REBA)'];
+        $sections = $this->sections;
         $userResponses = SurveyResponse::where('user_id', Auth::id())->get()->keyBy('survey_id');
 
 
