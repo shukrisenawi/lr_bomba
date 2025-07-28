@@ -46,8 +46,8 @@ class AdminController extends Controller
     public function showResponder($id)
     {
         $user = User::with([
-            'respondent', 
-            'surveyResponses.answers', 
+            'respondent',
+            'surveyResponses.answers',
             'surveyResponses.scores'
         ])->findOrFail($id);
 
