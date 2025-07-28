@@ -39,18 +39,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-                                                                                                                                                                                                                                                                                                        <div class="flex items-center">
-                                                                                                                                                                                                                                                                                                            <div class="p-3 rounded-full bg-green-100 text-green-600">
-                                                                                                                                                                                                                                                                                                                <i class="fas fa-chart-line text-2xl"></i>
-                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                            <div class="ml-4">
-                                                                                                                                                                                                                                                                                                                <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
-                                                                                                                                                                                                                                                                                                                <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
-                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                    </div> -->
-
                 <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-purple-100 text-purple-600">
@@ -294,91 +282,6 @@
                                                                     </div>
                                                                 @endforeach
                                                             </div>
-
-                                                            <!-- Enhanced Score Display -->
-                                                            @if ($groupedScores->has($subsectionName))
-                                                                <div class="mt-4 pt-3 border-t border-gray-200">
-                                                                    <h5
-                                                                        class="text-sm font-bold text-gray-700 mb-3 flex items-center">
-                                                                        <i class="fas fa-chart-bar text-blue-500 mr-2"></i>
-                                                                        Skor & Penilaian
-                                                                    </h5>
-
-                                                                    <div
-                                                                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                                                        @foreach ($groupedScores[$subsectionName] as $score)
-                                                                            @php
-                                                                                $scoreValue = $score['score'] ?? 0;
-                                                                                $maxScore = $score['max_score'] ?? 100;
-                                                                                $percentage =
-                                                                                    $maxScore > 0
-                                                                                        ? ($scoreValue / $maxScore) *
-                                                                                            100
-                                                                                        : 0;
-
-                                                                                // Determine color based on score percentage
-                                                                                $colorClass = 'text-red-600';
-                                                                                if ($percentage >= 80) {
-                                                                                    $colorClass = 'text-green-600';
-                                                                                } elseif ($percentage >= 60) {
-                                                                                    $colorClass = 'text-yellow-600';
-                                                                                } elseif ($percentage >= 40) {
-                                                                                    $colorClass = 'text-orange-600';
-                                                                                }
-                                                                            @endphp
-
-                                                                            <div
-                                                                                class="bg-white rounded-lg p-4 shadow-sm border-l-4 border-blue-500">
-                                                                                <div
-                                                                                    class="flex items-center justify-between mb-2">
-                                                                                    <span
-                                                                                        class="text-sm font-semibold text-gray-700">{{ $score['category'] }}</span>
-                                                                                    <span
-                                                                                        class="text-lg font-bold {{ $colorClass }}">
-                                                                                        {{ $scoreValue }}/{{ $maxScore }}
-                                                                                    </span>
-                                                                                </div>
-
-                                                                                <!-- Progress Bar -->
-                                                                                <div
-                                                                                    class="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                                                                    <div class="bg-blue-600 h-2 rounded-full"
-                                                                                        style="width: {{ min($percentage, 100) }}%">
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div class="text-xs text-gray-600">
-                                                                                    {{ round($percentage, 1) }}% -
-                                                                                    @if ($percentage >= 80)
-                                                                                        <span
-                                                                                            class="text-green-600 font-medium">Cemerlang</span>
-                                                                                    @elseif($percentage >= 60)
-                                                                                        <span
-                                                                                            class="text-yellow-600 font-medium">Baik</span>
-                                                                                    @elseif($percentage >= 40)
-                                                                                        <span
-                                                                                            class="text-orange-600 font-medium">Sederhana</span>
-                                                                                    @else
-                                                                                        <span
-                                                                                            class="text-red-600 font-medium">Perlu
-                                                                                            Perhatian</span>
-                                                                                    @endif
-                                                                                </div>
-
-                                                                                @if (isset($score['recommendation']) && !empty($score['recommendation']))
-                                                                                    <div
-                                                                                        class="mt-2 p-2 bg-blue-50 rounded-md">
-                                                                                        <div class="text-xs text-blue-800">
-                                                                                            <strong>Rekomendasi:</strong>
-                                                                                            {{ $score['recommendation'] }}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                @endif
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                </div>
-                                                            @endif
                                                         </div>
                                                     @endforeach
                                                 </div>
