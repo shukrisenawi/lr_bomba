@@ -40,16 +40,16 @@
                 </div>
 
                 <!-- <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-                                                                                                                                                                                                        <div class="flex items-center">
-                                                                                                                                                                                                            <div class="p-3 rounded-full bg-green-100 text-green-600">
-                                                                                                                                                                                                                <i class="fas fa-chart-line text-2xl"></i>
-                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                            <div class="ml-4">
-                                                                                                                                                                                                                <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
-                                                                                                                                                                                                                <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
-                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                <div class="flex items-center">
+                                                                                                                                                                                                                                                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                                                                                                                                                                                                                                        <i class="fas fa-chart-line text-2xl"></i>
+                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                    <div class="ml-4">
+                                                                                                                                                                                                                                                        <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
+                                                                                                                                                                                                                                                        <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
+                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                            </div> -->
 
                 <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
                     <div class="flex items-center">
@@ -94,11 +94,11 @@
                         Tinjauan
                     </button>
                     <!-- <button type="button"
-                                                                                                                                                                                                            class="tab-btn flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-indigo-500 transition-all duration-200"
-                                                                                                                                                                                                            data-tab="analytics">
-                                                                                                                                                                                                            <i class="fas fa-chart-bar mr-2"></i>
-                                                                                                                                                                                                            Analitik
-                                                                                                                                                                                                        </button> -->
+                                                                                                                                                                                                                                                    class="tab-btn flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-indigo-500 transition-all duration-200"
+                                                                                                                                                                                                                                                    data-tab="analytics">
+                                                                                                                                                                                                                                                    <i class="fas fa-chart-bar mr-2"></i>
+                                                                                                                                                                                                                                                    Analitik
+                                                                                                                                                                                                                                                </button> -->
                 </nav>
             </div>
 
@@ -186,8 +186,10 @@
                         <div class="space-y-6">
                             @foreach ($responses as $response)
                                 @if (count($response['answers']) > 0)
-                                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
+                                    <div tabindex="0"
+                                        class="my-2 bg-white text-primary-content focus:bg-white focus:text-black collapse">
+                                        <div
+                                            class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 collapse-title font-bold">
                                             <div class="flex justify-between items-center">
                                                 <div>
                                                     <h4 class="text-lg font-bold">
@@ -202,7 +204,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="p-6">
+                                        <div class="collapse-content text-sm">
                                             @if (count($response['answers']) > 0)
                                                 <div class="space-y-6">
                                                     @php
