@@ -191,6 +191,41 @@
                                         </div>
 
                                         <div class="collapse-content text-sm">
+                                            <!-- Section Scores Display -->
+                                            @if (count($response['scores']) > 0)
+                                                <div class="mb-6 rounded-lg p-4">
+                                                    <div class="grid grid-cols-1 gap-3">
+                                                        @foreach ($response['scores'] as $sectionData)
+                                                            <div
+                                                                class="bg-white rounded-lg p-3 shadow-sm border-l-4 border-blue-500">
+                                                                <div class="font-bold text-gray-800 mb-2">
+                                                                    {{ $sectionData['section_title'] }}
+                                                                </div>
+                                                                <div class="space-y-1">
+                                                                    @foreach ($sectionData['scores'] as $score)
+                                                                        <div class="flex justify-between items-center">
+                                                                            <span class="text-sm text-gray-600">
+                                                                                {{ $score['category'] }}:
+                                                                            </span>
+                                                                            <span class="font-bold text-blue-600">
+                                                                                {{ number_format($score['score'], 2) }}
+                                                                            </span>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                                @if (isset($sectionData['scores'][0]['recommendation']) && $sectionData['scores'][0]['recommendation'])
+                                                                    <div class="mt-2 pt-2 border-t border-gray-200">
+                                                                        <span class="text-sm text-gray-500">
+                                                                            {{ $sectionData['scores'][0]['recommendation'] }}
+                                                                        </span>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
+
                                             @if (count($response['answers']) > 0)
                                                 <div class="space-y-6">
                                                     @php
@@ -199,13 +234,6 @@
                                                             function ($answer) {
                                                                 return $answer['question_context']['subsection_name'] ??
                                                                     'Lain-lain';
-                                                            },
-                                                        );
-
-                                                        // Group scores by subsection
-                                                        $groupedScores = collect($response['scores'] ?? [])->groupBy(
-                                                            function ($score) {
-                                                                return $score['category'] ?? 'Lain-lain';
                                                             },
                                                         );
                                                     @endphp
@@ -224,32 +252,11 @@
                                                                         </span>
                                                                     @endif
                                                                 </div>
-
-                                                                @if ($groupedScores->has($subsectionName))
-                                                                    @php
-                                                                        $subsectionScores =
-                                                                            $groupedScores[$subsectionName];
-                                                                    @endphp
-                                                                    <div class="flex flex-wrap gap-2">
-                                                                        @foreach ($subsectionScores as $score)
-                                                                            <div
-                                                                                class="bg-white rounded-md px-3 py-1 shadow-sm">
-                                                                                <span
-                                                                                    class="text-sm font-bold text-blue-600">
-                                                                                    {{ $score['score'] }}
-                                                                                </span>
-                                                                                <span class="text-xs text-gray-500 ml-1">
-                                                                                    {{ $score['category'] }}
-                                                                                </span>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                @endif
                                                             </div>
 
                                                             <div class="space-y-3">
                                                                 @foreach ($answers as $answer)
-                                                                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                                                                    <div class="bg-white rounded-lg p-2 shadow-sm">
                                                                         <div
                                                                             class="text-sm font-medium text-gray-900 mb-2 text-left">
 

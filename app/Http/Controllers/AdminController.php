@@ -70,18 +70,29 @@ class AdminController extends Controller
                         'value' => $answer->value,
                     ];
                 }),
-                'scores' => $response->scores->map(function ($score) {
+                'scores' => $response->scores->groupBy('section')->map(function ($sectionScores, $section) {
+                    $sectionTitle = $section;
+                    // Try to get section title from config if available
+                    // if (function_exists('getFullSectionTitle')) {
+                    //     $sectionTitle = getFullSectionTitle($section) ?? $section;
+                    // }
+                    $sectionTitle = isset($this->scoreLabels[$sectionTitle]) ? $this->scoreLabels[$sectionTitle] : $sectionTitle;
+
                     return [
-                        'category' => $score->category ?? 'Unknown',
-                        'score' => $score->score ?? 0,
-                        'section' => $score->section ?? '',
-                        'recommendation' => $score->recommendation ?? '',
+                        'section' => $section,
+                        'section_title' => $sectionTitle,
+                        'scores' => $sectionScores->map(function ($score) {
+                            return [
+                                'category' => $score->category ?? 'Unknown',
+                                'score' => $score->score ?? 0,
+                                'recommendation' => $score->recommendation ?? '',
+                            ];
+                        }),
                     ];
                 }),
             ];
         });
-        $scoreLabel = $this->scoreLabel;
 
-        return view('admin.responders.show-enhanced', compact('user', 'responses', 'scoreLabel'));
+        return view('admin.responders.show-enhanced', compact('user', 'responses'));
     }
 }

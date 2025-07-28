@@ -580,15 +580,15 @@ class SurveyController extends Controller
         }
 
         // Calculate overall score: (prestasi_tugas + prestasi_kontekstual + perilaku_tidak_produktif) / 3
-        $overallScore = round(($prestasiTugas + $prestasiKontekstual + $perilakuTidakProduktif) / 3, 2);
+        // $overallScore = round(($prestasiTugas + $prestasiKontekstual + $perilakuTidakProduktif) / 3, 2);
 
         // Store the overall score as a separate record
-        $this->scoreService->updateResponseScore(
-            $response,
-            'D_overall',
-            $overallScore,
-            'Section D Overall',
-            'JUMLAH SKOR KESELURUHAN: ' . $overallScore
-        );
+        // $this->scoreService->updateResponseScore(
+        //     $response,
+        //     'D_overall',
+        //     $overallScore,
+        //     'Section D Overall',
+        //     'JUMLAH SKOR KESELURUHAN: ' . $overallScore
+        // );
     }
 }
