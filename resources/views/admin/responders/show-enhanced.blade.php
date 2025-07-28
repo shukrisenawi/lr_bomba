@@ -40,16 +40,16 @@
                 </div>
 
                 <!-- <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-                                                                                                                                                                                                                                                <div class="flex items-center">
-                                                                                                                                                                                                                                                    <div class="p-3 rounded-full bg-green-100 text-green-600">
-                                                                                                                                                                                                                                                        <i class="fas fa-chart-line text-2xl"></i>
-                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                    <div class="ml-4">
-                                                                                                                                                                                                                                                        <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
-                                                                                                                                                                                                                                                        <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
-                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                            </div> -->
+                                                                                                                                                                                                                                                                        <div class="flex items-center">
+                                                                                                                                                                                                                                                                            <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                                                                                                                                                                                                                                                                <i class="fas fa-chart-line text-2xl"></i>
+                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                            <div class="ml-4">
+                                                                                                                                                                                                                                                                                <p class="text-sm font-medium text-gray-600">Jumlah Tinjauan</p>
+                                                                                                                                                                                                                                                                                <p class="text-2xl font-bold text-gray-900">{{ $responses->count() }}</p>
+                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                    </div> -->
 
                 <div class="stat-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
                     <div class="flex items-center">
@@ -94,11 +94,11 @@
                         Tinjauan
                     </button>
                     <!-- <button type="button"
-                                                                                                                                                                                                                                                    class="tab-btn flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-indigo-500 transition-all duration-200"
-                                                                                                                                                                                                                                                    data-tab="analytics">
-                                                                                                                                                                                                                                                    <i class="fas fa-chart-bar mr-2"></i>
-                                                                                                                                                                                                                                                    Analitik
-                                                                                                                                                                                                                                                </button> -->
+                                                                                                                                                                                                                                                                            class="tab-btn flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-indigo-500 transition-all duration-200"
+                                                                                                                                                                                                                                                                            data-tab="analytics">
+                                                                                                                                                                                                                                                                            <i class="fas fa-chart-bar mr-2"></i>
+                                                                                                                                                                                                                                                                            Analitik
+                                                                                                                                                                                                                                                                        </button> -->
                 </nav>
             </div>
 
@@ -194,13 +194,17 @@
                                                 <div>
                                                     <h4 class="text-lg font-bold">
                                                         {{ getFullSectionTitle($response['survey_id']) }}</h4>
-                                                    <p class="text-blue-100 text-sm">{{ $response['created_at'] ?? 'N/A' }}
-                                                    </p>
                                                 </div>
-                                                <span
-                                                    class="px-3 py-1 rounded-full text-sm font-medium {{ $response['completed'] ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white' }}">
-                                                    {{ $response['completed'] ? 'Selesai' : 'Dalam Proses' }}
-                                                </span>
+                                                <div class="flex justify-between gap-5">
+                                                    <span
+                                                        class="text-blue-100 text-sm m-auto">{{ $response['created_at'] ?? 'N/A' }}
+                                                    </span>
+                                                    <span
+                                                        class="px-3 py-1 rounded-full text-sm font-medium {{ $response['completed'] ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white' }}">
+                                                        {{ $response['completed'] ? 'Selesai' : 'Dalam Proses' }}
+                                                    </span>
+                                                </div>
+
                                             </div>
                                         </div>
 
