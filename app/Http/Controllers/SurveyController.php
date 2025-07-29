@@ -102,10 +102,8 @@ class SurveyController extends Controller
             if (!isset($question['options'])) {
                 $question['options'] = [];
             }
-
             return $question;
         }, $questions);
-
         if (empty($questions)) {
             return redirect()->route('dashboard')->with('error', 'Tiada soalan dalam bahagian ini.');
         }
@@ -205,7 +203,7 @@ class SurveyController extends Controller
         }
 
         $answerData = $this->processAnswerData($question, $answerInput, $response->id, $request->question_id);
-
+        dd($answerData);
         SurveyAnswer::create($answerData);
 
         return redirect()->route('survey.show', $section);
@@ -237,10 +235,13 @@ class SurveyController extends Controller
             else if ($question['type'] === 'multiText') {
                 // Ensure multiText answers are properly formatted as JSON strings
                 if (is_array($selectedAnswer)) {
-                    $baseData['answer'] = json_encode($selectedAnswer);
+                    $jsonAnswer = json_encode($selectedAnswer);
+                    $baseData['answer'] = $jsonAnswer;
+                    $baseData['value'] = $jsonAnswer;
                 } else {
                     // Already a JSON string or single value
                     $baseData['answer'] = $selectedAnswer;
+                    $baseData['value'] = $selectedAnswer;
                 }
                 return $baseData;
             }
@@ -337,6 +338,14 @@ class SurveyController extends Controller
         $answerValues = [];
         $scores = [];
 
+        // Decode JSON string to array if needed
+        if (is_string($selectedValues)) {
+            $decoded = json_decode($selectedValues, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $selectedValues = $decoded;
+            }
+        }
+
         // Ensure selectedValues is an array
         if (!is_array($selectedValues)) {
             $selectedValues = [$selectedValues];
@@ -385,12 +394,20 @@ class SurveyController extends Controller
             }
         }
 
+        // Sum the scores, ignoring nulls
+        $totalScore = 0;
+        foreach ($scores as $s) {
+            if (is_numeric($s)) {
+                $totalScore += $s;
+            }
+        }
+
         return [
             'response_id' => $responseId,
             'question_id' => $questionId,
             'answer' => json_encode($answerTexts),
             'value' => json_encode($answerValues),
-            'score' => json_encode($scores)
+            'score' => $totalScore
         ];
     }
 

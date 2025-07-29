@@ -112,11 +112,24 @@
                                         : json_decode($answer->answer, true) ?? [];
                                 }
 
+                                // Helper function to decode JSON strings if needed
+                                function decodeOptionText($option)
+                                {
+                                    if (is_string($option)) {
+                                        $decoded = json_decode($option, true);
+                                        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                            // If decoded is array, join elements as string
+                                            return implode(', ', $decoded);
+                                        } elseif (json_last_error() === JSON_ERROR_NONE && is_string($decoded)) {
+                                            return $decoded;
+                                        }
+                                    }
+                                    return $option;
+                                }
                             @endphp
                             @foreach ($question['options'] as $index => $option)
                                 @php
-
-                                    $optionText = is_array($option) ? $option['text'] ?? '' : $option;
+                                    $optionText = is_array($option) ? $option['text'] ?? '' : decodeOptionText($option);
                                     $optionValue = $index;
                                     // Handle empty string options
                                     if ($optionText === '' || $optionText === null) {
@@ -128,12 +141,12 @@
                                         @if (in_array($optionValue, $existingAnswers)) checked @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
-                                                cursor-pointer transition-all duration-300 hover:border-indigo-500
-                                                hover:bg-indigo-50 hover:shadow-lg peer-checked:border-indigo-600
-                                                peer-checked:bg-indigo-50 peer-checked:shadow-lg">
+                            cursor-pointer transition-all duration-300 hover:border-indigo-500
+                            hover:bg-indigo-50 hover:shadow-lg peer-checked:border-indigo-600
+                            peer-checked:bg-indigo-50 peer-checked:shadow-lg">
                                         <div
                                             class="checkbox-indicator w-6 h-6 border-2 border-gray-300 rounded mr-4
-                                                    flex items-center justify-center transition-all duration-300">
+                                flex items-center justify-center transition-all duration-300">
                                             <i
                                                 class="fas fa-check text-white text-sm opacity-0 transition-all duration-300"></i>
                                         </div>

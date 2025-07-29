@@ -208,7 +208,8 @@ if (!function_exists('get_options_from_referer')) {
                 $options = $refererAnswer;
             } else {
                 // Handle string answers (split by new lines or commas)
-                $options = preg_split('/[\n,]+/', $refererAnswer);
+                // $options = preg_split('/[\n,]+/', $refererAnswer);
+                $options = json_decode($refererAnswer);
                 $options = array_map('trim', $options);
                 $options = array_filter($options);
             }
