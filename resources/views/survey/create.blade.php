@@ -128,6 +128,7 @@
                     <option value="single_choice">Pilihan Tunggal</option>
                     <option value="multiple_choice">Pilihan Berganda</option>
                     <option value="text">Teks</option>
+                    <option value="multiText">Multi-Teks (Boleh Tambah)</option>
                     <option value="numeric">Nombor</option>
                     <option value="rating">Penilaian</option>
                 </select>

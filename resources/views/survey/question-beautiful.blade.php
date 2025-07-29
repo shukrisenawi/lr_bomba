@@ -121,6 +121,18 @@
                                     placeholder="Taip jawapan anda di sini" required>
                             </label>
                         </div>
+                    @elseif($question['type'] === 'multiText')
+                        <div class="space-y-4">
+                            @php
+                                $existingAnswers = [];
+                                if ($answer && $answer->answer) {
+                                    $existingAnswers = is_array($answer->answer)
+                                        ? $answer->answer
+                                        : json_decode($answer->answer, true) ?? [];
+                                }
+                            @endphp
+                            <x-multi-text-input :questionId="$question['id']" label="Masukkan jawapan (boleh tambah lebih dari satu)" />
+                        </div>
                     @elseif($question['type'] === 'scale')
                         <div class="space-y-4">
                             <label class="block">

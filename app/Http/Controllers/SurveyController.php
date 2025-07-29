@@ -126,9 +126,14 @@ class SurveyController extends Controller
         $sectionIndex = array_search($section, array_column($surveyData['sections'], 'id'));
         $sectionTitle = $sectionIndex !== false ? $surveyData['sections'][$sectionIndex]['title_BM'] : 'Bahagian ' . $section;
 
+        $answer = SurveyAnswer::where('response_id', $response->id)
+            ->where('question_id', $currentQuestion['id'])
+            ->first();
+
         return view('survey.question-beautiful', [
             'section' => $section,
             'question' => $currentQuestion,
+            'answer' => $answer,
             'progress' => $this->calculateProgress($answeredQuestions, $questions),
             'sectionTitle' => $sectionTitle,
             'debug_info' => config('app.debug') ? [
@@ -161,9 +166,18 @@ class SurveyController extends Controller
         $questions = collect($this->extractAllQuestions($sectionData));
         $question = $questions->where('id', $request->question_id)->first();
 
+        // If question type is multiText and answer is JSON string, decode it
+        $answerInput = $request->answer;
+        if ($question && $question['type'] === 'multiText') {
+            if (is_string($answerInput)) {
+                $decoded = json_decode($answerInput, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $answerInput = $decoded;
+                }
+            }
+        }
 
-        $answerData = $this->processAnswerData($question, $request->answer, $response->id, $request->question_id);
-
+        $answerData = $this->processAnswerData($question, $answerInput, $response->id, $request->question_id);
 
         SurveyAnswer::create($answerData);
 
