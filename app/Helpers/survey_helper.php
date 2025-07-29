@@ -210,6 +210,11 @@ if (!function_exists('get_options_from_referer')) {
                 // Handle string answers (split by new lines or commas)
                 // $options = preg_split('/[\n,]+/', $refererAnswer);
                 $options = json_decode($refererAnswer);
+
+                $options = collect($options)->map(function($item) {
+                    return collect($item)->values()->first(); // Ambil value pertama
+                })->toArray();
+                
                 $options = array_map('trim', $options);
                 $options = array_filter($options);
             }
