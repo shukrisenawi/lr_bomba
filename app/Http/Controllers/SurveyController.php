@@ -317,6 +317,12 @@ class SurveyController extends Controller
             if ($answer) {
                 $options = json_decode($answer->answer, true);
                 $answerText = isset($options[$answerValue]) ? $options[$answerValue] : null;
+
+                // Handle case where the option is an array (from multiText referer)
+                if (is_array($answerText)) {
+                    // Use the first value of the array as the answer text
+                    $answerText = reset($answerText);
+                }
             }
         }
 
