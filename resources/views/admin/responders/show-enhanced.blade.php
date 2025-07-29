@@ -294,10 +294,44 @@
                                                                         </div>
                                                                         <div class="text-sm text-gray-700 text-left">
                                                                             <span class="font-medium">Jawapan:</span>
-                                                                            @if (is_array($answer['answer']))
-                                                                                {{ implode(', ', $answer['answer']) }}
+                                                                            @php
+                                                                                $answerValue = $answer['answer'] ?? '';
+                                                                                $isJson = false;
+                                                                                $decodedAnswer = null;
+
+                                                                                if (is_string($answerValue)) {
+                                                                                    $decodedAnswer = json_decode(
+                                                                                        $answerValue,
+                                                                                        true,
+                                                                                    );
+                                                                                    $isJson =
+                                                                                        json_last_error() ===
+                                                                                            JSON_ERROR_NONE &&
+                                                                                        is_array($decodedAnswer);
+                                                                                }
+                                                                            @endphp
+
+                                                                            @if ($isJson && is_array($decodedAnswer))
+                                                                                <ul
+                                                                                    class="list-disc list-inside space-y-1 mt-2">
+                                                                                    @foreach ($decodedAnswer as $item)
+                                                                                        <li class="text-gray-700">
+                                                                                            {{ is_array($item) ? implode(', ', $item) : htmlspecialchars((string) $item) }}
+                                                                                        </li>
+                                                                                    @endforeach
+                                                                                </ul>
+                                                                            @elseif (is_array($answerValue))
+                                                                                <ul
+                                                                                    class="list-disc list-inside space-y-1 mt-2">
+                                                                                    @foreach ($answerValue as $item)
+                                                                                        <li class="text-gray-700">
+                                                                                            {{ is_array($item) ? implode(', ', $item) : htmlspecialchars((string) $item) }}
+                                                                                        </li>
+                                                                                    @endforeach
+                                                                                </ul>
                                                                             @else
-                                                                                {{ $answer['answer'] }}
+                                                                                <span
+                                                                                    class="text-gray-700">{{ $answerValue }}</span>
                                                                             @endif
                                                                         </div>
                                                                     </div>
