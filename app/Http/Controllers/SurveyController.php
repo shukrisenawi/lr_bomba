@@ -84,11 +84,18 @@ class SurveyController extends Controller
         $questions = $questionsWithSubsection;
 
         // Normalize question structure to handle "option" vs "options" key inconsistency
-        $questions = array_map(function ($question) {
+        $questions = array_map(function ($question) use ($surveyData, $response) {
             // Handle the case where "option" is used instead of "options"
             if (isset($question['option']) && !isset($question['options'])) {
                 $question['options'] = $question['option'];
                 unset($question['option']);
+            }
+
+            // Handle optionsReferer for dynamic options
+            if (isset($question['optionsReferer'])) {
+                $answers = $response->answers()->pluck('answer', 'question_id')->toArray();
+
+                $question['options'] = get_referer_options($question, $surveyData, $answers);
             }
 
             // Ensure options is always an array, even if empty
@@ -166,13 +173,33 @@ class SurveyController extends Controller
         $questions = collect($this->extractAllQuestions($sectionData));
         $question = $questions->where('id', $request->question_id)->first();
 
-        // If question type is multiText and answer is JSON string, decode it
         $answerInput = $request->answer;
+
+        // Handle multiText questions - ensure arrays are properly serialized
         if ($question && $question['type'] === 'multiText') {
-            if (is_string($answerInput)) {
+            if (is_array($answerInput)) {
+                // Already an array, encode to JSON string
+                $answerInput = json_encode($answerInput);
+            } elseif (is_string($answerInput)) {
+                // Check if it's already JSON
                 $decoded = json_decode($answerInput, true);
-                if (json_last_error() === JSON_ERROR_NONE) {
-                    $answerInput = $decoded;
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $answerInput = json_encode($decoded);
+                } else {
+                    // Single string value, wrap in array and encode
+                    $answerInput = json_encode([$answerInput]);
+                }
+            }
+        } else {
+            // Handle other question types
+            if (is_array($answerInput)) {
+                // For non-multiText, take first element or serialize
+                $answerInput = json_encode($answerInput);
+            } elseif (is_string($answerInput)) {
+                // Check if it's JSON for radio buttons
+                $decoded = json_decode($answerInput, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $answerInput = $decoded[0] ?? $answerInput;
                 }
             }
         }
@@ -201,10 +228,22 @@ class SurveyController extends Controller
         if ($question) {
             if ($question['type'] === 'single_choice')
                 return $this->processRadioButtonAnswer($question, $selectedAnswer, $responseId, $questionId);
+            else if ($question['type'] === 'multiple_choice')
+                return $this->processMultipleChoiceAnswer($question, $selectedAnswer, $responseId, $questionId);
             else if ($question['type'] === 'scale')
                 return $this->processScaleAnswer($question, $selectedAnswer, $responseId, $questionId);
             else if ($question['type'] === 'numeric')
                 return $this->processNumericAnswer($question, $selectedAnswer, $responseId, $questionId);
+            else if ($question['type'] === 'multiText') {
+                // Ensure multiText answers are properly formatted as JSON strings
+                if (is_array($selectedAnswer)) {
+                    $baseData['answer'] = json_encode($selectedAnswer);
+                } else {
+                    // Already a JSON string or single value
+                    $baseData['answer'] = $selectedAnswer;
+                }
+                return $baseData;
+            }
         }
 
         // For other question types, just store the answer as-is
@@ -266,9 +305,6 @@ class SurveyController extends Controller
                     if (is_numeric($key) && $key == $selectedValue) {
                         $isSelected = true;
                         $answerText = $option;
-                    } elseif ($option == $selectedValue) {
-                        $isSelected = true;
-                        $answerText = $option;
                     }
                 }
 
@@ -289,6 +325,72 @@ class SurveyController extends Controller
             'answer' => $answerText,
             'value' => $answerValue,
             'score' => $score
+        ];
+    }
+
+    /**
+     * Process multiple choice answer to extract text, value, and score
+     */
+    private function processMultipleChoiceAnswer($question, $selectedValues, $responseId, $questionId)
+    {
+        $answerTexts = [];
+        $answerValues = [];
+        $scores = [];
+
+        // Ensure selectedValues is an array
+        if (!is_array($selectedValues)) {
+            $selectedValues = [$selectedValues];
+        }
+
+        // Handle different option formats
+        if (isset($question['options']) || isset($question['option'])) {
+            $options = isset($question['options']) ? $question['options'] : $question['option'];
+
+            foreach ($selectedValues as $selectedValue) {
+                foreach ($options as $key => $option) {
+                    $isSelected = false;
+                    $answerText = '';
+                    $score = null;
+
+                    if (is_array($option)) {
+                        // Object format with text and value
+                        if (isset($option['value']) && $option['value'] == $selectedValue) {
+                            $isSelected = true;
+                            $answerText = $option['text'] ?? '';
+                        } elseif (is_numeric($key) && $key == $selectedValue) {
+                            $isSelected = true;
+                            $answerText = $option['text'] ?? '';
+                        }
+                    } else {
+                        // String format
+                        if (is_numeric($key) && $key == $selectedValue) {
+                            $isSelected = true;
+                            $answerText = $option;
+                        }
+                    }
+
+                    if ($isSelected) {
+                        // Extract score from parentheses in text
+                        $textToParse = is_array($option) ? ($option['text'] ?? '') : $option;
+                        if (preg_match('/\((\d+)\)/', $textToParse, $matches)) {
+                            $score = (int)$matches[1];
+                        }
+
+                        $answerTexts[] = $answerText;
+                        $answerValues[] = $selectedValue;
+                        $scores[] = $score;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return [
+            'response_id' => $responseId,
+            'question_id' => $questionId,
+            'answer' => json_encode($answerTexts),
+            'value' => json_encode($answerValues),
+            'score' => json_encode($scores)
         ];
     }
 

@@ -111,11 +111,9 @@
                                         ? $answer->answer
                                         : json_decode($answer->answer, true) ?? [];
                                 }
-
                             @endphp
                             @foreach ($question['options'] as $index => $option)
                                 @php
-
                                     $optionText = is_array($option) ? $option['text'] ?? '' : $option;
                                     $optionValue = $index;
                                     // Handle empty string options

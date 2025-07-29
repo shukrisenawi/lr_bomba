@@ -114,6 +114,31 @@ if (!function_exists('find_question_by_id')) {
     }
 }
 
+if (!function_exists('find_question_by_id_in_survey')) {
+    /**
+     * Find a question by ID within the entire survey structure
+     *
+     * @param array $surveyData The complete survey data
+     * @param string $questionId The question ID to find
+     * @return array|null The question data if found, null otherwise
+     */
+    function find_question_by_id_in_survey($surveyData, $questionId)
+    {
+        if (!isset($surveyData['sections']) || !is_array($surveyData['sections'])) {
+            return null;
+        }
+
+        foreach ($surveyData['sections'] as $section) {
+            $question = find_question_by_id($section, $questionId);
+            if ($question !== null) {
+                return $question;
+            }
+        }
+
+        return null;
+    }
+}
+
 if (!function_exists('get_all_questions_from_section')) {
     /**
      * Get all questions from a section, including those in subsections
@@ -146,5 +171,97 @@ if (!function_exists('get_all_questions_from_section')) {
         }
 
         return $questions;
+    }
+}
+
+if (!function_exists('get_options_from_referer')) {
+    /**
+     * Get dynamic options from a referer question's answers
+     *
+     * @param array $surveyData The complete survey data
+     * @param string $refererQuestionId The question ID to get options from
+     * @param array $answers Array of survey answers
+     * @return array Array of options for the current question
+     */
+    function get_options_from_referer($surveyData, $refererQuestionId, $answers)
+    {
+        // Find the referer question
+        $refererQuestion = find_question_by_id_in_survey($surveyData, $refererQuestionId);
+
+        if (!$refererQuestion) {
+            return [];
+        }
+
+        // Get the answer from the referer question
+        $refererAnswer = $answers[$refererQuestionId] ?? '';
+
+        if (empty($refererAnswer)) {
+            return [];
+        }
+
+        // Handle different types of answers
+        $options = [];
+
+        // If the referer question is multiText, split the answer into individual options
+        if ($refererQuestion['type'] === 'multiText') {
+            if (is_array($refererAnswer)) {
+                $options = $refererAnswer;
+            } else {
+                // Handle string answers (split by new lines or commas)
+                $options = preg_split('/[\n,]+/', $refererAnswer);
+                $options = array_map('trim', $options);
+                $options = array_filter($options);
+            }
+        } else {
+            // For single choice or other types, use the answer as a single option
+            $options = [$refererAnswer];
+        }
+
+        return $options;
+    }
+}
+
+if (!function_exists('get_referer_options')) {
+    /**
+     * Get options for a question that uses optionsReferer
+     *
+     * @param array $question The current question
+     * @param array $surveyData The complete survey data
+     * @param array $answers Array of survey answers
+     * @return array Array of options
+     */
+    function get_referer_options($question, $surveyData, $answers)
+    {
+        if (!isset($question['optionsReferer'])) {
+            return $question['options'] ?? [];
+        }
+
+        return get_options_from_referer($surveyData, $question['optionsReferer'], $answers);
+    }
+}
+
+if (!function_exists('get_multi_text_answers')) {
+    /**
+     * Get answers from multiText questions as array
+     *
+     * @param string $answer The stored answer from multiText question
+     * @return array Array of individual answers
+     */
+    function get_multi_text_answers($answer)
+    {
+        if (empty($answer)) {
+            return [];
+        }
+
+        if (is_array($answer)) {
+            return $answer;
+        }
+
+        // Handle string answers
+        $answers = preg_split('/[\n,]+/', $answer);
+        $answers = array_map('trim', $answers);
+        $answers = array_filter($answers);
+
+        return array_values($answers);
     }
 }
