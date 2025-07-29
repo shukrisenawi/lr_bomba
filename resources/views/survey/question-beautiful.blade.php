@@ -46,7 +46,7 @@
             <div class="p-8">
                 <div class="mb-8">
                     <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 leading-relaxed">
-                        {{ $question['text_BM'] ?? $question['text'] }}
+                        {!! $question['text_BM'] ?? $question['text'] !!}
                     </h2>
 
                     @if (isset($question['description_BM']))

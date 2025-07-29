@@ -226,9 +226,9 @@ class SurveyController extends Controller
         if ($question) {
             if ($question['type'] === 'single_choice')
                 return $this->processRadioButtonAnswer($question, $selectedAnswer, $responseId, $questionId);
-            else if ($question['type'] === 'multiple_choice')
+            else if ($question['type'] === 'multiple_choice') {
                 return $this->processMultipleChoiceAnswer($question, $selectedAnswer, $responseId, $questionId);
-            else if ($question['type'] === 'scale')
+            } else if ($question['type'] === 'scale')
                 return $this->processScaleAnswer($question, $selectedAnswer, $responseId, $questionId);
             else if ($question['type'] === 'numeric')
                 return $this->processNumericAnswer($question, $selectedAnswer, $responseId, $questionId);
@@ -248,7 +248,7 @@ class SurveyController extends Controller
                 return $baseData;
             }
         }
-
+        // dd("stop");
         // For other question types, just store the answer as-is
         return $baseData;
     }
@@ -321,7 +321,8 @@ class SurveyController extends Controller
                 }
             }
         } else {
-            $answer = SurveyAnswer::where('question_id', $question['optionsReferer'])->first();
+            $answer = SurveyAnswer::where('response_id', $responseId)->where('question_id', $question['optionsReferer'])->first();
+
             if ($answer) {
                 $options = json_decode($answer->answer, true);
                 $answerText = isset($options[$answerValue]) ? $options[$answerValue] : null;
@@ -358,7 +359,6 @@ class SurveyController extends Controller
         if (!is_array($selectedValues)) {
             $selectedValues = [$selectedValues];
         }
-
         // Handle different option formats
         if (isset($question['options']) || isset($question['option'])) {
             $options = isset($question['options']) ? $question['options'] : $question['option'];
@@ -400,6 +400,13 @@ class SurveyController extends Controller
                     }
                 }
             }
+        } else {
+            $answer = SurveyAnswer::where('response_id', $responseId)
+                ->where('question_id', $question['optionsReferer'])
+                ->first();
+            $options = json_decode($answer->answer);
+
+            $answerTexts = array_intersect_key($options, array_flip($selectedValues));
         }
 
         // Sum the scores, ignoring nulls
@@ -409,12 +416,11 @@ class SurveyController extends Controller
                 $totalScore += $s;
             }
         }
-
         return [
             'response_id' => $responseId,
             'question_id' => $questionId,
             'answer' => json_encode($answerTexts),
-            'value' => json_encode($answerValues),
+            'value' => json_encode($selectedValues),
             'score' => $totalScore
         ];
     }
