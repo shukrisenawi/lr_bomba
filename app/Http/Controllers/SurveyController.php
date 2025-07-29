@@ -203,7 +203,7 @@ class SurveyController extends Controller
         }
 
         $answerData = $this->processAnswerData($question, $answerInput, $response->id, $request->question_id);
-        dd($answerData);
+
         SurveyAnswer::create($answerData);
 
         return redirect()->route('survey.show', $section);
@@ -234,8 +234,10 @@ class SurveyController extends Controller
                 return $this->processNumericAnswer($question, $selectedAnswer, $responseId, $questionId);
             else if ($question['type'] === 'multiText') {
                 // Ensure multiText answers are properly formatted as JSON strings
+
                 if (is_array($selectedAnswer)) {
                     $jsonAnswer = json_encode($selectedAnswer);
+
                     $baseData['answer'] = $jsonAnswer;
                     $baseData['value'] = $jsonAnswer;
                 } else {
@@ -317,6 +319,12 @@ class SurveyController extends Controller
                     }
                     break;
                 }
+            }
+        } else {
+            $answer = SurveyAnswer::where('question_id', $question['optionsReferer'])->first();
+            if ($answer) {
+                $options = json_decode($answer->answer, true);
+                $answerText = isset($options[$answerValue]) ? $options[$answerValue] : null;
             }
         }
 
