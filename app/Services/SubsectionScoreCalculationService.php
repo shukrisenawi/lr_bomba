@@ -27,6 +27,11 @@ class SubsectionScoreCalculationService
             return $this->calculateSectionBOverallScore($response, $sectionData);
         }
 
+        // Special handling for Section J - skip score calculation like sections I and K
+        if ($sectionId === 'J') {
+            return [];
+        }
+
         // Special handling for Section G (BAT12)
         if ($sectionId === 'D') {
             return $this->calculateSectionDScores($response, $sectionData);

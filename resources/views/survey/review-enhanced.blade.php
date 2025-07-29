@@ -74,7 +74,7 @@
                                                     {{ $index + 1 }}
                                                 </div>
                                                 <h4 class="text-md font-semibold text-gray-800 text-left flex-1">
-                                                    {{ $question['text_BM'] ?? ($question['text'] ?? ($question['title'] ?? 'Soalan tanpa tajuk')) }}
+                                                    {!! $question['text_BM'] ?? ($question['text'] ?? ($question['title'] ?? 'Soalan tanpa tajuk')) !!}
                                                 </h4>
                                             </div>
 
@@ -86,13 +86,38 @@
 
                                             <div class="ml-8">
                                                 @if ($answer)
-                                                    <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-2">
-                                                        <div class="flex items-center mb-1">
-                                                            <i class="fas fa-check-circle text-green-600 mr-2"></i>
-                                                            <span class="font-semibold text-green-800">Jawapan Anda:
+                                                    <div
+                                                        class="bg-green-50 border text-left border-green-200 rounded-lg p-3 mb-2">
+                                                        <div class="flex mb-1">
+                                                            <i class="fas fa-check-circle mt-1 text-green-600 mr-2"></i>
+                                                            <span class="font-semibold text-green-800 mr-5">Jawapan Anda:
+                                                            </span>
+                                                            @php
+                                                                $answerValue = $answer->answer ?? '';
+                                                                $isJson = false;
+                                                                $decodedAnswer = null;
+
+                                                                if (is_string($answerValue)) {
+                                                                    $decodedAnswer = json_decode($answerValue, true);
+                                                                    $isJson =
+                                                                        json_last_error() === JSON_ERROR_NONE &&
+                                                                        is_array($decodedAnswer);
+                                                                }
+                                                            @endphp
+
+                                                            @if ($isJson && is_array($decodedAnswer))
+                                                                <ol class="list-disc list-inside space-y-1">
+                                                                    @foreach ($decodedAnswer as $item)
+                                                                        <li class="text-green-700">
+                                                                            {{ is_array($item) ? implode(', ', $item) : htmlspecialchars((string) $item) }}
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ol>
+                                                            @else
                                                                 <span class="text-green-700">
-                                                                    {{ getDisplayTextForAnswer($question, $answer->answer ?? '') }}
-                                                                </span></span>
+                                                                    {{ getDisplayTextForAnswer($question, is_array($answerValue) ? json_encode($answerValue) : (string) $answerValue) }}
+                                                                </span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 @else
