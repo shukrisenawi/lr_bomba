@@ -180,15 +180,20 @@
                         </div>
                     @elseif($question['type'] === 'multiText')
                         <div class="space-y-4">
-                            @php
-                                $existingAnswers = [];
-                                if ($answer && $answer->answer) {
-                                    $existingAnswers = is_array($answer->answer)
-                                        ? $answer->answer
-                                        : json_decode($answer->answer, true) ?? [];
-                                }
-                            @endphp
-                            <x-multi-text-input :questionId="$question['id']" label="Masukkan jawapan (boleh tambah lebih dari satu)" />
+                            @if (isset($question['multiLabel']))
+                                <x-multi-text-input-multi-label :question="$question" />
+                            @else
+                                @php
+                                    $existingAnswers = [];
+                                    if ($answer && $answer->answer) {
+                                        $existingAnswers = is_array($answer->answer)
+                                            ? $answer->answer
+                                            : json_decode($answer->answer, true) ?? [];
+                                    }
+                                @endphp
+                                <x-multi-text-input :questionId="$question['id']"
+                                    label="Masukkan jawapan (boleh tambah lebih dari satu)" />
+                            @endif
                         </div>
                     @elseif($question['type'] === 'scale')
                         <div class="space-y-4">

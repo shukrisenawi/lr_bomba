@@ -178,16 +178,8 @@ class SurveyController extends Controller
             if (is_array($answerInput)) {
                 // Already an array, encode to JSON string
                 $answerInput = json_encode($answerInput);
-            } elseif (is_string($answerInput)) {
-                // Check if it's already JSON
-                $decoded = json_decode($answerInput, true);
-                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                    $answerInput = json_encode($decoded);
-                } else {
-                    // Single string value, wrap in array and encode
-                    $answerInput = json_encode([$answerInput]);
-                }
             }
+            // If it's a string, we assume it's a valid JSON string from the component and pass it through.
         } else {
             // Handle other question types
             if (is_array($answerInput)) {
@@ -234,8 +226,7 @@ class SurveyController extends Controller
                 return $this->processNumericAnswer($question, $selectedAnswer, $responseId, $questionId);
             else if ($question['type'] === 'multiText') {
                 // Ensure multiText answers are properly formatted as JSON strings
-
-                if (is_array($selectedAnswer)) {
+                if (is_array($selectedAnswer) || is_object($selectedAnswer)) {
                     $jsonAnswer = json_encode($selectedAnswer);
 
                     $baseData['answer'] = $jsonAnswer;
