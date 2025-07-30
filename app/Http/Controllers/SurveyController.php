@@ -708,6 +708,7 @@ class SurveyController extends Controller
             }
             if (isset($sectionData['scoring']['ranges']) || isset($sectionData['scoring']['interpretation'])) {
                 $ranges = isset($sectionData['scoring']['ranges']) ? $sectionData['scoring']['ranges'] : $sectionData['scoring']['interpretation'];
+
                 foreach ($ranges as $range) {
                     if (isset($sectionData['scoring']['ranges']))
                         list($min, $max) = explode('-', $range['score']);
@@ -715,6 +716,7 @@ class SurveyController extends Controller
                         list($min, $max) = explode('-', $range['range']);
                     if ($totalScore >= $min && $totalScore <= $max) {
                         $category = $range['category'];
+
                         $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
                         break;
                     }
@@ -723,6 +725,7 @@ class SurveyController extends Controller
                 $category = '';
                 $recommendation = '';
             }
+
             $this->scoreService->updateResponseScore($response, $section, $totalScore, $category, $recommendation);
         }
     }

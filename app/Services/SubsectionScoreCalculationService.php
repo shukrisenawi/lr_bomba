@@ -71,6 +71,7 @@ class SubsectionScoreCalculationService
                 }
 
                 $category = $this->determineCategory($normalizedScore, $sectionData, $subsection['name']);
+
                 $recommendation = $this->getRecommendation($normalizedScore, $sectionData);
 
                 $subsectionScores[] = [
@@ -242,25 +243,25 @@ class SubsectionScoreCalculationService
             else
                 $ranges = $sectionData['scoring']['interpretation'][$subsectionSelect];
 
-
             foreach ($ranges as $range) {
                 $scoreRange = isset($sectionData['scoring']['ranges']) ? $range['score'] : (isset($range['range']) ? $range['range'] : false);
 
                 if ($scoreRange) {
                     if (strpos($scoreRange, '-') !== false) {
                         list($min, $max) = explode('-',   $scoreRange);
-                        if ($score >= (int)$min && $score <= (int)$max) {
+
+                        if ($score >= $min && $score <= $max) {
                             return $range['category'];
                         }
                     } elseif (strpos($scoreRange, '+') !== false) {
                         // Handle ranges like "13+"
-                        $min = (int)str_replace('+', '',   $scoreRange);
+                        $min = str_replace('+', '',   $scoreRange);
                         if ($score >= $min) {
                             return $range['category'];
                         }
                     } else {
                         // Handle single values
-                        if ($score == (int)  $scoreRange) {
+                        if ($score ==  $scoreRange) {
                             return $range['category'];
                         }
                     }
@@ -275,17 +276,17 @@ class SubsectionScoreCalculationService
      */
     private function getRecommendation(float $score, array $sectionData, string $subsectionSelect = ''): string
     {
-
+        $categorySelect = $this->determineCategory($score, $sectionData, $subsectionSelect);
         if (isset($sectionData['scoring']['recommendations'])) {
-            foreach ($sectionData['scoring']['recommendations'] as $category => $recommendation) {
 
-                if ($subsectionSelect == '') {
-                    if ($this->determineCategory($score, $sectionData, $subsectionSelect) === $category) {
+            foreach ($sectionData['scoring']['recommendations'] as $category => $recommendation) {
+                if ($subsectionSelect === '') {
+                    if ($categorySelect == $category) {
                         return $recommendation;
                     }
                 } else {
-                    if ($subsectionSelect === $category) {
-                        $categorySelect = $this->determineCategory($score, $sectionData, $subsectionSelect);
+                    if ($subsectionSelect == $category) {
+                        $categorySelect = $categorySelect;
                         return isset($recommendation[$categorySelect]) ? $recommendation[$categorySelect] : '';
                     }
                 }
