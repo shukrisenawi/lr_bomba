@@ -134,7 +134,7 @@
                                         'Gred' => optional($user->respondent)->grade ?? '-',
                                         'Status Perkhidmatan' => optional($user->respondent)->service_status ?? '-',
                                         'Tahun Perkhidmatan' => optional($user->respondent)->years_of_service
-                                            ? optional($user->respondent)->years_of_service . ' tahun'
+                                            ? optional($user->respondent)->years_of_service
                                             : '-',
                                         'Pendapatan Bulanan' => optional($user->respondent)->monthly_income_self
                                             ? 'RM ' . number_format($user->respondent->monthly_income_self, 2)

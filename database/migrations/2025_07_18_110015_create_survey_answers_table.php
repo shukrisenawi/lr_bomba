@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('response_id')->constrained('survey_responses');
             $table->string('question_id'); // A1, B2, etc.
-            $table->text('answer');
+            $table->longText('answer');
             $table->timestamps();
         });
     }

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('position')->nullable();
             $table->string('state')->nullable();
-            $table->integer('years_of_service');
+            $table->string('years_of_service');
             $table->string('service_status');
             $table->boolean('consent_given')->default(false);
             $table->timestamps();
