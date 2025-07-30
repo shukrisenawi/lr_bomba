@@ -18,6 +18,7 @@ class SurveyController extends Controller
 
     public function __construct(ScoreCalculationService $scoreService, \App\Services\SubsectionScoreCalculationService $subsectionScoreService)
     {
+        parent::__construct();
         $this->scoreService = $scoreService;
         $this->subsectionScoreService = $subsectionScoreService;
     }
@@ -193,7 +194,6 @@ class SurveyController extends Controller
                 }
             }
         }
-
         $answerData = $this->processAnswerData($question, $answerInput, $response->id, $request->question_id);
 
         SurveyAnswer::create($answerData);
@@ -266,8 +266,8 @@ class SurveyController extends Controller
             'response_id' => $responseId,
             'question_id' => $questionId,
             'answer' => $selectedValue . ' ' . ($question['unit'] ?? ''),
-            'value' => $numericValue,
-            'score' => $numericValue // For IPPT, the raw value is the score
+            'value' => $selectedValue,
+            'score' => $selectedValue // For IPPT, the raw value is the score
         ];
     }
     /**
@@ -674,10 +674,11 @@ class SurveyController extends Controller
     private function calculateScore($response, $section, $surveyData)
     {
         // Skip score calculation for sections I, J, and K
-        $excludedSections = ['I', 'J', 'K'];
+        $excludedSections = $this->partNoScore;
         if (in_array($section, $excludedSections)) {
             return;
         }
+
 
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
@@ -698,6 +699,7 @@ class SurveyController extends Controller
             $totalScore = 0;
             $category = '';
             $recommendation = '';
+
 
             foreach ($answers as $answer) {
                 if ($answer->score !== null) {
