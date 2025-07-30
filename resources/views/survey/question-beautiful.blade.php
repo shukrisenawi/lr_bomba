@@ -68,9 +68,9 @@
                                 $attr = 'class="m-auto max-h-[150px]"';
                             }
                         @endphp
-                        <div class="text-center flex justify-center w-full m-auto">
-                            <a target="_blank" href="{{ $question['image'] }}" class=" w-full text-center"><img
-                                    {{ $attr }} src="{{ $question['image'] }}" alt="gambar" class="m-auto" /></a>
+                        <div class="flex w-full items-center justify-center">
+                            <a target="_blank" href="{{ $question['image'] }}" class="block"><img {{ $attr }}
+                                    src="{{ $question['image'] }}" alt="gambar" class="m-auto" /></a>
                         </div>
                     @endif
                     @if ($question['type'] === 'single_choice')
