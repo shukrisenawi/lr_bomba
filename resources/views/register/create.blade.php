@@ -49,9 +49,9 @@
 
         <x-dropdown :data="[
             'Tidak pernah berkahwin' => 'Tidak pernah berkahwin',
-            'Berhijrah' => 'Berhijrah',
-            'Balu' => 'Balu',
-            'Bercerai' => 'Bercerai',
+            'Berkahwin' => 'Berkahwin',
+            'Kematian Pasangan' => 'Kematian Pasangan',
+            'Bercerai / Berpisah' => 'Bercerai / Berpisah',
         ]" :value="old('marital_status')">
             <x-slot:id>marital_status</x-slot:id>
             <x-slot:label>8. Status Perkahwinan</x-slot:label>
@@ -89,9 +89,14 @@
             <x-slot:label>13. Lain-lain Sumber Pendapatan RM</x-slot:label>
         </x-input-text>
 
+        <x-input-text type="number" value="{{ old('household_income') }}">
+            <x-slot:id>household_income</x-slot:id>
+            <x-slot:label>14. Pendapatan isi rumah RM</x-slot:label>
+        </x-input-text>
+
         <x-input-text value="{{ old('current_position') }}">
             <x-slot:id>current_position</x-slot:id>
-            <x-slot:label>14. Jawatan Semasa</x-slot:label>
+            <x-slot:label>15. Jawatan Semasa</x-slot:label>
         </x-input-text>
 
         <x-dropdown :data="[
@@ -114,7 +119,7 @@
             'KB 19/KB 1' => 'KB 19/KB 1',
         ]" :value="old('grade')">
             <x-slot:id>grade</x-slot:id>
-            <x-slot:label>Gred</x-slot:label>
+            <x-slot:label>16. Gred</x-slot:label>
         </x-dropdown>
 
         <x-dropdown value="{{ old('location') }}" :data="[
@@ -124,7 +129,7 @@
             'Balai bomba' => 'Balai bomba',
         ]">
             <x-slot:id>location</x-slot:id>
-            <x-slot:label>Lokasi</x-slot:label>
+            <x-slot:label>17. Lokasi</x-slot:label>
         </x-dropdown>
 
         <x-dropdown :value="old('position')" :data="[
@@ -140,17 +145,17 @@
             'Integriti' => 'Integriti',
         ]">
             <x-slot:id>position</x-slot:id>
-            <x-slot:label>Bahagian</x-slot:label>
+            <x-slot:label>18. Bahagian</x-slot:label>
         </x-dropdown>
 
         <x-dropdown :value="old('state')" :data="['Selangor' => 'Selangor', 'Kuala Lumpur' => 'Kuala Lumpur', 'Putrajaya' => 'Putrajaya']">
             <x-slot:id>state</x-slot:id>
-            <x-slot:label>Negeri</x-slot:label>
+            <x-slot:label>19. Negeri</x-slot:label>
         </x-dropdown>
 
         <x-input-text value="{{ old('years_of_service') }}" type="text">
             <x-slot:id>years_of_service</x-slot:id>
-            <x-slot:label>Tempoh Perkhidmatan (Tahun), <em>contohnya: 15 tahun</em></x-slot:label>
+            <x-slot:label>20. Tempoh Perkhidmatan (Tahun), <em>contohnya: 15 tahun</em></x-slot:label>
         </x-input-text>
 
         <x-radio-button :value="old('service_status')" :data="[
@@ -158,7 +163,7 @@
             'Pegawai Bomba Bantuan' => 'Pegawai Bomba Bantuan',
         ]">
             <x-slot:id>service_status</x-slot:id>
-            <x-slot:label>Status Perkhidmatan</x-slot:label>
+            <x-slot:label>21. Status Perkhidmatan</x-slot:label>
         </x-radio-button>
 
         <x-input-text type="password" required>

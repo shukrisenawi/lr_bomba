@@ -142,6 +142,9 @@
                                         'Pendapatan Pasangan' => optional($user->respondent)->monthly_income_spouse
                                             ? 'RM ' . number_format($user->respondent->monthly_income_spouse, 2)
                                             : '-',
+                                        'Pendapatan Isi Rumah' => optional($user->respondent)->household_income
+                                            ? 'RM ' . number_format($user->respondent->household_income, 2)
+                                            : '-',
                                     ];
                                 @endphp
                                 @foreach ($employmentInfo as $label => $value)

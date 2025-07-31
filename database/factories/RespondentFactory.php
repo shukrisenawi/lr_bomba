@@ -31,6 +31,7 @@ class RespondentFactory extends Factory
             'marital_status' => $this->faker->randomElement(['Bujang', 'Berkahwin', 'Duda', 'Janda']),
             'education_level' => $this->faker->randomElement(['SPM', 'Diploma', 'Ijazah', 'Master', 'PhD']),
             'monthly_income_self' => $this->faker->randomElement([3000, 4000, 5000, 6000, 7000, 8000, 10000]),
+            'household_income' => $this->faker->randomElement([3000, 4000, 5000, 6000, 7000, 8000, 10000]),
             'monthly_income_spouse' => $this->faker->randomElement([0, 2000, 3000, 4000, 5000]),
             'other_income' => $this->faker->randomElement([0, 500, 1000, 1500]),
             'current_position' => $this->faker->jobTitle,

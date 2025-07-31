@@ -65,6 +65,7 @@ class RegisterController extends Controller
                 'marital_status' => 'required',
                 'education_level' => 'required|string',
                 'monthly_income_self' => 'required|numeric',
+                'household_income' => 'required|numeric',
                 'monthly_income_spouse' => 'nullable|numeric',
                 'other_income' => 'nullable|numeric',
                 'current_position' => 'required|string|max:255',
@@ -76,8 +77,8 @@ class RegisterController extends Controller
                 'service_status' => 'required',
                 'password' => 'required|string|min:8|confirmed',
             ], [
-                'age.min' => 'Umur harus sekurang-kurangnya 45 tahun',
-                'password.confirmed' => 'Pengulangan kata laluan tidak sama',
+                'age.min' => 'Age must be at least 45 years old.',
+                'password.confirmed' => 'Password confirmation does not match',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
@@ -102,6 +103,7 @@ class RegisterController extends Controller
                 'marital_status' => $validated['marital_status'],
                 'education_level' => $validated['education_level'],
                 'monthly_income_self' => $validated['monthly_income_self'],
+                'household_income' => $validated['household_income'],
                 'monthly_income_spouse' => $validated['monthly_income_spouse'] ?? null,
                 'other_income' => $validated['other_income'] ?? null,
                 'current_position' => $validated['current_position'],
@@ -122,6 +124,6 @@ class RegisterController extends Controller
         ]);
         Auth::attempt($credentials);
 
-        return redirect()->route('dashboard')->with('success', 'Pendaftaran berjaya! Selamat datang.');
+        return redirect()->route('dashboard')->with('success', 'Registration successful! Welcome.');
     }
 }

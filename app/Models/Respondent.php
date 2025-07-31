@@ -19,6 +19,7 @@ class Respondent extends Model
         'marital_status',
         'education_level',
         'monthly_income_self',
+        'household_income',
         'monthly_income_spouse',
         'other_income',
         'current_position',
