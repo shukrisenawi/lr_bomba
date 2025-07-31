@@ -146,7 +146,7 @@ class SubsectionScoreCalculationService
 
         // Create subsections for each BAT12 component
         $components = [
-            'Keletihan' => 'Jumlah Skor Kelelahan',
+            'Keletihan' => 'Jumlah Skor Keletihan',
             'Jarak mental' => 'Jumlah Skor Jarak Mental',
             'Kemerosotan kognitif' => 'Jumlah Skor Kemerosotan Kognitif',
             'Kemerosotan emosi' => 'Jumlah Skor Kemerosotan Emosi',

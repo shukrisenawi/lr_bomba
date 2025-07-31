@@ -72,7 +72,7 @@ class RegisterController extends Controller
                 'location' => 'nullable|string',
                 'position' => 'nullable|string',
                 'state' => 'nullable|string',
-                'years_of_service' => 'required|integer',
+                'years_of_service' => 'required|string',
                 'service_status' => 'required',
                 'password' => 'required|string|min:8|confirmed',
             ], [
