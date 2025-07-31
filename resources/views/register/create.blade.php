@@ -150,7 +150,7 @@
 
         <x-input-text value="{{ old('years_of_service') }}" type="text">
             <x-slot:id>years_of_service</x-slot:id>
-            <x-slot:label>Tempoh Perkhidmatan (Tahun)</x-slot:label>
+            <x-slot:label>Tempoh Perkhidmatan (Tahun), <em>contohnya: 15 tahun</em></x-slot:label>
         </x-input-text>
 
         <x-radio-button :value="old('service_status')" :data="[
