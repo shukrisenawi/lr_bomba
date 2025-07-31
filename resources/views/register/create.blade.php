@@ -171,7 +171,7 @@
             <x-slot:label>Ulang Katakunci</x-slot:label>
         </x-input-text>
         <div class="flex justify-center gap-4 mt-6">
-            <a href="/" type="submit" class="bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">
+            <a href="/register" type="submit" class="bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">
                 << Kembali</a>
                     <button type="submit" class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">Hantar
                         Pendaftaran</button>
