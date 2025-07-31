@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('ethnicity');
             $table->string('marital_status');
             $table->string('education_level');
-            $table->decimal('monthly_income_self', 10, 2);
-            $table->decimal('household_income', 10, 2);
+            $table->decimal('monthly_income_self', 10, 2)->nullable();
+            $table->decimal('household_income', 10, 2)->nullable();
             $table->decimal('monthly_income_spouse', 10, 2)->nullable();
             $table->decimal('other_income', 10, 2)->nullable();
             $table->string('current_position');
