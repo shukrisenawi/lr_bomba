@@ -122,6 +122,6 @@ class RegisterController extends Controller
         ]);
         Auth::attempt($credentials);
 
-        return redirect()->route('login')->with('success', 'Pendaftaran berjaya! Sila log masuk.');
+        return redirect()->route('dashboard')->with('success', 'Pendaftaran berjaya! Selamat datang.');
     }
 }
