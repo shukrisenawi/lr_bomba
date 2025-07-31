@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Admin Styles -->
-    <link rel="stylesheet" href="{{ asset('css/admin-enhanced.css') }}">
     @stack('styles')
     <link rel="icon" href="{{ asset('img/icon.ico') }}" type="image/x-icon">
 </head>
