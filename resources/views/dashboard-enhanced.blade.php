@@ -154,7 +154,6 @@
 @endsection
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/enhanced-design.css') }}">
     <style>
         .glass-card {
             background: rgba(255, 255, 255, 0.25);
