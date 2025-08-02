@@ -1,12 +1,21 @@
 <x-layout>
     <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8 bg-white bg-opacity-90 p-10 rounded-xl shadow-lg">
+        <div class="max-w-md w-full space-y-8 bg-white bg-opacity-90 px-10 py-5 rounded-xl shadow-lg">
 
             <h2 class="text-center text-3xl font-extrabold text-gray-900">
                 Log Masuk
             </h2>
+            <div class="flex justify-center items-center space-x-4 mb-8">
+                <img src="../img/logo 1.png"
+                    class="h-14 w-auto transform hover:scale-110 transition-transform duration-300" alt="Logo 1" />
+                <img src="../img/logo 2.png"
+                    class="h-14 w-auto transform hover:scale-110 transition-transform duration-300" alt="Logo 2" />
+                <img src="../img/logo 3.png"
+                    class="h-14 w-auto transform hover:scale-110 transition-transform duration-300" alt="Logo 3" />
+            </div>
             @if ($errors->any())
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4"
+                    role="alert">
                     <ul class="list-disc list-inside">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
