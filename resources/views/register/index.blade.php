@@ -1,9 +1,13 @@
 <x-layout-form>
     <!-- Logo dan judul kajian -->
-    <div class="flex justify-center flex-wrap mb-10">
-        <img src="../img/logo 1.png" alt="Logo" class="mx-auto h-30" />
-        <img src="../img/logo 2.png" alt="Logo" class="mx-auto h-30" />
-        <img src="../img/logo 3.png" alt="Logo" class="mx-auto h-30" />
+
+    <div class="flex justify-center items-center space-x-4 mb-8">
+        <img src="../img/logo 1.png"
+            class="h-16 sm:h-30 w-auto transform hover:scale-110 transition-transform duration-300" alt="Logo 1" />
+        <img src="../img/logo 2.png"
+            class="h-16 sm:h-30 w-auto transform hover:scale-110 transition-transform duration-300" alt="Logo 2" />
+        <img src="../img/logo 3.png"
+            class="h-16 sm:h-30 w-auto transform hover:scale-110 transition-transform duration-300" alt="Logo 3" />
     </div>
 
     <h1 class="text-xl sm:text-2xl font-bold text-center text-red-800 mb-3">Kajian Pembangunan Profil
