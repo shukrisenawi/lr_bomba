@@ -45,8 +45,8 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-// Admin Routes
-Route::middleware(['auth'])->group(function () {
+// Admin Routes - Only accessible by admin role
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/responders', [AdminController::class, 'responders'])->name('admin.responders');
         Route::get('/responders/{id}', [AdminController::class, 'showResponder'])->name('admin.responder.show');

@@ -16,7 +16,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
+
+    const ROLE_ADMIN = 'admin';
+    const ROLE_USER = 'user';
 
     protected $hidden = [
         'password',
