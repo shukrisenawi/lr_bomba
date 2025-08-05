@@ -9,7 +9,7 @@
             <div class="flex flex-col sm:flex-row justify-between items-center">
                 <div class="text-center sm:text-left mb-4 sm:mb-0">
                     <h1 class="text-2xl sm:text-3xl font-bold gradient-text mb-2">
-                        Kajian Pembangunan Profil Kesejahteraan
+                        Aplikasi Penilaian ‘Fit-to-Work’
                     </h1>
                     <p class="text-gray-600 text-sm sm:text-base">
                         Pekerja Berusia di Jabatan Bomba dan Penyelamat Di Lembah Klang, Malaysia
@@ -124,7 +124,7 @@
                         @else
                             <a href="{{ route('survey.show', $section) }}" class="btn-enhanced w-full text-sm">
                                 <i class="fas fa-play mr-1"></i>
-                                Sambung
+                                Jawab soalan
                             </a>
                         @endif
                     @else

@@ -9,8 +9,9 @@
         <img src="../img/logo 3.png"
             class="h-16 sm:h-30 w-auto transform hover:scale-110 transition-transform duration-300" alt="Logo 3" />
     </div>
-
-    <h1 class="text-xl sm:text-2xl font-bold text-center text-red-800 mb-3">Kajian Pembangunan Profil
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 text-center mb-5">Borang Akuan Persetujuan Sebagai
+        Responden</h1>
+    <h1 class="text-xl sm:text-xl font-bold text-center text-red-800 mb-3">Kajian Pembangunan Profil
         Kesejahteraan Pekerja Berusia di Jabatan Bomba dan Penyelamat Di Lembah Klang, Malaysia</h1>
 
     <div class="mb-5">
@@ -177,6 +178,11 @@
             <label for="nama" class="block text-gray-700">Email:</label>
             <input type="email" id="email" name="email"
                 class="w-full p-3 border border-gray-300 rounded-md mt-2" required>
+        </div>
+        <div class="mb-4">
+            <label for="nama" class="block text-gray-700">Tarikh:</label>
+            <input value="<?= date('d/m/Y') ?>" readonly="readonly"
+                class="w-full p-3 border border-gray-300 rounded-md mt-2">
         </div>
         <div class="mb-4">
             <label for="persetujuan" class="block text-gray-700">Persetujuan:</label>

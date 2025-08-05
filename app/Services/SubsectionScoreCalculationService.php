@@ -23,19 +23,19 @@ class SubsectionScoreCalculationService
         $sectionId = $sectionData['id'] ?? '';
 
         // Special handling for Section B - calculate as whole without subsections
-        if ($sectionId === 'B') {
+        if ($sectionId === 'C') {
             return $this->calculateSectionBOverallScore($response, $sectionData);
         }
 
         // Special handling for Section J - skip score calculation like sections I and K
-        if ($sectionId === 'J') {
+        if ($sectionId === 'K') {
             return [];
         }
 
         // Special handling for Section G (BAT12)
-        if ($sectionId === 'D') {
+        if ($sectionId === 'E') {
             return $this->calculateSectionDScores($response, $sectionData);
-        } else if ($sectionId === 'G') {
+        } else if ($sectionId === 'H') {
             return $this->calculateBat12SectionGScores($response, $sectionData);
         }
 
@@ -63,7 +63,7 @@ class SubsectionScoreCalculationService
 
             if ($questionCount > 0) {
                 // Special handling for Section D (Bahagian D) scoring
-                if ($sectionId === 'D') {
+                if ($sectionId === 'E') {
                     $normalizedScore = $this->calculateSectionDScore($subsection['name'], $subsectionTotal, $questionCount);
                 } else {
                     // Original calculation for other sections

@@ -807,7 +807,7 @@ class SurveyController extends Controller
             }
         }
 
-        $this->scoreService->updateResponseScore($response, 'K', $totalScore, $category, $recommendation);
+        $this->scoreService->updateResponseScore($response, 'L', $totalScore, $category, $recommendation);
     }
 
     /**
@@ -818,32 +818,32 @@ class SurveyController extends Controller
         // Simplified scoring system - in reality this would use official IPPT scoring tables
         // This is a basic implementation for demonstration
         switch ($questionId) {
-            case 'K1': // Sit-ups
+            case 'L1': // Sit-ups
                 if ($value >= 45) return 85;
                 if ($value >= 35) return 75;
                 if ($value >= 25) return 65;
                 return 50;
 
-            case 'K2': // Standing jump
+            case 'L2': // Standing jump
                 if ($value >= 240) return 85;
                 if ($value >= 220) return 75;
                 if ($value >= 200) return 65;
                 return 50;
 
-            case 'K3': // Pull-ups (male)
-            case 'K4': // Inclined pull-ups (female)
+            case 'L3': // Pull-ups (male)
+            case 'L4': // Inclined pull-ups (female)
                 if ($value >= 12) return 85;
                 if ($value >= 8) return 75;
                 if ($value >= 4) return 65;
                 return 50;
 
-            case 'K5': // Shuttle run (lower is better)
+            case 'L5': // Shuttle run (lower is better)
                 if ($value <= 15.0) return 85;
                 if ($value <= 17.0) return 75;
                 if ($value <= 19.0) return 65;
                 return 50;
 
-            case 'K6': // 2.4km run (lower is better)
+            case 'L6': // 2.4km run (lower is better)
                 if ($value <= 10.0) return 85;
                 if ($value <= 12.0) return 75;
                 if ($value <= 14.0) return 65;

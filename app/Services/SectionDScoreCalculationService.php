@@ -13,28 +13,28 @@ class SectionDScoreCalculationService
      */
     private const SECTION_D_QUESTION_MAPPINGS = [
         'Prestasi Tugas' => [
-            'D1',
-            'D2',
-            'D3',
-            'D4',
-            'D5'
+            'E1',
+            'E2',
+            'E3',
+            'E4',
+            'E5'
         ],
         'Prestasi Kontekstual' => [
-            'D6',
-            'D7',
-            'D8',
-            'D9',
-            'D10',
-            'D11',
-            'D12',
-            'D13'
+            'E6',
+            'E7',
+            'E8',
+            'E9',
+            'E10',
+            'E11',
+            'E12',
+            'E13'
         ],
         'Perilaku Kerja Tidak Produktif' => [
-            'D14',
-            'D15',
-            'D16',
-            'D17',
-            'D18'
+            'E14',
+            'E15',
+            'E16',
+            'E17',
+            'E18'
         ]
     ];
 

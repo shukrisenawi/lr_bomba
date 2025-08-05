@@ -13,8 +13,8 @@
                         class="h-16 w-auto transform hover:scale-110 transition-transform duration-300"
                         alt="Logo 3" />
                 </div>
-                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-                    Sistem Kajian Kepuasan Kerja
+                <h2 class="mt-6 text-2xl font-extrabold text-gray-900">
+                    Aplikasi Penilaian ‘Fitto-Work’
                 </h2>
                 <p class="mt-2 text-sm text-gray-600">
                     Jabatan Bomba dan Penyelamat Malaysia
@@ -83,7 +83,8 @@
             <!-- Footer -->
             <div class="mt-8 text-center">
                 <p class="text-xs text-gray-500">
-                    © 2025 Jabatan Bomba dan Penyelamat Malaysia. Hak cipta terpelihara.
+                    National Institute of Occupational Safety & Health (NIOSH), Malaysia dan
+                    Institut Penyelidikan Penuaan Malaysia (MyAgeing®), UPM
                 </p>
             </div>
         </div>

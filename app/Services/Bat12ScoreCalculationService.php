@@ -13,24 +13,24 @@ class Bat12ScoreCalculationService
      */
     private const BAT12_QUESTION_MAPPINGS = [
         'Keletihan' => [
-            'G1',
-            'G2',
-            'G3',
+            'H1',
+            'H2',
+            'H3',
         ],
         'Jarak mental' => [
-            'G4',
-            'G5',
-            'G6'
+            'H4',
+            'H5',
+            'H6'
         ],
         'Kemerosotan kognitif' => [
-            'G7',
-            'G8',
-            'G9'
+            'H7',
+            'H8',
+            'H9'
         ],
         'Kemerosotan emosi' => [
-            'G10',
-            'G11',
-            'G12'
+            'H10',
+            'H11',
+            'H12'
         ],
     ];
 
