@@ -37,7 +37,8 @@
                 <!-- Section Icon -->
                 <div
                     class="w-16 h-16 bg-gradient-to-r {{ getSectionGradient($section) }} rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-{{ getSectionIcon($section) }} text-white text-2xl"></i>
+                    {{-- <i class="fas fa-{{ getSectionIcon($section) }} text-white text-2xl"></i> --}}
+                    <img src="../img/{{ getSectionIcon($section) }}" />
                 </div>
 
                 <!-- Section Title -->
@@ -127,7 +128,8 @@
             </div>
             <h3 class="text-lg font-bold text-gray-800 mb-2">Selamat Datang!</h3>
             <p class="text-gray-600 text-sm">
-                Terima kasih kerana menyertai kajian ini. Jawapan anda sangat berharga untuk kami.
+                Penglibatan
+                dan komitmen yang anda berikan amatlah kami hargai.
             </p>
         </div>
     </div>
@@ -198,12 +200,17 @@
     function getSectionIcon($section)
     {
         $icons = [
-            'A' => 'user',
-            'B' => 'briefcase',
-            'C' => 'heart',
-            'D' => 'users',
-            'E' => 'chart-line',
-            'F' => 'comments',
+            'B' => 'icon-01.png',
+            'C' => 'icon-02.png',
+            'D' => 'icon-03.png',
+            'E' => 'icon-04.png',
+            'F' => 'icon-05.png',
+            'G' => 'icon-06.png',
+            'H' => 'icon-07.png',
+            'I' => 'icon-08.png',
+            'J' => 'icon-09.png',
+            'K' => 'icon-10.png',
+            'L' => 'icon-11.png',
         ];
         return $icons[$section] ?? 'file-alt';
     }
