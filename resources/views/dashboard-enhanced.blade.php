@@ -30,26 +30,6 @@
         </div>
     </div>
 
-    <!-- Admin Access Card -->
-    <div class="mb-8">
-        <div class="glass-card p-6 floating">
-            <div class="flex items-center">
-                <div
-                    class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mr-4">
-                    <i class="fas fa-users-cog text-white text-2xl"></i>
-                </div>
-                <div class="flex-1">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Akses Halaman Admin</h3>
-                    <p class="text-gray-600 mb-4">Akses senarai responder dan jawapan mereka</p>
-                    <a href="{{ route('admin.responders') }}" class="btn-enhanced inline-flex items-center">
-                        <i class="fas fa-eye mr-2"></i>
-                        Lihat Senarai Responder
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Survey Sections Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($sections as $section => $title)

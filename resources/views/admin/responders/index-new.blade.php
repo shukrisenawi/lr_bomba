@@ -15,16 +15,15 @@
                         </h1>
                         <p class="text-gray-600">Kelola dan pantau semua responder sistem</p>
                     </div>
-                    {{-- <div class="flex gap-3">
-                        <button class="btn btn-outline btn-primary" onclick="exportData()">
-                            <i class="fas fa-download mr-2"></i>
-                            Export
-                        </button>
-                        <button class="btn btn-primary" onclick="refreshData()">
-                            <i class="fas fa-sync-alt mr-2"></i>
-                            Refresh
-                        </button>
-                    </div> --}}
+                    <div class="flex gap-3">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn rounded-3xl">
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 

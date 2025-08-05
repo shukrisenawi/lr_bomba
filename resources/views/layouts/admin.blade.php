@@ -35,6 +35,7 @@
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
+
                         <span class="text-sm text-gray-700">{{ auth()->user()->name ?? 'Admin' }}</span>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
