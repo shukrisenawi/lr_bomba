@@ -201,6 +201,11 @@
                                                 <i class="fas fa-eye mr-1"></i>
                                                 Lihat
                                             </a>
+                                            <a href="{{ route('admin.responder.impersonate', $responder['id']) }}"
+                                                class="btn btn-sm btn-warning">
+                                                <i class="fas fa-user-secret mr-1"></i>
+                                                Masuk
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

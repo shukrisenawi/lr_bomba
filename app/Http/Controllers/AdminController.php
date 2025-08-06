@@ -7,8 +7,10 @@ use App\Models\Respondent;
 use App\Models\SurveyResponse;
 use App\Models\SurveyAnswer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
+
 {
     public function __construct()
     {
@@ -94,5 +96,40 @@ class AdminController extends Controller
         });
 
         return view('admin.responders.show-enhanced', compact('user', 'responses'));
+    }
+
+    public function impersonate($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Store original admin ID in session if not already impersonating
+        if (!session()->has('admin_id')) {
+            session(['admin_id' => Auth::id()]);
+        }
+
+        Auth::login($user);
+
+        return redirect()->route('dashboard');
+    }
+
+    public function userRole($id)
+    {
+        $user = User::findOrFail($id);
+        // This is a placeholder. A dedicated view should be created for this.
+        return "<h1>User Role: {$user->name}</h1><p>Role: {$user->role}</p>";
+    }
+
+    public function revertImpersonate(Request $request)
+    {
+        if (!$request->session()->has('admin_id')) {
+            return redirect()->route('dashboard');
+        }
+
+        $adminId = $request->session()->pull('admin_id');
+        $admin = User::findOrFail($adminId);
+
+        Auth::login($admin);
+
+        return redirect()->route('admin.responders');
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminSurveyController;
 use Illuminate\Support\Facades\Route;
 
 // Laluan untuk pendaftaran
@@ -50,5 +51,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/responders', [AdminController::class, 'responders'])->name('admin.responders');
         Route::get('/responders/{id}', [AdminController::class, 'showResponder'])->name('admin.responder.show');
+        Route::get('/users/{id}/role', [AdminController::class, 'userRole'])->name('admin.user.role');
+        Route::get('/users/{id}/impersonate', [AdminController::class, 'impersonate'])->name('admin.responder.impersonate');
     });
 });
+
+Route::get('/admin/revert', [AdminController::class, 'revertImpersonate'])->name('admin.revert')->middleware('auth');

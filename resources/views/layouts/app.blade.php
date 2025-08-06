@@ -40,6 +40,14 @@
             <div class="flex justify-center m-auto p-2 sm:p-10">
                 <div
                     class="w-full sm:w-[800px]  bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl p-5 sm:p-10 block text-center">
+                    @if (session()->has('admin_id'))
+                        <div class="mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 text-left">
+                            <p class="font-bold">Mod Pentadbir</p>
+                            <p>Anda sedang melayari sebagai pengguna ini. <a href="{{ route('admin.revert') }}"
+                                    class="font-bold underline hover:text-yellow-800">Kembali ke senarai responder</a>.
+                            </p>
+                        </div>
+                    @endif
                     @yield('content')
                 </div>
             </div>
