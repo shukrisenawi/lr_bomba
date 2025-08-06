@@ -37,7 +37,7 @@ class SubsectionScoreCalculationService
         }
 
         if ($sectionId === 'E') {
-            return $this->calculateSectionDScores($response, $sectionData);
+            return $this->calculateSectionEScores($response, $sectionData);
         } else if ($sectionId === 'H') {
             return $this->calculateBat12SectionGScores($response, $sectionData);
         }
@@ -67,7 +67,7 @@ class SubsectionScoreCalculationService
             if ($questionCount > 0) {
                 // Special handling for Section D (Bahagian D) scoring
                 if ($sectionId === 'E') {
-                    $normalizedScore = $this->calculateSectionDScore($subsection['name'], $subsectionTotal, $questionCount);
+                    $normalizedScore = $this->calculateSectionEScore($subsection['name'], $subsectionTotal, $questionCount);
                 } else {
                     // Original calculation for other sections
                     $normalizedScore = $subsectionTotal;
@@ -250,10 +250,10 @@ class SubsectionScoreCalculationService
 
         return $subsectionScores;
     }
-    private function calculateSectionDScores(SurveyResponse $response, array $sectionData): array
+    private function calculateSectionEScores(SurveyResponse $response, array $sectionData): array
     {
-        $service = new \App\Services\SectionDScoreCalculationService();
-        $scores = $service->calculateSectionDScores($response);
+        $service = new \App\Services\SectionEScoreCalculationService();
+        $scores = $service->calculateSectionEScores($response);
 
         $subsectionScores = [];
 

@@ -6,12 +6,12 @@ use App\Models\SurveyResponse;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyScore;
 
-class SectionDScoreCalculationService
+class SectionEScoreCalculationService
 {
     /**
      * Section D question mappings for each subsection
      */
-    private const SECTION_D_QUESTION_MAPPINGS = [
+    private const SECTION_E_QUESTION_MAPPINGS = [
         'Prestasi Tugas' => [
             'E1',
             'E2',
@@ -41,7 +41,7 @@ class SectionDScoreCalculationService
     /**
      * Calculate Section D scores using the new formulas
      */
-    public function calculateSectionDScores(SurveyResponse $response): array
+    public function calculateSectionEScores(SurveyResponse $response): array
     {
         $answers = $response->answers()->get()->keyBy('question_id');
 
@@ -80,7 +80,7 @@ class SectionDScoreCalculationService
     private function calculateCategoryScore($answers, string $category): int
     {
         $total = 0;
-        $questions = self::SECTION_D_QUESTION_MAPPINGS[$category] ?? [];
+        $questions = self::SECTION_E_QUESTION_MAPPINGS[$category] ?? [];
 
         foreach ($questions as $questionKey) {
             if ($answers->has($questionKey) && $answers[$questionKey]->score !== null) {
