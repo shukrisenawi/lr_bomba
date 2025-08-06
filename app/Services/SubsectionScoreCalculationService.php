@@ -22,17 +22,14 @@ class SubsectionScoreCalculationService
         $answers = $response->answers()->get()->keyBy('question_id');
         $sectionId = $sectionData['id'] ?? '';
 
-        // Special handling for Section B - calculate as whole without subsections
         if ($sectionId === 'C') {
             return $this->calculateSectionBOverallScore($response, $sectionData);
         }
 
-        // Special handling for Section J - skip score calculation like sections I and K
         if ($sectionId === 'K') {
             return [];
         }
 
-        // Special handling for Section G (BAT12)
         if ($sectionId === 'E') {
             return $this->calculateSectionDScores($response, $sectionData);
         } else if ($sectionId === 'H') {

@@ -9,7 +9,18 @@
             <div class="flex flex-col sm:flex-row items-center justify-between">
                 <div class="mb-4 sm:mb-0">
                     <h1 class="text-2xl sm:text-3xl font-bold gradient-text mb-2">{{ $sectionTitle }}</h1>
-                    <p class="text-gray-600">Sila jawab soalan berikut dengan jujur</p>
+                    <p class="text-gray-600">
+                        @if ($section == 'B')
+                            Indeks Kebolehan Bekerja
+                            (dalam bahasa Inggeris disebut Work Ability Index atau WAI) adalah
+                            instrumen yang digunakan untuk menilai keupayaan seseorang dalam
+                            melakukan pekerjaan mereka. Indeks ini mengukur sejauh mana
+                            kemampuan seseorang menjalankan tugas-tugas pekerjaan harian sama
+                            ada secara fizikal mahupun mental serta bagaimana keadaan kesihatan
+                            mereka mempengaruhi kemampuan melaksanakan pekerjaan tersebut.
+                        @endif
+
+                    </p>
                 </div>
 
                 <!-- Enhanced Progress Indicator -->
@@ -20,7 +31,26 @@
             </div>
         </div>
     </div>
+    @php
+        function getSectionIcon($section)
+        {
+            $icons = [
+                'B' => 'icon-01.png',
+                'C' => 'icon-02.png',
+                'D' => 'icon-03.png',
+                'E' => 'icon-04.png',
+                'F' => 'icon-05.png',
+                'G' => 'icon-06.png',
+                'H' => 'icon-07.png',
+                'I' => 'icon-08.png',
+                'J' => 'icon-09.png',
+                'K' => 'icon-10.png',
+                'L' => 'icon-11.png',
+            ];
+            return $icons[$section] ?? 'file-alt';
+        }
 
+    @endphp
     <!-- Floating Question Card -->
     <div class="max-w-4xl mx-auto">
         <div class="glass-card overflow-hidden">
@@ -28,8 +58,8 @@
             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-6">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4">
-                            <i class="fas fa-question text-xl"></i>
+                        <div class="w-12 h-12 bg-white/20 rounded-3xl flex items-center justify-center mr-4">
+                            <img src="{{ asset('img/' . getSectionIcon($section)) }}" />
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold">Soalan</h3>
@@ -200,7 +230,8 @@
                     @elseif($question['type'] === 'scale')
                         <div class="space-y-4">
                             <label class="block">
-                                <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan:</span>
+                                <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan berdasarkan skala di
+                                    bawah:</span>
 
                                 <div class="w-full">
                                     <input type="range" min="{{ $question['min'] }}" max="{{ $question['max'] }}"
@@ -213,6 +244,25 @@
                                     <div class="flex justify-between px-2.5 mt-2 text-xs">
                                         @for ($i = $question['min']; $i <= $question['max']; $i++)
                                             <span>{{ $i }}</span>
+                                        @endfor
+                                    </div>
+                                    <div class="flex justify-between px-2.5 mt-2 text-xs">
+                                        @for ($i = $question['min']; $i <= $question['max']; $i++)
+                                            @if ($i == 0)
+                                                <span>|</span>
+                                            @elseif ($i == 10)
+                                                <span>|</span>
+                                            @endif
+                                        @endfor
+                                    </div>
+
+                                    <div class="flex justify-between px-2.5 mt-2 text-xs">
+                                        @for ($i = $question['min']; $i <= $question['max']; $i++)
+                                            @if ($i == 0)
+                                                <span>Tidak boleh bekerja langsung</span>
+                                            @elseif ($i == 10)
+                                                <span>Boleh bekerja pada tahap terbaik</span>
+                                            @endif
                                         @endfor
                                     </div>
                                 </div>
