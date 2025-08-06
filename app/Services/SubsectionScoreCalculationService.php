@@ -13,6 +13,12 @@ class SubsectionScoreCalculationService
      */
     public function calculateSubsectionScores(SurveyResponse $response, array $sectionData): array
     {
+        $sectionId = $sectionData['id'] ?? '';
+
+        if ($sectionId === 'B') {
+            return $this->calculateSectionBScore($response, $sectionData);
+        }
+
         $subsectionScores = [];
 
         if (!isset($sectionData['subsections']) || empty($sectionData['subsections'])) {
@@ -84,6 +90,79 @@ class SubsectionScoreCalculationService
         }
 
         return $subsectionScores;
+    }
+
+    /**
+     * Calculate Section B score with special logic for B7 questions.
+     */
+    private function calculateSectionBScore(SurveyResponse $response, array $sectionData): array
+    {
+        $answers = $response->answers()->get()->keyBy('question_id');
+        $totalScore = 0;
+        $questionCount = 0;
+        $maxPossibleScore = 0;
+
+        $b7_sum = 0;
+        $b7_answered_count = 0;
+        $b7_question_ids = ['B7a', 'B7b', 'B7c'];
+
+        if (!isset($sectionData['questions']) || empty($sectionData['questions'])) {
+            return [];
+        }
+
+        foreach ($sectionData['questions'] as $question) {
+            $questionId = $question['id'];
+
+            if ($answers->has($questionId) && $answers[$questionId]->score !== null) {
+                if (in_array($questionId, $b7_question_ids)) {
+                    $b7_sum += (int)$answers[$questionId]->score;
+                    $b7_answered_count++;
+                } else {
+                    $totalScore += (int)$answers[$questionId]->score;
+                }
+                $questionCount++;
+            }
+
+            if (!in_array($questionId, $b7_question_ids)) {
+                $maxPossibleScore += $this->calculateMaxScoreForQuestion($question);
+            }
+        }
+
+        // Add max score for the B7 group if answered
+        if ($b7_answered_count > 0) {
+            $maxPossibleScore += 4; // Max score for the B7 group is 4
+        }
+
+        // Calculate and add the final score for the B7 group
+        if ($b7_answered_count > 0) {
+            $b7_final_score = 1; // Default to 1 for range 0-3
+            if ($b7_sum >= 10) { // Range 10-12
+                $b7_final_score = 4;
+            } elseif ($b7_sum >= 7) { // Range 7-9
+                $b7_final_score = 3;
+            } elseif ($b7_sum >= 4) { // Range 4-6
+                $b7_final_score = 2;
+            }
+            $totalScore += $b7_final_score;
+        }
+
+
+        if ($questionCount > 0) {
+            $category = $this->determineCategory($totalScore, $sectionData);
+            $recommendation = $this->getRecommendation($totalScore, $sectionData);
+
+            return [[
+                'name' => $sectionData['Result_text'] ?? 'Jumlah Skor Keseluruhan',
+                'score' => $totalScore,
+                'raw_score' => $totalScore,
+                'max_possible' => $maxPossibleScore,
+                'category' => $category,
+                'recommendation' => $recommendation,
+                'question_count' => $questionCount
+            ]];
+        }
+
+        return [];
     }
 
     /**

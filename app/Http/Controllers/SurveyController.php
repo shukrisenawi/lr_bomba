@@ -692,41 +692,56 @@ class SurveyController extends Controller
                 $this->calculateSectionDOverallScore($response, $subsectionScores);
             }
         } else {
-            // Special handling for Section K (IPPT) - now excluded above
-            // Fallback to old total score calculation for other sections
-            $answers = $response->answers()->get();
+            // For sections without subsections, we calculate a single total score.
+            // Section B has special logic handled by the SubsectionScoreCalculationService.
+            if ($section === 'B') {
+                $scores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
+                $scoreData = $scores[0] ?? null;
 
-            $totalScore = 0;
-            $category = '';
-            $recommendation = '';
-
-
-            foreach ($answers as $answer) {
-                if ($answer->score !== null) {
-                    $totalScore += (int)$answer->score;
-                }
-            }
-            if (isset($sectionData['scoring']['ranges']) || isset($sectionData['scoring']['interpretation'])) {
-                $ranges = isset($sectionData['scoring']['ranges']) ? $sectionData['scoring']['ranges'] : $sectionData['scoring']['interpretation'];
-
-                foreach ($ranges as $range) {
-                    if (isset($sectionData['scoring']['ranges']))
-                        list($min, $max) = explode('-', $range['score']);
-                    else
-                        list($min, $max) = explode('-', $range['range']);
-                    if ($totalScore >= $min && $totalScore <= $max) {
-                        $category = $range['category'];
-
-                        $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
-                        break;
-                    }
+                if ($scoreData) {
+                    $this->scoreService->updateResponseScore(
+                        $response,
+                        $section,
+                        $scoreData['score'],
+                        $scoreData['category'],
+                        $scoreData['recommendation']
+                    );
                 }
             } else {
+                // Fallback to old total score calculation for other sections
+                $answers = $response->answers()->get();
+
+                $totalScore = 0;
                 $category = '';
                 $recommendation = '';
-            }
 
-            $this->scoreService->updateResponseScore($response, $section, $totalScore, $category, $recommendation);
+
+                foreach ($answers as $answer) {
+                    if ($answer->score !== null) {
+                        $totalScore += (int)$answer->score;
+                    }
+                }
+                if (isset($sectionData['scoring']['ranges']) || isset($sectionData['scoring']['interpretation'])) {
+                    $ranges = isset($sectionData['scoring']['ranges']) ? $sectionData['scoring']['ranges'] : $sectionData['scoring']['interpretation'];
+
+                    foreach ($ranges as $range) {
+                        if (isset($sectionData['scoring']['ranges']))
+                            list($min, $max) = explode('-', $range['score']);
+                        else
+                            list($min, $max) = explode('-', $range['range']);
+                        if ($totalScore >= $min && $totalScore <= $max) {
+                            $category = $range['category'];
+
+                            $recommendation = $sectionData['scoring']['recommendations'][$category] ?? '';
+                            break;
+                        }
+                    }
+                } else {
+                    $category = '';
+                    $recommendation = '';
+                }
+                $this->scoreService->updateResponseScore($response, $section, $totalScore, $category, $recommendation);
+            }
         }
     }
 

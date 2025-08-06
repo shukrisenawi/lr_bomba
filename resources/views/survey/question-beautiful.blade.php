@@ -18,6 +18,19 @@
                             kemampuan seseorang menjalankan tugas-tugas pekerjaan harian sama
                             ada secara fizikal mahupun mental serta bagaimana keadaan kesihatan
                             mereka mempengaruhi kemampuan melaksanakan pekerjaan tersebut.
+                        @elseif($section == 'C')
+                            Soal-selidik Kandungan Kerja
+                            (atau Job Content Questionnaire, JCQ) ialah satu instrumen kendiri yang
+                            direka untuk mengukur ciri-ciri sosial dan psikologi pekerjaan. Ia
+                            digunakan secara meluas dalam penyelidikan kesihatan pekerjaan untuk
+                            menilai tekanan kerja dan potensi akibat kesihatannya.
+                        @elseif($section == 'D')
+                            Instrumen Impak Latihan di
+                            Tempat Kerja (atau Training Impact at Work) merupakan alat penilaian
+                            yang dirancang khusus untuk mengukur keberkesanan program latihan
+                            dalam lingkungan kerja. Instrumen ini bertujuan untuk menilai sejauh
+                            mana latihan telah mencapai objektif yang ditetapkan, serta pengaruhnya
+                            terhadap prestasi individu, pasukan, dan organisasi secara keseluruhan.
                         @endif
 
                     </p>
