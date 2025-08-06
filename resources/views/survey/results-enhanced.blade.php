@@ -100,9 +100,18 @@
                             <div class="space-y-4">
                                 <div
                                     class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl">
-                                    <span class="font-semibold text-gray-700">Jumlah Skor</span>
+                                    @php
+                                        $scoreTitles = [
+                                            'D_Keseluruhan' => 'Jumlah Skor Keseluruhan',
+                                            'D_Prestasi' => 'Jumlah Skor Prestasi',
+                                            'D_Sikap' => 'Jumlah Skor Sikap',
+                                        ];
+                                        $scoreTitle = $scoreTitles[$score->section] ?? 'Jumlah Skor';
+                                    @endphp
+                                    <span class="font-semibold text-gray-700">{{ $scoreTitle }}</span>
                                     <span class="text-2xl font-bold text-purple-600">{{ $score->score }}</span>
                                 </div>
+
                                 @if ($score->category)
                                     <div
                                         class="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">

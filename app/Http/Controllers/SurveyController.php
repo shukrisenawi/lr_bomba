@@ -682,14 +682,20 @@ class SurveyController extends Controller
 
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
 
+        // Special handling for Section D
+        if ($section === 'D') {
+            $this->calculateSectionDScores($response, $sectionData);
+            return;
+        }
+
         if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
             // Calculate subsection scores
             $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
             $this->subsectionScoreService->updateSubsectionScores($response, $subsectionScores);
 
-            // Special handling for Section D overall score calculation
-            if ($section === 'D') {
-                $this->calculateSectionDOverallScore($response, $subsectionScores);
+            // Special handling for Section E overall score calculation
+            if ($section === 'E') {
+                $this->calculateSectionEOverallScore($response, $subsectionScores);
             }
         } else {
             // For sections without subsections, we calculate a single total score.
@@ -746,9 +752,9 @@ class SurveyController extends Controller
     }
 
     /**
-     * Calculate Section D overall score based on the three subsection scores
+     * Calculate Section E overall score based on the three subsection scores
      */
-    private function calculateSectionDOverallScore($response, $subsectionScores)
+    private function calculateSectionEOverallScore($response, $subsectionScores)
     {
         $prestasiTugas = 0;
         $prestasiKontekstual = 0;
@@ -775,11 +781,69 @@ class SurveyController extends Controller
         // Store the overall score as a separate record
         // $this->scoreService->updateResponseScore(
         //     $response,
-        //     'D_overall',
+        //     'E_overall',
         //     $overallScore,
-        //     'Section D Overall',
+        //     'Section E Overall',
         //     'JUMLAH SKOR KESELURUHAN: ' . $overallScore
         // );
+    }
+
+    /**
+     * Calculate Section D scores
+     */
+    private function calculateSectionDScores($response, $sectionData)
+    {
+        $answers = $response->answers()->get()->keyBy('question_id');
+
+        $prestasi_q_ids = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D12'];
+        $sikap_q_ids = ['D7', 'D8', 'D9', 'D10', 'D11'];
+
+        $totalScoreKeseluruhan = 0;
+        $totalScorePrestasi = 0;
+        $totalScoreSikap = 0;
+
+        foreach ($answers as $question_id => $answer) {
+            if ($answer->score !== null) {
+                $totalScoreKeseluruhan += (int)$answer->score;
+                if (in_array($question_id, $prestasi_q_ids)) {
+                    $totalScorePrestasi += (int)$answer->score;
+                }
+                if (in_array($question_id, $sikap_q_ids)) {
+                    $totalScoreSikap += (int)$answer->score;
+                }
+            }
+        }
+
+        $scoresToCalculate = [
+            'Keseluruhan' => $totalScoreKeseluruhan,
+            'Prestasi' => $totalScorePrestasi,
+            'Sikap' => $totalScoreSikap,
+        ];
+        foreach ($scoresToCalculate as $type => $score) {
+            $category = '';
+            $recommendation = '';
+            if (isset($sectionData['scoring']['ranges'][$type])) {
+                $ranges = $sectionData['scoring']['ranges'][$type];
+                foreach ($ranges as $range) {
+                    list($min, $max) = explode('-', $range['score']);
+                    if ($score >= $min && $score <= $max) {
+                        $category = $range['category'];
+                        if (isset($sectionData['scoring']['recommendations'][$category])) {
+                            $recommendation = $sectionData['scoring']['recommendations'][$category];
+                        }
+                        break;
+                    }
+                }
+            }
+
+            $this->scoreService->updateResponseScore(
+                $response,
+                'D_' . $type,
+                $score,
+                $category,
+                $recommendation
+            );
+        }
     }
 
     /**
