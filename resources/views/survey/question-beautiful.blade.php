@@ -59,6 +59,30 @@
                             secara saintifik yang direka untuk menilai risiko keletihan. Ia mengukur
                             keletihan sebagai satu sindrom dengan empat komponen teras seperti
                             keletihan, jarak mental, kemerosotan kognitif dan emosi.
+                        @elseif ($section == 'I')
+                            Penilaian Anggota Keseluruhan
+                            Tubuh (atau Rapid Entire Body Assessment, RELA) ialah instrumen
+                            penilaian ergonomik yang digunakan secara meluas untuk menilai risiko
+                            gangguan muskuloskeletal (MSD) akibat postur dan tugas berulang. Ia
+                            menganalisis postur, daya, pergerakan, dan faktor persekitaran kerja. Ia
+                            memberikan skor yang menunjukkan risiko kecederaan. Skor yang lebih
+                            tinggi menandakan risiko MSD yang lebih besar, memerlukan intervensi
+                            ergonomik. REBA digunakan dalam pelbagai industri untuk mencegah
+                            kecederaan akibat pergerakan berulang atau postur janggal.
+                        @elseif($section == 'J')
+                            Soal Selidik Muskuloskeletal
+                            Nordic (NMQ) ialah satu alat penilaian kendiri yang digunakan untuk
+                            menilai kesakitan muskuloskeletal pada orang dewasa, dengan menilai
+                            kekerapan, keterukan, dan kesan kesakitan tersebut terhadap kehidupan
+                            seharian melalui pelbagai bahagian badan
+                        @elseif($section == 'K')
+                            Soal
+                            Selidik Analisis Kerja (JAQ) ialah satu instrument berstruktur yang
+                            digunakan untuk mengumpul maklumat terperinci mengenai tugas,
+                            tanggungjawab, dan keperluan sesuatu pekerjaan. Ia merupakan satu
+                            pendekatan sistematik untuk memahami tugas, kemahiran, pengetahuan,
+                            dan kebolehan yang diperlukan untuk melaksanakan sesuatu pekerjaan
+                            dengan berkesan
                         @endif
 
                     </p>

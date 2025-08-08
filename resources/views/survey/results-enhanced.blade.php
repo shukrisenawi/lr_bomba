@@ -28,9 +28,16 @@
 
                 @foreach ($subsectionScores as $index => $subsection)
                     <div class="mb-8 border-l-4 border-blue-500 pl-4">
+                        @php
+                            $displayName = $subsection['name'];
+                            if ($displayName === 'Jumlah Skor Keseluruhan BAT12') {
+                                $displayName = 'Keputusan Keseluruhan';
+                            }
+                        @endphp
                         <h4
-                            class="text-lg mb-3 @if ($subsection['name'] === 'Keputusan Keseluruhan') font-bold text-black @else font-semibold text-gray-800 @endif">
-                            {{ $subsection['name'] }}</h4>
+                            class="text-lg mb-3 @if ($displayName === 'Keputusan Keseluruhan') font-bold text-black @else font-semibold text-gray-800 @endif">
+                            {{ $displayName }}</h4>
+
 
 
                         <!-- Subsection Score Details -->
@@ -170,8 +177,13 @@
                     <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-clipboard-list text-3xl text-gray-400"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Tiada Keputusan</h3>
-                    <p class="text-gray-500 mb-6">Tiada keputusan dikira untuk bahagian ini.</p>
+                    @if ($section != 'K')
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Tiada Keputusan</h3>
+                        <p class="text-gray-500 mb-6">Tiada keputusan dikira untuk bahagian ini.</p>
+                    @else
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Maklumat yang diperolehi akan dijadikan
+                            rujukan bagi penilaian keseluruhan Fit-to-work</h3>
+                    @endif
                 </div>
             @endif
 
