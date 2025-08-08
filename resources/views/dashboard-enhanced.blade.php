@@ -101,7 +101,11 @@
                             @if ($responses[$section]->completed)
                                 <a href="{{ route('survey.results', $section) }}" class="btn-enhanced w-full text-sm">
                                     <i class="fas fa-search mr-1"></i>
-                                    Lihat Score
+                                    @if ($section == 'J')
+                                        Lihat Jawapan
+                                    @else
+                                        Lihat Score
+                                    @endif
                                 </a>
                             @else
                                 <a href="{{ route('survey.show', $section) }}" class="btn-enhanced w-full text-sm">

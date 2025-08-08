@@ -15,6 +15,7 @@ class SurveyController extends Controller
 {
     protected $scoreService;
     protected $subsectionScoreService;
+    protected $partNoScore = ['I', 'J', 'K'];
 
     public function __construct(ScoreCalculationService $scoreService, \App\Services\SubsectionScoreCalculationService $subsectionScoreService)
     {
@@ -424,13 +425,42 @@ class SurveyController extends Controller
 
     public function results($section)
     {
-        $response = SurveyResponse::with('scores')
+        $response = SurveyResponse::with(['scores', 'answers'])
             ->where('user_id', Auth::id())
             ->where('survey_id', $section)
             ->firstOrFail();
 
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
+
+        if ($section === 'J') {
+            $allQuestions = collect($this->extractAllQuestions($sectionData));
+            $answers = $response->answers->keyBy('question_id');
+
+            $questionsAndAnswers = $allQuestions->map(function ($question) use ($answers) {
+                $answerModel = $answers->get($question['id']);
+                $answerText = null;
+                if ($answerModel) {
+                    $answerText = $answerModel->answer;
+                    // Attempt to decode if it's a JSON string
+                    $decoded = json_decode($answerText, true);
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        $answerText = $decoded;
+                    }
+                }
+
+                return [
+                    'question' => $question,
+                    'answer' => $answerText,
+                ];
+            });
+
+            return view('survey.results-j', [
+                'section' => $section,
+                'sectionData' => $sectionData,
+                'questionsAndAnswers' => $questionsAndAnswers,
+            ]);
+        }
 
         // Calculate scores (including subsection scores)
 
@@ -455,6 +485,10 @@ class SurveyController extends Controller
 
     public function review($section)
     {
+        if ($section === 'J') {
+            return redirect()->route('survey.results', $section);
+        }
+
         $response = SurveyResponse::with(['answers', 'scores'])
             ->where('user_id', Auth::id())
             ->where('survey_id', $section)

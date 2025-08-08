@@ -189,10 +189,13 @@
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                <a href="{{ route('survey.review', $section) }}" class="btn-enhanced flex items-center justify-center">
-                    <i class="fas fa-eye mr-2"></i>
-                    Semak Jawapan
-                </a>
+                @if ($section != 'J')
+                    <a href="{{ route('survey.review', $section) }}" class="btn-enhanced flex items-center justify-center">
+                        <i class="fas fa-eye mr-2"></i>
+                        Semak Jawapan
+                    </a>
+                @endif
+
 
                 <a href="{{ route('dashboard') }}"
                     class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors flex items-center justify-center">
