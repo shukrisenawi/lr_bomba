@@ -65,13 +65,8 @@ class SubsectionScoreCalculationService
             }
 
             if ($questionCount > 0) {
-                // Special handling for Section D (Bahagian D) scoring
-                if ($sectionId === 'E') {
-                    $normalizedScore = $this->calculateSectionEScore($subsection['name'], $subsectionTotal, $questionCount);
-                } else {
-                    // Original calculation for other sections
-                    $normalizedScore = $subsectionTotal;
-                }
+                // Original calculation for other sections
+                $normalizedScore = $subsectionTotal;
 
                 $category = $this->determineCategory($normalizedScore, $sectionData, $subsection['name']);
 
@@ -262,7 +257,7 @@ class SubsectionScoreCalculationService
             'Prestasi Tugas' => 'Jumlah Skor Prestasi Tugas',
             'Prestasi Kontekstual' => 'Jumlah Skor Prestasi Konteksual',
             'Perilaku Kerja Tidak Produktif' => 'Jumlah Skor Perilaku Kerja Tidak Produktif',
-            'Keseluruhan' => 'Jumlah Skor Keseluruhan'
+            'Keseluruhan' => 'Keputusan Keseluruhan'
         ];
 
         foreach ($components as $key => $name) {

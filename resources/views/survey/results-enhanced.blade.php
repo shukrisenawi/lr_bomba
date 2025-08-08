@@ -28,7 +28,10 @@
 
                 @foreach ($subsectionScores as $index => $subsection)
                     <div class="mb-8 border-l-4 border-blue-500 pl-4">
-                        <h4 class="text-lg font-semibold text-gray-800 mb-3">{{ $subsection['name'] }}</h4>
+                        <h4
+                            class="text-lg mb-3 @if ($subsection['name'] === 'Keputusan Keseluruhan') font-bold text-black @else font-semibold text-gray-800 @endif">
+                            {{ $subsection['name'] }}</h4>
+
 
                         <!-- Subsection Score Details -->
                         <div class="space-y-3">
