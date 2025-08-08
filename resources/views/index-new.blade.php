@@ -14,7 +14,7 @@
                         alt="Logo 3" />
                 </div>
                 <h2 class="mt-6 text-2xl font-extrabold text-gray-900">
-                    Aplikasi Penilaian ‘Fitto-Work’
+                    Aplikasi Penilaian ‘Fit-to-Work’
                 </h2>
                 <p class="mt-2 text-sm text-gray-600">
                     Jabatan Bomba dan Penyelamat Malaysia

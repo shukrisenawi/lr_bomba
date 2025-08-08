@@ -31,6 +31,12 @@
                             dalam lingkungan kerja. Instrumen ini bertujuan untuk menilai sejauh
                             mana latihan telah mencapai objektif yang ditetapkan, serta pengaruhnya
                             terhadap prestasi individu, pasukan, dan organisasi secara keseluruhan.
+                        @elseif($section == 'E')
+                            Soal-selidik Prestasi Kerja
+                            Individu (atau Individual Work Performance Questionnaire, IWPQ) adalah
+                            berdasarkan penilaian kepada enpat dimensi prestasi kerja individu yang
+                            terdiri daripada prestasi tugas, prestasi konteksual, prestasi adaptif, dan
+                            tingkah laku kerja kontraproduktif.
                         @endif
 
                     </p>
@@ -261,9 +267,9 @@
                                     </div>
                                     <div class="flex justify-between px-2.5 mt-2 text-xs">
                                         @for ($i = $question['min']; $i <= $question['max']; $i++)
-                                            @if ($i == 0)
+                                            @if ($i == $question['min'] && isset($question['textMin']))
                                                 <span>|</span>
-                                            @elseif ($i == 10)
+                                            @elseif ($i == $question['max'] && isset($question['textMax']))
                                                 <span>|</span>
                                             @endif
                                         @endfor
@@ -271,10 +277,10 @@
 
                                     <div class="flex justify-between px-2.5 mt-2 text-xs">
                                         @for ($i = $question['min']; $i <= $question['max']; $i++)
-                                            @if ($i == 0)
-                                                <span>Tidak boleh bekerja langsung</span>
-                                            @elseif ($i == 10)
-                                                <span>Boleh bekerja pada tahap terbaik</span>
+                                            @if ($i == $question['min'] && isset($question['textMin']))
+                                                <span>{{ $question['textMin'] }}</span>
+                                            @elseif ($i == $question['max'] && isset($question['textMax']))
+                                                <span>{{ $question['textMax'] }}</span>
                                             @endif
                                         @endfor
                                     </div>
