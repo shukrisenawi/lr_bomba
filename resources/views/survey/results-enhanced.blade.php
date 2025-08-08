@@ -44,7 +44,7 @@
                             @if (isset($subsection['category']) && $subsection['category'] && $section !== 'B')
                                 <div
                                     class="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
-                                    <span class="font-medium text-gray-700">Kategori</span>
+                                    <span class="font-medium text-gray-700">Status</span>
                                     <span
                                         class="px-3 py-1 rounded-full text-sm font-medium
                                         @if (str_contains(strtolower($subsection['category']), 'cemerlang') ||
@@ -57,13 +57,13 @@
                                 </div>
                             @endif
 
-                            <div
+                            {{-- <div
                                 class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
                                 <span class="font-medium text-gray-700">Status</span>
                                 <span class="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                                     Selesai
                                 </span>
-                            </div>
+                            </div> --}}
                         </div>
 
                         @if (isset($subsection['recommendation']) && $subsection['recommendation'] && $section !== 'B')
@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
                                         <div class="sm:ml-3 text-left">
-                                            <h5 class="font-medium text-gray-800 mb-1">Cadangan:</h5>
+                                            <h5 class="font-medium text-gray-800 mb-1">Saranan:</h5>
                                             <p class="text-gray-600 text-sm leading-relaxed">
                                                 {{ $subsection['recommendation'] }}
                                             </p>
@@ -118,7 +118,7 @@
                                 @if ($score->category)
                                     <div
                                         class="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-                                        <span class="font-semibold text-gray-700">Kategori</span>
+                                        <span class="font-semibold text-gray-700">Status</span>
                                         <span
                                             class="px-3 py-1 rounded-full text-sm font-medium
                                                 @if (str_contains(strtolower($score->category), 'tinggi')) bg-green-100 text-green-800
@@ -128,13 +128,13 @@
                                         </span>
                                     </div>
                                 @endif
-                                <div
+                                {{-- <div
                                     class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
                                     <span class="font-semibold text-gray-700">Status</span>
                                     <span class="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                                         Selesai
                                     </span>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                         <div class="space-y-6 mb-10">
                             <h3 class="text-2xl font-bold text-gray-800 mb-4">
                                 <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
-                                Cadangan & Tindakan
+                                Saranan
                             </h3>
 
                             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">

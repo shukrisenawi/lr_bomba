@@ -37,6 +37,28 @@
                             berdasarkan penilaian kepada enpat dimensi prestasi kerja individu yang
                             terdiri daripada prestasi tugas, prestasi konteksual, prestasi adaptif, dan
                             tingkah laku kerja kontraproduktif.
+                        @elseif ($section == 'F')
+                            Skala Kemurungan Psikologikal
+                            Kessler 6 (atau Kessler 6 Psychological Distress Scale, K6+) adalah
+                            instrumen yang berpotensi untuk menyaring masalah kesihatan mental
+                            dan menilai tahap kesulitan yang dihadapi. Ia digunakan secara meluas
+                            dalam penyelidikan dan perubatan klinikal kerana ia ringkas, boleh
+                            dipercayai, dan mempunyai kesahihan. Ia sangat membantu dalam
+                            mengenal pasti individu yang mungkin memerlukan penilaian dan
+                            rawatan lanjut.
+                        @elseif ($section == 'G')
+                            Skala Kemurungan Kajian
+                            Epidemiologi Pusat (CES-D) (atau Depression Scale CES-D) ialah satu
+                            soal selidik kendiri yang digunakan secara meluas untuk menilai simptom
+                            kemurungan dalam populasi umum. Ia terdiri daripada 20 item yang
+                            menanyakan tentang kekerapan pelbagai simptom kemurungan
+                            sepanjang minggu lepas.
+                        @elseif ($section == 'H')
+                            Alat Penilaian Keletihan (atau
+                            Burnout Assessment Tool, BAT) ialah satu soal selidik yang disahkan
+                            secara saintifik yang direka untuk menilai risiko keletihan. Ia mengukur
+                            keletihan sebagai satu sindrom dengan empat komponen teras seperti
+                            keletihan, jarak mental, kemerosotan kognitif dan emosi.
                         @endif
 
                     </p>
