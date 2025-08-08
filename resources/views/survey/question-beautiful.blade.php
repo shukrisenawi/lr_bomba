@@ -182,7 +182,7 @@
                                 @endphp
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $optionValue }}" class="peer sr-only"
-                                        required>
+                                        @if ($section !== 'J') required @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
                                                 cursor-pointer transition-all duration-300 hover:border-indigo-500
@@ -259,7 +259,7 @@
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan nilai:</span>
                                 <div class="relative">
                                     <input type="number" name="answer" class="form-input-enhanced w-full text-lg"
-                                        placeholder="0" required>
+                                        placeholder="0" @if ($section !== 'J') required @endif>
                                     @if (isset($question['unit']))
                                         <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                                             {{ $question['unit'] }}
@@ -273,7 +273,8 @@
                             <label class="block">
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan:</span>
                                 <input type="text" name="answer" class="form-input-enhanced w-full text-lg"
-                                    placeholder="Taip jawapan anda di sini" required>
+                                    placeholder="Taip jawapan anda di sini"
+                                    @if ($section !== 'J') required @endif>
                             </label>
                         </div>
                     @elseif($question['type'] === 'multiText')

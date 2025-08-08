@@ -154,7 +154,7 @@ class SurveyController extends Controller
     {
         $request->validate([
             'question_id' => 'required',
-            'answer' => 'required'
+            'answer' => $section === 'J' ? 'nullable' : 'required'
         ]);
 
         $response = SurveyResponse::where('user_id', Auth::id())
