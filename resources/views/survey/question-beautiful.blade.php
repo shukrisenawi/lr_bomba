@@ -182,7 +182,7 @@
                                 @endphp
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $optionValue }}" class="peer sr-only"
-                                        @if ($section !== 'J') required @endif>
+                                        @if ($section !== 'J' && !(isset($question['select']) && $question['select'] == 'optional')) required @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
                                                 cursor-pointer transition-all duration-300 hover:border-indigo-500
@@ -196,6 +196,29 @@
                                             </div>
                                         </div>
                                         <span class="text-gray-700 font-medium text-left">{{ $optionText }}</span>
+                                    </div>
+                                </label>
+                            @endforeach
+                        </div>
+                    @elseif($question['type'] === 'radio_button_image')
+                        <div class="space-y-4">
+                            @foreach ($question['options'] as $index => $option)
+                                <label class="block">
+                                    <input type="radio" name="answer" value="{{ $index }}" class="peer sr-only"
+                                        @if ($section != 'J' && !(isset($question['select']) && $question['select'] == 'optional')) required @endif>
+                                    <div
+                                        class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
+                                            cursor-pointer transition-all duration-300 hover:border-indigo-500
+                                            hover:bg-indigo-50 hover:shadow-lg peer-checked:border-indigo-600
+                                            peer-checked:bg-indigo-50 peer-checked:shadow-lg">
+                                        <div
+                                            class="radio-indicator w-6 h-6 border-2 border-gray-300 rounded-full mr-4
+                                                flex items-center justify-center transition-all duration-300">
+                                            <div
+                                                class="radio-dot w-3 h-3 bg-white rounded-full opacity-0 transition-all duration-300">
+                                            </div>
+                                        </div>
+                                        <img src="{{ asset('img/' . $option['image']) }}" />
                                     </div>
                                 </label>
                             @endforeach
@@ -259,7 +282,7 @@
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan nilai:</span>
                                 <div class="relative">
                                     <input type="number" name="answer" class="form-input-enhanced w-full text-lg"
-                                        placeholder="0" @if ($section !== 'J') required @endif>
+                                        placeholder="0" @if ($section !== 'J' && !(isset($question['select']) && $question['select'] == 'optional')) required @endif>
                                     @if (isset($question['unit']))
                                         <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                                             {{ $question['unit'] }}
@@ -274,7 +297,7 @@
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan:</span>
                                 <input type="text" name="answer" class="form-input-enhanced w-full text-lg"
                                     placeholder="Taip jawapan anda di sini"
-                                    @if ($section !== 'J') required @endif>
+                                    @if ($section !== 'J' && !(isset($question['select']) && $question['select'] == 'optional')) required @endif>
                             </label>
                         </div>
                     @elseif($question['type'] === 'multiText')
