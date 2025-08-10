@@ -169,6 +169,19 @@
                                     class="m-auto" /></a>
                         </div>
                     @endif
+                    @php
+                        $isOptional = isset($question['select']) && $question['select'] === 'optional';
+                    @endphp
+
+                    @if ($isOptional)
+                        <div class="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
+                            <p class="text-blue-700 text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Soalan ini adalah pilihan - anda boleh teruskan tanpa menjawab jika tidak berkaitan.
+                            </p>
+                        </div>
+                    @endif
+
                     @if ($question['type'] === 'single_choice')
                         <div class="space-y-4">
                             @foreach ($question['options'] as $index => $option)
@@ -182,7 +195,7 @@
                                 @endphp
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $optionValue }}" class="peer sr-only"
-                                        @if ($section !== 'J' && !(isset($question['select']) && $question['select'] == 'optional')) required @endif>
+                                        @if (!$isOptional && $section !== 'J') required @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
                                                 cursor-pointer transition-all duration-300 hover:border-indigo-500
@@ -205,7 +218,7 @@
                             @foreach ($question['options'] as $index => $option)
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $index }}" class="peer sr-only"
-                                        @if ($section != 'J' && !(isset($question['select']) && $question['select'] == 'optional')) required @endif>
+                                        @if (!$isOptional && $section != 'J') required @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
                                             cursor-pointer transition-all duration-300 hover:border-indigo-500
@@ -217,6 +230,59 @@
                                             <div
                                                 class="radio-dot w-3 h-3 bg-white rounded-full opacity-0 transition-all duration-300">
                                             </div>
+                                        </div>
+                                        <img src="{{ asset('img/' . $option['image']) }}" />
+                                    </div>
+                                </label>
+                            @endforeach
+                        </div>
+                    @elseif($question['type'] === 'select_box_image')
+                        <div class="space-y-4">
+                            @php
+                                $existingAnswers = [];
+                                if ($answer && $answer->answer) {
+                                    $existingAnswers = is_array($answer->answer)
+                                        ? $answer->answer
+                                        : json_decode($answer->answer, true) ?? [];
+                                }
+
+                                // Helper function to decode JSON strings if needed
+                                function decodeOptionText($option)
+                                {
+                                    if (is_string($option)) {
+                                        $decoded = json_decode($option, true);
+                                        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                            // If decoded is array, join elements as string
+                                            return implode(', ', $decoded);
+                                        } elseif (json_last_error() === JSON_ERROR_NONE && is_string($decoded)) {
+                                            return $decoded;
+                                        }
+                                    }
+                                    return $option;
+                                }
+                            @endphp
+                            @foreach ($question['options'] as $index => $option)
+                                @php
+                                    $optionText = is_array($option) ? $option['text'] ?? '' : decodeOptionText($option);
+                                    $optionValue = $index;
+                                    // Handle empty string options
+                                    if ($optionText === '' || $optionText === null) {
+                                        $optionText = 'Pilihan ' . ($index + 1);
+                                    }
+                                @endphp
+                                <label class="block">
+                                    <input type="checkbox" name="answer[]" value="{{ $optionValue }}" class="peer sr-only"
+                                        @if (in_array($optionValue, $existingAnswers)) checked @endif>
+                                    <div
+                                        class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
+                            cursor-pointer transition-all duration-300 hover:border-indigo-500
+                            hover:bg-indigo-50 hover:shadow-lg peer-checked:border-indigo-600
+                            peer-checked:bg-indigo-50 peer-checked:shadow-lg">
+                                        <div
+                                            class="checkbox-indicator w-6 h-6 border-2 border-gray-300 rounded mr-4
+                                flex items-center justify-center transition-all duration-300">
+                                            <i
+                                                class="fas fa-check text-white text-sm opacity-0 transition-all duration-300"></i>
                                         </div>
                                         <img src="{{ asset('img/' . $option['image']) }}" />
                                     </div>
@@ -282,7 +348,7 @@
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan nilai:</span>
                                 <div class="relative">
                                     <input type="number" name="answer" class="form-input-enhanced w-full text-lg"
-                                        placeholder="0" @if ($section !== 'J' && !(isset($question['select']) && $question['select'] == 'optional')) required @endif>
+                                        placeholder="0" @if ($section !== 'J') required @endif>
                                     @if (isset($question['unit']))
                                         <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                                             {{ $question['unit'] }}
@@ -297,7 +363,7 @@
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan:</span>
                                 <input type="text" name="answer" class="form-input-enhanced w-full text-lg"
                                     placeholder="Taip jawapan anda di sini"
-                                    @if ($section !== 'J' && !(isset($question['select']) && $question['select'] == 'optional')) required @endif>
+                                    @if ($section !== 'J') required @endif>
                             </label>
                         </div>
                     @elseif($question['type'] === 'multiText')

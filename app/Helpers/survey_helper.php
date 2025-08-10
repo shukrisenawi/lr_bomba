@@ -78,6 +78,111 @@ if (!function_exists('calculate_section_score')) {
     }
 }
 
+if (!function_exists('get_radio_button_image_score')) {
+    /**
+     * Calculate score for radio_button_image type questions
+     * Extracts score from the selected option's value key
+     *
+     * @param array $question The question array from survey JSON
+     * @param string $selectedAnswer The selected answer value
+     * @return int The calculated score based on the option's value
+     */
+    function get_radio_button_image_score($question, $selectedAnswer)
+    {
+        if (!isset($question['type']) || $question['type'] !== 'radio_button_image') {
+            return 0;
+        }
+
+        if (!isset($question['options']) || !is_array($question['options'])) {
+            return 0;
+        }
+
+        // Find the matching option and extract its value as score
+        foreach ($question['options'] as $option) {
+            if (isset($option['value']) && isset($option['image'])) {
+                // For radio_button_image, the value is the score
+                if ($option['value'] == $selectedAnswer) {
+                    return (int)$option['value'];
+                }
+            }
+        }
+
+        return 0;
+    }
+}
+
+if (!function_exists('calculate_question_score')) {
+    /**
+     * Calculate score for a specific question based on its type
+     *
+     * @param array $question The question array from survey JSON
+     * @param string|array $answer The user's answer
+     * @return int The calculated score
+     */
+    function calculate_question_score($question, $answer)
+    {
+        if (empty($answer)) {
+            return 0;
+        }
+
+        $type = $question['type'] ?? 'text';
+
+        switch ($type) {
+            case 'radio_button_image':
+                return get_radio_button_image_score($question, $answer);
+
+            case 'single_choice':
+                // Extract score from options like "Text (score)"
+                if (isset($question['options']) && is_array($question['options'])) {
+                    foreach ($question['options'] as $option) {
+                        if (is_string($option) && strpos($option, '(') !== false && strpos($option, ')') !== false) {
+                            // Extract the score from format "Text (score)"
+                            preg_match('/\((\d+)\)$/', $option, $matches);
+                            if (isset($matches[1]) && $option === $answer) {
+                                return (int)$matches[1];
+                            }
+                        }
+                    }
+                }
+                return 0;
+
+            case 'scale':
+                // For scale questions, the answer itself is the score
+                return is_numeric($answer) ? (int)$answer : 0;
+
+            default:
+                return 0;
+        }
+    }
+}
+
+if (!function_exists('calculate_section_score_with_questions')) {
+    /**
+     * Calculate section score based on answers and question definitions
+     *
+     * @param array $sectionData The section data containing questions
+     * @param array $answers Array of survey answers
+     * @return int Calculated score
+     */
+    function calculate_section_score_with_questions($sectionData, $answers)
+    {
+        $totalScore = 0;
+
+        // Get all questions from the section
+        $questions = get_all_questions_from_section($sectionData);
+
+        foreach ($questions as $question) {
+            $questionId = $question['id'] ?? '';
+            if (isset($answers[$questionId])) {
+                $score = calculate_question_score($question, $answers[$questionId]);
+                $totalScore += $score;
+            }
+        }
+
+        return $totalScore;
+    }
+}
+
 if (!function_exists('find_question_by_id')) {
     /**
      * Find a question by ID within nested sections and subsections
@@ -211,10 +316,10 @@ if (!function_exists('get_options_from_referer')) {
                 // $options = preg_split('/[\n,]+/', $refererAnswer);
                 $options = json_decode($refererAnswer);
 
-                $options = collect($options)->map(function($item) {
+                $options = collect($options)->map(function ($item) {
                     return collect($item)->values()->first(); // Ambil value pertama
                 })->toArray();
-                
+
                 $options = array_map('trim', $options);
                 $options = array_filter($options);
             }

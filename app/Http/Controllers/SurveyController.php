@@ -153,10 +153,26 @@ class SurveyController extends Controller
 
     public function store(Request $request, $section)
     {
-        $request->validate([
+        // Determine if question is optional by checking survey JSON
+        $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
+        $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
+        $questions = collect($this->extractAllQuestions($sectionData));
+        $question = $questions->where('id', $request->question_id)->first();
+
+        $isOptional = isset($question['select']) && $question['select'] === 'optional';
+
+        $validationRules = [
             'question_id' => 'required',
-            'answer' => $section === 'J' ? 'nullable' : 'required'
-        ]);
+        ];
+
+        // If question is optional or section J, answer can be nullable
+        if ($isOptional || $section === 'J') {
+            $validationRules['answer'] = 'nullable';
+        } else {
+            $validationRules['answer'] = 'required';
+        }
+
+        $request->validate($validationRules);
 
         $response = SurveyResponse::where('user_id', Auth::id())
             ->where('survey_id', $section)
@@ -196,6 +212,11 @@ class SurveyController extends Controller
             }
         }
         $answerData = $this->processAnswerData($question, $answerInput, $response->id, $request->question_id);
+
+        // Prevent null answer insertion for optional questions by storing empty string instead
+        if ($answerData['answer'] === null) {
+            $answerData['answer'] = '';
+        }
 
         SurveyAnswer::create($answerData);
 
