@@ -488,6 +488,86 @@
                 }, 100);
             }
 
+            // Add toggle functionality for radio buttons
+            function addRadioToggle() {
+                const radioContainers = document.querySelectorAll('input[type="radio"]');
+
+                radioContainers.forEach(radio => {
+                    const label = radio.closest('label');
+                    if (label) {
+                        // Store previous checked state
+                        let wasChecked = radio.checked;
+
+                        label.addEventListener('click', function(e) {
+                            // Prevent default radio button behavior
+                            e.preventDefault();
+
+                            const name = radio.getAttribute('name');
+                            const radios = document.querySelectorAll(
+                                `input[type="radio"][name="${name}"]`);
+
+                            // If this radio is already checked, uncheck it
+                            if (radio.checked) {
+                                radio.checked = false;
+
+                                // Remove checked styling from all related labels
+                                radios.forEach(r => {
+                                    const relatedLabel = r.closest('label');
+                                    if (relatedLabel) {
+                                        relatedLabel.querySelector('div').classList.remove(
+                                            'peer-checked:border-indigo-600',
+                                            'peer-checked:bg-indigo-50',
+                                            'peer-checked:shadow-lg'
+                                        );
+                                        relatedLabel.querySelector('.radio-indicator')
+                                            .classList.remove(
+                                                'border-indigo-600',
+                                                'bg-indigo-600'
+                                            );
+                                        relatedLabel.querySelector('.radio-dot').style
+                                            .opacity = '0';
+                                    }
+                                });
+                            } else {
+                                // Check this radio and uncheck others
+                                radios.forEach(r => {
+                                    r.checked = false;
+                                    const relatedLabel = r.closest('label');
+                                    if (relatedLabel) {
+                                        relatedLabel.querySelector('div').classList.remove(
+                                            'peer-checked:border-indigo-600',
+                                            'peer-checked:bg-indigo-50',
+                                            'peer-checked:shadow-lg'
+                                        );
+                                        relatedLabel.querySelector('.radio-indicator')
+                                            .classList.remove(
+                                                'border-indigo-600',
+                                                'bg-indigo-600'
+                                            );
+                                        relatedLabel.querySelector('.radio-dot').style
+                                            .opacity = '0';
+                                    }
+                                });
+
+                                radio.checked = true;
+
+                                // Add checked styling to this label
+                                label.querySelector('div').classList.add(
+                                    'peer-checked:border-indigo-600',
+                                    'peer-checked:bg-indigo-50',
+                                    'peer-checked:shadow-lg'
+                                );
+                                label.querySelector('.radio-indicator').classList.add(
+                                    'border-indigo-600',
+                                    'bg-indigo-600'
+                                );
+                                label.querySelector('.radio-dot').style.opacity = '1';
+                            }
+                        });
+                    }
+                });
+            }
+
             // Add hover effects to radio/checkbox options
             const radioOptions = document.querySelectorAll('label.block');
             radioOptions.forEach(option => {
@@ -511,6 +591,9 @@
                     }
                 });
             }
+
+            // Initialize radio toggle functionality
+            addRadioToggle();
         });
     </script>
 @endpush
