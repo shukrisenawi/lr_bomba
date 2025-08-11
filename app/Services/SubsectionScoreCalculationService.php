@@ -40,6 +40,8 @@ class SubsectionScoreCalculationService
             return $this->calculateSectionEScores($response, $sectionData);
         } else if ($sectionId === 'H') {
             return $this->calculateBat12SectionGScores($response, $sectionData);
+        } else if ($sectionId === 'I') {
+            return $this->calculateRebaSectionGScores($response, $sectionData);
         }
 
         foreach ($sectionData['subsections'] as $subsection) {
@@ -55,7 +57,7 @@ class SubsectionScoreCalculationService
                 $questionId = $question['id'];
 
                 if ($answers->has($questionId) && $answers[$questionId]->score !== null) {
-                    $subsectionTotal += (int)$answers[$questionId]->score;
+                    $subsectionTotal += $answers[$questionId]->score;
                     $questionCount++;
                 }
 
@@ -71,6 +73,7 @@ class SubsectionScoreCalculationService
                 $category = $this->determineCategory($normalizedScore, $sectionData, $subsection['name']);
 
                 $recommendation = $this->getRecommendation($normalizedScore, $sectionData);
+                // dd($subsection['name']);
 
                 $subsectionScores[] = [
                     'name' => $subsection['name'],
@@ -245,6 +248,41 @@ class SubsectionScoreCalculationService
 
         return $subsectionScores;
     }
+    private function calculateRebaSectionGScores(SurveyResponse $response, array $sectionData): array
+    {
+
+        $rebaService = new \App\Services\RebaScoreCalculationService();
+        $rebaScores = $rebaService->calculateRebaScore($response);
+
+        $subsectionScores = [];
+
+        // Create subsections for each BAT12 component
+        $components = [
+            'Bahagian A' => 'Skor Bahagian A',
+            'Bahagian B' => 'Skor Bahagian A',
+            'REBA' => 'Skor REBA'
+        ];
+
+        foreach ($components as $key => $name) {
+            $score = $rebaScores[$key];
+            // $interpretation = $bat12Service->getBat12Interpretation($score);
+
+            $category = $this->determineCategory($score, $sectionData, $key);
+
+            $recommendation = $this->getRecommendation($score, $sectionData);
+
+            $subsectionScores[] = [
+                'name' => $name,
+                'score' => $score,
+                'raw_score' => $score,
+                'max_possible' => 3,
+                'category' => $category,
+                'recommendation' => $recommendation,
+                'question_count' => $key === 'REBA' ? 0 : ($key === 'Bahagian A' ? 7 : 6)
+            ];
+        }
+        return $subsectionScores;
+    }
     private function calculateSectionEScores(SurveyResponse $response, array $sectionData): array
     {
         $service = new \App\Services\SectionEScoreCalculationService();
@@ -266,7 +304,7 @@ class SubsectionScoreCalculationService
 
             $category = $this->determineCategory($score, $sectionData, $key);
 
-            $recommendation = $this->getRecommendation($score, $sectionData);
+            $recommendation = $this->getRecommendation($score, $sectionData, $key);
 
             $subsectionScores[] = [
                 'name' => $name,
@@ -348,6 +386,8 @@ class SubsectionScoreCalculationService
     private function getRecommendation(float $score, array $sectionData, string $subsectionSelect = ''): string
     {
         $categorySelect = $this->determineCategory($score, $sectionData, $subsectionSelect);
+
+
         if (isset($sectionData['scoring']['recommendations'])) {
 
             foreach ($sectionData['scoring']['recommendations'] as $category => $recommendation) {

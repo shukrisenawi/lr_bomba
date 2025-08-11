@@ -454,13 +454,14 @@ class SurveyController extends Controller
 
     public function results($section)
     {
-        $response = SurveyResponse::with(['scores', 'answers'])
-            ->where('user_id', Auth::id())
-            ->where('survey_id', $section)
-            ->firstOrFail();
-
+        $user_id = Auth::id();
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
+
+        $response = SurveyResponse::with(['scores', 'answers'])
+            ->where('user_id', $user_id)
+            ->where('survey_id', $section)
+            ->firstOrFail();
 
         if ($section === 'J') {
             $allQuestions = collect($this->extractAllQuestions($sectionData));
@@ -751,7 +752,14 @@ class SurveyController extends Controller
             return;
         }
 
+        // Special handling for Section A (REBA)
+        if ($section === 'A') {
+            $this->calculateRebaScore($response);
+            return;
+        }
+
         if (isset($sectionData['subsections']) && !empty($sectionData['subsections'])) {
+
             // Calculate subsection scores
             $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
             $this->subsectionScoreService->updateSubsectionScores($response, $subsectionScores);
@@ -760,8 +768,9 @@ class SurveyController extends Controller
             if ($section === 'E') {
                 $this->calculateSectionEOverallScore($response, $subsectionScores);
             }
-        } else {
-            // For sections without subsections, we calculate a single total score.
+        }
+        // For sections without subsections
+        else {
             // Section B has special logic handled by the SubsectionScoreCalculationService.
             if ($section === 'B') {
                 $scores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
@@ -776,8 +785,9 @@ class SurveyController extends Controller
                         $scoreData['recommendation']
                     );
                 }
-            } else {
-                // Fallback to old total score calculation for other sections
+            }
+            // Fallback to old total score calculation for other sections
+            else {
                 $answers = $response->answers()->get();
 
                 $totalScore = 0;
@@ -993,6 +1003,184 @@ class SurveyController extends Controller
 
             default:
                 return 50;
+        }
+    }
+
+    /**
+     * Calculate final REBA score for Section A
+     */
+    private function calculateRebaScore(SurveyResponse $response)
+    {
+        $answers = $response->answers()->get()->keyBy('question_id');
+
+        // TABLE A: Neck, Trunk, Legs
+        $neck = $answers->get('A1')->score ?? 0;
+        $neck_adj = $answers->get('A1a')->score ?? 0;
+        $neck_score = $neck + $neck_adj;
+
+        $trunk = $answers->get('A2')->score ?? 0;
+        $trunk_adj = $answers->get('A2a')->score ?? 0;
+        $trunk_score = $trunk + $trunk_adj;
+
+        $legs = $answers->get('A3')->score ?? 0;
+        $legs_adj = $answers->get('A3a')->score ?? 0;
+        $leg_score = $legs + $legs_adj;
+
+        $tableA_score = $this->getRebaTableA_Score($neck_score, $trunk_score, $leg_score);
+
+        $load_force = $answers->get('A4')->score ?? 0;
+        $scoreA = $tableA_score + $load_force;
+
+        // TABLE B: Arms and Wrists
+        $upper_arm = $answers->get('A5')->score ?? 0;
+        $upper_arm_adj = $answers->get('A5a')->score ?? 0;
+        $upper_arm_score = $upper_arm + $upper_arm_adj;
+
+        $lower_arm_score = $answers->get('A6')->score ?? 0;
+
+        $wrist = $answers->get('A7')->score ?? 0;
+        $wrist_adj = $answers->get('A7a')->score ?? 0;
+        $wrist_score = $wrist + $wrist_adj;
+
+        $tableB_score = $this->getRebaTableB_Score($upper_arm_score, $lower_arm_score, $wrist_score);
+
+        $coupling = $answers->get('A8')->score ?? 0;
+        $scoreB = $tableB_score + $coupling;
+
+        // TABLE C
+        $tableC_score = $this->getRebaTableC_Score($scoreA, $scoreB);
+
+        $activity = $answers->get('A9')->score ?? 0;
+        $final_reba_score = $tableC_score + $activity;
+
+        // Determine Category and Recommendation
+        list($category, $recommendation) = $this->getRebaInterpretation($final_reba_score);
+
+        // Update score
+        $this->scoreService->updateResponseScore(
+            $response,
+            'Skor REBA Akhir',
+            $final_reba_score,
+            $category,
+            $recommendation
+        );
+    }
+
+    private function getRebaTableA_Score($neck, $trunk, $legs)
+    {
+        $table = [
+            // Neck Score 1
+            1 => [
+                1 => [1 => 1, 2 => 2, 3 => 3, 4 => 4],
+                2 => [1 => 2, 2 => 3, 3 => 4, 4 => 5],
+                3 => [1 => 3, 2 => 4, 3 => 5, 4 => 6],
+                4 => [1 => 4, 2 => 5, 3 => 6, 4 => 7],
+                5 => [1 => 5, 2 => 6, 3 => 7, 4 => 8],
+            ],
+            // Neck Score 2
+            2 => [
+                1 => [1 => 2, 2 => 3, 3 => 4, 4 => 5],
+                2 => [1 => 3, 2 => 4, 3 => 5, 4 => 6],
+                3 => [1 => 4, 2 => 5, 3 => 6, 4 => 7],
+                4 => [1 => 5, 2 => 6, 3 => 7, 4 => 8],
+                5 => [1 => 6, 2 => 7, 3 => 8, 4 => 9],
+            ],
+            // Neck Score 3
+            3 => [
+                1 => [1 => 3, 2 => 4, 3 => 5, 4 => 6],
+                2 => [1 => 4, 2 => 5, 3 => 6, 4 => 7],
+                3 => [1 => 5, 2 => 6, 3 => 7, 4 => 8],
+                4 => [1 => 6, 2 => 7, 3 => 8, 4 => 9],
+                5 => [1 => 7, 2 => 8, 3 => 9, 4 => 9],
+            ],
+        ];
+        return $table[$neck][$trunk][$legs] ?? 0;
+    }
+
+    private function getRebaTableB_Score($upper_arm, $lower_arm, $wrist)
+    {
+        $table = [
+            // Upper Arm 1
+            1 => [
+                1 => [1 => 1, 2 => 2, 3 => 2],
+                2 => [1 => 2, 2 => 3, 3 => 3],
+            ],
+            // Upper Arm 2
+            2 => [
+                1 => [1 => 2, 2 => 3, 3 => 3],
+                2 => [1 => 3, 2 => 4, 3 => 4],
+            ],
+            // Upper Arm 3
+            3 => [
+                1 => [1 => 3, 2 => 4, 3 => 4],
+                2 => [1 => 4, 2 => 5, 3 => 5],
+            ],
+            // Upper Arm 4
+            4 => [
+                1 => [1 => 4, 2 => 5, 3 => 5],
+                2 => [1 => 5, 2 => 6, 3 => 6],
+            ],
+            // Upper Arm 5
+            5 => [
+                1 => [1 => 6, 2 => 7, 3 => 7],
+                2 => [1 => 7, 2 => 8, 3 => 8],
+            ],
+            // Upper Arm 6
+            6 => [
+                1 => [1 => 7, 2 => 8, 3 => 8],
+                2 => [1 => 8, 2 => 9, 3 => 9],
+            ],
+        ];
+        return $table[$upper_arm][$lower_arm][$wrist] ?? 0;
+    }
+
+    private function getRebaTableC_Score($scoreA, $scoreB)
+    {
+        $table = [
+            // Score A = 1
+            1 => [1 => 1, 2 => 1, 3 => 1, 4 => 2, 5 => 3, 6 => 3, 7 => 4, 8 => 5, 9 => 6, 10 => 7, 11 => 7, 12 => 7],
+            // Score A = 2
+            2 => [1 => 1, 2 => 2, 3 => 2, 4 => 3, 5 => 4, 6 => 4, 7 => 5, 8 => 6, 9 => 6, 10 => 7, 11 => 7, 12 => 7],
+            // Score A = 3
+            3 => [1 => 2, 2 => 3, 3 => 3, 4 => 3, 5 => 4, 6 => 5, 7 => 6, 8 => 7, 9 => 7, 10 => 8, 11 => 8, 12 => 8],
+            // Score A = 4
+            4 => [1 => 3, 2 => 4, 3 => 4, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 8, 10 => 9, 11 => 9, 12 => 9],
+            // Score A = 5
+            5 => [1 => 4, 2 => 4, 3 => 4, 4 => 5, 5 => 6, 6 => 7, 7 => 8, 8 => 8, 9 => 9, 10 => 9, 11 => 9, 12 => 9],
+            // Score A = 6
+            6 => [1 => 6, 2 => 6, 3 => 6, 4 => 7, 5 => 8, 6 => 8, 7 => 9, 8 => 9, 9 => 10, 10 => 10, 11 => 10, 12 => 10],
+            // Score A = 7
+            7 => [1 => 7, 2 => 7, 3 => 7, 4 => 8, 5 => 9, 6 => 9, 7 => 9, 8 => 10, 9 => 10, 10 => 11, 11 => 11, 12 => 11],
+            // Score A = 8
+            8 => [1 => 8, 2 => 8, 3 => 8, 4 => 9, 5 => 10, 6 => 10, 7 => 10, 8 => 10, 9 => 11, 10 => 11, 11 => 11, 12 => 12],
+            // Score A = 9
+            9 => [1 => 9, 2 => 9, 3 => 9, 4 => 10, 5 => 10, 6 => 10, 7 => 11, 8 => 11, 9 => 11, 10 => 12, 11 => 12, 12 => 12],
+            // Score A = 10
+            10 => [1 => 10, 2 => 10, 3 => 10, 4 => 11, 5 => 11, 6 => 11, 7 => 11, 8 => 12, 9 => 12, 10 => 12, 11 => 12, 12 => 12],
+            // Score A = 11
+            11 => [1 => 11, 2 => 11, 3 => 11, 4 => 11, 5 => 12, 6 => 12, 7 => 12, 8 => 12, 9 => 12, 10 => 12, 11 => 12, 12 => 12],
+            // Score A = 12
+            12 => [1 => 12, 2 => 12, 3 => 12, 4 => 12, 5 => 12, 6 => 12, 7 => 12, 8 => 12, 9 => 12, 10 => 12, 11 => 12, 12 => 12],
+        ];
+        // Ensure scoreB is within the valid range [1, 12]
+        $scoreB = max(1, min(12, $scoreB));
+        return $table[$scoreA][$scoreB] ?? 0;
+    }
+
+    private function getRebaInterpretation($score)
+    {
+        if ($score == 1) {
+            return ['Boleh diabaikan', 'Tiada tindakan diperlukan'];
+        } elseif ($score >= 2 && $score <= 3) {
+            return ['Risiko Rendah', 'Mungkin perlu ada perubahan'];
+        } elseif ($score >= 4 && $score <= 7) {
+            return ['Risiko Sederhana', 'Perlu ada perubahan'];
+        } elseif ($score >= 8 && $score <= 10) {
+            return ['Risiko Tinggi', 'Perlu ada perubahan segera'];
+        } elseif ($score >= 11) {
+            return ['Risiko Sangat Tinggi', 'Perlu ada perubahan serta-merta'];
+        } else {
+            return ['Tidak Diketahui', 'Skor tidak sah'];
         }
     }
 }

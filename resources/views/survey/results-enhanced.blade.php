@@ -13,6 +13,7 @@
 
         <!-- Main Results Card -->
         <div class="glass-card mb-8 sm:p-5">
+
             @if ($hasSubsections && !empty($subsectionScores))
                 <!-- Display Subsection Scores -->
                 <div class="mb-6">
@@ -21,11 +22,10 @@
                         @if ($section === 'B')
                             Keputusan Keseluruhan
                         @else
-                            Keputusan Mengikut Subseksyen
+                            Keputusan Keseluruhan
                         @endif
                     </h3>
                 </div>
-
                 @foreach ($subsectionScores as $index => $subsection)
                     <div class="mb-8 border-l-4 border-blue-500 pl-4">
                         @php

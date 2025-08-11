@@ -2,168 +2,155 @@
 
 namespace App\Services;
 
+use App\Models\SurveyResponse;
+use App\Models\SurveyScore;
 
 class RebaScoreCalculationService
 {
-    /**
-     * Calculate REBA scores for Bahagian I
-     */
-    public function calculateRebaScores(array $responses): array
-    {
-        $skorBahagianA = $this->calculatePartAScore($responses);
-        $skorBahagianB = $this->calculatePartBScore($responses);
+    // private $scoreService;
 
-        $scores = [
-            'Skor Bahagian A' => $skorBahagianA,
-            'Skor Bahagian B' => $skorBahagianB,
-            'Skor keseluruhan' => $skorBahagianA + $skorBahagianB,
+    // public function __construct(ScoreCalculationService $scoreService)
+    // {
+    //     $this->scoreService = $scoreService;
+    // }
+
+    public function calculateRebaScore(SurveyResponse $response)
+    {
+        $answers = $response->answers()->get()->keyBy('question_id');
+
+        // TABLE A: Neck, Trunk, Legs
+        $neck = $answers->get('1')->score ?? 0;
+        $neck_adj = $answers->get('1a')->score ?? 0;
+        $neck_score = $neck + $neck_adj;
+
+        $trunk = $answers->get('2')->score ?? 0;
+        $trunk_adj = $answers->get('2a')->score ?? 0;
+        $trunk_score = $trunk + $trunk_adj;
+
+        $legs = $answers->get('3')->score ?? 0;
+        $legs_adj = $answers->get('3a')->score ?? 0;
+        $leg_score = $legs + $legs_adj;
+
+
+        $tableA_score = $this->getTableA_Score($neck_score, $trunk_score, $leg_score);
+        $load_force = $answers->get('4')->score ?? 0;
+        $scoreA = $tableA_score + $load_force;
+
+        // TABLE B: Arms and Wrists
+        $upper_arm = $answers->get('5')->score ?? 0;
+        $upper_arm_adj = $answers->get('5a')->score ?? 0;
+        $upper_arm_score = $upper_arm + $upper_arm_adj;
+
+        $lower_arm_score = $answers->get('A6')->score ?? 0;
+
+        $wrist = $answers->get('7')->score ?? 0;
+        $wrist_adj = $answers->get('7a')->score ?? 0;
+        $wrist_score = $wrist + $wrist_adj;
+
+        $tableB_score = $this->getTableB_Score($upper_arm_score, $lower_arm_score, $wrist_score);
+
+        $coupling = $answers->get('8')->score ?? 0;
+        $scoreB = $tableB_score + $coupling;
+
+        // TABLE C
+        $tableC_score = $this->getTableC_Score($scoreA, $scoreB);
+
+        $activity = $answers->get('9')->score ?? 0;
+        $final_reba_score = $tableC_score + $activity;
+
+        return [
+            'Bahagian A' => $scoreA,
+            'Bahagian B' => $scoreB,
+            'REBA' => $tableC_score
         ];
-
-        return $scores;
     }
 
-
-    /**
-     * Calculate Part A score (Neck, Trunk, Legs)
-     */
-    private function calculatePartAScore(array $responses): int
+    private function getTableA_Score($neck, $trunk, $legs)
     {
-        $neckScore = $this->getNeckScore($responses['neck_position'] ?? 0, $responses['neck_adjustment'] ?? 0);
-        $trunkScore = $this->getTrunkScore($responses['trunk_position'] ?? 0, $responses['trunk_adjustment'] ?? 0);
-        $legScore = $this->getLegScore($responses['leg_position'] ?? 0, $responses['leg_adjustment'] ?? 0);
-        $loadScore = $this->getLoadScore($responses['load_weight'] ?? 0, $responses['load_frequency'] ?? 0);
-
-        return $neckScore + $trunkScore + $legScore + $loadScore;
-    }
-
-    /**
-     * Calculate Part B score (Arm and Wrist)
-     */
-    private function calculatePartBScore(array $responses): int
-    {
-        $upperArmScore = $this->getUpperArmScore($responses['upper_arm_position'] ?? 0, $responses['upper_arm_adjustment'] ?? 0);
-        $lowerArmScore = $this->getLowerArmScore($responses['lower_arm_position'] ?? 0);
-        $wristScore = $this->getWristScore($responses['wrist_position'] ?? 0, $responses['wrist_adjustment'] ?? 0);
-        $gripScore = $this->getGripScore($responses['grip_type'] ?? 0);
-        $activityScore = $this->getActivityScore($responses['activity_type'] ?? 0);
-
-        return $upperArmScore + $lowerArmScore + $wristScore + $gripScore + $activityScore;
-    }
-
-    /**
-     * Get neck score based on position and adjustment
-     */
-    private function getNeckScore(int $position, int $adjustment): int
-    {
-        $baseScores = [
-            1 => 1, // Neutral
-            2 => 2, // Flexion/extension
-            3 => 3  // Rotation
+        $table = [
+            // Neck Score 1
+            1 => [
+                1 => [1 => 1, 2 => 2, 3 => 3, 4 => 4],
+                2 => [1 => 2, 2 => 3, 3 => 4, 4 => 5],
+                3 => [1 => 2, 2 => 4, 3 => 5, 4 => 6],
+                4 => [1 => 3, 2 => 5, 3 => 6, 4 => 7],
+                5 => [1 => 4, 2 => 6, 3 => 7, 4 => 8],
+            ],
+            // Neck Score 2
+            2 => [
+                1 => [1 => 1, 2 => 2, 3 => 3, 4 => 4],
+                2 => [1 => 3, 2 => 4, 3 => 5, 4 => 6],
+                3 => [1 => 4, 2 => 5, 3 => 6, 4 => 7],
+                4 => [1 => 5, 2 => 6, 3 => 7, 4 => 8],
+                5 => [1 => 6, 2 => 7, 3 => 8, 4 => 9],
+            ],
+            // Neck Score 3
+            3 => [
+                1 => [1 => 3, 2 => 3, 3 => 5, 4 => 6],
+                2 => [1 => 4, 2 => 5, 3 => 6, 4 => 7],
+                3 => [1 => 5, 2 => 6, 3 => 7, 4 => 8],
+                4 => [1 => 6, 2 => 7, 3 => 8, 4 => 9],
+                5 => [1 => 7, 2 => 8, 3 => 9, 4 => 9],
+            ],
         ];
-
-        return $baseScores[$position] + $adjustment;
+        return $table[$neck][$trunk][$legs] ?? 0;
     }
 
-    /**
-     * Get trunk score based on position and adjustment
-     */
-    private function getTrunkScore(int $position, int $adjustment): int
+    private function getTableB_Score($upper_arm, $lower_arm, $wrist)
     {
-        $baseScores = [
-            1 => 1, // Neutral
-            2 => 2, // Flexion/extension
-            3 => 3, // Rotation
-            4 => 4  // Lateral flexion
+        $table = [
+            // Upper Arm 1
+            1 => [
+                1 => [1 => 1, 2 => 2, 3 => 2],
+                2 => [1 => 1, 2 => 2, 3 => 3],
+                3 => [1 => 3, 2 => 4, 3 => 5],
+                4 => [1 => 4, 2 => 5, 3 => 5],
+                5 => [1 => 6, 2 => 7, 3 => 8],
+                6 => [1 => 7, 2 => 8, 3 => 8],
+            ],
+            // Upper Arm 2
+            2 => [
+                1 => [1 => 1, 2 => 2, 3 => 3],
+                2 => [1 => 2, 2 => 3, 3 => 4],
+                3 => [1 => 4, 2 => 5, 3 => 5],
+                4 => [1 => 5, 2 => 6, 3 => 7],
+                5 => [1 => 7, 2 => 8, 3 => 8],
+                6 => [1 => 8, 2 => 9, 3 => 9],
+            ]
         ];
-
-        return $baseScores[$position] + $adjustment;
+        return $table[$upper_arm][$lower_arm][$wrist] ?? 0;
     }
 
-    /**
-     * Get leg score based on position and adjustment
-     */
-    private function getLegScore(int $position, int $adjustment): int
+    private function getTableC_Score($scoreA, $scoreB)
     {
-        $baseScores = [
-            1 => 1, // Both feet supported
-            2 => 2  // One foot supported
+        $table = [
+            // Score A = 1
+            1 => [1 => 1, 2 => 1, 3 => 2, 4 => 3, 5 => 4, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12],
+            // Score A = 2
+            2 => [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 4, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12],
+            // Score A = 3
+            3 => [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 4, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12],
+            // Score A = 4
+            4 => [1 => 2, 2 => 3, 3 => 3, 4 => 4, 5 => 5, 6 => 7, 7 => 8, 8 => 9, 9 => 10, 10 => 11, 11 => 11, 12 => 12],
+            // Score A = 5
+            5 => [1 => 3, 2 => 4, 3 => 4, 4 => 5, 5 => 6, 6 => 8, 7 => 9, 8 => 10, 9 => 10, 10 => 11, 11 => 12, 12 => 12],
+            // Score A = 6
+            6 => [1 => 3, 2 => 4, 3 => 5, 4 => 6, 5 => 7, 6 => 8, 7 => 9, 8 => 10, 9 => 10, 10 => 11, 11 => 12, 12 => 12],
+            // Score A = 7
+            7 => [1 => 4, 2 => 5, 3 => 6, 4 => 7, 5 => 8, 6 => 9, 7 => 9, 8 => 10, 9 => 11, 10 => 11, 11 => 12, 12 => 12],
+            // Score A = 8
+            8 => [1 => 5, 2 => 6, 3 => 7, 4 => 8, 5 => 8, 6 => 9, 7 => 10, 8 => 10, 9 => 11, 10 => 12, 11 => 12, 12 => 12],
+            // Score A = 9
+            9 => [1 => 6, 2 => 6, 3 => 7, 4 => 8, 5 => 9, 6 => 10, 7 => 10, 8 => 10, 9 => 11, 10 => 12, 11 => 12, 12 => 12],
+            // Score A = 10
+            10 => [1 => 7, 2 => 7, 3 => 8, 4 => 9, 5 => 9, 6 => 10, 7 => 11, 8 => 11, 9 => 12, 10 => 12, 11 => 12, 12 => 12],
+            // Score A = 11
+            11 => [1 => 7, 2 => 7, 3 => 8, 4 => 9, 5 => 9, 6 => 10, 7 => 11, 8 => 11, 9 => 12, 10 => 12, 11 => 12, 12 => 12],
+            // Score A = 12
+            12 => [1 => 7, 2 => 8, 3 => 8, 4 => 9, 5 => 9, 6 => 10, 7 => 11, 8 => 11, 9 => 12, 10 => 12, 11 => 12, 12 => 12],
         ];
-
-        return $baseScores[$position] + $adjustment;
-    }
-
-    /**
-     * Get load score based on weight and frequency
-     */
-    private function getLoadScore(float $weight, int $frequency): int
-    {
-        if ($weight <= 5) return 0;
-        if ($weight <= 10) return 1;
-        if ($weight <= 20) return 2;
-        return 3;
-    }
-
-    /**
-     * Get upper arm score
-     */
-    private function getUpperArmScore(int $position, int $adjustment): int
-    {
-        $baseScores = [
-            1 => 1, // Neutral
-            2 => 2, // Flexion/extension
-            3 => 3, // Abduction
-            4 => 4  // Rotation
-        ];
-
-        return $baseScores[$position] + $adjustment;
-    }
-
-    /**
-     * Get lower arm score
-     */
-    private function getLowerArmScore(int $position): int
-    {
-        return $position;
-    }
-
-    /**
-     * Get wrist score
-     */
-    private function getWristScore(int $position, int $adjustment): int
-    {
-        $baseScores = [
-            1 => 1, // Neutral
-            2 => 2  // Flexion/extension
-        ];
-
-        return $baseScores[$position] + $adjustment;
-    }
-
-    /**
-     * Get grip score
-     */
-    private function getGripScore(int $type): int
-    {
-        return $type;
-    }
-
-    /**
-     * Get activity score
-     */
-    private function getActivityScore(int $type): int
-    {
-        return $type;
-    }
-
-    /**
-     * Get REBA risk level based on overall score
-     */
-    public function getRiskLevel(int $overallScore): string
-    {
-        if ($overallScore <= 1) return 'Tiada risiko';
-        if ($overallScore <= 3) return 'Risiko rendah';
-        if ($overallScore <= 7) return 'Risiko sederhana';
-        if ($overallScore <= 10) return 'Risiko tinggi';
-        return 'Risiko sangat tinggi';
+        // Ensure scoreB is within the valid range [1, 12]
+        $scoreB = max(1, min(12, $scoreB));
+        return $table[$scoreA][$scoreB] ?? 0;
     }
 }
