@@ -33,45 +33,52 @@
     <!-- Survey Sections Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($sections as $section => $title)
-            @if (($section != 'I' && $section != 'L') || session()->has('admin_id'))
-                <div class="card-enhanced glass-card p-6 text-center">
-                    <!-- Section Icon -->
-                    <div
-                        class="w-16 h-16 bg-gradient-to-r {{ getSectionGradient($section) }} rounded-full flex items-center justify-center mx-auto mb-4">
-                        {{-- <i class="fas fa-{{ getSectionIcon($section) }} text-white text-2xl"></i> --}}
-                        <img src="../img/{{ getSectionIcon($section) }}" />
+
+            <div class="card-enhanced glass-card p-6 text-center">
+                <!-- Section Icon -->
+                <div
+                    class="w-16 h-16 bg-gradient-to-r {{ getSectionGradient($section) }} rounded-full flex items-center justify-center mx-auto mb-4">
+                    {{-- <i class="fas fa-{{ getSectionIcon($section) }} text-white text-2xl"></i> --}}
+                    <img src="../img/{{ getSectionIcon($section) }}" />
+                </div>
+
+                <!-- Section Title -->
+                <h3 class="text-xl font-bold text-gray-800 mb-4">{{ $title }}</h3>
+
+                <!-- Progress Ring -->
+                <div class="relative w-32 h-32 mx-auto mb-4">
+                    <svg class="w-32 h-32 transform -rotate-90">
+                        <defs>
+                            <linearGradient id="gradient{{ $section }}" x1="0%" y1="0%" x2="100%"
+                                y2="100%">
+                                <stop offset="0%"
+                                    style="stop-color:{{ getProgressColor($progress[$section] ?? 0, 'start') }};stop-opacity:1" />
+                                <stop offset="100%"
+                                    style="stop-color:{{ getProgressColor($progress[$section] ?? 0, 'end') }};stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle stroke="#e5e7eb" stroke-width="8" fill="none" r="52" cx="64" cy="64" />
+                        <circle stroke="url(#gradient{{ $section }})" stroke-width="8" fill="none" r="52"
+                            cx="64" cy="64" stroke-dasharray="326.73"
+                            stroke-dashoffset="{{ 326.73 - (326.73 * ($progress[$section] ?? 0)) / 100 }}" />
+                    </svg>
+
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-2xl font-bold {{ getProgressTextColor($progress[$section] ?? 0) }}">
+                            {{ $progress[$section] ?? 0 }}%
+                        </span>
                     </div>
+                </div>
 
-                    <!-- Section Title -->
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">{{ $title }}</h3>
-
-                    <!-- Progress Ring -->
-                    <div class="relative w-32 h-32 mx-auto mb-4">
-                        <svg class="w-32 h-32 transform -rotate-90">
-                            <defs>
-                                <linearGradient id="gradient{{ $section }}" x1="0%" y1="0%"
-                                    x2="100%" y2="100%">
-                                    <stop offset="0%"
-                                        style="stop-color:{{ getProgressColor($progress[$section] ?? 0, 'start') }};stop-opacity:1" />
-                                    <stop offset="100%"
-                                        style="stop-color:{{ getProgressColor($progress[$section] ?? 0, 'end') }};stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <circle stroke="#e5e7eb" stroke-width="8" fill="none" r="52" cx="64" cy="64" />
-                            <circle stroke="url(#gradient{{ $section }})" stroke-width="8" fill="none" r="52"
-                                cx="64" cy="64" stroke-dasharray="326.73"
-                                stroke-dashoffset="{{ 326.73 - (326.73 * ($progress[$section] ?? 0)) / 100 }}" />
-                        </svg>
-
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-2xl font-bold {{ getProgressTextColor($progress[$section] ?? 0) }}">
-                                {{ $progress[$section] ?? 0 }}%
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Status Badge -->
-                    <div class="mb-4">
+                <!-- Status Badge -->
+                <div class="mb-4">
+                    @if (($section == 'I' || $section == 'L') && !session()->has('admin_id'))
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                            <i class="fas fa-user mr-1"></i>&nbsp;
+                            Admin sahaja
+                        </span>
+                    @else
                         @if (isset($responses[$section]))
                             @if ($responses[$section]->completed)
                                 <span
@@ -93,10 +100,17 @@
                                 Belum Dimulakan
                             </span>
                         @endif
-                    </div>
+                    @endif
+                </div>
 
-                    <!-- Action Buttons -->
-                    <div class="space-y-2">
+                <!-- Action Buttons -->
+                <div class="space-y-2">
+                    @if (($section == 'I' || $section == 'L') && !session()->has('admin_id'))
+                        <a href="{{ route('survey.results', $section) }}" class="btn-enhanced w-full text-sm">
+                            <i class="fas fa-lock mr-1"></i>
+                            Admin log in
+                        </a>
+                    @else
                         @if (isset($responses[$section]))
                             @if ($responses[$section]->completed)
                                 <a href="{{ route('survey.results', $section) }}" class="btn-enhanced w-full text-sm">
@@ -119,9 +133,9 @@
                                 Mulakan
                             </a>
                         @endif
-                    </div>
+                    @endif
                 </div>
-            @endif
+            </div>
         @endforeach
     </div>
 
