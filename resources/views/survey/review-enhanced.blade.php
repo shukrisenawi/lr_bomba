@@ -45,10 +45,10 @@
                                 @if ($subsectionName != 'main')
                                     <div class="flex items-center mb-4">
                                         <div
-                                            class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                                            class="min-w-8 min-h-8 w-auto h-auto bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                                             {{ $loop->index + 1 }}
                                         </div>
-                                        <h3 class="text-xl font-bold text-gray-800">{{ $subsectionName }}</h3>
+                                        <h3 class="text-xl font-bold text-gray-800 text-left">{{ $subsectionName }}</h3>
                                     </div>
                                 @endif
                                 @if (isset($subsectionData['score']) && $subsectionData['score'] !== null)
@@ -89,9 +89,13 @@
                                                     <div
                                                         class="bg-green-50 border text-left border-green-200 rounded-lg p-3 mb-2">
                                                         <div class="flex mb-1">
-                                                            <i class="fas fa-check-circle mt-1 text-green-600 mr-2"></i>
-                                                            <span class="font-semibold text-green-800 mr-5">Jawapan Anda:
-                                                            </span>
+                                                            <div class="hidden sm:block"><i
+                                                                    class="fas fa-check-circle mt-1 text-green-600 mr-2"></i>
+                                                                <span class="font-semibold text-green-800 mr-5">Jawapan
+                                                                    Anda:
+                                                                </span>
+                                                            </div>
+
                                                             @php
                                                                 $answerValue = $answer->answer ?? '';
                                                                 $isJson = false;
@@ -106,16 +110,50 @@
                                                             @endphp
 
                                                             @if ($isJson && is_array($decodedAnswer))
-                                                                <ol class="list-disc list-inside space-y-1">
-                                                                    @foreach ($decodedAnswer as $item)
-                                                                        <li class="text-green-700">
-                                                                            {{ is_array($item) ? implode(', ', $item) : htmlspecialchars((string) $item) }}
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ol>
+                                                                @if (!preg_match('/\.(png|jpg|jpeg|gif|webp)$/i', trim($answerQuestion)))
+                                                                    <ol class="list-disc list-inside space-y-1">
+                                                                        @foreach ($decodedAnswer as $item)
+                                                                            @php
+                                                                                $answerQuestion = is_array($item)
+                                                                                    ? implode(', ', $item)
+                                                                                    : htmlspecialchars((string) $item);
+                                                                            @endphp
+                                                                            <li class="text-green-700">
+                                                                                {{ $answerQuestion }}
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ol>
+                                                                @else
+                                                                    <ol class="list-inside space-y-1">
+                                                                        @foreach ($decodedAnswer as $item)
+                                                                            @php
+                                                                                $answerQuestion = is_array($item)
+                                                                                    ? implode(', ', $item)
+                                                                                    : htmlspecialchars((string) $item);
+                                                                            @endphp
+                                                                            <li class="text-green-700">
+                                                                                <img
+                                                                                    src="{{ asset('img/' . $answerQuestion) }}" />
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ol>
+                                                                @endif
                                                             @else
                                                                 <span class="text-green-700">
-                                                                    {{ getDisplayTextForAnswer($question, is_array($answerValue) ? json_encode($answerValue) : (string) $answerValue) }}
+                                                                    @php
+                                                                        $answerQuestion = getDisplayTextForAnswer(
+                                                                            $question,
+                                                                            is_array($answerValue)
+                                                                                ? json_encode($answerValue)
+                                                                                : (string) $answerValue,
+                                                                        );
+                                                                    @endphp
+                                                                    @if (preg_match('/\.(png|jpg|jpeg|gif|webp)$/i', trim($answerQuestion)))
+                                                                        <img src="{{ asset('img/' . $answerQuestion) }}" />
+                                                                    @else
+                                                                        {{ $answerQuestion }}
+                                                                    @endif
+
                                                                 </span>
                                                             @endif
                                                         </div>

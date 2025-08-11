@@ -32,7 +32,7 @@ class RebaScoreCalculationService
         $leg_score = $legs + $legs_adj;
 
 
-        $tableA_score = $this->getTableA_Score($neck_score, $trunk_score, $leg_score);
+        $tableA_score = $this->getTableA_Score((int)$neck_score, (int)$trunk_score, (int)$leg_score);
         $load_force = $answers->get('4')->score ?? 0;
         $scoreA = $tableA_score + $load_force;
 
@@ -41,27 +41,27 @@ class RebaScoreCalculationService
         $upper_arm_adj = $answers->get('5a')->score ?? 0;
         $upper_arm_score = $upper_arm + $upper_arm_adj;
 
-        $lower_arm_score = $answers->get('A6')->score ?? 0;
+        $lower_arm_score = $answers->get('6')->score ?? 0;
 
         $wrist = $answers->get('7')->score ?? 0;
         $wrist_adj = $answers->get('7a')->score ?? 0;
         $wrist_score = $wrist + $wrist_adj;
 
-        $tableB_score = $this->getTableB_Score($upper_arm_score, $lower_arm_score, $wrist_score);
+        $tableB_score = $this->getTableB_Score((int)$upper_arm_score, (int) $lower_arm_score, (int)$wrist_score);
 
         $coupling = $answers->get('8')->score ?? 0;
         $scoreB = $tableB_score + $coupling;
 
         // TABLE C
-        $tableC_score = $this->getTableC_Score($scoreA, $scoreB);
+        $tableC_score = $this->getTableC_Score((int)$scoreA, (int)$scoreB);
 
         $activity = $answers->get('9')->score ?? 0;
-        $final_reba_score = $tableC_score + $activity;
+        $scoreC = $tableC_score + $activity;
 
         return [
             'Bahagian A' => $scoreA,
             'Bahagian B' => $scoreB,
-            'REBA' => $tableC_score
+            'REBA' => $scoreC
         ];
     }
 
@@ -118,7 +118,7 @@ class RebaScoreCalculationService
                 6 => [1 => 8, 2 => 9, 3 => 9],
             ]
         ];
-        return $table[$upper_arm][$lower_arm][$wrist] ?? 0;
+        return $table[$lower_arm][$upper_arm][$wrist] ?? 0;
     }
 
     private function getTableC_Score($scoreA, $scoreB)
