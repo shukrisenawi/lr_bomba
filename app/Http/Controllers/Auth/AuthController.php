@@ -12,7 +12,7 @@ class AuthController extends Controller
     // Tampilkan halaman login
     public function showLoginForm()
     {
-        if (auth()->check()) {
+        if (Auth::check()) {
             return redirect()->route('dashboard');
         }
         return view('auth.login');
@@ -28,6 +28,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            // Store login timestamp in session
+            $request->session()->put('login_time', now()->format('d/m/Y H:i'));
 
             // Role-based redirection
             $user = Auth::user();

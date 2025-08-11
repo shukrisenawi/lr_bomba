@@ -14,6 +14,10 @@
                     <p class="text-gray-600 text-sm sm:text-base">
                         Pekerja Berusia di Jabatan Bomba dan Penyelamat Di Lembah Klang, Malaysia
                     </p>
+                    <p class="mt-2 font-bold text-gray-500 text-sm sm:text-base">
+                        Selamat Datang {{ auth()->user()->name }}<br> Tarikh Login:
+                        {{ session('login_time') ?? now()->format('d/m/Y h:iA') }}
+                    </p>
                 </div>
                 <form action="{{ route('logout') }}" method="POST" class="ml-4">
                     @csrf
