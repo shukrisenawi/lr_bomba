@@ -10,6 +10,8 @@ use App\Services\SubsectionScoreCalculationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class SurveyController extends Controller
 {
@@ -24,8 +26,54 @@ class SurveyController extends Controller
         $this->subsectionScoreService = $subsectionScoreService;
     }
 
+    private function ensureAdminAccess($section)
+    {
+        if (in_array($section, ['I', 'L'])) {
+            $user = Auth::user();
+            if ($user && $user->role === 'admin') {
+                return null;
+            }
+            if (session()->get('survey_admin_verified_' . $section) === true) {
+                return null;
+            }
+            return redirect()->route('survey.admin.login-form', $section)
+                ->with('error', 'Bahagian ' . $section . ' hanya boleh diakses oleh admin.');
+        }
+        return null;
+    }
+
+    public function showAdminLogin($section)
+    {
+        if (!in_array($section, ['I', 'L'])) {
+            return redirect()->route('survey.show', $section);
+        }
+        return view('survey.admin-login', ['section' => $section]);
+    }
+
+    public function verifyAdminAccess(Request $request, $section)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $admin = User::where('email', $request->email)
+            ->where('role', 'admin')
+            ->first();
+
+        if ($admin && Hash::check($request->password, $admin->password)) {
+            session()->put('survey_admin_verified_' . $section, true);
+            return redirect()->route('survey.show', $section)->with('success', 'Akses admin disahkan.');
+        }
+
+        return back()->withErrors(['email' => 'Kelayakan admin tidak sah.'])->withInput();
+    }
+
     public function show($section)
     {
+        if ($redirect = $this->ensureAdminAccess($section)) {
+            return $redirect;
+        }
         $user = Auth::user();
 
         // Validate survey file exists
@@ -153,6 +201,9 @@ class SurveyController extends Controller
 
     public function store(Request $request, $section)
     {
+        if ($redirect = $this->ensureAdminAccess($section)) {
+            return $redirect;
+        }
         // Determine if question is optional by checking survey JSON
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
@@ -454,6 +505,9 @@ class SurveyController extends Controller
 
     public function results($section)
     {
+        if ($redirect = $this->ensureAdminAccess($section)) {
+            return $redirect;
+        }
         $user_id = Auth::id();
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
         $sectionData = collect($surveyData['sections'])->where('id', $section)->first();
@@ -515,6 +569,9 @@ class SurveyController extends Controller
 
     public function review($section)
     {
+        if ($redirect = $this->ensureAdminAccess($section)) {
+            return $redirect;
+        }
         if ($section === 'J') {
             return redirect()->route('survey.results', $section);
         }
@@ -633,6 +690,9 @@ class SurveyController extends Controller
 
     public function edit($section, $questionId)
     {
+        if ($redirect = $this->ensureAdminAccess($section)) {
+            return $redirect;
+        }
         $user = Auth::user();
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
 
@@ -667,6 +727,9 @@ class SurveyController extends Controller
 
     public function update(Request $request, $section, $questionId)
     {
+        if ($redirect = $this->ensureAdminAccess($section)) {
+            return $redirect;
+        }
         $request->validate([
             'answer' => 'required'
         ]);
