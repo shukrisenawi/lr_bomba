@@ -63,21 +63,6 @@ if (!function_exists('getDisplayTextForAnswer')) {
     }
 }
 
-if (!function_exists('calculate_section_score')) {
-    /**
-     * Calculate section score based on answers
-     *
-     * @param string $section Section identifier
-     * @param array $answers Array of survey answers
-     * @return int Calculated score
-     */
-    function calculate_section_score($section, $answers)
-    {
-        // Placeholder implementation - to be customized per section
-        return 0;
-    }
-}
-
 if (!function_exists('get_radio_button_image_score')) {
     /**
      * Calculate score for radio_button_image type questions
@@ -189,6 +174,21 @@ if (!function_exists('calculate_question_score')) {
             default:
                 return 0;
         }
+    }
+}
+
+if (!function_exists('calculate_section_score')) {
+    /**
+     * Calculate section score based on answers
+     *
+     * @param string $section Section identifier
+     * @param array $answers Array of survey answers
+     * @return int Calculated score
+     */
+    function calculate_section_score($section, $answers)
+    {
+        // Placeholder implementation - to be customized per section
+        return 0;
     }
 }
 

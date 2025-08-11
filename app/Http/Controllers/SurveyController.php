@@ -238,10 +238,10 @@ class SurveyController extends Controller
 
         // Handle different question types
         if ($question) {
-            if ($question['type'] === 'single_choice')
-                return $this->processRadioButtonAnswer($question, $selectedAnswer, $responseId, $questionId);
-            else if ($question['type'] === 'multiple_choice') {
-                return $this->processMultipleChoiceAnswer($question, $selectedAnswer, $responseId, $questionId);
+            if ($question['type'] === 'single_choice' || $question['type'] === 'radio_button_image')
+                return $this->processRadioButtonAnswer($question, $selectedAnswer, $responseId, $questionId, $question['type']);
+            else if ($question['type'] === 'multiple_choice' || $question['type'] === 'select_box_image') {
+                return $this->processMultipleChoiceAnswer($question, $selectedAnswer, $responseId, $questionId, $question['type']);
             } else if ($question['type'] === 'scale')
                 return $this->processScaleAnswer($question, $selectedAnswer, $responseId, $questionId);
             else if ($question['type'] === 'numeric')
@@ -295,7 +295,7 @@ class SurveyController extends Controller
     /**
      * Process radio button answer to extract text, value, and score
      */
-    private function processRadioButtonAnswer($question, $selectedValue, $responseId, $questionId)
+    private function processRadioButtonAnswer($question, $selectedValue, $responseId, $questionId, $type)
     {
         $answerText = '';
         $answerValue = $selectedValue;
@@ -311,10 +311,10 @@ class SurveyController extends Controller
                     // Object format with text and value
                     if (isset($option['value']) && $option['value'] == $selectedValue) {
                         $isSelected = true;
-                        $answerText = $option['text'] ?? '';
+                        $answerText = $option['text'] ?? $option['image'] ?? '';
                     } elseif (is_numeric($key) && $key == $selectedValue) {
                         $isSelected = true;
-                        $answerText = $option['text'] ?? '';
+                        $answerText = $option['text'] ?? $option['image'] ?? '';
                     }
                 } else {
                     // String format
@@ -325,11 +325,16 @@ class SurveyController extends Controller
                 }
 
                 if ($isSelected) {
-                    // Extract score from parentheses in text
-                    $textToParse = is_array($option) ? ($option['text'] ?? '') : $option;
-                    if (preg_match('/\((\d+)\)/', $textToParse, $matches)) {
-                        $score = (int)$matches[1];
+                    if ($type == "radio_button_image") {
+                        $score = $option['score'];
+                    } else {
+                        // Extract score from parentheses in text
+                        $textToParse = is_array($option) ? ($option['text'] ?? '') : $option;
+                        if (preg_match('/\((\+?\d+)\)\s*$/', $textToParse, $matches)) {
+                            $score = (int)$matches[1];
+                        }
                     }
+
                     break;
                 }
             }
@@ -360,7 +365,7 @@ class SurveyController extends Controller
     /**
      * Process multiple choice answer to extract text, value, and score
      */
-    private function processMultipleChoiceAnswer($question, $selectedValues, $responseId, $questionId)
+    private function processMultipleChoiceAnswer($question, $selectedValues, $responseId, $questionId, $type)
     {
         $answerTexts = [];
         $answerValues = [];
@@ -392,10 +397,10 @@ class SurveyController extends Controller
                         // Object format with text and value
                         if (isset($option['value']) && $option['value'] == $selectedValue) {
                             $isSelected = true;
-                            $answerText = $option['text'] ?? '';
+                            $answerText = $option['text'] ?? $option['image'] ?? '';
                         } elseif (is_numeric($key) && $key == $selectedValue) {
                             $isSelected = true;
-                            $answerText = $option['text'] ?? '';
+                            $answerText = $option['text'] ??  $option['image'] ?? '';
                         }
                     } else {
                         // String format
@@ -407,9 +412,13 @@ class SurveyController extends Controller
 
                     if ($isSelected) {
                         // Extract score from parentheses in text
-                        $textToParse = is_array($option) ? ($option['text'] ?? '') : $option;
-                        if (preg_match('/\((\d+)\)/', $textToParse, $matches)) {
-                            $score = (int)$matches[1];
+                        if ($type == 'select_box_image') {
+                            $score = $option['score'];
+                        } else {
+                            $textToParse = is_array($option) ? ($option['text'] ?? '') : $option;
+                            if (preg_match('/\((\+?\d+)\)\s*$/', $textToParse, $matches)) {
+                                $score = $matches[1];
+                            }
                         }
 
                         $answerTexts[] = $answerText;
@@ -431,10 +440,9 @@ class SurveyController extends Controller
         // Sum the scores, ignoring nulls
         $totalScore = 0;
         foreach ($scores as $s) {
-            if (is_numeric($s)) {
-                $totalScore += $s;
-            }
+            $totalScore += $s;
         }
+
         return [
             'response_id' => $responseId,
             'question_id' => $questionId,
