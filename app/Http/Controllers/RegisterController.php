@@ -55,6 +55,7 @@ class RegisterController extends Controller
         if (!$respondentData) {
             return redirect()->route('register.create');
         }
+
         try {
             $validated = $request->validate([
                 'phone_number' => 'nullable|string|max:20',
@@ -79,7 +80,7 @@ class RegisterController extends Controller
                 'health' => 'required|string',
                 'height' => 'required|numeric|min:50|max:250',
                 'weight' => 'required|numeric|min:20|max:200',
-                'bmi' => 'numeric|min:10|max:50',
+                'bmi' => 'numeric',
                 'blood_type' => 'required|string',
                 'health_issue' => 'required',
                 'other_health_issue' => 'nullable|string'
@@ -87,7 +88,6 @@ class RegisterController extends Controller
                 'age.min' => 'Age must be at least 45 years old.',
                 'password.confirmed' => 'Password confirmation does not match'
             ]);
-            dd($respondentData);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)
