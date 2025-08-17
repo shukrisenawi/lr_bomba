@@ -81,12 +81,13 @@ class RegisterController extends Controller
                 'weight' => 'required|numeric|min:20|max:200',
                 'bmi' => 'numeric|min:10|max:50',
                 'blood_type' => 'required|string',
-                'health_issue' => 'required|string',
-                'other_health_issue' => 'nullable|string',
+                'health_issue' => 'required',
+                'other_health_issue' => 'nullable|string'
             ], [
                 'age.min' => 'Age must be at least 45 years old.',
-                'password.confirmed' => 'Password confirmation does not match',
+                'password.confirmed' => 'Password confirmation does not match'
             ]);
+            dd($respondentData);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)
@@ -125,7 +126,7 @@ class RegisterController extends Controller
                 'weight' => $validated['weight'],
                 'bmi' => $validated['bmi'] ?? null,
                 'blood_type' => $validated['blood_type'],
-                'health_issue' => $validated['health_issue'],
+                'health_issue' => json_encode($validated['health_issue']),
                 'other_health_issue' => $validated['other_health_issue'],
                 'consent_given' => true,
             ]);
