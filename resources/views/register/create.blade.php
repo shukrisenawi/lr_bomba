@@ -119,7 +119,7 @@
                 </x-input-text>
             </div>
             <div>
-                <label for="bmi" class="font-medium text-gray-700">BMI</label>
+                <label for="bmi" class="font-medium text-gray-700">BMI (kg/m<sup>2</sup> )</label>
                 <input name="bmi" id="bmi" class="input w-full mt-3" autocomplete="off" readonly="readonly">
                 @error('bmi')
                     <div style="color: red; text-sm; font-bold">{{ $message }}</div>
@@ -250,3 +250,7 @@
         </div>
     </form>
 </x-layout-form>
+
+{{-- @push('scripts') --}}
+<script src="{{ asset('js/bmi-calculator.js') }}"></script>
+{{-- @endpush --}}

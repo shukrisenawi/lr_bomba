@@ -5,7 +5,7 @@
         @foreach ($data as $key => $value)
             <div>
                 <input type="checkbox" id="{{ $id . '_' . $key }}" name="{{ $id }}" value="{{ $key }}"
-                    class="checkbox">
+                    class="checkbox" checked>
                 <label for="{{ $id . '_' . $key }}" class="ml-2">{{ $value }}</label>
             </div>
         @endforeach
