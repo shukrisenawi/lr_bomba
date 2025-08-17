@@ -114,7 +114,7 @@
             </div>
             <div>
                 <x-input-text type="number" value="{{ old('weight') }}">
-                    <x-slot:id>height</x-slot:id>
+                    <x-slot:id>weight</x-slot:id>
                     <x-slot:label>Berat (kg)</x-slot:label>
                 </x-input-text>
             </div>
@@ -130,8 +130,8 @@
             'B' => 'B',
             'AB' => 'AB',
             'O' => 'O',
-        ]" :value="old('bloodType')">
-            <x-slot:id>bloodType</x-slot:id>
+        ]" :value="old('blood_type')">
+            <x-slot:id>blood_type</x-slot:id>
             <x-slot:label>17. Kumpulan Darah</x-slot:label>
         </x-radio-button>
 
@@ -152,8 +152,8 @@
             'Gaut' => 'Gaut',
             'Jantung' => 'Jantung',
             'Lain-lain' => 'Lain-lain',
-        ]" :value="old('healthIssue')">
-            <x-slot:id>healthIssue</x-slot:id>
+        ]" :value="old('health_issue')">
+            <x-slot:id>health_issue</x-slot:id>
             <x-slot:label>18. Masalah kesihatan yang anda sedang alami dan telah disahkan oleh pegawai
                 perubatan?(boleh lebih dari satu)</x-slot:label>
         </x-checkbox>
