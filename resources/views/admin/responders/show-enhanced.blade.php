@@ -108,13 +108,16 @@
                                         'Etnik' => optional($user->respondent)->ethnicity ?? '-',
                                         'Status Perkahwinan' => optional($user->respondent)->marital_status ?? '-',
                                         'Taraf Pendidikan' => optional($user->respondent)->education_level ?? '-',
+                                        'Tinggi' => optional($user->respondent)->height . ' cm' ?? '-',
+                                        'Berat' => optional($user->respondent)->weight . ' kg' ?? '-',
+                                        'BMI' => optional($user->respondent)->bmi . ' kg/m<sup>2</sup>' ?? '-',
                                     ];
                                 @endphp
                                 @foreach ($personalInfo as $label => $value)
                                     <div
                                         class="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
                                         <span class="text-gray-600 text-left">{{ $label }}</span>
-                                        <span class="font-medium text-gray-900 text-right">{{ $value }}</span>
+                                        <span class="font-medium text-gray-900 text-right">{!! $value !!}</span>
                                     </div>
                                 @endforeach
                             </div>
@@ -148,6 +151,44 @@
                                     ];
                                 @endphp
                                 @foreach ($employmentInfo as $label => $value)
+                                    <div
+                                        class="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
+                                        <span class="text-gray-600 text-left">{{ $label }}</span>
+                                        <span class="font-medium text-gray-900 text-right">{{ $value }}</span>
+                                    </div>
+                                @endforeach
+                                <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                                    <i class="fas fa-briefcase text-green-500 mr-3"></i>
+                                    Maklumat Kesihatan
+                                </h3>
+                                @php
+                                    $masalah = optional($user->respondent)->health_issue
+                                        ? json_decode(optional($user->respondent)->health_issue)
+                                        : '-';
+                                    $lain = '';
+
+                                    $keyLain = 'Lain-lain';
+                                    if (in_array($keyLain, $masalah)) {
+                                        if (!optional($user->respondent)->other_health_issue) {
+                                            $lain = $keyLain;
+                                        } else {
+                                            $lain =
+                                                'Lain-lain (' . optional($user->respondent)->other_health_issue . ')';
+                                        }
+
+                                        foreach ($masalah as $key => $val) {
+                                            if ($val == $keyLain) {
+                                                $masalah[$key] = $lain;
+                                            }
+                                        }
+                                    }
+                                    $healthtInfo = [
+                                        'Kesihatan' => optional($user->respondent)->health ?? '-',
+                                        'Kumpulan Darah' => optional($user->respondent)->blood_type ?? '-',
+                                        'Masalah Kesihatan' => implode(', ', $masalah),
+                                    ];
+                                @endphp
+                                @foreach ($healthtInfo as $label => $value)
                                     <div
                                         class="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
                                         <span class="text-gray-600 text-left">{{ $label }}</span>

@@ -10,7 +10,7 @@
                     $lainChecked = strtoupper($value) == 'LAIN-LAIN' ? '@click="open = !open"' : '';
                 @endphp
                 <input type="checkbox" id="{{ $id . '_' . $key }}" name="{{ $id }}[]" value="{{ $key }}"
-                    class="checkbox" @if ($data_value_array && in_array($key, $data_value_array)) checked @endif>
+                    class="checkbox" {!! $lainChecked !!} @if ($data_value_array && in_array($key, $data_value_array)) checked @endif>
                 <label for="{{ $id . '_' . $key }}" class="ml-2">{{ $value }}</label>
             </div>
         @endforeach
