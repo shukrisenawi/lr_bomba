@@ -157,9 +157,15 @@
             'Lain-lain' => 'Lain-lain',
         ]" :value="old('health_issue')">
             <x-slot:id>health_issue</x-slot:id>
+            <x-slot:data_value>{{ old('health_issue') }}</x-slot:data_value>
             <x-slot:label>18. Masalah kesihatan yang anda sedang alami dan telah disahkan oleh pegawai
                 perubatan?(boleh lebih dari satu)</x-slot:label>
         </x-checkbox>
+
+        <x-input-text value="{{ old('other_health_issue') }}">
+            <x-slot:id>other_health_issue</x-slot:id>
+            <x-slot:label>Nyatakan</x-slot:label>
+        </x-input-text>
 
         <x-input-text value="{{ old('current_position') }}">
             <x-slot:id>current_position</x-slot:id>
