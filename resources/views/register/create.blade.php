@@ -156,16 +156,17 @@
                 'Gaut' => 'Gaut',
                 'Jantung' => 'Jantung',
                 'Lain-lain' => 'Lain-lain',
-            ]" :value="old('health_issue')">
+            ]">
                 <x-slot:id>health_issue</x-slot:id>
-                <x-slot:data_value>{{ json_encode(old('health_issue')) }}</x-slot:data_value>
+                <x-slot:data_value>{{ json_encode(old('health_issue', [])) }}</x-slot:data_value>
                 <x-slot:label>18. Masalah kesihatan yang anda sedang alami dan telah disahkan oleh pegawai
                     perubatan?(boleh lebih dari satu)</x-slot:label>
             </x-checkbox>
-            <div x-show="open">
+            <div x-show="open" class="pt-3">
                 <x-input-text value="{{ old('other_health_issue') }}">
                     <x-slot:id>other_health_issue</x-slot:id>
-                    <x-slot:label>Nyatakan</x-slot:label>
+                    <x-slot:label>Sila nyatakan masalah kesihatan anda yang
+                        lain.</x-slot:label>
                 </x-input-text>
             </div>
         </div>
