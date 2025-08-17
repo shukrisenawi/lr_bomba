@@ -120,7 +120,8 @@
             </div>
             <div>
                 <label for="bmi" class="font-medium text-gray-700">BMI (kg/m<sup>2</sup> )</label>
-                <input name="bmi" id="bmi" class="input w-full mt-3" autocomplete="off" readonly="readonly">
+                <input name="bmi" id="bmi" value="{{ old('bmi') }}" class="input w-full mt-3"
+                    autocomplete="off" readonly="readonly">
                 @error('bmi')
                     <div style="color: red; text-sm; font-bold">{{ $message }}</div>
                 @enderror
@@ -137,36 +138,37 @@
             <x-slot:id>blood_type</x-slot:id>
             <x-slot:label>17. Kumpulan Darah</x-slot:label>
         </x-radio-button>
-
-        <x-checkbox :data="[
-            'Tiada masalah kesihatan langsung' => 'Tiada masalah kesihatan langsung',
-            'Tekanan darah tinggi' => 'Tekanan darah tinggi',
-            'Lelah' => 'Lelah',
-            'Diabetis' => 'Diabetis',
-            'Penyakit hati' => 'Penyakit hati',
-            'Katarak' => 'Katarak',
-            'Barah' => 'Barah',
-            'Gastrik' => 'Gastrik',
-            'Penyakit buah pinggang' => 'Penyakit buah pinggang',
-            'Sakit sendi' => 'Sakit sendi',
-            'Angin ahmar' => 'Angin ahmar',
-            'Batuk kering' => 'Batuk kering',
-            'Lemah kawalan kencing atau najis' => 'Lemah kawalan kencing atau najis',
-            'Gaut' => 'Gaut',
-            'Jantung' => 'Jantung',
-            'Lain-lain' => 'Lain-lain',
-        ]" :value="old('health_issue')">
-            <x-slot:id>health_issue</x-slot:id>
-            <x-slot:data_value>{{ old('health_issue') }}</x-slot:data_value>
-            <x-slot:label>18. Masalah kesihatan yang anda sedang alami dan telah disahkan oleh pegawai
-                perubatan?(boleh lebih dari satu)</x-slot:label>
-        </x-checkbox>
-
-        <x-input-text value="{{ old('other_health_issue') }}">
-            <x-slot:id>other_health_issue</x-slot:id>
-            <x-slot:label>Nyatakan</x-slot:label>
-        </x-input-text>
-
+        <div @if (old('other_health_issue')) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
+            <x-checkbox :data="[
+                'Tiada masalah kesihatan langsung' => 'Tiada masalah kesihatan langsung',
+                'Tekanan darah tinggi' => 'Tekanan darah tinggi',
+                'Lelah' => 'Lelah',
+                'Diabetis' => 'Diabetis',
+                'Penyakit hati' => 'Penyakit hati',
+                'Katarak' => 'Katarak',
+                'Barah' => 'Barah',
+                'Gastrik' => 'Gastrik',
+                'Penyakit buah pinggang' => 'Penyakit buah pinggang',
+                'Sakit sendi' => 'Sakit sendi',
+                'Angin ahmar' => 'Angin ahmar',
+                'Batuk kering' => 'Batuk kering',
+                'Lemah kawalan kencing atau najis' => 'Lemah kawalan kencing atau najis',
+                'Gaut' => 'Gaut',
+                'Jantung' => 'Jantung',
+                'Lain-lain' => 'Lain-lain',
+            ]" :value="old('health_issue')">
+                <x-slot:id>health_issue</x-slot:id>
+                <x-slot:data_value>{{ old('health_issue') }}</x-slot:data_value>
+                <x-slot:label>18. Masalah kesihatan yang anda sedang alami dan telah disahkan oleh pegawai
+                    perubatan?(boleh lebih dari satu)</x-slot:label>
+            </x-checkbox>
+            <div x-show="open">
+                <x-input-text value="{{ old('other_health_issue') }}">
+                    <x-slot:id>other_health_issue</x-slot:id>
+                    <x-slot:label>Nyatakan</x-slot:label>
+                </x-input-text>
+            </div>
+        </div>
         <x-input-text value="{{ old('current_position') }}">
             <x-slot:id>current_position</x-slot:id>
             <x-slot:label>19. Jawatan Semasa</x-slot:label>

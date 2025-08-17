@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('weight')->nullable();
             $table->decimal('bmi', 4, 2)->nullable();
             $table->string('blood_type', 3)->nullable();
-            $table->text('health_issue')->nullable();
+            $table->longText('health_issue')->nullable();
             $table->string('other_health_issue')->nullable();
         });
     }

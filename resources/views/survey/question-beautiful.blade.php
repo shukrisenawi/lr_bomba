@@ -83,6 +83,10 @@
                             pendekatan sistematik untuk memahami tugas, kemahiran, pengetahuan,
                             dan kebolehan yang diperlukan untuk melaksanakan sesuatu pekerjaan
                             dengan berkesan
+                        @elseif($section == 'L')
+                            Ujian UKTK, UKB, dan IPPT JBPM adalah ujian kecergasan fizikal yang dijalankan oleh Jabatan
+                            Bomba dan Penyelamat Malaysia (JBPM) untuk mengukur dan mengekalkan tahap kecergasan anggota
+                            bomba.
                         @endif
 
                     </p>

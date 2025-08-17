@@ -30,6 +30,13 @@ class Respondent extends Model
         'years_of_service',
         'service_status',
         'consent_given',
+        'health',
+        'height',
+        'weight',
+        'bmi',
+        'blood_type',
+        'health_issue',
+        'other_health_issue'
     ];
 
     // Relasi ke tabel users
