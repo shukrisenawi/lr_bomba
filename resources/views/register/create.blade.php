@@ -121,6 +121,9 @@
             <div>
                 <label for="bmi" class="font-medium text-gray-700">BMI</label>
                 <input name="bmi" id="bmi" class="input w-full mt-3" autocomplete="off" readonly="readonly">
+                @error('bmi')
+                    <div style="color: red; text-sm; font-bold">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
