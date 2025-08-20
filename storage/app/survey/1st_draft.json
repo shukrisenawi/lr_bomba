@@ -1,0 +1,2383 @@
+{
+  "title_BM": "Kajian Pembangunan Profil Kesejahteraan Pekerja Berusia di Jabatan Bomba dan Penyelamat Di Lembah Klang, Malaysia",
+  "title_BI": "A Study on Development of the Well-being Profile of the Ageing Workers in Fire and Rescue Department in Klang Valley, Malaysia",
+  "text": {
+    "introduction": {
+      "title": "PENGENALAN",
+      "description": "Kesejahteraan pekerja, terutama pekerja yang semakin berusia, adalah isu kritikal yang berpotensi mempengaruhi prestasi, keselamatan, dan keseluruhan kualiti hidup mereka. Secara umumnya, anggota Jabatan Bomba dan Penyelamat Malaysia (JBPM) sering menghadapi pelbagai cabaran samada dari segi fizikal dan mental seiring dengan tugasan dan tanggungjawab mereka berhadapan dengan risiko keselamatan dan kecemasan semasa bekerja. Selain itu, peningkatan usia juga sedikit sebanyak turut memberi kesan secara tidak langsung dalam mereka mendepani cabaran ini. Justeru, adalah perlu untuk memahami dan menangani cabaran unik ini bagi memastikan kesejahteraan hidup pekerja berusia ini dapat dicapai dengan sebaiknya. Kajian ini bertujuan untuk menyediakan satu mekanisma penilaian komprehensif untuk mengurus pekerja berusia dengan lebih efektif dan berkesan di JBPM di Lembah Klang, Malaysia. Ia akan dibangunkan bagi membantu pihak JBPM dalam membuat penilaian yang lebih menyeluruh bagi memperkukuhkan aspek pengurusan sumber manusia, keselamatan dan kesihatan pekerjaan (OSH), keupayaan kerja, dan produktiviti anggota berusia JBPM. Pelaksanaan strategi ini diharapkan akan dapat membantu dalam memastikan tenaga kerja berusia JBPM akan terus inklusif, produktif, dan mampan kepada organisasi. Kajian ini menggariskan kepentingan menyesuaikan amalan tempat kerja bagi menyokong kesejahteraan dan prestasi tenaga kerja berusia, yang akhirnya akan dapat memberi manfaat kepada kedua-dua pihak samada anggota berusia dan JBPM. Kajian in dilaksanakan oleh Institut Penyelidikan Penuaan Malaysia (MyAgeing®), Universiti Putra Malaysia dengan sokongan dan kerjasama dari pihak Jabatan Bomba dan Penyelamat Malaysia (JBPM) melalui pembiayaan geran kajian oleh pihak National Institute of Occupational Safety and Health (NIOSH), Malaysia.\nJusteru, tujuan survei ini dilaksanakan adalah bagi mengumpulkan maklumat dan informasi dari tuan/puan berdasarkan pengetahuan dan pengalaman berkaitan isu, cabaran juga pandangan berkaitan pekerjaan yang sedang dilakukan samada dalam aspek pengurusan kerja, keselamatan dan kesihatan pekerjaan, produktiviti dan keupayaan kerja. Melalui input yang diperolehi ini, ia akan menjadi rujukan kepada pihak penyelidik dalam membantu mengenalpasti solusi/strategi yang bersesuaian dengan permasalahan berkaitan. "
+    },
+    "eligibility": {
+      "title": "APAKAH YANG PERLU ANDA LAKUKAN?",
+      "description": "Secara keseluruhan, keterlibatan dan kerjasama secara aktif daripada tuan/puan dalam memberikan maklumat dan pandangan yang berkaitan adalah penting untuk membantu penyelidik dan pihak JBPM dalam mengenalpasti isu dan cabaran yang dihadapi oleh tuan/puan di tempat kerja ke arah menambahbaik aspek pengurusan tenaga kerja berusia JBPM dalam memastikan kesejahteraan hidup mereka dapat ditingkatkan ke tahap yang lebih optimum. Tempoh keseluruhan kajian ini adalah selama 12 bulan. Justeru, proses pengumpulan data maklumat daripada tuan/puan adalah dalam tempoh masa tersebut. Sejumlah 400 orang warga kerja JBPM sekitar Lembah Klang akan terlibat dalam kajian ini. Segala kos yang berkaitan semasa proses pengumpulan data ini adalah di bawah tanggungan pihak kami.",
+      "exclude_section": {
+        "title": "SIAPA YANG TIDAK BOLEH MENYERTAI KAJIAN INI?",
+        "exclude_condition": [
+          "Anggota JBPM yang berumur di bawah 45 tahun",
+          "Pejabat/balai bomba JBPM yang terletak di luar Lembah Klang",
+          "Pegawai bukan anggota bomba (gred C, M, N, J, F, W)"
+        ]
+      }
+    },
+    "benefits": {
+      "title": "APAKAH FAEDAH MENYERTAI KAJIAN INI?",
+      "sub-section": [
+        {
+          "sub_title": "KEPADA ANDA SEBAGAI PESERTA?",
+          "sub_description": "Penglibatan tuan/puan dalam kajian ini memberi faedah/menafaat bukan sahaja kepada JBPM (dalam bentuk data dan maklumat untuk perancangan masa depan) tetapi juga kepada tuan/puan kerana maklumat yang diberikan akan dapat membantu untuk penambahbaikan dalam polisi, program, sokongan, kemudahan, dan kesejahteraan di tempat kerja. Hasil dapatan kajian ini akan dikongsikan kepada pemegang taruh termasuklah penyelidik dan agensi kerajaan berkaitan. Oleh itu, untuk mencapai manfaat ini, kami memerlukan penglibatan dan sumbangan tuan/puan dengan melengkapkan soal selidik survei kami, mengambil bahagian dalam perbincangan kumpulan atau temubual dan penilaian berkaitan dalam kajian ini."
+        },
+        {
+          "sub_title": "KEPADA PENYELIDIK?",
+          "sub_description": "Penyelidik yang terlibat dalam kajian ini mendapat faedah/ menafaat manfaat dalam bentuk pengetahuan baru, kemahiran penyelidikan yang lebih baik, serta peluang untuk memberi sumbangan positif kepada pembangunan organisasi dan kesejahteraan pekerja berusia. Dengan membangunkan mekanisma penilaian fit-to-work yang praktikal untuk anggota bomba yang semakin menua, ia boleh dijadikan sebagai piawai atau garis panduan bagi penilaian kecergasan, pemakluman protokol keselamatan di tempat kerja, dan panduan untuk keputusan dasar mengenai persaraan dan penyertaan tenaga kerja. Penyelidikan ini akan membolehkan para penyelidik menyumbang secara langsung kepada peningkatan kesihatan dan keselamatan pekerja menua."
+        }
+      ]
+    },
+    "risk": {
+      "title": "ADAKAH IA BERISIKO?",
+      "description": "Risiko adalah minimal kerana ianya dikendalikan dengan pendekatan yang teliti dan beretika. Penyelidik akan memastikan bahawa prosedur penyelidikan dilaksanakan dengan mengutamakan kesejahteraan responden, memberikan maklumat yang jelas mengenai tujuan kajian, dan menjaga kerahsiaan serta hak privasi responden dan organisasi. Penyertaan dalam kajian ini adalah sukarela. Tuan/puan boleh menarik diri dari kajian ini pada bila-bila masa tanpa sebarang penalti atau kehilangan manfaat yang layak diterima oleh tuan/puan."
+    },
+    "confidentiality": {
+      "title": "ADAKAH MAKLUMAT DAN IDENTITI SAYA KEKAL RAHSIA?",
+      "description": "Dengan langkah-langkah perlindungan yang betul, penyelidik akan memastikan maklumat dan identiti responden kajian ini akan kekal rahsia sejajar dengan pematuhan kepada Akta Perlindungan Data Peribadi 2010. Pematuhan kepada prinsip kerahsiaan dan etika penyelidikan yang ketat adalah amat penting untuk memastikan bahawa maklumat yang dikongsi oleh responden tidak disalahgunakan dan hanya digunakan untuk tujuan penyelidikan yang sah. Dapatan daripada kajian ini mungkin akan dibentangkan dalam penerbitan akademik dan persidangan yang berkaitan dengan bidang kajian yang relevan. Data ini akan tertumpu kepada trend keseluruhan dan tidak akan mengenal pasti mana-mana peserta individu secara khusus."
+    },
+    "contact": {
+      "title": "SIAPA YANG SAYA PERLU HUBUNGI SEKIRANYA SAYA MEMPUNYAI SOALAN TAMBAHAN SEMASA MENGIKUTI PENYELIDIKAN INI?",
+      "description": "Pasukan penyelidik dari Institut Penyelidikan Penuaan Malaysia (MyAgeing®), UPM hanya bertindak sebagai penyelidik sahaja di dalam kajian ini. Jika tuan/puan mempunyai sebarang pertanyaan lanjut, sila hubungi Prof. Madya Ts. Dr. Mohd Nazim Mohtar (Ketua Penyelidik) melalui e-mel: nazim@upm.edu.my atau En. Mohd Rizal Hussain (Pegawai Penyelidik Kanan), e-mel: mrizal@upm.edu.my. Jika tuan/puan mempunyai sebarang pertanyaan berkaitan dengan hak-hak sebagai peserta dalam penyelidikan ini, sila hubungi: Sekretariat, JKEUPM, melalui email: jkeupm@upm.edu.my"
+    }
+  },
+  "consent": {
+    "statement": "Sila masukkan nama dan tarikh di sini sekiranya anda telah membaca dan memahami kandungan halaman ini",
+    "fields": [
+      {
+        "name": "Nama",
+        "text": "Nama",
+        "type": "text"
+      },
+      {
+        "name": "Tarikh",
+        "text": "Tarikh",
+        "type": "date"
+      },
+      {
+        "name": "Persetujuan",
+        "text": "Persetujuan menjadi responden secara sukarela dalam kajian ini",
+        "type": "consent",
+        "options": [
+          "Ya",
+          "Tidak"
+        ]
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "B",
+      "title_BM": "BAHAGIAN B: Indek Kebolehan Bekerja",
+      "title_BI": "SECTION B: Work Ability Index (WAI)",
+      "description": "yang digunakan untuk menilai keupayaan seseorang dalam melakukan pekerjaan mereka. Indeks ini mengukur sejauh mana kemampuan seseorang menjalankan tugas-tugas pekerjaan harian sama ada secara fizikal mahupun mental serta bagaimana keadaan kesihatan mereka mempengaruhi kemampuan melaksanakan pekerjaan tersebut.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "Athanasou, J. (2024). Introduction to the Work Ability Index—A Guide for Rehabilitation Practitioners. Qeios, 1-17.\nThe coefficient alphas ranged from.573 to.9 with a median of.724 and a mean of.736 (95% CI=.027).",
+        "reference_2": "Lavasani, Seyed & Wahiza, Nor. (2016). Work Ability Index: Validation and Model Comparison of the Malaysian Work Ability Index (WAI). Disability, CBR & Inclusive Development. 27. 37. 10.5463/dcid.v27i2.427.\nThis study has provided the first Malay version of WAI and has paved the way for future studies"
+      },
+      "Result_text": "JUMLAH SKOR WAI: ",
+      "questions": [
+        {
+          "id": "B1",
+          "text": "Pada pandangan anda, sejauhmanakah kebolehan anda bekerja sekarang?",
+          "type": "scale",
+          "min": 0,
+          "max": 10,
+          "textMin": "Tidak boleh bekerja langsung",
+          "textMax": "Boleh bekerja pada tahap terbaik"
+        },
+        {
+          "id": "B2a",
+          "text": "Bagaimana anda menilai kebolehan bekerja sekarang dengan tuntutan fizikal anda?",
+          "type": "single_choice",
+          "options": [
+            "Sangat Baik (5)",
+            "Agak Baik (4)",
+            "Sederhana (3)",
+            "Agak Teruk (2)",
+            "Sangat Teruk (1)"
+          ]
+        },
+        {
+          "id": "B2b",
+          "text": "Bagaimana anda menilai kebolehan bekerja sekarang dengan tuntutan mental anda?",
+          "type": "single_choice",
+          "options": [
+            "Sangat Baik (5)",
+            "Agak Baik (4)",
+            "Sederhana (3)",
+            "Agak Teruk (2)",
+            "Sangat Teruk (1)"
+          ]
+        },
+        {
+          "id": "B3",
+          "text": "Bilangan penyakit/masalah kesihatan yang anda alami sekarang yang telah disahkan oleh pegawai perubatan?",
+          "type": "single_choice",
+          "options": [
+            "Tiada (7)",
+            "1 (5)",
+            "2 (4)",
+            "3 (3)",
+            "4 (2)",
+            "5 dan lebih (1)"
+          ]
+        },
+        {
+          "id": "B4",
+          "text": "Adakah penyakit/masalah kesihatan mengganggu kerja anda sekarang?",
+          "type": "single_choice",
+          "options": [
+            "Tiada halangan/ Saya tiada penyakit (6)",
+            "Saya mampu membuat kerja saya, tapi ia menyebabkan timbul beberapa gejala/simptom (5)",
+            "Saya kadang-kala perlu memperlahankan rentak kerja saya atau mengubah kaedah kerja saya (4)",
+            "Saya sering perlu memperlahankan rentak kerja saya atau menukar kaedah kerja saya (3)",
+            "Disebabkan keadaan saya, saya rasa saya hanya mampu melakukan kerja separuh masa (2)",
+            "Pada pendapat saya, saya langsung tidak mampu untuk bekerja (1)"
+          ]
+        },
+        {
+          "id": "B5",
+          "text": "Berapa hari anda tidak bekerja dalam tempoh 12 bulan yang lalu kerana penyakit/masalah kesihatan yang anda alami?",
+          "type": "single_choice",
+          "options": [
+            "Tiada (5)",
+            "Maksimum 9 hari (4)",
+            "10-24 hari (3)",
+            "25-99 hari (2)",
+            "100-354 hari (1)"
+          ]
+        },
+        {
+          "id": "B6",
+          "text": "Adakah anda percaya bahawa penyakit/masalah kesihatan yang anda sedang alami sekarang, anda masih dapat melakukan pekerjaan anda untuk tempoh dua tahun lagi?",
+          "type": "single_choice",
+          "options": [
+            "Tidak mungkin (1)",
+            "Tidak pasti (4)",
+            "Agak pasti (7)"
+          ]
+        },
+        {
+          "id": "B7a",
+          "text": "Merujuk pada 3 bulan lepas, adakah anda dapat menikmati aktiviti harian biasa anda?",
+          "type": "single_choice",
+          "options": [
+            "Selalu (4)",
+            "Hampir sentiasa (3)",
+            "Kadang-kadang (2)",
+            "Jarang-jarang (1)",
+            "Tidak pernah (0)"
+          ]
+        },
+        {
+          "id": "B7b",
+          "text": "Merujuk pada 3 bulan lepas, adakah anda aktif dan cergas?",
+          "type": "single_choice",
+          "options": [
+            "Selalu (4)",
+            "Hampir sentiasa (3)",
+            "Kadang-kadang (2)",
+            "Jarang-jarang (1)",
+            "Tidak pernah (0)"
+          ]
+        },
+        {
+          "id": "B7c",
+          "text": "Merujuk pada 3 bulan lepas, adakah anda merasa penuh harapan untuk masa depan?",
+          "type": "single_choice",
+          "options": [
+            "Selalu (4)",
+            "Hampir sentiasa (3)",
+            "Kadang-kadang (2)",
+            "Jarang-jarang (1)",
+            "Tidak pernah (0)"
+          ]
+        }
+      ],
+      "scoring": {
+        "ranges": [
+          {
+            "score": "6-27",
+            "category": "Lemah"
+          },
+          {
+            "score": "28-36",
+            "category": "Sederhana"
+          },
+          {
+            "score": "37-43",
+            "category": "Baik"
+          },
+          {
+            "score": "44-100000",
+            "category": "Cemerlang"
+          }
+        ],
+        "recommendations": {
+          "Lemah": "Anda perlu memberikan perhatian kepada aspek penjagaan kesihatan fizikal dan mental, mengikuti lebih banyak latihan berkaitan kerja serta memberikan komitmen sepenuhnya kepada tanggungjawab kerja.",
+          "Sederhana": "Anda perlu meningkatkan keupayaan kerja dari aspek latihan fizikal dan kemahiran teknikal yang komprehensif serta pengurusan mental dan emosi yang lebih baik.",
+          "Baik": "Tahniah atas keupayaan kerja anda yang baik. Kekalkan pencapaian ini atau boleh terus berusaha untuk meningkatkan potensi dan pengembangan diri dengan lebih baik dalam pekerjaan.",
+          "Cemerlang": "Tahniah atas keupayaan kerja anda yang cemerlang. Kekalkan pencapaian ini disamping boleh membantu rakan sekerja untuk meningkatkan potensi dan pengembangan diri mereka dalam pekerjaan."
+        }
+      }
+    },
+    {
+      "id": "C",
+      "title_BM": "BAHAGIAN C: Soal-selidik Kandungan Kerja",
+      "title_BI": "SECTION C: Job Content Questionnaire (JCQ)",
+      "description": "Soal-selidik Kandungan Kerja (atau Job Content Questionnaire, JCQ) ialah satu instrumen kendiri yang direka untuk mengukur ciri-ciri sosial dan psikologi pekerjaan. Ia digunakan secara meluas dalam penyelidikan kesihatan pekerjaan untuk menilai tekanan kerja dan potensi akibat kesihatannya.",
+      "instructions": "Kenyataan berikut berkaitan dengan situasi harian anda dan bagaimana anda mengalaminya. Sila nyatakan sejauh mana setiap kenyataan ini berlaku kepada anda.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "Edimansyah, B. A., Rusli, B. N., Naing, L., & Mazalisah, M. (2006). Reliability and construct validity of the Malay version of the Job Content Questionnaire (JCQ). Southeast Asian Journal of Tropical Medicine and Public Health, 37(2), 412.",
+        "reference_2": "The Cronbach’s alpha coefficients were acceptable for decision latitude (0.74), psychological job demand (0.61) and social support (0.79). Exploratory factor analysis showed the first factor was associated with the scales of social support (0.54 to 0.84). The second factor was associated with all items of psychological job demand scale (0.41 to 0.65). The third factor more accurately reflects the decision latitude scale (0.38 to 0.70)."
+      },
+      "Result_text": "JUMLAH SKOR: ",
+      "subsections": [
+        {
+          "name": "Tuntutan Psikologi",
+          "questions": [
+            {
+              "id": "C1",
+              "text": "Pekerjaan saya perlukan saya belajar benda baru.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C2",
+              "text": "Pekerjaan saya memerlukan saya untuk menjadi kreatif.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C3",
+              "text": "Pekerjaan saya memerlukan tahap kemahiran yang tinggi.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C4",
+              "text": "Saya dapat melakukan pelbagai benda berbeza dalam pekerjaan saya.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C5",
+              "text": "Saya berpeluang untuk membangunkan kebolehan istimewa saya sendiri.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C6",
+              "text": "Pekerjaan saya membolehkan saya membuat banyak keputusan sendiri.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C7",
+              "text": "Dalam pekerjaan saya, saya mempunyai sedikit kebebasan untuk membuat keputusan tentang bagaimana saya membuat kerja.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (4)",
+                "Tidak setuju (3)",
+                "setuju (2)",
+                "Sangat setuju (1)"
+              ]
+            },
+            {
+              "id": "C8",
+              "text": "Saya mempunyai banyak yang ingin dikatakan tentang apa yang berlaku dengan kerja saya.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kawalan Keputusan",
+          "questions": [
+            {
+              "id": "C9",
+              "text": "Pekerjaan saya memerlukan saya bekerja dengan sangat cepat.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C10",
+              "text": "Pekerjaan saya memerlukan saya bekerja dengan sangat keras.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C11",
+              "text": "Saya bebas daripada tuntutan bercanggah yang dibuat oleh orang lain.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C12",
+              "text": "Pekerjaan saya memerlukan penumpuan perhatian yang tinggi dalam jangka masa panjang.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C13",
+              "text": "Pekerjaan saya sangat sibuk.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C14",
+              "text": "Menunggu kerja daripada orang lain atau jabatan lain seringkali memperlahankan kerja saya.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (4)",
+                "Tidak setuju (3)",
+                "setuju (2)",
+                "Sangat setuju (1)"
+              ]
+            },
+            {
+              "id": "C15",
+              "text": "Tugas saya sering terganggu sebelum saya dapat menyelesaikannya, menyebabkan saya perlu kembali kepadanya kemudian.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (4)",
+                "Tidak setuju (3)",
+                "setuju (2)",
+                "Sangat setuju (1)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Sokongan Sosial",
+          "questions": [
+            {
+              "id": "C16",
+              "text": "Orang-orang yang saya bekerja bersama kompeten dalam melakukan tugas mereka.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C17",
+              "text": "Orang-orang yang saya bekerja bersama mengambil berat tentang saya.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C18",
+              "text": "Orang-orang yang saya bekerja bersama membantu dalam menyiapkan kerja.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C19",
+              "text": "Penyelia saya memberi perhatian kepada apa yang saya katakan.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C20",
+              "text": "Penyelia saya membantu saya dalam menyiapkan kerja.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            },
+            {
+              "id": "C21",
+              "text": "Penyelia saya berjaya dalam menggalakkan kerjasama antara pekerja.",
+              "type": "single_choice",
+              "options": [
+                "Sangat tidak setuju (1)",
+                "Tidak setuju (2)",
+                "setuju (3)",
+                "Sangat setuju (4)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "title_BM": "BAHAGIAN D: Impak Latihan Di Tempat Kerja",
+      "title_BI": "SECTION D: Training Impact at Work (TIAW)",
+      "description": "Instrumen Impak Latihan di Tempat Kerja (atau Training Impact at Work) merupakan alat penilaian yang dirancang khusus untuk mengukur keberkesanan program latihan dalam lingkungan kerja. Instrumen ini bertujuan untuk menilai sejauh mana latihan telah mencapai objektif yang ditetapkan, serta pengaruhnya terhadap prestasi individu, pasukan, dan organisasi secara keseluruhan.",
+      "instructions": "Kenyataan berikut berkaitan impak latihan di tempat kerja. Sila nyatakan sejauh mana setiap kenyataan ini berlaku kepada anda.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "Abbad, G., Andrade, J. E. B., & Sallorenzo, L. H. (2004). Self-assessment of training impact at work: validation of a measurement scale. Revista Interamericana de Psicologia/Interamerican Journal of Psychology, 38(2), 277-284.",
+        "reference_2": "A two sub-scale structure was found (a=0.86; r=.56) accounting for 60 percent of the impact variability. A single factor structure was also found and it is similarly reliable (a=.90), accounting for 45 percent of the variability. Both structures are useful, reliable and valid."
+      },
+      "Result_text": "JUMLAH SKOR TIAW: ",
+      "questions": [
+        {
+          "id": "D1",
+          "text": "Kualiti kerja saya telah bertambah baik.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D2",
+          "text": "Saya membuat sedikit kesilapan di tempat kerja.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D3",
+          "text": "Saya melakukan kerja saya dengan lebih cepat.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D4",
+          "text": "Keyakinan diri saya telah meningkat.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D5",
+          "text": "Motivasi saya untuk bekerja telah bertambah baik.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D6",
+          "text": "Kualiti kerja saya yang tidak berkaitan dengan kursus telah bertambah baik.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D7",
+          "text": "Saya mencadangkan perubahan rutin kerja yang lebih kerap.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D8",
+          "text": "Saya sering menggunakan kemahiran yang dipelajari semasa latihan.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D9",
+          "text": "Saya berasa lebih terbuka kepada perubahan.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D10",
+          "text": "Saya mengambil kesempatan untuk mempraktikkan kemahiran baharu yang saya pelajari.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D11",
+          "text": "Rakan sekerja saya boleh belajar daripada saya.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        },
+        {
+          "id": "D12",
+          "text": "Saya dapat mengingat kandungan kursus dengan baik.",
+          "type": "single_choice",
+          "options": [
+            "Sangat tidak setuju (1)",
+            "Tidak setuju (2)",
+            "Tidak pasti (3)",
+            "setuju (4)",
+            "Sangat bersetuju (5)"
+          ]
+        }
+      ],
+      "scoring": {
+        "ranges": {
+          "Keseluruhan": [
+            {
+              "score": "12-21",
+              "category": "Sangat tidak berkesan"
+            },
+            {
+              "score": "22-31",
+              "category": "Tidak berkesan"
+            },
+            {
+              "score": "32-41",
+              "category": "Sedikit berkesan"
+            },
+            {
+              "score": "42-51",
+              "category": "Berkesan"
+            },
+            {
+              "score": "52-10000",
+              "category": "Sangat berkesan"
+            }
+          ],
+          "Prestasi": [
+            {
+              "score": "7-12",
+              "category": "Sangat tidak berkesan"
+            },
+            {
+              "score": "13-18",
+              "category": "Tidak berkesan"
+            },
+            {
+              "score": "19-24",
+              "category": "Sedikit berkesan"
+            },
+            {
+              "score": "25-29",
+              "category": "Berkesan"
+            },
+            {
+              "score": "30-10000",
+              "category": "Sangat berkesan"
+            }
+          ],
+          "Sikap": [
+            {
+              "score": "5-8",
+              "category": "Sangat tidak berkesan"
+            },
+            {
+              "score": "9-12",
+              "category": "Tidak berkesan"
+            },
+            {
+              "score": "13-16",
+              "category": "Sedikit berkesan"
+            },
+            {
+              "score": "17-20",
+              "category": "Berkesan"
+            },
+            {
+              "score": "21-10000",
+              "category": "Sangat berkesan"
+            }
+          ]
+        },
+        "recommendations": {
+          "Sangat tidak berkesan": "Segera berbincang dengan penyelia atau pihak HR untuk mengenal pasti jurang danmencadangkan latihan atau sokongan yang lebih relevan dan praktikal untuk anda. Fokus pada keperluan pembelajaran yang spesifik.",
+          "Tidak berkesan": "Segera berbincang dengan penyelia atau pihak HR untuk mengenal pasti jurang danmencadangkan latihan atau sokongan yang lebih relevan dan praktikal untuk anda. Fokus pada keperluan pembelajaran yang spesifik.",
+          "Sedikit berkesan": "Kenal pasti aspek yang boleh diperbaiki dan cari peluang tambahan seperti bimbingan (mentoring) atau projek khas yang membolehkan anda mengaplikasikan pengetahuan baharu secara lebih mendalam. Berikan maklum balas konstruktif kepada penyelia atau pihak HR.",
+          "Berkesan": "Teruskan mengaplikasikan kemahiran dan pengetahuan yang dipelajari. Kongsikan kejayaan dan pembelajaran anda dengan rakan sekerja atau penyelia, dan cari peluang untuk meningkatkan lagi keberkesanan dengan mengaplikasikannya dalam situasi yang lebih mencabar.",
+          "Sangat berkesan": "Anda telah mendapat manfaat maksimum dari latihan. Jadilah contoh dan sumber rujukan kepada rakan sekerja. Pertimbangkan untuk berkongsi pengalaman anda, mungkin melalui sesi perkongsian ilmu dan kemahiran, serta cadangkan bagaimana latihan serupa boleh disesuaikan untuk memberi impak yang sama kepada orang lain."
+        }
+      }
+    },
+    {
+      "id": "E",
+      "title_BM": "BAHAGIAN E: Soal-selidik Prestasi Kerja Individu",
+      "title_BI": "SECTION E: Individual Work Performance Questionnaire (IWPQ)",
+      "description": "Soal-selidik Prestasi Kerja Individu (atau Individual Work Performance Questionnaire, IWPQ) adalah berdasarkan penilaian kepada enpat dimensi prestasi kerja individu yang terdiri daripada prestasi tugas, prestasi konteksual, prestasi adaptif, dan tingkah laku kerja kontraproduktif.",
+      "instructions": "Menggunakan skala di bawah, sila nyatakan bagi setiap pernyataan berikut sejauh mana ia kini sepadan dengan salah satu sebab mengapa anda melakukan pekerjaan khusus ini.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "Platania, S., Morando, M., Gruttadauria, S. V., & Koopmans, L. (2023). The individual work performance questionnaire: Psychometric properties of the Italian version. European Journal of Investigation in Health, Psychology and Education, 14(1), 49-63.",
+        "reference_2": "Cronbach’s Alpha was computed for each factor to test reliability and showed good internal consistency of the scale: Task performance 0.75, Contextual performance 0.88 and CWB 0.77. Composite reliability and average variance extracted from the IWPQ were CR 0.88, AVE 0.59 for Task Performance, CR 0.89, AVE 0.52 for Contextual Performance, and CR 0.81, AVE 0.52 for CWB."
+      },
+      "Result_text_1": "JUMLAH SKOR PRESTASI TUGAS: ",
+      "Result_text_2": "JUMLAH SKOR PRESTASI KONTEKSUAL: ",
+      "Result_text_3": "JUMLAH SKOR PERILAKU KERJA TIDAK PRODUKTIF: ",
+      "Result_text_4": "JUMLAH SKOR KESELURUHAN: ",
+      "subsections": [
+        {
+          "name": "Prestasi Tugas",
+          "questions": [
+            {
+              "id": "E1",
+              "text": "Prestasi tugas saya dalam 3 bulan lepas, saya dapat merancang kerja saya supaya saya dapat menyelesaikannya tepat pada waktunya.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E2",
+              "text": "Prestasi tugas saya dalam 3 bulan lepas, saya ingat hasil kerja yang perlu saya capai.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E3",
+              "text": "Prestasi tugas saya dalam 3 bulan lepas, saya dapat menetapkan keutamaan.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E4",
+              "text": "Prestasi tugas saya dalam 3 bulan lepas, saya dapat melaksanakan kerja saya dengan cekap.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E5",
+              "text": "Prestasi tugas saya dalam 3 bulan lepas, saya menguruskan masa saya dengan baik.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            }
+          ]
+        },
+        {
+          "name": "Prestasi Kontekstual",
+          "questions": [
+            {
+              "id": "E6",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, atas inisiatif saya sendiri, saya memulakan tugas baharu apabila tugas lama saya selesai.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E7",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, saya mengambil tugas yang mencabar apabila ia tersedia.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E8",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, saya berusaha mengemas kini pengetahuan berkaitan pekerjaan saya.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E9",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, saya berusaha mengemas kini kemahiran kerja saya.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E10",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, saya menghasilkan penyelesaian kreatif untuk masalah baharu.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E11",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, saya mengambil tanggungjawab tambahan.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E12",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, saya sentiasa mencari cabaran baharu dalam kerja saya.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            },
+            {
+              "id": "E13",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, saya aktif mengambil bahagian dalam mesyuarat dan/atau perundingan.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Jarang Sekali",
+              "textMax": "Selalu"
+            }
+          ]
+        },
+        {
+          "name": "Perilaku Kerja Tidak Produktif",
+          "questions": [
+            {
+              "id": "E14",
+              "text": "Perilaku kerja yang tidak produktif saya dalam 3 bulan lepas, saya mengadu mengenai isu-isu kecil berkaitan kerja di tempat kerja.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Tidak pernah",
+              "textMax": "Sering"
+            },
+            {
+              "id": "E15",
+              "text": "Perilaku kerja yang tidak produktif saya dalam 3 bulan lepas, saya memperbesarkan masalah di tempat kerja melebihi sepatutnya.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Tidak pernah",
+              "textMax": "Sering"
+            },
+            {
+              "id": "E16",
+              "text": "Perilaku kerja yang tidak produktif saya dalam 3 bulan lepas, saya lebih fokus pada aspek negatif situasi di tempat kerja berbanding aspek positifnya.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Tidak pernah",
+              "textMax": "Sering"
+            },
+            {
+              "id": "E17",
+              "text": "Perilaku kerja yang tidak produktif saya dalam 3 bulan lepas, saya bercakap dengan rakan sekerja tentang aspek negatif kerja saya.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Tidak pernah",
+              "textMax": "Sering"
+            },
+            {
+              "id": "E18",
+              "text": "Perilaku kerja yang tidak produktif saya dalam 3 bulan lepas, saya bercakap dengan orang di luar organisasi tentang aspek negatif kerja saya.",
+              "type": "scale",
+              "min": 0,
+              "max": 4,
+              "textMin": "Tidak pernah",
+              "textMax": "Sering"
+            }
+          ]
+        }
+      ],
+      "scoring": {
+        "method": "Calculate mean score for each subsection",
+        "interpretation": [
+          {
+            "range": "0-2.00",
+            "category": "Sangat rendah"
+          },
+          {
+            "range": "2.01-2.49",
+            "category": "Rendah"
+          },
+          {
+            "range": "2.50-3.16",
+            "category": "Sederhana"
+          },
+          {
+            "range": "3.17-3.49",
+            "category": "Tinggi"
+          },
+          {
+            "range": "3.50-100000",
+            "category": "Sangat tinggi"
+          }
+        ],
+        "recommendations": {
+          "Sangat rendah": "Perbincangan segera dengan pihak majikan perlu dibuat untuk mengenalpasti isu berkaitan dan mencari kaedah penyelesaian yang bersesuaian seperti pelaksanaan program sokongan (latihan, bimbingan, perubahan tugas), penetapan matlamat yang jelas, dan pemantauan berterusan bagi meningkatkan prestasi kerja.",
+          "Rendah": "Memerlukan tindakan pembaikan untuk meningkatkan prestasi kerja. Ini melibatkan sesi maklum balas konstruktif dengan pihak majikan, penyediaan rancangan pembangunan individu, peluang latihan atau pengawasan tambahan, dan sokongan berterusan.",
+          "Sederhana": "Prestasi kerja boleh dipertingkatkan. Berbincang bersama pihak majikan bagi mengenalpasti kekuatan dan kelemahan. Ikuti latihan yang bersesuaian bagi pembangunan kerjaya yang berterusan.",
+          "Tinggi": "Prestasi kerja berpotensi untuk mencapai tahap cemerlang. Pengiktirafan dari majikan adalah amat dialu-alukan sebagai satu mekanisma motivasi diri di samping memberi peluang tanggungjawab baharu bagi pembangunan kerjaya melalui projek khas atau latihan lanjutan. Anda boleh menjadi mentor dan contoh kepada rakan sekerja lain.",
+          "Sangat tinggi": "Tahniah, prestasi kerja melebihi jangkaan dengan profesionalisme tinggi. Pengiktirafan melalui ganjaran, peluang kepimpinan dan pertimbangkan promosi kerjaya atau kenaikan gaji oleh majikan untuk mengekalkan motivasi mereka amatlah disarankan.  Sebagai pekerja yang cemerlang, anda boleh menjadi mentor dalam membantu rakan sekerja meningkatkan prestasi kerja menjadi lebih baik."
+        }
+      }
+    },
+    {
+      "id": "F",
+      "title_BM": "BAHAGIAN F: Skala Kemurungan Psikologikal Kessler 6",
+      "title_BI": "SECTION F: Kessler 6 Psychological Distress Scale (K6+)",
+      "description": "Skala Kemurungan Psikologikal Kessler 6 (atau Kessler 6 Psychological Distress Scale, K6+) adalah instrumen yang berpotensi untuk menyaring masalah kesihatan mental dan menilai tahap kesulitan yang dihadapi. Ia digunakan secara meluas dalam penyelidikan dan perubatan klinikal kerana ia ringkas, boleh dipercayai, dan mempunyai kesahihan. Ia sangat membantu dalam mengenal pasti individu yang mungkin memerlukan penilaian dan rawatan lanjut.",
+      "instructions": "Sila baca setiap kenyataan dan tandakan 0, 1, 2, 3 atau 4 pada kenyataan yang menggambarkan keadaan anda dalam 30 hari yang lalu.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "Lins, G. O. D. A., Lima, N. A. D. S., Sousa, G. S. D., Guimarães, F. J., Frazão, I. D. S., & Perrelli, J. G. A. (2021). Validity and reliability of Kessler Psychological Distress Scale for Brazilian elderly: a cross-sectional study. Revista Brasileira de Enfermagem, 74(Suppl 2), e20200365.",
+        "reference_2": "The total internal consistency of K10 was α=0.844, which shows high reliability. The K10 scale proved to be valid and reliable for verifying mental distress in elderly people in PHC."
+      },
+      "Result_text": "JUMLAH SKOR K6+: ",
+      "questions": [
+        {
+          "id": "F1",
+          "text": "Dalam 30 hari yang lalu, berapa kerap anda merasa gugup?",
+          "type": "scale",
+          "min": 0,
+          "max": 4,
+          "textMin": "Tidak pernah",
+          "textMax": "Sepanjang masa"
+        },
+        {
+          "id": "F2",
+          "text": "Dalam 30 hari yang lalu, berapa kerap anda merasa putus asa?",
+          "type": "scale",
+          "min": 0,
+          "max": 4,
+          "textMin": "Tidak pernah",
+          "textMax": "Sepanjang masa"
+        },
+        {
+          "id": "F3",
+          "text": "Dalam 30 hari yang lalu, berapa kerap anda merasa gelisah atau tidak tenteram?",
+          "type": "scale",
+          "min": 0,
+          "max": 4,
+          "textMin": "Tidak pernah",
+          "textMax": "Sepanjang masa"
+        },
+        {
+          "id": "F4",
+          "text": "Dalam 30 hari yang lalu, berapa kerap anda merasa begitu tertekan sehingga tiada apa yang dapat menggembirakan anda?",
+          "type": "scale",
+          "min": 0,
+          "max": 4,
+          "textMin": "Tidak pernah",
+          "textMax": "Sepanjang masa"
+        },
+        {
+          "id": "F5",
+          "text": "Dalam 30 hari yang lalu, berapa kerap anda merasa bahawa segala-galanya adalah usaha?",
+          "type": "scale",
+          "min": 0,
+          "max": 4,
+          "textMin": "Tidak pernah",
+          "textMax": "Sepanjang masa"
+        },
+        {
+          "id": "F6",
+          "text": "Dalam 30 hari yang lalu, berapa kerap anda merasa tidak berharga?",
+          "type": "scale",
+          "min": 0,
+          "max": 4,
+          "textMin": "Tidak pernah",
+          "textMax": "Sepanjang masa"
+        }
+      ],
+      "scoring": {
+        "interpretation": [
+          {
+            "range": "0-12",
+            "category": "Tiada gangguan psikologi yang teruk"
+          },
+          {
+            "range": "13-100000",
+            "category": "Ada mengalami gangguan psikologi yang teruk"
+          }
+        ],
+        "recommendations": {
+          "Ada mengalami gangguan psikologi yang teruk": "Sila rujuk dengan pegawai perubatan bagi mendapatkan penilaian lanjut berkaitan keadaan anda.",
+          "Tiada gangguan psikologi yang teruk": "Teruskan penjagaan diri dengan tidur cukup, makan sihat, dan bersenam. Kekalkan hubungan sosial, uruskan tekanan, dan lakukan aktiviti yang anda nikmati. Tetapkan matlamat realistik, amalkan pemikiran positif, dan dapatkan bantuan profesional jika perlu. Teruskan pendidikan kesihatan mental untuk kesejahteraan berterusan."
+        }
+      }
+    },
+    {
+      "id": "G",
+      "title_BM": "BAHAGIAN G: Skala Kemurungan CES-D",
+      "title_BI": "SECTION G: Depression Scale CES-D",
+      "description": "Skala Kemurungan Kajian Epidemiologi Pusat (CES-D) (atau Depression Scale CES-D) ialah satu soal selidik kendiri yang digunakan secara meluas untuk menilai simptom kemurungan dalam populasi umum. Ia terdiri daripada 20 item yang menanyakan tentang kekerapan pelbagai simptom kemurungan sepanjang minggu lepas.",
+      "instructions": "Di bawah adalah senarai sebahagian perkara yang anda mungkin rasa atau lakukan. Tandakan (√) pada kenyataan yang paling tepat dengan diri anda.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "Fountoulakis, K., Iacovides, A., Kleanthous, S., Samolis, S., Kaprinis, S. G., Sitzoglou, K., St Kaprinis, G.  & Bech, P. (2001). Reliability, validity and psychometric properties of the Greek translation of the Center for Epidemiological Studies-Depression (CES-D) Scale. BMC psychiatry, 1, 1-10.",
+        "reference_2": "Both Sensitivity and specificity exceed 90.00 at 23/24, Chronbach's alpha for the total scale was equal to 0.95. The test-retest reliability was satisfactory (Pearson's R between 0.45 and 0.95 for individual items and 0.71 for total score)."
+      },
+      "Result_text": "JUMLAH SKOR CES-D: ",
+      "questions": [
+        {
+          "id": "G1",
+          "text": "Sepanjang minggu lepas, fikiran saya diganggu oleh hal yang selalunya tidak menggangu saya.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G2",
+          "text": "Sepanjang minggu lepas, saya tiada selera untuk makan.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G3",
+          "text": "Sepanjang minggu lepas, saya rasa saya tidak dapat menghapuskan perasaan tertekan walaupun dengan bantuan kawan-kawan saya.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G4",
+          "text": "Sepanjang minggu lepas, saya rasa saya sebaik orang lain.",
+          "reverse": true,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (3)",
+            "Kadang-kadang/1-2 hari (2)",
+            "Kerap kali/3-4 hari (1)",
+            "Pada setiap masa/5-7 hari (0)"
+          ]
+        },
+        {
+          "id": "G5",
+          "text": "Sepanjang minggu lepas, saya mempunyai masalah untuk menumpukan perhatian kepada kerja yang saya lakukan.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G6",
+          "text": "Sepanjang minggu lepas, saya rasa tertekan.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G7",
+          "text": "Sepanjang minggu lepas, saya rasa semua yang saya lakukan adalah satu usaha.",
+          "reverse": true,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G8",
+          "text": "Sepanjang minggu lepas, saya rasa mempunyai harapan yang baik untuk masa depan saya.",
+          "reverse": true,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (3)",
+            "Kadang-kadang/1-2 hari (2)",
+            "Kerap kali/3-4 hari (1)",
+            "Pada setiap masa/5-7 hari (0)"
+          ]
+        },
+        {
+          "id": "G9",
+          "text": "Sepanjang minggu lepas, saya fikir hidup saya telah mengalami kegagalan.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G10",
+          "text": "Sepanjang minggu lepas, saya merasa sangat takut.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G11",
+          "text": "Sepanjang minggu lepas, tidur saya terganggu.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G12",
+          "text": "Sepanjang minggu lepas, saya gembira.",
+          "reverse": true,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (3)",
+            "Kadang-kadang/1-2 hari (2)",
+            "Kerap kali/3-4 hari (1)",
+            "Pada setiap masa/5-7 hari (0)"
+          ]
+        },
+        {
+          "id": "G13",
+          "text": "Sepanjang minggu lepas, saya bercakap kurang berbanding kebiasaannya.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G14",
+          "text": "Sepanjang minggu lepas, saya berasa kesunyian.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G15",
+          "text": "Sepanjang minggu lepas, orang di sekeliling saya tidak mesra.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G16",
+          "text": "Sepanjang minggu lepas, saya menikmati hidup saya.",
+          "reverse": true,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (3)",
+            "Kadang-kadang/1-2 hari (2)",
+            "Kerap kali/3-4 hari (1)",
+            "Pada setiap masa/5-7 hari (0)"
+          ]
+        },
+        {
+          "id": "G17",
+          "text": "Sepanjang minggu lepas, saya memaki-hamun / menyumpah.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G18",
+          "text": "Sepanjang minggu lepas, saya berasa sedih.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G19",
+          "text": "Sepanjang minggu lepas, saya rasa orang lain tidak sukakan saya.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        },
+        {
+          "id": "G20",
+          "text": "Sepanjang minggu lepas, saya tidak dapat meneruskan hidup.",
+          "reverse": false,
+          "type": "single_choice",
+          "options": [
+            "Jarang atau tiada/Kurang dari 1 hari (0)",
+            "Kadang-kadang/1-2 hari (1)",
+            "Kerap kali/3-4 hari (2)",
+            "Pada setiap masa/5-7 hari (3)"
+          ]
+        }
+      ],
+      "scoring": {
+        "interpretation": [
+          {
+            "range": "0-14",
+            "category": "Tidak mengalami sebarang simptom kemurungan"
+          },
+          {
+            "range": "15-21",
+            "category": "Mengalami simptom kemurungan yang ringan/sederhana"
+          },
+          {
+            "range": "22-10000",
+            "category": "Mengalami simptom kemurungan yang tinggi"
+          }
+        ],
+        "recommendations": {
+          "Mengalami simptom kemurungan yang tinggi": "Dapatkan bantuan segera daripada profesional kesihatan mental seperti psikologi klinikal atau pakar psikiatri bagi menilai simptom secara lebih mendalam untuk rawatan yang bersesuaian.",
+          "Mengalami simptom kemurungan yang ringan/sederhana": "Walaupun simptom kemurungan ini mungkin tidak terlalu serius, saranan untuk berunding dengan kaunselor atau psikologi klinikal untuk khidmat nasihat dalam merancang strategi pengurusan emosi dan sokongan yang bersesuaian.",
+          "Tidak mengalami sebarang simptom kemurungan": "Terus menjaga kesihatan mental secara keseluruhan melalui amalan gaya hidup yang sihat, menjaga hubungan sosial yang positif, dan terus memantaukesejahteraan emosi yang boleh membantu menghalang kemurungan di masa depan."
+        }
+      }
+    },
+    {
+      "id": "H",
+      "title_BM": "BAHAGIAN H: Instrumen Penilaian Kepenatan",
+      "title_BI": "SECTION H: Burnout Assessment Tool (BAT)",
+      "description": "Alat Penilaian Keletihan (atau Burnout Assessment Tool, BAT) ialah satu soal selidik yang disahkan secara saintifik yang direka untuk menilai risiko keletihan. Ia mengukur keletihan sebagai satu sindrom dengan empat komponen teras seperti keletihan, jarak mental, kemerosotan kognitif dan emosi.",
+      "instructions": "Kenyataan berikut berkaitan dengan situasi harian anda dan bagaimana anda mengalaminya. Sila nyatakan sejauh mana setiap kenyataan ini berlaku kepada anda.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "Schaufeli, W., & De Witte, H. (2023). Burnout Assessment Tool (BAT) A fresh look at burnout. In International handbook of behavioral health assessment (pp. 1-24). Cham: Springer International Publishing.",
+        "reference_2": "Hadžibajramović, E., Schaufeli, W., & De Witte, H. (2022). Shortening of the Burnout Assessment Tool (BAT)—from 23 to 12 items using content and Rasch analysis. BMC Public Health, 22(1), 560.",
+        "reference_3": "The short version BAT12 fulfils the measurement criteria according to the Rasch model after accounting for local dependency between items within each subscale. The four subscales can be combined into a single burnout score."
+      },
+      "Result_text": "JUMLAH SKOR KELETIHAN: ",
+      "Result_text_1": "JUMLAH SKOR JARAK MENTAL: ",
+      "Result_text_2": "JUMLAH SKOR KEMEROSOTAN KOGNITIF: ",
+      "Result_text_3": "JUMLAH SKOR KEMEROSOTAN EMOSI: ",
+      "Result_text_4": "JUMLAH SKOR KESELURUHAN BAT12: ",
+      "subsections": [
+        {
+          "name": "Keletihan",
+          "questions": [
+            {
+              "id": "H1",
+              "text": "Di tempat kerja, saya rasa keletihan mental.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            },
+            {
+              "id": "H2",
+              "text": "Selepas seharian bekerja, saya sukar untuk memulihkan tenaga saya.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            },
+            {
+              "id": "H3",
+              "text": "Di tempat kerja, saya rasa keletihan fizikal.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Jarak mental",
+          "questions": [
+            {
+              "id": "H4",
+              "text": "Saya sukar untuk mencari semangat untuk kerja saya.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            },
+            {
+              "id": "H5",
+              "text": "Saya berasa sangat tidak suka terhadap pekerjaan saya.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            },
+            {
+              "id": "H6",
+              "text": "Saya sinis tentang kerja saya memberi makna kepada orang lain.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kemerosotan kognitif",
+          "questions": [
+            {
+              "id": "H7",
+              "text": "Ditempat kerja, saya ada masalah untuk kekal fokus.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            },
+            {
+              "id": "H8",
+              "text": "Apabila saya sedang bekerja, saya mempunyai masalah untuk menumpukan perhatian.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            },
+            {
+              "id": "H9",
+              "text": "Saya membuat kesilapan dalam kerja kerana dalam fikiran saya ada perkara lain.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kemerosotan emosi",
+          "questions": [
+            {
+              "id": "H10",
+              "text": "Di tempat kerja, saya rasa tidak mampu mengawal emosi saya.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            },
+            {
+              "id": "H11",
+              "text": "Saya tidak mengenali diri saya dalam cara saya bertindak balas secara emosi di tempat kerja.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            },
+            {
+              "id": "H12",
+              "text": "Di tempat kerja, saya mungkin bertindak secara berlebihan tanpa sengaja.",
+              "type": "single_choice",
+              "options": [
+                "Tidak pernah (1)",
+                "Jarang sekali (2)",
+                "Kadang-kadang (3)",
+                "Kerap (4)",
+                "Sentiasa (5)"
+              ]
+            }
+          ]
+        }
+      ],
+      "scoring": {
+        "method": "Calculate mean score for each dimension and overall",
+        "interpretation": {
+          "Keletihan": [
+            {
+              "range": "0-1.66",
+              "category": "Rendah"
+            },
+            {
+              "range": "1.67-2.99",
+              "category": "Sederhana"
+            },
+            {
+              "range": "3.00-3.99",
+              "category": "Tinggi"
+            },
+            {
+              "range": "4.00-10000",
+              "category": "Sangat tinggi"
+            }
+          ],
+          "Jarak mental": [
+            {
+              "range": "0-1.00",
+              "category": "Rendah"
+            },
+            {
+              "range": "1.01-2.65",
+              "category": "Sederhana"
+            },
+            {
+              "range": "2.66-3.99",
+              "category": "Tinggi"
+            },
+            {
+              "range": "4.00-100000",
+              "category": "Sangat tinggi"
+            }
+          ],
+          "Kemerosotan kognitif": [
+            {
+              "range": "0-1.66",
+              "category": "Rendah"
+            },
+            {
+              "range": "1.67-2.33",
+              "category": "Sederhana"
+            },
+            {
+              "range": "2.34-3.32",
+              "category": "Tinggi"
+            },
+            {
+              "range": "3.33-10000",
+              "category": "Sangat tinggi"
+            }
+          ],
+          "Kemerosotan emosi": [
+            {
+              "range": "0-1.00",
+              "category": "Rendah"
+            },
+            {
+              "range": "1.01-2.00",
+              "category": "Sederhana"
+            },
+            {
+              "range": "2.01-3.00",
+              "category": "Tinggi"
+            },
+            {
+              "range": "3.01-100000",
+              "category": "Sangat tinggi"
+            }
+          ],
+          "Overall BAT12": [
+            {
+              "range": "0-1.50",
+              "category": "Rendah"
+            },
+            {
+              "range": "1.51-2.35",
+              "category": "Sederhana"
+            },
+            {
+              "range": "2.36-3.17",
+              "category": "Tinggi"
+            },
+            {
+              "range": "3.18-10000",
+              "category": "Sangat tinggi"
+            }
+          ]
+        },
+        "recommendations": {
+          "Keletihan": {
+            "Rendah": "Walaupun anda tidak berada dalam keadaan keletihan yang teruk, penting untuk terus menjaga kesejahteraan secara keseluruhan seperti gaya hidup yang sihat, menguruskan stres dengan baik, dan memastikan keseimbangan antara kerja dan kehidupan.",
+            "Sederhana": "Anda mengalami tekanan atau keletihan pada tahap awal yang perlu ditangani dengan segera. Mengimbangi beban kerja, mengamalkan pengurusan stres yang lebih baik, dan menjaga kesejahteraan fizikal serta mental adalah langkah yang penting untuk mengurangkan kepenatan.",
+            "Tinggi": "Anda berada dalam risiko kepenatan yang tinggi dan memerlukan perhatian segera. Mengambil langkah-langkah seperti mendapatkan bantuan profesional, rehat dan tidur yang cukup, dan mengurangkan beban kerja serta pengurusan stres dalah langkah penting dalam menangani kepenatan ini.",
+            "Sangat Tinggi": "Memndangkan anda mengalami tahap kepenatan yang sangat tinggi, adalah disarankan mendapatkan bantuan professional denga segera, berehat, mengurangkan beban kerja, dan amalkan teknik pengurusan stres. Sokongan sosial, tidur yang cukup, gaya hidup sihat, serta refleksi diri dan penetapan matlamat juga penting untuk pemulihan dan pencegahan burnout."
+          },
+          "Jarak mental": {
+            "Rendah": "Anda mengalami keterikatan emosi yang kuat dengan kerja, yang boleh membawa kepada keletihan. Untuk mengatasinya, tetapkan batasan kerja, amalkan relaksasi, cari sokongan sosial, lakukan refleksi diri, dan dapatkan bantuan profesional jika perlu. Keseimbangan kerja-hidup adalah penting untuk kesejahteraan mental dan fizikal.",
+            "Sederhana": "Walaupun berada pada tahap awal burnout, adalah perlu untuk mengambil tindakan bagi mengatasi keadaan ini seperti pengurusan stres melalui teknik relaksasi, tidur yang berkualiti, pengurusan masa dan keseimbangan antara kerja dan kehidupan. Sokongan sosial, pengurusan emosi, dan aktiviti fizikal juga penting untuk memperbaiki keadaan mental. Rehat yang cukup dan pemakanan sihat turut membantu, bersama dengan pemantauan berkala terhadap tahap stres.",
+            "Tinggi": "Anda mengalami keletihan teruk dan tekanan mental yang tinggi. Justeru sokongan profesional yang berterusan, pengurusan stres intensif, rehat sepenuhnya, peningkatan kualiti tidur, pengurangan beban kerja, sokongan sosial yang kuat, keseimbangan kerja-hidup yang lebih baik, aktiviti fizikal dan rekreasi, pemakanan sihat, aktiviti menenangkan, dan peningkatan kesedaran diri adalah diperlukan pada waktu ini.",
+            "Sangat Tinggi": "Anda mengalami tahap keletihan yang sangat serius dengan tekanan mental yang amat tinggi. Dapatkan sokongan profesional segera seperti pakar psikiatri atau kaunselor, rehat sepenuhnya dan cuti jangka panjang, pengurusan stres terapeutik, pemulihan melalui tidur yang berkualiti, pengurangan beban kerja dan tanggungjawab, peningkatan sokongan sosial yang kuat, aktiviti rekreasi dan fizikal, pemakanan sihat, aktiviti menenangkan, pemantauan kesedaran diri, dan perubahan gaya hidup secara menyeluruh dan sepenuhnya."
+          },
+          "Kemerosotan kognitif": {
+            "Rendah": "Anda tidak mengalami gangguan kognitif yang signifikan, tetapi mungkin berada pada tahap awal keletihan mental. Disarankan untuk meneruskan pengurusan stres, menjaga kualiti tidur, mengekalkan keseimbangan kerja-hidup, meningkatkan aktiviti fizikal dan mental, mengamalkan pemakanan sihat, mendapatkan sokongan sosial dan mengurus masa dengan lebih baik.",
+            "Sederhana": "Anda mengalami sedikit kesulitan kognitif akibat tekanan atau keletihan awal. Disarankan untuk mengamalkan pengurusan stres intensif, meningkatkan kualiti tidur dan rehat, mengurus masa dengan lebih baik, melakukan aktiviti fizikal, mengamalkan pemakanan seimbang, melakukan latihan kognitif, meningkatkan sokongan sosial dan mengurangkan beban kerja.",
+            "Tinggi": "Anda mengalami gangguan kognitif yang serius akibat keletihan mental berpanjangan. Anda memerlukan sokongan profesional segera seperti pakar psikologi atau psikiatri, peningkatan kualiti tidur yang kritikal, pengurusan stres yang mendalam, rehat penuh atau cuti, pengurangan beban kerja, sokongan sosial yang kuat, aktiviti fizikal dan mental serta diet seimbang melalui pemantauan berkala. Intervensi intensif dan perubahan gaya hidup menyeluruh diperlukan untuk pemulihan fungsi kognitif.",
+            "Sangat Tinggi": "Anda mengalami gangguan kognitif serius akibat keletihan, dengan kesukaran dalam tumpuan, ingatan, dan pemprosesan maklumat. Anda perlu mendapatkan sokongan profesional segera seperti pakar psikologi atau psikiatri, rehat penuh dan pemulihan, pengurusan stres intensif, peningkatan kualiti tidur, sokongan sosial yang kuat, pengurangan beban kerja dan tanggungjawab, aktiviti fizikal yang teratur, diet sihat untuk sokongan otak, aktiviti mental untuk merangsang otak, serta peningkatan kesedaran diri dan pemantauan berkala. Intervensi yang cepat dan menyeluruh, sokongan profesional, dan perubahan gaya hidup yang ketara adalah penting untuk pemulihan kognitif yang berkesan."
+          },
+          "Kemerosotan emosi": {
+            "Rendah": "Anda masih mampu menguruskan emosi dengan baik dan tidak mengalami kesan emosi yang ketara akibat keletihan atau tekanan. Walau bagaimanapun, untuk mengekalkan kestabilan emosi dan mencegah peningkatan kesan keletihan di masa hadapan, anda disarankan untuk mengamalkan pengurusan stres secara berterusan, melakukan aktiviti fizikal, menjaga keseimbangan kerja-hidup, melibatkan diri dalam aktiviti sosial dan rekreasi, memantau emosi secara berkala, menguruskan konflik dan cabaran secara positif, mengamalkan pemakanan sihat serta mendapatkan tidur yang cukup dan berkualiti.",
+            "Sederhana": "Anda mengalami kesukaran mengurus emosi akibat stres atau keletihan. Disarankan untuk mengamalkan pengurusan stres melalui meditasi dan relaksasi, meningkatkan kualiti tidur, terlibat dalam aktiviti sosial dan rekreasi, mengurus konflik secara positif, berkongsi perasaan, menetapkan matlamat realistik, melakukan aktiviti fizikal, meningkatkan kesedaran diri, mencari aktiviti menenangkan, dan mendapatkan sokongan profesional jika perlu. Langkah-langkah ini penting untuk mencegah gangguan emosi yang lebih serius dan meningkatkan kesejahteraan mental jangka panjang.",
+            "Tinggi": "Anda mengalami gangguan emosi yang signifikan akibat tekanan atau keletihan. Justeru sokongan profesional segera seperti kaunselor, ahli psikologi, atau psikiatri, pengurusan stres intensif, rehat sepenuhnya, peningkatan kualiti tidur, aktiviti fizikal yang menenangkan, sokongan sosial yang kuat, penetapan batasan yang sehat, aktiviti menenangkan, pengenalan dan pengurusan emosi yang berkesan adalah amat diperlukan untuk pemulihan sepenuhnya.",
+            "Sangat Tinggi": "Anda mengalami gangguan emosi teruk akibat keletihan, menyebabkan sangat tertekan, cemas, atau tidak mampu menguruskan perasaan. Anda memerlukan sokongan profesional segera seperti kaunselor, ahli psikologi, atau psikiatri, rehat sepenuhnya, pengurusan stres intensif, peningkatan kualiti tidur, sokongan sosial yang kukuh, aktiviti fizikal menenangkan, teknik pengurusan emosi, batasan yang jelas, aktiviti menenangkan, dan pemantauan kesihatan emosi berkala."
+          },
+          "Overall BAT12": {
+            "Rendah": "Anda mungkin mengalami masalah keletihan, kesukaran menumpukan perhatian, dan prestasi kognitif yang terjejas. Anda memerlukan rehat berkala dan tidur yang berkualiti (7-9 jam),  mengenal pasti punca tekanan dan menguruskannya dengan baik, mengurangkan gangguan digital dan fizikal dengan memberikan fokus pada satu tugasan pada satu masa serta mengamalkan gaya hidup sihat dengan pemakanan seimbang, hidrasi yang mencukupi, dan aktiviti fizikal secara berkala. Selain itu, pihak pengurusan juga perlu menyemak beban kerja, memastikan persekitaran kerja yang kondusif, dan menyediakan program sokongan kesejahteraan untuk pekerja.",
+            "Sederhana": "Anda sedang mengalami cabaran yang boleh menjejaskan tahap keletihan, tumpuan, dan prestasi kognitif. Anda perlu mengenal pasti punca tekanan kerja dan kaedah menguruskannya, minta sokongan daripada penyelia atau rakan sekerja, jaga keseimbangan kerja dan hidup, mengatur rutin harian supaya tidak terbeban dan pantau emosi dan prestasi kerja secara berkala. Pihak pengurusan juga perlu memantau pekerja dan menyediakan sokongan awal untuk mencegah masalah ini daripada menjadi lebih serius, demi kesejahteraan dan produktiviti pekerja.",
+            "Tinggi": "Anda mungkin mengalami tahap burnout yang ketara dan berpotensi menjejaskan kesihatan fizikal, mental serta prestasi kerja. Anda perlu berbincang dengan penyelia/pengurusan mengenai beban kerja, disarankan mengambil cuti atau rehat untuk pemulihan, mendapatkan sokongan profesional (kaunseling), memfokuskan kepada kesejahteraan mental melalui senaman atau meditasi serta menjaga keseimbangan kerja-hidup dengan hadkan kerja di luar waktu pejabat.",
+            "Sangat Tinggi": "Anda kemungkinan besar sedang mengalami burnout yang teruk dan memerlukan perhatian segera. Ini bukan lagi sekadar tekanan kerja biasa, tetapi satu tahap keletihan yang serius yang boleh menjejaskan kesihatan fizikal dan mental secara signifikan. Anda disarankan untuk mengambil cuti panjang dan rehat dari kerja untuk memulihkan diri, dapatkan bantuan profesional (kaunselor, ahli psikologi, atau ahli terapi) untuk strategi mengatasi burnout, dan nasihat doktor untuk kesihatan fizikal, berkomunikasi dengan pihak pengurusan/majikan untuk penyesuaian kerja sementara atau pelan kembali bekerja, kekalkan gaya hidup sihat (senaman, diet), kurangkan pendedahan kepada tekanan, dan libatkan diri dalam aktiviti menenangkan serta pertimbangkan untuk menilai semula matlamat kerjaya jika perlu."
+          }
+        }
+      }
+    },
+    {
+      "id": "I",
+      "title_BM": "BAHAGIAN I: Penilaian Anggota Keseluruhan Tubuh (REBA)",
+      "title_BI": "SECTION I: Rapid Entire Body Assessment (REBA)",
+      "description": "Penilaian Anggota Keseluruhan Tubuh (atau Rapid Entire Body Assessment, RELA) ialah instrumen penilaian ergonomik yang digunakan secara meluas untuk menilai risiko gangguan muskuloskeletal (MSD) akibat postur dan tugas berulang. Ia menganalisis postur, daya, pergerakan, dan faktor persekitaran kerja. Ia memberikan skor yang menunjukkan risiko kecederaan. Skor yang lebih tinggi menandakan risiko MSD yang lebih besar, memerlukan intervensi ergonomik. REBA digunakan dalam pelbagai industri untuk mencegah kecederaan akibat pergerakan berulang atau postur janggal.",
+      "Result_text": "JUMLAH SKOR REBA: ",
+      "subsections": [
+        {
+          "name": "BAHAGIAN A: ANALISIS LEHER, TUBUH DAN KAKI",
+          "questions": [
+            {
+              "id": "1",
+              "text": "Pilih posisi leher",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "1a.png"
+                },
+                {
+                  "score": "2",
+                  "image": "1b.png"
+                },
+                {
+                  "score": "2",
+                  "image": "1c.png"
+                }
+              ]
+            },
+            {
+              "id": "1a",
+              "select": "optional",
+              "text": "Pelarasan leher (pilih satu jika berkaitan)",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "1d.png"
+                },
+                {
+                  "score": "1",
+                  "image": "1e.png"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "text": "Pilih posisi tubuh",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "2a.png"
+                },
+                {
+                  "score": "2",
+                  "image": "2b.png"
+                },
+                {
+                  "score": "2",
+                  "image": "2c.png"
+                },
+                {
+                  "score": "3",
+                  "image": "2d.png"
+                },
+                {
+                  "score": "3",
+                  "image": "2e.png"
+                },
+                {
+                  "score": "4",
+                  "image": "2f.png"
+                }
+              ]
+            },
+            {
+              "id": "2a",
+              "select": "optional",
+              "text": "Pelarasan tubuh (pilih satu jika berkaitan)",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "2g.png"
+                },
+                {
+                  "score": "1",
+                  "image": "2h.png"
+                }
+              ]
+            },
+            {
+              "id": "3",
+              "text": "Pilih posisi kaki ",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "3a.png"
+                },
+                {
+                  "score": "2",
+                  "image": "3b.png"
+                }
+              ]
+            },
+            {
+              "id": "3a",
+              "select": "optional",
+              "text": "Pelarasan kaki (pilih satu jika berkaitan)",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "3c.png"
+                },
+                {
+                  "score": "2",
+                  "image": "3d.png"
+                }
+              ]
+            },
+            {
+              "id": "4",
+              "text": "Dapatkan nilai skor daya/beban",
+              "type": "single_choice",
+              "options": [
+                "Jika beban adalah kurang dari 5 kg (+0)",
+                "Jika beban adalah 5 kg - 10 kg (+1)",
+                "Jika beban adalah lebih dari 10 kg (+2)",
+                "Jika berlaku kejutan atau daya yang terbina dengan pantas (+1)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "BAHAGIAN B: ANALISIS LENGAN DAN PERGELANGAN TANGAN",
+          "questions": [
+            {
+              "id": "5",
+              "text": "Pilih posisi lengan atas",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "7a.png"
+                },
+                {
+                  "score": "2",
+                  "image": "7b.png"
+                },
+                {
+                  "score": "2",
+                  "image": "7c.png"
+                },
+                {
+                  "score": "3",
+                  "image": "7d.png"
+                },
+                {
+                  "score": "4",
+                  "image": "7e.png"
+                }
+              ]
+            },
+            {
+              "id": "5a",
+              "select": "optional",
+              "text": "Pelarasan lengan atas (pilih satu jika berkaitan)",
+              "type": "select_box_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "7f.png"
+                },
+                {
+                  "score": "1",
+                  "image": "7g.png"
+                },
+                {
+                  "score": "-1",
+                  "image": "7h.png"
+                }
+              ]
+            },
+            {
+              "id": "6",
+              "text": "Pilih posisi lengan bawah",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "8a.png"
+                },
+                {
+                  "score": "2",
+                  "image": "8b.png"
+                },
+                {
+                  "score": "2",
+                  "image": "8c.png"
+                }
+              ]
+            },
+            {
+              "id": "7",
+              "text": "Pilih posisi pergelangan tangan",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "9a.png"
+                },
+                {
+                  "score": "2",
+                  "image": "9b.png"
+                },
+                {
+                  "score": "2",
+                  "image": "9c.png"
+                }
+              ]
+            },
+            {
+              "id": "7a",
+              "select": "optional",
+              "text": "Pelarasan pergelangan tangan (pilih satu jika berkaitan) ",
+              "type": "radio_button_image",
+              "options": [
+                {
+                  "score": "1",
+                  "image": "9d.png"
+                },
+                {
+                  "score": "1",
+                  "image": "9e.png"
+                }
+              ]
+            },
+            {
+              "id": "8",
+              "text": "Dapatkan skor pegangan",
+              "type": "single_choice",
+              "options": [
+                "Pemegang yang muat dengan baik dan cengkaman kuasa jarak sederhana, baik (+0)",
+                "Pegangan tangan atau gandingan boleh diterima tetapi tidak ideal, wajar (+1)",
+                "Pegangan tangan tidak boleh diterima tetapi masih boleh dilakukan, lemah (+2)",
+                "Tiada pemegang, kekok, tidak selamat dengan mana-mana bahagian badan, tidak oleh diterima (+3)"
+              ]
+            },
+            {
+              "id": "9",
+              "text": "Dapatkan skor Aktiviti",
+              "type": "single_choice",
+              "options": [
+                "1 atau lebih bahagian badan pegun dalam tempoh lebih 1 minit (statik) (+1)",
+                "Pergerakan julat kecil secara berulang (lebih 4 kali seminit) (+1)",
+                "Pergerakan menyebabkan perubahan julat besar yang pantas pada postur atau tapak yang tidak stabil (+1)"
+              ]
+            }
+          ]
+        }
+      ],
+      "scoring": {
+        "interpretation": [
+          {
+            "range": "0-1.99",
+            "category": "Tiada risiko"
+          },
+          {
+            "range": "2-3.99",
+            "category": "Risiko rendah, perubahan mungkin diperlukan"
+          },
+          {
+            "range": "4-7.99",
+            "category": "Risiko sederhana, siasatan lanjut, perubahan perlu dibuat dalam masa terdekat"
+          },
+          {
+            "range": "8-10.99",
+            "category": "Risiko tinggi, siasat dan laksanakan perubahan"
+          },
+          {
+            "range": "11-10000",
+            "category": "Risiko sangat tinggi, laksanakan perubahan segera"
+          }
+        ],
+        "recommendations": {
+          "Tiada risiko": "Teruskan amalan kerja, postur, dan pergerakan sedia ada disamping memantau keadaan kerja secara berkala. Guna contoh kerja ini sebagai penanda aras untuk amalan kerja lain dalam organisasi. Ini boleh menjadi model bagi memastikan keselamatan dan kesihatan pekerja secara menyeluruh.",
+          "Risiko rendah, perubahan mungkin diperlukan": "Pantau dan buat penilaian semula ke atas postur atau tugasan kerja yang menyumbang kepada risiko ini dalam tempoh tertentu untuk memastikan ianya tidak berulang. Pertimbangkan penyesuaian kecil yang mudah dan tidak libatkan kos yang tinggi jika perlu.",
+          "Risiko sederhana, siasatan lanjut, perubahan perlu dibuat dalam masa terdekat": "Kenal pasti dengan tepat bahagian badan mana yang menyumbang kepada risiko. Gunakan maklumat daripada analisis REBA untuk melihat postur spesifik yang berisiko. Laksanakan perubahan jangka pendek yang lebih kerap. Selepas perubahan dibuat, pantau kesannya dan lakukan penilaian REBA semula untuk memastikan risiko telah menurun ke tahap yang boleh diterima.",
+          "Risiko tinggi, siasat dan laksanakan perubahan": "Anda perlu menyiasat secara terperinci punca utama risiko tersebut dan melaksanakan perubahan segera samada pada reka bentuk tempat kerja, peralatan, atau prosedur kerja. Jangan tangguh tindakan ini, kerana risiko kecederaan boleh berlaku pada bila-bila masa. Tumpukan perhatian kepada penambahbaikan ergonomik untuk melindungi diri anda daripada bahaya yang dikenalpasti.",
+          "Risiko sangat tinggi, laksanakan perubahan segera": "Anda perlu menyiasat dengan segera dan melaksanakan perubahan drastik samada pada reka bentuk tempat kerja, peralatan, atau prosedur kerja bagi mengelakkan kecederaan serius. Ia perlu melibatkan penilaian ergonomik yang menyeluruh untuk memastikan postur kerja, pergerakan, dan beban berada pada tahap yang selamat dan mampan."
+        }
+      }
+    },
+    {
+      "id": "J",
+      "title_BM": "BAHAGIAN J: Soal-selidik Muskuloskeletel Nordic (NMQ)",
+      "title_BI": "SECTION J: Nordic Musculoskeletel Questionnaire (NMQ)",
+      "description": "Soal Selidik Muskuloskeletal Nordic (NMQ) ialah satu alat penilaian kendiri yang digunakan untuk menilai kesakitan muskuloskeletal pada orang dewasa, dengan menilai kekerapan, keterukan, dan kesan kesakitan tersebut terhadap kehidupan seharian melalui pelbagai bahagian badan.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "Dawson AP, Steele EJ, Hodges PW, Stewart S (2009) Development and test-retest reliability of an extended version of the Nordic Musculoskeletal Questionnaire (NMQ-E): a screening instrument for musculoskeletal pain. J Pain 10(5):517–526.",
+        "reference_2": "Kuorinka I, Jonsson B, Kilbom A, Vinterberg H, Biering-Sørensen F, Andersson G et al (1987) Standardised Nordic questionnaires for the analysis of musculoskeletal symptoms. Appl Ergon 18(3):233–237",
+        "reference_3": "The Nordic Musculoskeletal Questionnaire (NMQ) was explicitly designed to evaluate the prevalence and consequences of MSK pain, it has high reliability and validity, and is the most widely used questionnaire to assess MSK pain in the Nordic countries. The NMQ is a descriptive tool, not a scoring tool. It provides information on pain prevalence and impact on activities within specific body regions, allowing researchers and clinicians to assess musculoskeletal health in a systematic way. The core output of the NMQ is the prevalence of musculoskeletal symptoms. This is calculated as a percentage for each of the nine body regions and for each of the key questions (12-month prevalence, 7-day prevalence, and activity limitation). High prevalence rates in specific body regions or among particular groups can help prioritize ergonomic interventions and resources. A \"Yes\" response indicates the presence of a symptom but does not provide a clinical diagnosis. Individuals reporting significant or persistent symptoms should be referred for a clinical evaluation by a healthcare professional."
+      },
+      "questions": [
+        {
+          "id": "J1",
+          "image": "tubuh.png",
+          "text": "Adakah anda pada bila-bila masa dalam tempoh 12 bulan yang lalu mengalami masalah (seperti sakit, sengal, ketidakselesaan, kebas)",
+          "type": "multiple_choice",
+          "options": [
+            "Leher",
+            "Bahu",
+            "Belakang atas",
+            "Siku",
+            "Pergelangan tangan / Tangan",
+            "Belakang bawah",
+            "Pinggul / Peha",
+            "Lutut",
+            "Pergelangan kaki / Kaki"
+          ]
+        },
+        {
+          "id": "J2",
+          "image": "tubuh.png",
+          "text": "Dalam tempoh 12 bulan yang lalu, adakah anda terhalang daripada menjalankan aktiviti harian (contohnya kerja, kerja rumah, hobi) disebabkan oleh masalah ini?",
+          "type": "multiple_choice",
+          "options": [
+            "Leher",
+            "Bahu",
+            "Belakang atas",
+            "Siku",
+            "Pergelangan tangan / Tangan",
+            "Belakang bawah",
+            "Pinggul / Peha",
+            "Lutut",
+            "Pergelangan kaki / Kaki"
+          ]
+        },
+        {
+          "id": "J3",
+          "image": "tubuh.png",
+          "text": "Dalam tempoh 12 bulan yang lalu, adakah anda berjumpa doktor untuk keadaan ini?",
+          "type": "multiple_choice",
+          "options": [
+            "Leher",
+            "Bahu",
+            "Belakang atas",
+            "Siku",
+            "Pergelangan tangan / Tangan",
+            "Belakang bawah",
+            "Pinggul / Peha",
+            "Lutut",
+            "Pergelangan kaki / Kaki"
+          ]
+        },
+        {
+          "id": "J4",
+          "image": "tubuh.png",
+          "text": "Dalam tempoh 7 hari yang lalu, adakah anda mengalami masalah pada:",
+          "type": "multiple_choice",
+          "options": [
+            "Leher",
+            "Bahu",
+            "Belakang atas",
+            "Siku",
+            "Pergelangan tangan / Tangan",
+            "Belakang bawah",
+            "Pinggul / Peha",
+            "Lutut",
+            "Pergelangan kaki / Kaki"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "K",
+      "title_BM": "BAHAGIAN K: Soal-selidik Analisis Kerja (JAQ)",
+      "title_BI": "SECTION K: Job Analysis Questionnaire (JAQ)",
+      "description": "Soal Selidik Analisis Kerja (SSAK) ialah satu instrument berstruktur yang digunakan untuk mengumpul maklumat terperinci mengenai tugas, tanggungjawab, dan keperluan sesuatu pekerjaan. Ia merupakan satu pendekatan sistematik untuk memahami tugas, kemahiran, pengetahuan, dan kebolehan  yang diperlukan untuk melaksanakan sesuatu pekerjaan dengan berkesan.",
+      "reference": {
+        "title": "Rujukan",
+        "reference_1": "JAQ is a qualitative tool used to gather data about a job, rather than a quantitative tool with a scoring system. The information collected is used to make informed decisions about various aspects of the job and its classification."
+      },
+      "subsections": [
+        {
+          "name": "PEKERJAAN",
+          "questions": [
+            {
+              "id": "K1",
+              "text": "Ringkasan pekerjaan",
+              "type": "text",
+              "placeholder": "Secara amnya, pekerjaan saya ini adalah…"
+            },
+            {
+              "id": "K2",
+              "text": "Syarat kelayakan minimum untuk pekerjaan ini yang anda tahu? (tahap pendidikan, kercegasan fizikal, tinggi, berat, kemahiran bahasa, kesihatan, latihan khas dll)",
+              "type": "text"
+            },
+            {
+              "id": "K3",
+              "text": "Senarai tugas utama anda dan masa yang diperuntukan?",
+              "type": "multiText",
+              "multiLabel": [
+                "Senarai tugas utama",
+                "peruntukan masa (jam) sehari"
+              ]
+            },
+            {
+              "id": "K4",
+              "text": "Apakah tugasan yang paling mencabar dari senarai ini? (pilih satu sahaja)",
+              "type": "single_choice",
+              "referer": "K3",
+              "optionsReferer": "K3"
+            },
+            {
+              "id": "K5",
+              "text": "Tandakan tugasan yang dianggap sebagai latihan atau persediaan yang baik untuk pekerjaan anda ini? (boleh lebih dari satu)",
+              "type": "multiple_choice",
+              "referer": "K3",
+              "optionsReferer": "K3"
+            },
+            {
+              "id": "K6",
+              "text": "Tugasan mana (jika ada) yang menyediakan sokongan sandaran jika pekerja berkenaan tidak hadir? (boleh lebih dari satu)",
+              "type": "multiple_choice",
+              "referer": "K3",
+              "optionsReferer": "K3"
+            }
+          ]
+        },
+        {
+          "name": "KEPERLUAN PERKERJAAN",
+          "questions": [
+            {
+              "id": "K7",
+              "text": "Apakah pendidikan/latihan yang diperlukan untuk layak sepenuhnya bagi pekerjaan ini? Jika ya, bagaimana pengetahuan/latihan ini biasanya diperolehi?<br><br> Jenis pendidikan/latihan khusus",
+              "type": "multiText"
+            },
+            {
+              "id": "K8",
+              "text": "Kaedah peroleh",
+              "type": "multiText",
+              "referer": "K7"
+            },
+            {
+              "id": "K9",
+              "text": "Apakah kemahiran/ pengetahuan khusus yang diperlukan untuk melaksanakan pekerjaan ini?",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "name": "TUGASAN MENTAL",
+          "questions": [
+            {
+              "id": "K10",
+              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Tahap konsentrasi mental : Tinggi<br>Tempoh usaha/tindakan</strong>",
+              "type": "single_choice",
+              "options": [
+                "Sekejap-sekejap",
+                "Biasa",
+                "Berterusan"
+              ]
+            },
+            {
+              "id": "K11",
+              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Tahap konsentrasi mental : Biasa<br>Tempoh usaha/tindakan</strong>",
+              "type": "single_choice",
+              "options": [
+                "Sekejap-sekejap",
+                "Biasa",
+                "Berterusan"
+              ]
+            },
+            {
+              "id": "K12",
+              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Tahap konsentrasi mental : Sederhana<br>Tempoh usaha/tindakan</strong>",
+              "type": "single_choice",
+              "options": [
+                "Sekejap-sekejap",
+                "Biasa",
+                "Berterusan"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "TUNTUTAN FIZIKAL",
+          "questions": [
+            {
+              "id": "K13",
+              "text": "Senaraikan tuntutan fizikal dalam tugasan kerja yang dilakukan mengikut tahap kekerapan (contoh: berdiri memadamkan api, berjalan menaiki jentera bomba, mengusung mangsa kemalangan, memikul hos, memanjat tangga dll)<br><br>Tahap kekerapan : Sangat kerap (67% keatas/ 5.4-8 jam sehari)<br>Jenis mobiliti/ pergerakan dan aktiviti",
+              "type": "multiText"
+            },
+            {
+              "id": "K14",
+              "text": "Tahap kekerapan : Kerap (34-66%/ 2.7- 5.3 jam sehari)<br>Jenis mobiliti/ pergerakan dan aktiviti",
+              "type": "multiText"
+            },
+            {
+              "id": "K15",
+              "text": "Tahap kekerapan : Jarang-jarang (1-33%/ 5 minit – 2.6 jam sehari)<br>Jenis mobiliti/ pergerakan dan aktiviti",
+              "type": "multiText"
+            },
+            {
+              "id": "K16",
+              "text": "Tahap kekerapan : Sangat jarang (bawah 1%, kurang dari 5 minit sehari)<br>Jenis mobiliti/ pergerakan dan aktiviti",
+              "type": "multiText"
+            },
+            {
+              "id": "K17",
+              "text": "Kekerapan ulangan penggunaan anggota tangan dalam pekerjaan anda?",
+              "type": "single_choice",
+              "options": [
+                "Rendah",
+                "Sederhana",
+                "Tinggi"
+              ]
+            },
+            {
+              "id": "K18",
+              "text": "Kekerapan penggunaan anggota badan bagi menarik atau menolak objek semasa melakukan pekerjaan anda?<br><strong>Menarik objek (Tangan)</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K19",
+              "text": "Kekerapan penggunaan anggota badan bagi menarik atau menolak objek semasa melakukan pekerjaan anda?<br><strong>Menarik objek (Kaki)</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K20",
+              "text": "Kekerapan penggunaan anggota badan bagi menarik atau menolak objek semasa melakukan pekerjaan anda?<br><strong>Menarik objek (Seluruh badan)</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K21",
+              "text": "Kekerapan penggunaan anggota badan bagi menarik atau menolak objek semasa melakukan pekerjaan anda?<br><strong>Menolak objek (Tangan)</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K22",
+              "text": "Kekerapan penggunaan anggota badan bagi menarik atau menolak objek semasa melakukan pekerjaan anda?<br><strong>Menolak objek (Kaki)</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K23",
+              "text": "Kekerapan penggunaan anggota badan bagi menarik atau menolak objek semasa melakukan pekerjaan anda?<br><strong>Menolak objek (Seluruh badan)</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K24",
+              "text": "Nyatakan objek/kelengkapan yang anda perlu angkat/pikul/bawa semasa bekerja?",
+              "type": "multiText"
+            },
+            {
+              "id": "K25",
+              "text": "Jumlah bebanan berat dan kekerapan yang dikendalikan semasa anda bekerja??<br><strong>5kg dan ke bawah</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K26",
+              "text": "Jumlah bebanan berat dan kekerapan yang dikendalikan semasa anda bekerja??<br><strong>5.1kg - 10kg</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K27",
+              "text": "Jumlah bebanan berat dan kekerapan yang dikendalikan semasa anda bekerja??<br><strong>10.1kg - 20kg</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K28",
+              "text": "Jumlah bebanan berat dan kekerapan yang dikendalikan semasa anda bekerja??<br><strong>20.1kg - 30kg</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            },
+            {
+              "id": "K29",
+              "text": "Jumlah bebanan berat dan kekerapan yang dikendalikan semasa anda bekerja??<br><strong>30.1kg dan keatas</strong>",
+              "type": "single_choice",
+              "options": [
+                "Tiada",
+                "Sangat jarang",
+                "Kadang-kadang",
+                "Kerap"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "TUNTUTAN PENDENGARAN",
+          "questions": [
+            {
+              "id": "K30",
+              "text": "Adakah pekerjaan ini memerlukan pekerja yang boleh mendengar dengan baik?jika ya, nyatakan tugasan kerja berkaitan.",
+              "type": "multiText"
+            }
+          ]
+        },
+        {
+          "name": "TUNTUTAN PENGLIHATAN",
+          "questions": [
+            {
+              "id": "K31",
+              "text": "Adakah pekerjaan ini memerlukan pekerja yang boleh melihat dengan baik?jika ya, nyatakan tugasan kerja berkaitan.",
+              "type": "multiText"
+            }
+          ]
+        },
+        {
+          "name": "KEADAAN PERSEKITARAN KERJA",
+          "questions": [
+            {
+              "id": "K32",
+              "text": "Nyatakan keadaan persekitaran kerja anda. (keadaan yang wujud di dalam atau luar tempat kerja semasa anda bekerja. contohnya, habuk, asap, pemanasan, sejuk, asap, keadaan pencahayaan, dan lain-lain.",
+              "type": "multiText"
+            }
+          ]
+        },
+        {
+          "name": "HAZAD",
+          "questions": [
+            {
+              "id": "K33",
+              "text": "Nyatakan jenis kecederaan fizikal atau penyakit yang mungkin berlaku kepada pekerja semasa bekerja. Nyatakan kekerapan pendedahan dan kebarangkalian kecederaan.",
+              "type": "multiText",
+              "multiLabel": [
+                "Jenis kecederaan",
+                "Kekerapan (sangat jarang/ kadang-kadang/ kerap)",
+                "Kebarangkalian (rendah/ tinggi)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SKOP TANGGUNGJAWAB",
+          "questions": [
+            {
+              "id": "K34",
+              "text": "Sejauh manakah pekerja bertanggungjawab secara langsung terhadap pembaziran, kerosakan, kecacatan atau kehilangan aset material (contohnya, bahagian, peralatan, atau wang tunai) yang disebabkan oleh prestasi kerja yang tidak mencukupi atau kurang perhatian?",
+              "type": "text"
+            },
+            {
+              "id": "K35",
+              "text": "Adakah anda mempunyai penyelia? Jika ya, huraikan penyeliaan yang dibuat, kekerapan dll.",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L",
+      "title_BM": "BAHAGIAN L: Ujian Kecergasan BOMBA (UKTK/ UKB/ IPPT)",
+      "title_BI": "SECTION L: Individual Physical Proficiency Test (IPPT)",
+      "description": "Ujian Kecergasan Fizikal Individu (atau Individual Physical Proficiency Test, IPPT) merupakan penilaian direka khusus untuk anggota bomba. Ia menilai keupayaan fizikal yang diperlukan untuk melaksanakan tugas-tugas mencabar dalam operasi bomba, seperti kekuatan (mengangkat peralatan berat, memaksa masuk ke bangunan, dan membawa individu yang cedera), ketahanan (mengekalkan usaha fizikal dalam tempoh yang lama, terutama dalam situasi tekanan tinggi), ketangkasan (bergerak dengan cepat dan cekap di ruang sempit dan halangan) dan kecergasan kardiovaskular (mengekalkan kesihatan jantung dan paru-paru untuk menahan tuntutan fizikal kerja).",
+      "questions": [
+        {
+          "id": "L1",
+          "type": "single_choice",
+          "text": "Keputusan Ujian UKTK (untuk Pegawai Gred KB1 - KB4 Tahun 2025)",
+          "options": [
+            "Cemerlang",
+            "Baik",
+            "Lulus",
+            "Gagal",
+            "Tidak menjalani ujian"
+          ]
+        },
+        {
+          "id": "L2",
+          "type": "single_choice",
+          "text": "Keputusan Ujian UKB (untuk Pegawai Gred KB5 hingga JUSA Siri 1 Tahun",
+          "options": [
+            "Cemerlang",
+            "Baik",
+            "Lulus",
+            "Gagal",
+            "Tidak menjalani ujian"
+          ]
+        },
+        {
+          "id": "L3",
+          "type": "single_choice",
+          "text": "Keputusan Ujian IPPT (untuk Pegawai Penerima Bayaran Insentif/ Pasukan Khas Tahun 2025",
+          "options": [
+            "Cemerlang",
+            "Baik",
+            "Lulus",
+            "Gagal",
+            "Tidak menjalani ujian"
+          ]
+        }
+      ]
+    }
+  ]
+}
