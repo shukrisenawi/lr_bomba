@@ -109,7 +109,19 @@
                                                                 }
                                                             @endphp
 
-                                                            @if ($isJson && is_array($decodedAnswer))
+                                                            @if ($question['type'] === 'videoImage')
+                                                                @php
+                                                                    $displayText = getDisplayTextForAnswer(
+                                                                        $question,
+                                                                        is_array($answerValue)
+                                                                            ? json_encode($answerValue)
+                                                                            : (string) $answerValue,
+                                                                    );
+                                                                @endphp
+                                                                <div class="text-green-700">
+                                                                    {!! $displayText !!}
+                                                                </div>
+                                                            @elseif ($isJson && is_array($decodedAnswer))
                                                                 @if (!preg_match('/\.(png|jpg|jpeg|gif|webp)$/i', trim($answerQuestion)))
                                                                     <ol class="list-disc list-inside space-y-1">
                                                                         @foreach ($decodedAnswer as $item)
@@ -151,7 +163,7 @@
                                                                     @if (preg_match('/\.(png|jpg|jpeg|gif|webp)$/i', trim($answerQuestion)))
                                                                         <img src="{{ asset('img/' . $answerQuestion) }}" />
                                                                     @else
-                                                                        {{ $answerQuestion }}
+                                                                        {!! $answerQuestion !!}
                                                                     @endif
 
                                                                 </span>

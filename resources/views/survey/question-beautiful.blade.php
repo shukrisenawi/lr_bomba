@@ -156,7 +156,8 @@
                 </div>
 
                 <!-- Enhanced Answer Form -->
-                <form method="POST" action="{{ route('survey.store', $section) }}" class="space-y-6">
+                <form method="POST" action="{{ route('survey.store', $section) }}" class="space-y-6"
+                    @if (isset($question['type']) && $question['type'] === 'videoImage') enctype="multipart/form-data" @endif>
                     @csrf
                     <input type="hidden" name="question_id" value="{{ $question['id'] }}">
                     @if (isset($question['image']))
@@ -768,9 +769,12 @@
                 handleFileSelect(files);
             });
 
-            // Click to upload
-            dropZone.addEventListener('click', function() {
-                fileInput.click();
+            // Click to upload (only if not clicking the button)
+            dropZone.addEventListener('click', function(e) {
+                // Don't trigger if clicking the button itself
+                if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+                    fileInput.click();
+                }
             });
         }
 

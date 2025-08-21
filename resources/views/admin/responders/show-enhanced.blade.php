@@ -164,11 +164,17 @@
                                 @php
                                     $masalah = optional($user->respondent)->health_issue
                                         ? json_decode(optional($user->respondent)->health_issue)
-                                        : '-';
+                                        : [];
+
+                                    // Ensure $masalah is always an array
+                                    if (!is_array($masalah)) {
+                                        $masalah = [];
+                                    }
+
                                     $lain = '';
 
                                     $keyLain = 'Lain-lain';
-                                    if (in_array($keyLain, $masalah)) {
+                                    if (is_array($masalah) && in_array($keyLain, $masalah)) {
                                         if (!optional($user->respondent)->other_health_issue) {
                                             $lain = $keyLain;
                                         } else {
@@ -185,7 +191,8 @@
                                     $healthtInfo = [
                                         'Kesihatan' => optional($user->respondent)->health ?? '-',
                                         'Kumpulan Darah' => optional($user->respondent)->blood_type ?? '-',
-                                        'Masalah Kesihatan' => implode(', ', $masalah),
+                                        'Masalah Kesihatan' =>
+                                            is_array($masalah) && !empty($masalah) ? implode(', ', $masalah) : '-',
                                     ];
                                 @endphp
                                 @foreach ($healthtInfo as $label => $value)
@@ -213,9 +220,9 @@
                             @foreach ($responses as $response)
                                 @if (count($response['answers']) > 0)
                                     <div tabindex="0"
-                                        class="my-2 bg-white text-primary-content focus:bg-white focus:text-black collapse">
+                                        class="my-2 bg-white text-primary-content focus:bg-white focus:text-black collapse accordion-item">
                                         <div
-                                            class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 collapse-title font-bold">
+                                            class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 collapse-title font-bold accordion-header">
                                             <div class="flex justify-between items-center">
                                                 <div>
                                                     <h4 class="text-lg font-bold text-left">
@@ -355,7 +362,26 @@
                                                                                 }
                                                                             @endphp
 
-                                                                            @if ($isJson && is_array($decodedAnswer))
+                                                                            @php
+                                                                                // Check if this is a videoImage question
+                                                                                $questionType =
+                                                                                    $answer['question_context'][
+                                                                                        'question_type'
+                                                                                    ] ?? null;
+                                                                            @endphp
+
+                                                                            @if ($questionType === 'videoImage')
+                                                                                <div class="mt-2">
+                                                                                    @if (function_exists('displayVideoImageAnswer'))
+                                                                                        {!! displayVideoImageAnswer($answerValue) !!}
+                                                                                    @else
+                                                                                        <span
+                                                                                            class="text-gray-500">VideoImage
+                                                                                            content (function not
+                                                                                            loaded)</span>
+                                                                                    @endif
+                                                                                </div>
+                                                                            @elseif ($isJson && is_array($decodedAnswer))
                                                                                 <ul
                                                                                     class="list-disc list-inside space-y-1 mt-2">
                                                                                     @foreach ($decodedAnswer as $item)
@@ -433,6 +459,35 @@
                     font-size: 0.875rem;
                 }
             }
+
+            /* Prevent accordion collapse when interacting with media */
+            .video-image-container {
+                position: relative;
+                z-index: 10;
+            }
+
+            .video-image-container * {
+                pointer-events: auto !important;
+            }
+
+            .video-image-media,
+            .video-image-link {
+                position: relative;
+                z-index: 15;
+            }
+
+            /* Disable accordion toggle when media is being interacted with */
+            .collapse:has(.video-image-container:hover) {
+                pointer-events: none;
+            }
+
+            .collapse:has(.video-image-container:hover) .video-image-container {
+                pointer-events: auto;
+            }
+
+            .collapse:has(.video-image-container:hover) .video-image-container * {
+                pointer-events: auto;
+            }
         </style>
     @endpush
 
@@ -506,7 +561,69 @@
                 } catch (error) {
                     console.error('Error initializing tabs:', error);
                 }
+
+                // Handle accordion media interaction
+                initializeAccordionMediaHandling();
             });
+
+            function initializeAccordionMediaHandling() {
+                console.log('Initializing accordion media handling...');
+
+                // Override DaisyUI collapse behavior for media interaction
+                document.addEventListener('click', function(e) {
+                    // Check if click is on media element or its children
+                    const mediaElement = e.target.closest(
+                        '.video-image-container, .video-image-media, .video-image-link, video, img[src*="upload/"], a[href*="upload/"]'
+                        );
+
+                    if (mediaElement) {
+                        console.log('Click on media element detected, preventing accordion toggle');
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+
+                        // For links, allow navigation
+                        if (e.target.tagName === 'A' || e.target.closest('a')) {
+                            return true;
+                        }
+
+                        // Prevent accordion from receiving focus
+                        const accordion = e.target.closest('.accordion-item');
+                        if (accordion) {
+                            accordion.blur();
+                            // Remove focus from accordion
+                            setTimeout(() => {
+                                accordion.blur();
+                                document.activeElement.blur();
+                            }, 10);
+                        }
+
+                        return false;
+                    }
+                }, true); // Use capture phase
+
+                // Handle video events specifically
+                document.addEventListener('play', function(e) {
+                    if (e.target.tagName === 'VIDEO') {
+                        console.log('Video play detected');
+                        e.stopPropagation();
+                        const accordion = e.target.closest('.accordion-item');
+                        if (accordion) {
+                            accordion.blur();
+                        }
+                    }
+                }, true);
+
+                // Handle all video control events
+                ['pause', 'volumechange', 'seeking', 'seeked', 'timeupdate'].forEach(eventType => {
+                    document.addEventListener(eventType, function(e) {
+                        if (e.target.tagName === 'VIDEO') {
+                            e.stopPropagation();
+                        }
+                    }, true);
+                });
+
+                console.log('Accordion media handling initialized');
+            }
         </script>
     @endpush
 @endsection

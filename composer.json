@@ -31,7 +31,8 @@
         },
         "files": [
             "app/Helpers/survey_helper.php",
-            "app/Helpers/section_title_helper.php"
+            "app/Helpers/section_title_helper.php",
+            "app/Helpers/question_helper.php"
         ]
     },
     "autoload-dev": {

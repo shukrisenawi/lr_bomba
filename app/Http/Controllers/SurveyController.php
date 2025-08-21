@@ -221,6 +221,12 @@ class SurveyController extends Controller
             $limit = $question['limit'] ?? 5;
             $validationRules['files'] = 'nullable|array|max:' . $limit;
             $validationRules['files.*'] = 'file|mimes:jpeg,jpg,png,gif,mp4,mov,avi,wmv|max:20480'; // 20MB max
+
+            \Log::info('VideoImage validation rules:', [
+                'rules' => $validationRules,
+                'request_files' => $request->hasFile('files'),
+                'all_input' => $request->all()
+            ]);
         } else {
             // If question is optional or section J, answer can be nullable
             if ($isOptional || $section === 'J') {
@@ -230,7 +236,13 @@ class SurveyController extends Controller
             }
         }
 
-        $request->validate($validationRules);
+        try {
+            $request->validate($validationRules);
+            \Log::info('Validation passed for videoImage');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation failed for videoImage:', ['errors' => $e->errors()]);
+            throw $e;
+        }
 
         $response = SurveyResponse::where('user_id', Auth::id())
             ->where('survey_id', $section)
@@ -713,23 +725,70 @@ class SurveyController extends Controller
     {
         $uploadedFiles = [];
 
+        // Debug: Log the request data
+        \Log::info('VideoImage Upload Debug:', [
+            'has_files' => $request->hasFile('files'),
+            'all_files' => $request->allFiles(),
+            'question_id' => $question['id'],
+            'response_id' => $response->id
+        ]);
+
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                // Generate unique filename
-                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                try {
+                    // Check if file is valid before processing
+                    if (!$file->isValid()) {
+                        \Log::error('Invalid file upload:', ['error' => $file->getErrorMessage()]);
+                        continue;
+                    }
 
-                // Move file to public/upload directory
-                $file->move(public_path('upload'), $filename);
+                    // Get file info before moving (to avoid stat failed error)
+                    $originalName = $file->getClientOriginalName();
+                    $fileSize = $file->getSize();
+                    $mimeType = $file->getMimeType();
+                    $extension = $file->getClientOriginalExtension();
 
-                // Store file info
-                $uploadedFiles[] = [
-                    'filename' => $filename,
-                    'original_name' => $file->getClientOriginalName(),
-                    'size' => $file->getSize(),
-                    'mime_type' => $file->getMimeType(),
-                    'url' => asset('upload/' . $filename)
-                ];
+                    // Generate unique filename
+                    $filename = time() . '_' . uniqid() . '.' . $extension;
+
+                    // Ensure upload directory exists
+                    $uploadPath = public_path('upload');
+                    if (!file_exists($uploadPath)) {
+                        mkdir($uploadPath, 0755, true);
+                    }
+
+                    // Move file to public/upload directory
+                    $moved = $file->move($uploadPath, $filename);
+
+                    if ($moved) {
+                        // Store file info
+                        $uploadedFiles[] = [
+                            'filename' => $filename,
+                            'original_name' => $originalName,
+                            'size' => $fileSize,
+                            'mime_type' => $mimeType,
+                            'url' => asset('upload/' . $filename)
+                        ];
+
+                        \Log::info('File uploaded successfully:', [
+                            'filename' => $filename,
+                            'original_name' => $originalName,
+                            'size' => $fileSize,
+                            'path' => $uploadPath . '/' . $filename
+                        ]);
+                    } else {
+                        \Log::error('Failed to move file:', ['filename' => $filename]);
+                    }
+                } catch (\Exception $e) {
+                    \Log::error('Error processing file upload:', [
+                        'error' => $e->getMessage(),
+                        'file' => $file->getClientOriginalName() ?? 'unknown'
+                    ]);
+                    continue;
+                }
             }
+        } else {
+            \Log::warning('No files found in request for videoImage upload');
         }
 
         // Store the file information as JSON
@@ -738,19 +797,37 @@ class SurveyController extends Controller
             'upload_count' => count($uploadedFiles)
         ];
 
-        SurveyAnswer::updateOrCreate(
-            [
-                'response_id' => $response->id,
-                'question_id' => $question['id']
-            ],
-            [
-                'answer' => json_encode($answerData),
-                'value' => json_encode($answerData)
-            ]
-        );
+        \Log::info('Saving answer data:', [
+            'answer_data' => $answerData,
+            'response_id' => $response->id,
+            'question_id' => $question['id']
+        ]);
 
-        return redirect()->route('survey.show', $response->survey_id)
-            ->with('success', 'Fail berjaya dimuat naik!');
+        try {
+            $surveyAnswer = SurveyAnswer::updateOrCreate(
+                [
+                    'response_id' => $response->id,
+                    'question_id' => $question['id']
+                ],
+                [
+                    'answer' => json_encode($answerData),
+                    'value' => json_encode($answerData)
+                ]
+            );
+
+            \Log::info('Answer saved successfully:', ['answer_id' => $surveyAnswer->id]);
+
+            $successMessage = count($uploadedFiles) > 0
+                ? 'Fail berjaya dimuat naik! ' . count($uploadedFiles) . ' fail telah disimpan.'
+                : 'Jawapan disimpan (tiada fail dimuat naik).';
+
+            return redirect()->route('survey.show', $response->survey_id)
+                ->with('success', $successMessage);
+        } catch (\Exception $e) {
+            \Log::error('Error saving answer:', ['error' => $e->getMessage()]);
+            return redirect()->route('survey.show', $response->survey_id)
+                ->with('error', 'Ralat menyimpan fail: ' . $e->getMessage());
+        }
     }
 
     public function edit($section, $questionId)

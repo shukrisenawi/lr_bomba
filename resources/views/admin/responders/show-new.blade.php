@@ -37,13 +37,13 @@
                 <div class="flex flex-col md:flex-row items-center gap-6">
                     <!-- Avatar removed as per request -->
                     <!--
-                                <div class="flex-shrink-0">
-                                    <div
-                                        class="w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
-                                        {{ substr($user->name, 0, 1) }}
-                                    </div>
-                                </div>
-                                -->
+                                        <div class="flex-shrink-0">
+                                            <div
+                                                class="w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold">
+                                                {{ substr($user->name, 0, 1) }}
+                                            </div>
+                                        </div>
+                                        -->
                     <div class="flex-1 text-center md:text-left">
                         <h2 class="text-2xl font-bold text-gray-900">{{ $user->name }}</h2>
                         <p class="text-gray-600">{{ $user->email }}</p>
@@ -206,13 +206,31 @@
                                                     class="flex justify-between items-start py-2 border-b border-gray-100">
                                                     <span class="text-gray-600">Soalan
                                                         #{{ $answer['question_id'] }}</span>
-                                                    <span class="font-medium text-gray-900 text-right max-w-xs">
-                                                        @if (is_array($answer['answer']))
+                                                    <div class="font-medium text-gray-900 text-right max-w-xs">
+                                                        @php
+                                                            $answerValue = $answer['answer'];
+                                                            // Check if this might be a videoImage answer
+                                                            $isVideoImage = false;
+                                                            if (is_string($answerValue)) {
+                                                                $decoded = json_decode($answerValue, true);
+                                                                if ($decoded && isset($decoded['files'])) {
+                                                                    $isVideoImage = true;
+                                                                }
+                                                            }
+                                                        @endphp
+
+                                                        @if ($isVideoImage)
+                                                            @if (function_exists('displayVideoImageAnswer'))
+                                                                {!! displayVideoImageAnswer($answerValue) !!}
+                                                            @else
+                                                                <span class="text-gray-500">VideoImage content</span>
+                                                            @endif
+                                                        @elseif (is_array($answer['answer']))
                                                             {{ implode(', ', $answer['answer']) }}
                                                         @else
                                                             {{ $answer['answer'] }}
                                                         @endif
-                                                    </span>
+                                                    </div>
                                                 </div>
                                             @endforeach
                                         </div>

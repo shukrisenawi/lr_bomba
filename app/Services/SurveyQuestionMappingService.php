@@ -44,12 +44,14 @@ class SurveyQuestionMappingService
                         foreach ($subsection['questions'] as $question) {
                             $questionId = $question['id'] ?? uniqid('q_');
                             $questionText = $question['text'] ?? 'No question text provided';
-                            
+                            $questionType = $question['type'] ?? 'text';
+
                             $this->questionMap[$questionId] = [
                                 'section_id' => $sectionId,
                                 'section_title' => $sectionTitle,
                                 'subsection_name' => $subsectionName,
                                 'question_text' => $questionText,
+                                'question_type' => $questionType,
                                 'full_context' => "Bahagian {$sectionId}: {$sectionTitle} - {$subsectionName} - Soalan {$questionId}: {$questionText}"
                             ];
                         }
@@ -62,12 +64,14 @@ class SurveyQuestionMappingService
                 foreach ($section['questions'] as $question) {
                     $questionId = $question['id'] ?? uniqid('q_');
                     $questionText = $question['text'] ?? 'No question text provided';
-                    
+                    $questionType = $question['type'] ?? 'text';
+
                     $this->questionMap[$questionId] = [
                         'section_id' => $sectionId,
                         'section_title' => $sectionTitle,
                         'subsection_name' => null,
                         'question_text' => $questionText,
+                        'question_type' => $questionType,
                         'full_context' => "Bahagian {$sectionId}: {$sectionTitle} - Soalan {$questionId}: {$questionText}"
                     ];
                 }
@@ -82,6 +86,7 @@ class SurveyQuestionMappingService
             'section_title' => 'Unknown Section',
             'subsection_name' => null,
             'question_text' => 'Question text not found',
+            'question_type' => 'text',
             'full_context' => "Soalan #{$questionId}"
         ];
     }
@@ -100,7 +105,7 @@ class SurveyQuestionMappingService
     public function getFormattedQuestionText($questionId)
     {
         $context = $this->getQuestionContext($questionId);
-        
+
         if (isset($context['full_context'])) {
             // Extract just the "Soalan X: ..." part
             $pattern = '/Soalan\s+[A-Z]?\d+\s*:\s*(.+)$/i';
@@ -108,7 +113,7 @@ class SurveyQuestionMappingService
                 return trim($matches[1]);
             }
         }
-        
+
         return $context['question_text'] ?? 'Question not available';
     }
 }

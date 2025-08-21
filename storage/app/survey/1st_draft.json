@@ -1761,12 +1761,6 @@
                 "Jika beban adalah lebih dari 10 kg (+2)",
                 "Jika berlaku kejutan atau daya yang terbina dengan pantas (+1)"
               ]
-            },
-            {
-              "id": "5",
-              "text": "Dapatkan nilai skor daya/beban",
-              "type": "videoImage",
-              "limit": 5
             }
           ]
         },
@@ -1894,6 +1888,12 @@
                 "Pergerakan julat kecil secara berulang (lebih 4 kali seminit) (+1)",
                 "Pergerakan menyebabkan perubahan julat besar yang pantas pada postur atau tapak yang tidak stabil (+1)"
               ]
+            },
+            {
+              "id": "10",
+              "text": "Muat naik gambar atau video.",
+              "type": "videoImage",
+              "limit": 5
             }
           ]
         }

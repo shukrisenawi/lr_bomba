@@ -22,9 +22,18 @@
                                 @endphp
 
                                 @if ($answer)
-                                    <p><strong>Jawapan Anda:</strong>
-                                        {{ getDisplayTextForAnswer($question, $answer->answer ?? '') }}
-                                    </p>
+                                    <div><strong>Jawapan Anda:</strong></div>
+                                    <div class="mt-2">
+                                        @if (isset($question['type']) && $question['type'] === 'videoImage')
+                                            @if (function_exists('displayVideoImageAnswer'))
+                                                {!! displayVideoImageAnswer($answer->answer ?? '') !!}
+                                            @else
+                                                {!! getDisplayTextForAnswer($question, $answer->answer ?? '') !!}
+                                            @endif
+                                        @else
+                                            {{ getDisplayTextForAnswer($question, $answer->answer ?? '') }}
+                                        @endif
+                                    </div>
                                     <a href="{{ route('survey.edit', [$section, $question['id'] ?? 0]) }}"
                                         class="btn btn-warning btn-sm mt-2">
                                         Edit Jawapan
