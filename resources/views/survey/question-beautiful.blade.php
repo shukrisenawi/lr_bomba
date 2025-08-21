@@ -428,6 +428,75 @@
                                 </div>
                             </label>
                         </div>
+                    @elseif($question['type'] === 'videoImage')
+                        @php
+                            $limit = $question['limit'] ?? 5;
+                            $existingFiles = [];
+                            if ($answer && $answer->answer) {
+                                $answerData = json_decode($answer->answer, true);
+                                $existingFiles = $answerData['files'] ?? [];
+                            }
+                        @endphp
+                        <div class="space-y-6">
+                            <!-- File Upload Area -->
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-indigo-500 transition-colors"
+                                id="dropZone">
+                                <div class="space-y-4">
+                                    <div
+                                        class="mx-auto w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-cloud-upload-alt text-2xl text-indigo-600"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-700">Muat naik gambar atau video</h3>
+                                        <p class="text-gray-500">Seret dan lepas fail di sini atau klik untuk memilih</p>
+                                        <p class="text-sm text-gray-400 mt-2">
+                                            Maksimum {{ $limit }} fail. Format yang disokong: JPG, PNG, GIF, MP4,
+                                            MOV, AVI, WMV
+                                        </p>
+                                    </div>
+                                    <input type="file" id="fileInput" name="files[]" multiple
+                                        accept="image/*,video/*" class="hidden" onchange="handleFileSelect(this.files)">
+                                    <button type="button" onclick="document.getElementById('fileInput').click()"
+                                        class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                                        Pilih Fail
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- File Preview Area -->
+                            <div id="filePreview" class="space-y-4">
+                                @if (count($existingFiles) > 0)
+                                    <h4 class="font-semibold text-gray-700">Fail yang telah dimuat naik:</h4>
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                        @foreach ($existingFiles as $file)
+                                            <div class="relative bg-gray-50 rounded-lg p-3">
+                                                @if (str_contains($file['mime_type'], 'image'))
+                                                    <img src="{{ $file['url'] }}" alt="{{ $file['original_name'] }}"
+                                                        class="w-full h-32 object-cover rounded-lg">
+                                                @else
+                                                    <div
+                                                        class="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center">
+                                                        <i class="fas fa-video text-3xl text-gray-500"></i>
+                                                    </div>
+                                                @endif
+                                                <p class="text-xs text-gray-600 mt-2 truncate">
+                                                    {{ $file['original_name'] }}</p>
+                                                <p class="text-xs text-gray-400">
+                                                    {{ number_format($file['size'] / 1024, 1) }} KB</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Selected Files Display -->
+                            <div id="selectedFiles" class="hidden">
+                                <h4 class="font-semibold text-gray-700">Fail yang dipilih:</h4>
+                                <div id="selectedFilesList" class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-3">
+                                    <!-- Selected files will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
                     @else
                         <span class="font-bold text-red-500">Tiada paparan skor dan status ditunjukkan bagi bahagian ini.
                             Data yang dikumpulkan akan dianalisa kemudian</span>
@@ -664,6 +733,129 @@
 
             // Initialize radio toggle functionality
             addRadioToggle();
+
+            // Initialize file upload functionality for videoImage questions
+            initializeFileUpload();
         });
+
+        // File upload functionality
+        function initializeFileUpload() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const selectedFiles = document.getElementById('selectedFiles');
+            const selectedFilesList = document.getElementById('selectedFilesList');
+
+            if (!dropZone || !fileInput) return;
+
+            let selectedFilesArray = [];
+            const maxFiles = {{ isset($question['limit']) ? $question['limit'] : 5 }};
+
+            // Drag and drop functionality
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropZone.classList.add('border-indigo-500', 'bg-indigo-50');
+            });
+
+            dropZone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('border-indigo-500', 'bg-indigo-50');
+            });
+
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('border-indigo-500', 'bg-indigo-50');
+                const files = e.dataTransfer.files;
+                handleFileSelect(files);
+            });
+
+            // Click to upload
+            dropZone.addEventListener('click', function() {
+                fileInput.click();
+            });
+        }
+
+        function handleFileSelect(files) {
+            const maxFiles = {{ isset($question['limit']) ? $question['limit'] : 5 }};
+            const selectedFiles = document.getElementById('selectedFiles');
+            const selectedFilesList = document.getElementById('selectedFilesList');
+
+            if (!selectedFiles || !selectedFilesList) return;
+
+            // Clear previous selections
+            selectedFilesList.innerHTML = '';
+
+            // Convert FileList to Array and limit to maxFiles
+            const filesArray = Array.from(files).slice(0, maxFiles);
+
+            if (filesArray.length === 0) return;
+
+            // Show selected files section
+            selectedFiles.classList.remove('hidden');
+
+            filesArray.forEach((file, index) => {
+                const fileDiv = document.createElement('div');
+                fileDiv.className = 'relative bg-gray-50 rounded-lg p-3';
+
+                const isImage = file.type.startsWith('image/');
+                const isVideo = file.type.startsWith('video/');
+
+                let previewContent = '';
+                if (isImage) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        fileDiv.querySelector('.file-preview').innerHTML =
+                            `<img src="${e.target.result}" alt="${file.name}" class="w-full h-32 object-cover rounded-lg">`;
+                    };
+                    reader.readAsDataURL(file);
+                    previewContent =
+                        '<div class="file-preview w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center"><i class="fas fa-image text-3xl text-gray-500"></i></div>';
+                } else if (isVideo) {
+                    previewContent =
+                        '<div class="file-preview w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center"><i class="fas fa-video text-3xl text-gray-500"></i></div>';
+                } else {
+                    previewContent =
+                        '<div class="file-preview w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center"><i class="fas fa-file text-3xl text-gray-500"></i></div>';
+                }
+
+                fileDiv.innerHTML = `
+                    ${previewContent}
+                    <p class="text-xs text-gray-600 mt-2 truncate">${file.name}</p>
+                    <p class="text-xs text-gray-400">${(file.size / 1024).toFixed(1)} KB</p>
+                    <button type="button" onclick="removeFile(${index})"
+                            class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                        ×
+                    </button>
+                `;
+
+                selectedFilesList.appendChild(fileDiv);
+            });
+
+            // Update the file input with selected files
+            const dt = new DataTransfer();
+            filesArray.forEach(file => dt.items.add(file));
+            document.getElementById('fileInput').files = dt.files;
+        }
+
+        function removeFile(index) {
+            const fileInput = document.getElementById('fileInput');
+            const selectedFiles = document.getElementById('selectedFiles');
+            const selectedFilesList = document.getElementById('selectedFilesList');
+
+            if (!fileInput || !selectedFiles || !selectedFilesList) return;
+
+            // Remove file from input
+            const dt = new DataTransfer();
+            const files = Array.from(fileInput.files);
+            files.splice(index, 1);
+            files.forEach(file => dt.items.add(file));
+            fileInput.files = dt.files;
+
+            // Re-render file list
+            if (files.length === 0) {
+                selectedFiles.classList.add('hidden');
+            } else {
+                handleFileSelect(dt.files);
+            }
+        }
     </script>
 @endpush

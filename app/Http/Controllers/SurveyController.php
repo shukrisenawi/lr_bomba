@@ -216,11 +216,18 @@ class SurveyController extends Controller
             'question_id' => 'required',
         ];
 
-        // If question is optional or section J, answer can be nullable
-        if ($isOptional || $section === 'J') {
-            $validationRules['answer'] = 'nullable';
+        // Handle videoImage type validation
+        if ($question && $question['type'] === 'videoImage') {
+            $limit = $question['limit'] ?? 5;
+            $validationRules['files'] = 'nullable|array|max:' . $limit;
+            $validationRules['files.*'] = 'file|mimes:jpeg,jpg,png,gif,mp4,mov,avi,wmv|max:20480'; // 20MB max
         } else {
-            $validationRules['answer'] = 'required';
+            // If question is optional or section J, answer can be nullable
+            if ($isOptional || $section === 'J') {
+                $validationRules['answer'] = 'nullable';
+            } else {
+                $validationRules['answer'] = 'required';
+            }
         }
 
         $request->validate($validationRules);
@@ -228,6 +235,11 @@ class SurveyController extends Controller
         $response = SurveyResponse::where('user_id', Auth::id())
             ->where('survey_id', $section)
             ->firstOrFail();
+
+        // Handle videoImage file uploads
+        if ($question && $question['type'] === 'videoImage') {
+            return $this->handleVideoImageUpload($request, $response, $question);
+        }
 
         // Get survey data to determine question type
         $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
@@ -309,6 +321,12 @@ class SurveyController extends Controller
                     $baseData['answer'] = $selectedAnswer;
                     $baseData['value'] = $selectedAnswer;
                 }
+                return $baseData;
+            } else if ($question['type'] === 'videoImage') {
+                // videoImage answers are already handled in handleVideoImageUpload
+                // This case should not be reached, but included for completeness
+                $baseData['answer'] = $selectedAnswer;
+                $baseData['value'] = $selectedAnswer;
                 return $baseData;
             }
         }
@@ -650,7 +668,7 @@ class SurveyController extends Controller
             'category' => 'required|string|max:50',
             'questions' => 'required|array|min:1',
             'questions.*.text' => 'required|string|max:500',
-            'questions.*.type' => 'required|in:single_choice,multiple_choice,text,numeric,rating',
+            'questions.*.type' => 'required|in:single_choice,multiple_choice,text,numeric,rating,videoImage',
             'questions.*.options' => 'nullable|array',
             'questions.*.options.*' => 'nullable|string|max:255'
         ]);
@@ -686,6 +704,53 @@ class SurveyController extends Controller
         file_put_contents($filePath, json_encode($surveyData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
         return redirect()->route('dashboard')->with('success', 'Soal selidik berjaya dicipta!');
+    }
+
+    /**
+     * Handle videoImage file uploads
+     */
+    private function handleVideoImageUpload(Request $request, $response, $question)
+    {
+        $uploadedFiles = [];
+
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                // Generate unique filename
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                // Move file to public/upload directory
+                $file->move(public_path('upload'), $filename);
+
+                // Store file info
+                $uploadedFiles[] = [
+                    'filename' => $filename,
+                    'original_name' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
+                    'mime_type' => $file->getMimeType(),
+                    'url' => asset('upload/' . $filename)
+                ];
+            }
+        }
+
+        // Store the file information as JSON
+        $answerData = [
+            'files' => $uploadedFiles,
+            'upload_count' => count($uploadedFiles)
+        ];
+
+        SurveyAnswer::updateOrCreate(
+            [
+                'response_id' => $response->id,
+                'question_id' => $question['id']
+            ],
+            [
+                'answer' => json_encode($answerData),
+                'value' => json_encode($answerData)
+            ]
+        );
+
+        return redirect()->route('survey.show', $response->survey_id)
+            ->with('success', 'Fail berjaya dimuat naik!');
     }
 
     public function edit($section, $questionId)

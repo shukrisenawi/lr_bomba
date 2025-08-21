@@ -111,6 +111,36 @@ if (!function_exists('get_radio_button_image_score')) {
     }
 }
 
+if (!function_exists('get_video_image_score')) {
+    /**
+     * Calculate score for videoImage type questions
+     * For videoImage, score is typically based on number of files uploaded
+     *
+     * @param array $question The question array from survey JSON
+     * @param string $answer The answer containing uploaded file information
+     * @return int The calculated score based on upload count
+     */
+    function get_video_image_score($question, $answer)
+    {
+        if (!isset($question['type']) || $question['type'] !== 'videoImage') {
+            return 0;
+        }
+
+        // Decode the JSON answer
+        $answerData = json_decode($answer, true);
+        if (!$answerData || !isset($answerData['upload_count'])) {
+            return 0;
+        }
+
+        // Score based on number of uploads (can be customized)
+        $uploadCount = $answerData['upload_count'];
+        $limit = $question['limit'] ?? 5;
+
+        // Score is proportional to uploads (max score when limit is reached)
+        return min($uploadCount, $limit);
+    }
+}
+
 if (!function_exists('get_select_box_image_score')) {
     /**
      * Calculate score for select_box_image type questions
@@ -166,6 +196,9 @@ if (!function_exists('calculate_question_score')) {
 
             case 'select_box_image':
                 return get_select_box_image_score($question, $answer);
+
+            case 'videoImage':
+                return get_video_image_score($question, $answer);
 
             case 'single_choice':
                 // Extract score from options like "Text (score)"
