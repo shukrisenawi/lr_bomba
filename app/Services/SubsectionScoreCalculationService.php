@@ -28,9 +28,9 @@ class SubsectionScoreCalculationService
         $answers = $response->answers()->get()->keyBy('question_id');
         $sectionId = $sectionData['id'] ?? '';
 
-        if ($sectionId === 'C') {
-            return $this->calculateSectionBOverallScore($response, $sectionData);
-        }
+        // if ($sectionId === 'C') {
+        //     return $this->calculateSectionBOverallScore($response, $sectionData);
+        // }
 
         if ($sectionId === 'K') {
             return [];

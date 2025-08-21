@@ -38,7 +38,11 @@
                             @endphp
                             <h4
                                 class="text-lg mb-3 @if ($displayName === 'Keputusan Keseluruhan') font-bold text-black @else font-semibold text-gray-800 @endif">
-                                {{ $displayName }}</h4>
+                                @if ($section == 'C')
+                                    Jumlah Skor
+                                @endif
+                                {{ $displayName }}
+                            </h4>
 
 
 
