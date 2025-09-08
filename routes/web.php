@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/{section}', [SurveyController::class, 'store'])->name('survey.store');
         Route::get('/{section}/results', [SurveyController::class, 'results'])->name('survey.results');
         Route::get('/{section}/review', [SurveyController::class, 'review'])->name('survey.review');
+        Route::get('/overall-results', [SurveyController::class, 'overallResults'])->name('survey.overall-results');
         Route::get('/{section}/edit/{question}', [SurveyController::class, 'edit'])->name('survey.edit');
         Route::put('/{section}/update/{question}', [SurveyController::class, 'update'])->name('survey.update');
     });

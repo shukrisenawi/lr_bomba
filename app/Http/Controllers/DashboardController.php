@@ -48,10 +48,21 @@ class DashboardController extends Controller
             $progress[$key] = max(0, min(100, $progress[$key]));
         }
 
+        // Calculate overall status
+        $totalSections = count($sections);
+        $completedSections = $userResponses->where('completed', true)->count();
+        $overallStatus = 'TIDAK LENGKAP';
+        if ($completedSections === $totalSections) {
+            $overallStatus = 'LENGKAP';
+        } elseif ($completedSections > 0) {
+            $overallStatus = 'SEBAHAGIAN LENGKAP';
+        }
+
         return view('dashboard-enhanced', [
             'sections' => $sections,
             'responses' => $userResponses,
-            'progress' => $progress
+            'progress' => $progress,
+            'overallStatus' => $overallStatus
         ]);
     }
 

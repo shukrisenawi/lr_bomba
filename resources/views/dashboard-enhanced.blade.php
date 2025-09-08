@@ -141,6 +141,76 @@
                 </div>
             </div>
         @endforeach
+
+        <!-- Result Card (Last Position) -->
+        <div class="card-enhanced glass-card p-6 text-center">
+            <!-- Section Icon -->
+            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-chart-line text-white text-2xl"></i>
+            </div>
+
+            <!-- Section Title -->
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Keputusan Keseluruhan</h3>
+
+            <!-- Progress Ring -->
+            <div class="relative w-32 h-32 mx-auto mb-4">
+                @php
+                    $totalSections = count($sections);
+                    $completedSections = collect($responses)->where('completed', true)->count();
+                    $overallProgress = $totalSections > 0 ? round(($completedSections / $totalSections) * 100) : 0;
+                    $strokeDashoffset = 326.73 - (326.73 * $overallProgress) / 100;
+                @endphp
+                <svg class="w-32 h-32 transform -rotate-90">
+                    <defs>
+                        <linearGradient id="gradientResult" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle stroke="#e5e7eb" stroke-width="8" fill="none" r="52" cx="64" cy="64" />
+                    <circle stroke="url(#gradientResult)" stroke-width="8" fill="none" r="52" cx="64" cy="64" stroke-dasharray="326.73" stroke-dashoffset="{{ $strokeDashoffset }}" />
+                </svg>
+
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-2xl font-bold text-purple-600">{{ $overallProgress }}%</span>
+                </div>
+            </div>
+
+            <!-- Status Badge -->
+            <div class="mb-4">
+                @if($overallStatus === 'LENGKAP')
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        <i class="fas fa-check-circle mr-1"></i>
+                        Lengkap
+                    </span>
+                @elseif($overallStatus === 'SEBAHAGIAN LENGKAP')
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        <i class="fas fa-clock mr-1"></i>
+                        Sebahagian
+                    </span>
+                @else
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                        <i class="fas fa-file-alt mr-1"></i>
+                        Belum Lengkap
+                    </span>
+                @endif
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-2">
+                @if($overallStatus === 'LENGKAP')
+                    <a href="{{ route('survey.overall-results') }}" class="btn-enhanced w-full text-sm">
+                        <i class="fas fa-eye mr-1"></i>
+                        Lihat Laporan
+                    </a>
+                @else
+                    <div class="text-center text-sm text-gray-500 py-2">
+                        <i class="fas fa-clock mr-1"></i>
+                        Selesaikan semua bahagian untuk lihat laporan
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
 
     <!-- Welcome Animation -->

@@ -597,6 +597,67 @@ class SurveyController extends Controller
         ]);
     }
 
+    public function overallResults()
+    {
+        $user_id = Auth::id();
+        $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
+
+        // Get all completed survey responses for the user
+        $responses = SurveyResponse::with(['scores', 'answers'])
+            ->where('user_id', $user_id)
+            ->where('completed', true)
+            ->get()
+            ->keyBy('survey_id');
+
+        // Get user information from respondents table
+        $respondent = \App\Models\Respondent::where('user_id', $user_id)->first();
+
+        // Collect data for each section
+        $sectionsData = [];
+        $overallStatus = 'TIDAK LENGKAP';
+
+        foreach ($surveyData['sections'] as $sectionData) {
+            $section = $sectionData['id'];
+            if (isset($responses[$section])) {
+                $response = $responses[$section];
+
+                // Calculate scores if not already calculated
+                $this->calculateScore($response, $section, $surveyData);
+
+                // Get subsection scores if available
+                $subsectionScores = [];
+                $hasSubsections = isset($sectionData['subsections']) && !empty($sectionData['subsections']);
+                if ($hasSubsections) {
+                    $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
+                }
+
+                $sectionsData[$section] = [
+                    'title' => $sectionData['title_BM'],
+                    'response' => $response,
+                    'subsectionScores' => $subsectionScores,
+                    'hasSubsections' => $hasSubsections,
+                    'sectionData' => $sectionData
+                ];
+            }
+        }
+
+        // Determine overall status
+        $totalSections = count($surveyData['sections']);
+        $completedSections = count($sectionsData);
+        if ($completedSections === $totalSections) {
+            $overallStatus = 'LENGKAP';
+        } elseif ($completedSections > 0) {
+            $overallStatus = 'SEBAHAGIAN LENGKAP';
+        }
+
+        return view('survey.overall-results', [
+            'sectionsData' => $sectionsData,
+            'respondent' => $respondent,
+            'overallStatus' => $overallStatus,
+            'surveyData' => $surveyData
+        ]);
+    }
+
     public function review($section)
     {
         if ($redirect = $this->ensureAdminAccess($section)) {
