@@ -180,4 +180,48 @@
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
+/* Print Styles */
+@media print {
+    /* Ensure colors are preserved when printing */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Hide print button when printing */
+    button[onclick*="print"] {
+        display: none !important;
+    }
+
+    /* Hide back button when printing */
+    a[href*="dashboard"] {
+        display: none !important;
+    }
+
+    /* Ensure backgrounds are printed */
+    .bg-red-600, .bg-blue-600, .bg-green-600, .bg-yellow-600, .bg-gray-600, .bg-orange-600 {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    /* Adjust page breaks for better printing */
+    .min-h-screen {
+        min-height: auto !important;
+    }
+
+    /* Ensure tables fit on page */
+    table {
+        font-size: 12px !important;
+    }
+
+    /* Reduce margins for printing */
+    .p-6 {
+        padding: 1rem !important;
+    }
+
+    .p-4 {
+        padding: 0.5rem !important;
+    }
+}
 .delay-400 { animation-delay: 0.4s; }

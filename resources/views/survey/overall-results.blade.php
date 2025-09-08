@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="min-h-screen bg-gray-100 p-6">
+    <div id="document" class="min-h-screen bg-gray-100 p-6">
         <div class="max-w-6xl mx-auto bg-white shadow-lg">
             <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-6">
                 <div class="flex items-center justify-between">
@@ -37,6 +37,19 @@
                 <p class="text-sm">Jabatan Bomba & Penyelamat Malaysia (JBPM)</p>
             </div>
 
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('dashboard') }}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Kembali ke Dashboard
+                    </a>
+                    <button id="printBtn" onclick="printDocument()"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center cursor-pointer">
+                        <i class="fas fa-print mr-2"></i> Print
+                    </button>
+                </div>
+            </div>
+
             <div class="p-6 bg-blue-50">
                 <div class="flex items-center space-x-4 mb-4">
                     <div class="bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold">
@@ -44,14 +57,15 @@
                     </div>
                     <div class="flex items-center space-x-2">
                         <span class="text-sm">Nama Pemohon:</span>
-                        <span class="font-semibold">Ahmad bin Ali</span>
+                        <span class="font-semibold">{{ $respondent->user->name ?? 'Tidak diketahui' }}</span>
                     </div>
                     <div class="flex items-center space-x-2">
                         <span class="text-sm">Jawatan & Gred:</span>
-                        <span class="font-semibold">[Pb43] [KB12]</span>
+                        <span class="font-semibold">{{ $respondent->current_position ?? '' }}
+                            {{ $respondent->grade ?? '' }}</span>
                     </div>
                     <div class="bg-green-600 text-white px-3 py-1 rounded text-sm font-semibold">
-                        STATUS: [✓] FIT-TO-WORK
+                        STATUS: {{ $overallStatus === 'LENGKAP' ? '[✓] FIT-TO-WORK' : '[!] ' . $overallStatus }}
                     </div>
                 </div>
                 <div class="text-sm text-gray-700 mb-4">
@@ -87,11 +101,13 @@
                                     <span class="ml-1 text-sm">Baik</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">85</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
+                                {{ isset($sectionsData['A']) ? $sectionsData['A']['response']->scores->where('section', 'A')->first()->score ?? 'N/A' : 'N/A' }}
+                            </td>
                             <td class="border border-gray-300 px-4 py-2 text-sm">Status fizikal, mental dan emosi pada
                                 tahap sederhana.</td>
                         </tr>
-                        <tr class="bg-gray-100-50">
+                        <tr class="bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2">
                                 <div class="flex items-center space-x-2">
                                     <i class="fas fa-chart-line w-4 h-4 text-blue-500"></i>
@@ -104,7 +120,9 @@
                                     <span class="ml-1 text-sm">Baik</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">78</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
+                                {{ isset($sectionsData['B']) ? $sectionsData['B']['response']->scores->where('section', 'B')->first()->score ?? 'N/A' : 'N/A' }}
+                            </td>
                             <td class="border border-gray-300 px-4 py-2 text-sm">Keupayaan kerja yang baik</td>
                         </tr>
                         <tr>
@@ -120,11 +138,13 @@
                                     <span class="ml-1 text-sm">Sederhana</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">16/60</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
+                                {{ isset($sectionsData['C']) ? $sectionsData['C']['response']->scores->where('section', 'C')->first()->score ?? 'N/A' : 'N/A' }}/60
+                            </td>
                             <td class="border border-gray-300 px-4 py-2 text-sm">Gejala ringan/ sederhana dikesan, perlu
                                 diberi perhatian</td>
                         </tr>
-                        <tr class="bg-gray-100-50">
+                        <tr class="bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2">
                                 <div class="flex items-center space-x-2">
                                     <i class="fas fa-user w-4 h-4 text-gray-500"></i>
@@ -137,7 +157,9 @@
                                     <span class="ml-1 text-sm">Tinggi</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">65/100</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
+                                {{ isset($sectionsData['D']) ? $sectionsData['D']['response']->scores->where('section', 'D_Keseluruhan')->first()->score ?? 'N/A' : 'N/A' }}/100
+                            </td>
                             <td class="border border-gray-300 px-4 py-2 text-sm">Mengalami risiko kependatan, perlu
                                 perhatian segera</td>
                         </tr>
@@ -154,7 +176,9 @@
                                     <span class="ml-1 text-sm">Rendah</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">3/15</td>
+                            <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
+                                {{ isset($sectionsData['F']) ? $sectionsData['F']['response']->scores->where('section', 'F')->first()->score ?? 'N/A' : 'N/A' }}/15
+                            </td>
                             <td class="border border-gray-300 px-4 py-2 text-sm">Postur berisiko rendah, namun terdapat
                                 masalah kecil VSD</td>
                         </tr>
@@ -180,7 +204,7 @@
                             <td class="border border-gray-300 px-4 py-2 text-center">Kaunselor</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">2 Minggu/ 2 Minggu selepas</td>
                         </tr>
-                        <tr class="bg-gray-100-50">
+                        <tr class="bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2">Kepenatan</td>
                             <td class="border border-gray-300 px-4 py-2">Sesi kaunseling pengurusan kaunseling</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">HR/Penyelja</td>
@@ -214,10 +238,12 @@
                     </div>
                     <div class="p-4 space-y-3">
                         <div class="text-sm">
-                            <span class="font-semibold">BMI:</span> Tahap Sihat: [24.7] [Berat badan berlebihan]
+                            <span class="font-semibold">BMI:</span> Tahap Sihat: {{ $respondent->bmi ?? 'N/A' }}
+                            [{{ $respondent->health ?? 'Tidak diketahui' }}]
                         </div>
                         <div class="text-sm">
-                            <span class="font-semibold">BMI:</span> [26.1] [Berat badan berlebihan]
+                            <span class="font-semibold">BMI:</span> {{ $respondent->bmi ?? 'N/A' }}
+                            [{{ $respondent->health ?? 'Tidak diketahui' }}]
                         </div>
                         <div class="text-sm">
                             <span class="font-semibold">Tahap Pernafasan:</span> Baik
@@ -227,7 +253,9 @@
                                 mengalami tekanan psikologi]</div>
                             <div class="text-sm"><strong>Skala Simptom Kemrunangan (CES-D):</strong> Skor [10]
                                 [Mengalami kemrunangan]</div>
-                            <div class="text-sm"><strong>Skala Penilaian Kepenatan:</strong> Skor [3.10] [Tinggi]</div>
+                            <div class="text-sm"><strong>Skala Penilaian Kepenatan:</strong> Skor [3.10]
+                                [{{ isset($sectionsData['E']) && isset($sectionsData['E']['subsectionScores'][0]) ? $sectionsData['E']['subsectionScores'][0]['category'] : 'Tidak diketahui' }}]
+                            </div>
                             <div class="text-sm"><strong>Ulasan:</strong> [Sangat tinggi tahap] sekerangapa pada tahap
                                 yang sederhana]</div>
                         </div>
@@ -243,14 +271,16 @@
                     </div>
                     <div class="p-4 space-y-3">
                         <div class="text-sm">
-                            <span class="font-semibold">Prestasi Kerja Keseluruhan Individu:</span> Skor [8.33]
-                            [Tinggi]
+                            <span class="font-semibold">Prestasi Kerja Keseluruhan Individu:</span> Skor
+                            {{ isset($sectionsData['E']) && isset($sectionsData['E']['subsectionScores'][0]) ? $sectionsData['E']['subsectionScores'][0]['score'] : 'N/A' }}
+                            [{{ isset($sectionsData['E']) && isset($sectionsData['E']['subsectionScores'][0]) ? $sectionsData['E']['subsectionScores'][0]['category'] : 'Tidak diketahui' }}]
                         </div>
                         <div class="text-sm">
                             <span class="font-semibold">Prestasi Kontekstual:</span> Skor [8.10] [Sederhana]
                         </div>
                         <div class="text-sm">
-                            <span class="font-semibold">Prilaku Kerja Produktif:</span> Skor [3.49] [Tinggi]
+                            <span class="font-semibold">Prilaku Kerja Produktif:</span> Skor [3.49]
+                            [{{ isset($sectionsData['E']) && isset($sectionsData['E']['subsectionScores'][0]) ? $sectionsData['E']['subsectionScores'][0]['category'] : 'Tidak diketahui' }}]
                         </div>
                         <div class="text-sm">
                             <span class="font-semibold">Impak Kesihatan Ke Atas Tempat Kerja:</span> Skor [55] [Sangat
@@ -288,7 +318,8 @@
                     </div>
                     <div class="p-4 space-y-2">
                         <div class="text-xs">
-                            <span class="font-semibold">Penilaian Anggota Badan Keseluruhan (REBA):</span> Skor [4]
+                            <span class="font-semibold">Penilaian Anggota Badan Keseluruhan (REBA):</span> Skor
+                            {{ isset($sectionsData['A']) ? $sectionsData['A']['response']->scores->where('section', 'Skor REBA Akhir')->first()->score ?? 'N/A' : 'N/A' }}
                             [Sederhana]
                         </div>
                         <div class="text-xs">
@@ -305,14 +336,14 @@
                 </div>
 
                 <div class="border border-gray-300 rounded-lg">
-                    <div class="bg-gray-100-200 h-32 flex items-center justify-center">
+                    <div class="bg-gray-200 h-32 flex items-center justify-center">
                         <i class="fas fa-map-marker w-8 h-8 text-gray-400"></i>
                     </div>
                     <div class="p-2">
                         <div class="text-xs text-center">
                             <span class="font-semibold">Cadangan/Tindakan</span>
                         </div>
-                        <div class="h-16 bg-gray-100-100 mt-2 rounded"></div>
+                        <div class="h-16 bg-gray-100 mt-2 rounded"></div>
                         <div class="text-xs text-center mt-2">
                             <span class="font-semibold">Tarikh:</span>
                         </div>
@@ -320,11 +351,71 @@
                 </div>
             </div>
 
-            <div class="bg-gray-100-100 p-4 text-center text-sm text-gray-600">
+            <div class="bg-gray-100 p-4 text-center text-sm text-gray-600">
                 <p>Institut Penyelidikan Jasmani & Psikologi • Universiti Putra Malaysia</p>
                 <p>Laporan ini adalah sulit dan tidak boleh disebarkan tanpa kebenaran bertulis</p>
             </div>
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
+<script>
+function printDocument() {
+    console.log('Print function called');
+
+    // Hide elements that shouldn't be printed
+    const elementsToHide = document.querySelectorAll('a[href], button:not(#printBtn)');
+    elementsToHide.forEach(el => el.style.display = 'none');
+
+    // Add print-specific styles
+    const printStyles = document.createElement('style');
+    printStyles.innerHTML = `
+        @media print {
+            body { margin: 0; background: white !important; }
+            .min-h-screen { min-height: auto !important; }
+            * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+            a[href], button { display: none !important; }
+            .bg-gradient-to-r { background: linear-gradient(to right, #dc2626, #dc2626) !important; }
+            .bg-blue-900 { background-color: #1e3a8a !important; }
+            .bg-blue-600 { background-color: #2563eb !important; }
+            .bg-green-600 { background-color: #16a34a !important; }
+            .bg-yellow-50 { background-color: #fefce8 !important; }
+            .bg-blue-50 { background-color: #eff6ff !important; }
+            .bg-red-600 { background-color: #dc2626 !important; }
+            .bg-orange-600 { background-color: #ea580c !important; }
+            .bg-gray-200 { background-color: #e5e7eb !important; }
+            .bg-gray-100 { background-color: #f3f4f6 !important; }
+            .text-white { color: white !important; }
+        }
+    `;
+    document.head.appendChild(printStyles);
+
+    // Print the document
+    window.print();
+
+    // Restore hidden elements after printing
+    setTimeout(() => {
+        elementsToHide.forEach(el => el.style.display = '');
+        document.head.removeChild(printStyles);
+    }, 1000);
+
+    console.log('Print initiated');
+}
+
+// Add event listener when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    var printBtn = document.getElementById('printBtn');
+    if (printBtn) {
+        printBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            printDocument();
+        });
+        console.log('Print button event listener added');
+    } else {
+        console.error('Print button not found');
+    }
+});
+</script>
 @endsection
