@@ -33,7 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
+// Test route without authentication
+Route::get('/survey/test-overall-results', [SurveyController::class, 'testOverallResults'])->name('survey.test-overall-results');
+
 Route::middleware(['auth'])->group(function () {
+    Route::get('survey/overall-results', [SurveyController::class, 'overallResults'])->name('survey.overall-results');
     Route::prefix('survey')->group(function () {
         Route::get('/create', [SurveyController::class, 'create'])->name('survey.create');
         Route::post('/create', [SurveyController::class, 'storeSurvey'])->name('survey.store-survey');
@@ -46,7 +50,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/{section}', [SurveyController::class, 'store'])->name('survey.store');
         Route::get('/{section}/results', [SurveyController::class, 'results'])->name('survey.results');
         Route::get('/{section}/review', [SurveyController::class, 'review'])->name('survey.review');
-        Route::get('/overall-results', [SurveyController::class, 'overallResults'])->name('survey.overall-results');
         Route::get('/{section}/edit/{question}', [SurveyController::class, 'edit'])->name('survey.edit');
         Route::put('/{section}/update/{question}', [SurveyController::class, 'update'])->name('survey.update');
     });
