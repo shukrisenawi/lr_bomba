@@ -54,6 +54,32 @@
                                     <span class="text-xl font-bold text-purple-600">{{ $subsection['score'] }}</span>
                                 </div>
 
+                                @if ($section === 'C' && !empty($medianScores))
+                                    @php
+                                        $subsectionMedianKey = match($subsection['name']) {
+                                            'Tuntutan Psikologi' => 'Tuntutan Psikologi',
+                                            'Kawalan Keputusan' => 'Kawalan Keputusan',
+                                            'Sokongan Sosial' => 'Sokongan Sosial',
+                                            default => null
+                                        };
+                                    @endphp
+                                    @if ($subsectionMedianKey && isset($medianScores[$subsectionMedianKey]))
+                                        <div
+                                            class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg">
+                                            <span class="font-medium text-gray-700">Median Skor Semua Responden: {{ number_format($medianScores[$subsectionMedianKey], 2) }}</span>
+                                            <span class="text-sm font-medium text-blue-600">
+                                                @if ($subsection['score'] > $medianScores[$subsectionMedianKey])
+                                                    <i class="fas fa-arrow-up text-green-600 mr-1"></i>Di atas median
+                                                @elseif ($subsection['score'] < $medianScores[$subsectionMedianKey])
+                                                    <i class="fas fa-arrow-down text-red-600 mr-1"></i>Di bawah median
+                                                @else
+                                                    <i class="fas fa-equals text-gray-600 mr-1"></i>Sama dengan median
+                                                @endif
+                                            </span>
+                                        </div>
+                                    @endif
+                                @endif
+
                                 @if (isset($subsection['category']) && $subsection['category'] && $section !== 'B')
                                     <div
                                         class="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">

@@ -7,6 +7,7 @@ use App\Models\SurveyAnswer;
 use App\Models\SurveyScore;
 use App\Services\ScoreCalculationService;
 use App\Services\SubsectionScoreCalculationService;
+use App\Services\MedianScoreCalculationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -17,13 +18,18 @@ class SurveyController extends Controller
 {
     protected $scoreService;
     protected $subsectionScoreService;
+    protected $medianScoreService;
     protected $partNoScore = ['I', 'J', 'K'];
 
-    public function __construct(ScoreCalculationService $scoreService, \App\Services\SubsectionScoreCalculationService $subsectionScoreService)
-    {
+    public function __construct(
+        ScoreCalculationService $scoreService,
+        \App\Services\SubsectionScoreCalculationService $subsectionScoreService,
+        MedianScoreCalculationService $medianScoreService
+    ) {
         parent::__construct();
         $this->scoreService = $scoreService;
         $this->subsectionScoreService = $subsectionScoreService;
+        $this->medianScoreService = $medianScoreService;
     }
 
     private function ensureAdminAccess($section)
@@ -588,12 +594,19 @@ class SurveyController extends Controller
             $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
         }
 
+        // Get median scores for Section C if this is section C
+        $medianScores = [];
+        if ($section === 'C') {
+            $medianScores = $this->medianScoreService->getMedianScores();
+        }
+
         return view('survey.results-enhanced', [
             'section' => $section,
             'response' => $response,
             'sectionData' => $sectionData,
             'subsectionScores' => $subsectionScores,
-            'hasSubsections' => $hasSubsections
+            'hasSubsections' => $hasSubsections,
+            'medianScores' => $medianScores
         ]);
     }
 
@@ -729,11 +742,15 @@ class SurveyController extends Controller
                 $overallStatus = 'SEBAHAGIAN LENGKAP';
             }
 
+            // Get median scores for Section C
+            $medianScores = $this->medianScoreService->getMedianScores();
+
             return view('survey.overall-results', [
                 'sectionsData' => $sectionsData,
                 'respondent' => $respondent,
                 'overallStatus' => $overallStatus,
-                'surveyData' => $surveyData
+                'surveyData' => $surveyData,
+                'medianScores' => $medianScores
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -1115,6 +1132,11 @@ class SurveyController extends Controller
             $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
             $this->subsectionScoreService->updateSubsectionScores($response, $subsectionScores);
 
+            // Special handling for Section C median score calculation
+            if ($section === 'C') {
+                $this->calculateSectionCMedianScores();
+            }
+
             // Special handling for Section E overall score calculation
             if ($section === 'E') {
                 $this->calculateSectionEOverallScore($response, $subsectionScores);
@@ -1210,6 +1232,24 @@ class SurveyController extends Controller
         //     'Section E Overall',
         //     'JUMLAH SKOR KESELURUHAN: ' . $overallScore
         // );
+    }
+
+    /**
+     * Calculate median scores for Section C subsections
+     */
+    private function calculateSectionCMedianScores()
+    {
+        try {
+            // Calculate median scores for all subsections in Section C
+            $medianScores = $this->medianScoreService->calculateMedianScoresForSectionC();
+
+            // Save the median scores to database
+            $this->medianScoreService->saveMedianScores($medianScores);
+
+            \Log::info('Median scores calculated and saved for Section C', $medianScores);
+        } catch (\Exception $e) {
+            \Log::error('Error calculating median scores for Section C: ' . $e->getMessage());
+        }
     }
 
     /**
