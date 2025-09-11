@@ -373,7 +373,11 @@ function printDocument() {
     const printStyles = document.createElement('style');
     printStyles.innerHTML = `
         @media print {
-            body { margin: 0; background: white !important; }
+            @page {
+                size: A4;
+                margin: 20mm 15mm 20mm 15mm;
+            }
+            body { margin: 0; background: white !important; font-size: 12px; }
             .min-h-screen { min-height: auto !important; }
             * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
             a[href], button { display: none !important; }
@@ -388,6 +392,47 @@ function printDocument() {
             .bg-gray-200 { background-color: #e5e7eb !important; }
             .bg-gray-100 { background-color: #f3f4f6 !important; }
             .text-white { color: white !important; }
+            .max-w-6xl { max-width: 100% !important; }
+            .p-6 { padding: 1rem !important; }
+            .p-4 { padding: 0.75rem !important; }
+            .p-3 { padding: 0.5rem !important; }
+            .px-4 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            .py-2 { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+            .px-3 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+            .py-1 { padding-top: 0.125rem !important; padding-bottom: 0.125rem !important; }
+            .text-lg { font-size: 1rem !important; }
+            .text-sm { font-size: 0.875rem !important; }
+            .text-xs { font-size: 0.75rem !important; }
+            .grid-cols-1 { grid-template-columns: 1fr !important; }
+            .lg\\:grid-cols-2 { grid-template-columns: 1fr !important; }
+            .lg\\:grid-cols-3 { grid-template-columns: 1fr !important; }
+            .gap-6 { gap: 1rem !important; }
+            .space-x-4 > * + * { margin-left: 0.75rem !important; }
+            .space-x-2 > * + * { margin-left: 0.5rem !important; }
+            .space-y-3 > * + * { margin-top: 0.5rem !important; }
+            .space-y-2 > * + * { margin-top: 0.25rem !important; }
+            .w-16 { width: 3rem !important; }
+            .h-16 { height: 3rem !important; }
+            .w-12 { width: 2.5rem !important; }
+            .h-12 { height: 2.5rem !important; }
+            .w-5 { width: 1.25rem !important; }
+            .h-5 { height: 1.25rem !important; }
+            .w-4 { width: 1rem !important; }
+            .h-4 { height: 1rem !important; }
+            .w-6 { width: 1.5rem !important; }
+            .h-6 { height: 1.5rem !important; }
+            .w-8 { width: 2rem !important; }
+            .h-8 { height: 2rem !important; }
+            .h-32 { height: 6rem !important; }
+            .h-16 { height: 4rem !important; }
+            table { font-size: 0.75rem !important; width: 100% !important; table-layout: fixed !important; }
+            th, td { padding: 0.25rem !important; word-wrap: break-word !important; }
+            th:nth-child(1), td:nth-child(1) { width: 25% !important; }
+            th:nth-child(2), td:nth-child(2) { width: 15% !important; }
+            th:nth-child(3), td:nth-child(3) { width: 15% !important; }
+            th:nth-child(4), td:nth-child(4) { width: 45% !important; }
+            .border-collapse { border-collapse: collapse !important; }
+            .border { border: 1px solid #d1d5db !important; }
         }
     `;
     document.head.appendChild(printStyles);
