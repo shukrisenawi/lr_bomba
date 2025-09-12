@@ -536,17 +536,21 @@
                         @php
                             $navigationState = session('survey_' . $section . '_navigation_state', ['mode' => 'forward', 'answered_index' => -1]);
                             $totalAnswered = $debug_info['answered'] ?? 0;
+                            $totalRemaining = $debug_info['remaining'] ?? 0;
                             $isInBackMode = $navigationState['mode'] === 'back';
+
+                            // Check if current question has been answered
+                            $currentQuestionAnswered = $answer && !empty($answer->answer);
 
                             // Back button: show if there are answered questions OR if in back mode
                             $canGoBack = $totalAnswered > 0 || $isInBackMode;
 
-                            // Next button: show if in back mode and not at the last answered question
-                            $canGoNext = $isInBackMode && $navigationState['answered_index'] < $totalAnswered - 1;
+                            // Next button: show only if current question is answered AND there are more questions
+                            $canGoNext = $currentQuestionAnswered && $totalRemaining > 0;
 
-                            // Special case: if at the last answered question and there are unanswered questions, show next
+                            // Special case for back mode: if at the last answered question and there are unanswered questions, show next
                             if ($isInBackMode && $navigationState['answered_index'] === $totalAnswered - 1) {
-                                $canGoNext = isset($debug_info['remaining']) && $debug_info['remaining'] > 0;
+                                $canGoNext = $totalRemaining > 0;
                             }
 
                             // Debug: Ensure back button is visible when in back mode
@@ -806,6 +810,26 @@
                     }
                     isSubmitting = true;
                 });
+
+                // Show success alert when form is submitted successfully
+                @if(session('answer_saved'))
+                    @php
+                        $answerSaved = session('answer_saved');
+                        $isUpdate = $answerSaved['is_update'] ?? false;
+                    @endphp
+                    @if($isUpdate)
+                        // Show SweetAlert2 for updates only
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berjaya!',
+                            text: 'Jawapan anda telah berjaya dikemaskini.',
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#4F46E5',
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    @endif
+                @endif
             }
 
             // Initialize radio toggle functionality

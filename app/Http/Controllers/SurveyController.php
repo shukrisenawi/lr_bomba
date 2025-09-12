@@ -412,6 +412,13 @@ class SurveyController extends Controller
             'all_data' => $request->all()
         ]);
 
+        // Check if this is an update or new insert
+        $existingAnswer = SurveyAnswer::where('response_id', $response->id)
+            ->where('question_id', $request->question_id)
+            ->first();
+
+        $isUpdate = $existingAnswer !== null;
+
         // Update existing answer or create new one
         $surveyAnswer = SurveyAnswer::updateOrCreate(
             [
@@ -426,7 +433,8 @@ class SurveyController extends Controller
             'answer_id' => $surveyAnswer->id,
             'question_id' => $surveyAnswer->question_id,
             'answer' => $surveyAnswer->answer,
-            'value' => $surveyAnswer->value
+            'value' => $surveyAnswer->value,
+            'is_update' => $isUpdate
         ]);
 
         // Check if navigation URL is provided (for auto-save navigation)
@@ -439,7 +447,10 @@ class SurveyController extends Controller
             return redirect($request->navigation_url);
         }
 
-        return redirect()->route('survey.show', $section);
+        return redirect()->route('survey.show', $section)->with('answer_saved', [
+            'is_update' => $isUpdate,
+            'question_id' => $request->question_id
+        ]);
     }
 
     /**
