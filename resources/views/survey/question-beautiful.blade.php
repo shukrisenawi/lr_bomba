@@ -257,10 +257,10 @@
                         <div class="space-y-4">
                             @php
                                 $existingAnswers = [];
-                                if ($answer && $answer->answer) {
-                                    $existingAnswers = is_array($answer->answer)
-                                        ? $answer->answer
-                                        : json_decode($answer->answer, true) ?? [];
+                                if ($answer && $answer->value) {
+                                    $existingAnswers = is_array($answer->value)
+                                        ? $answer->value
+                                        : json_decode($answer->value, true) ?? [];
                                 }
 
                                 // Helper function to decode JSON strings if needed
@@ -310,10 +310,10 @@
                         <div class="space-y-4">
                             @php
                                 $existingAnswers = [];
-                                if ($answer && $answer->answer) {
-                                    $existingAnswers = is_array($answer->answer)
-                                        ? $answer->answer
-                                        : json_decode($answer->answer, true) ?? [];
+                                if ($answer && $answer->value) {
+                                    $existingAnswers = is_array($answer->value)
+                                        ? $answer->value
+                                        : json_decode($answer->value, true) ?? [];
                                 }
 
                                 // Helper function to decode JSON strings if needed
