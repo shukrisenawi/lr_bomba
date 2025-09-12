@@ -548,10 +548,15 @@
                             if ($isInBackMode && $navigationState['answered_index'] === $totalAnswered - 1) {
                                 $canGoNext = isset($debug_info['remaining']) && $debug_info['remaining'] > 0;
                             }
+
+                            // Debug: Ensure back button is visible when in back mode
+                            if ($isInBackMode && $navigationState['answered_index'] >= 0) {
+                                $canGoBack = true;
+                            }
                         @endphp
 
                         @if ($canGoBack)
-                            <a href="{{ route('survey.show', [$section, 'back' => 'true']) }}"
+                            <button type="button" onclick="navigateBack('{{ $section }}')"
                                 class="flex-1 bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold
                                       hover:bg-blue-600 transition-all duration-300 text-center">
                                 <i class="fas fa-arrow-left mr-2"></i>
@@ -560,11 +565,11 @@
                                 @else
                                     Soalan Sebelumnya
                                 @endif
-                            </a>
+                            </button>
                         @endif
 
                         @if ($canGoNext)
-                            <a href="{{ route('survey.show', [$section, 'next' => 'true']) }}"
+                            <button type="button" onclick="navigateNext('{{ $section }}')"
                                 class="flex-1 bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
                                       hover:bg-green-600 transition-all duration-300 text-center">
                                 <i class="fas fa-arrow-right mr-2"></i>
@@ -573,7 +578,7 @@
                                 @else
                                     Soalan Seterusnya
                                 @endif
-                            </a>
+                            </button>
                         @endif
                         <a href="{{ route('dashboard') }}"
                             class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold
@@ -791,6 +796,16 @@
                         submitBtn.disabled = true;
                     }
                 });
+
+                // Prevent double submission
+                let isSubmitting = false;
+                form.addEventListener('submit', function(e) {
+                    if (isSubmitting) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    isSubmitting = true;
+                });
             }
 
             // Initialize radio toggle functionality
@@ -920,6 +935,44 @@
                 selectedFiles.classList.add('hidden');
             } else {
                 handleFileSelect(dt.files);
+            }
+        }
+
+        // Direct navigation functions for back/next buttons
+        function navigateBack(section) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('back', 'true');
+            window.location.href = currentUrl.toString();
+        }
+
+        function navigateNext(section) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('next', 'true');
+            window.location.href = currentUrl.toString();
+        }
+
+        // Navigation with auto-save functionality (kept for compatibility)
+        function navigateWithSave(targetUrl) {
+            const form = document.querySelector('form');
+            if (form) {
+                // Remove any existing navigation_url input
+                const existingNavInput = form.querySelector('input[name="navigation_url"]');
+                if (existingNavInput) {
+                    existingNavInput.remove();
+                }
+
+                // Create a hidden input to store the navigation URL
+                const navInput = document.createElement('input');
+                navInput.type = 'hidden';
+                navInput.name = 'navigation_url';
+                navInput.value = targetUrl;
+                form.appendChild(navInput);
+
+                // Submit the form
+                form.submit();
+            } else {
+                // Fallback: direct navigation if no form found
+                window.location.href = targetUrl;
             }
         }
     </script>

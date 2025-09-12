@@ -188,6 +188,7 @@ class SurveyController extends Controller
                 // Move to previous answered question
                 $navigationState['answered_index']--;
             }
+            // If already at first answered question (index 0), stay there
 
             // Get the question at the current index from answered questions
             if ($navigationState['answered_index'] >= 0 && $navigationState['answered_index'] < count($answeredQuestions)) {
@@ -314,9 +315,13 @@ class SurveyController extends Controller
 
         try {
             $request->validate($validationRules);
-            \Log::info('Validation passed for videoImage');
+            \Log::info('Validation passed', ['rules' => $validationRules]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('Validation failed for videoImage:', ['errors' => $e->errors()]);
+            \Log::error('Validation failed:', [
+                'errors' => $e->errors(),
+                'request_data' => $request->all(),
+                'validation_rules' => $validationRules
+            ]);
             throw $e;
         }
 
@@ -369,7 +374,41 @@ class SurveyController extends Controller
             $answerData['answer'] = '';
         }
 
-        SurveyAnswer::create($answerData);
+        // Debug: Log the request data
+        \Log::info('Survey store request', [
+            'question_id' => $request->question_id,
+            'answer' => $request->answer,
+            'has_navigation_url' => $request->has('navigation_url'),
+            'navigation_url' => $request->navigation_url,
+            'all_data' => $request->all()
+        ]);
+
+        // Update existing answer or create new one
+        $surveyAnswer = SurveyAnswer::updateOrCreate(
+            [
+                'response_id' => $response->id,
+                'question_id' => $request->question_id
+            ],
+            $answerData
+        );
+
+        // Debug: Log the saved answer
+        \Log::info('Answer saved/updated', [
+            'answer_id' => $surveyAnswer->id,
+            'question_id' => $surveyAnswer->question_id,
+            'answer' => $surveyAnswer->answer,
+            'value' => $surveyAnswer->value
+        ]);
+
+        // Check if navigation URL is provided (for auto-save navigation)
+        if ($request->has('navigation_url') && !empty($request->navigation_url)) {
+            // Log successful save with navigation
+            \Log::info('Answer saved successfully with navigation', [
+                'question_id' => $request->question_id,
+                'navigation_url' => $request->navigation_url
+            ]);
+            return redirect($request->navigation_url);
+        }
 
         return redirect()->route('survey.show', $section);
     }
