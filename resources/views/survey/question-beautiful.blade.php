@@ -559,7 +559,7 @@
                             }
                         @endphp
 
-                        @if ($canGoBack)
+                        @if ($canGoBack && !preg_match('/1$/', $question['id']))
                             <button type="button" onclick="navigateBack('{{ $section }}')"
                                 class="flex-1 bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold
                                       hover:bg-blue-600 transition-all duration-300 text-center">
