@@ -556,43 +556,40 @@
                                 $canGoBack = true;
                             }
 
-                            $checkAnswer = \App\Models\SurveyAnswer::whereHas('response', function($query) {
+                            $checkAnswer = \App\Models\SurveyAnswer::whereHas('response', function ($query) {
                                 $query->where('user_id', Auth::user()->id);
-                            })->where('question_id', $question['id'])->first();
+                            })
+                                ->where('question_id', $question['id'])
+                                ->first();
                         @endphp
 
+
+                        @if ($canGoBack && !preg_match('/1$/', $question['id']))
+                            <button type="button" onclick="navigateBack('{{ $section }}')"
+                                class="flex-1 text-md bg-gray-200 text-gray-700 py-3 px-3 rounded-xl font-semibold
+                                  hover:bg-gray-300 transition-all duration-300 text-center">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Kembali
+                            </button>
+                        @endif
                         @if ($question['type'] != 'image')
                             <button type="submit"
-                                class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 text-sm
+                                class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 px-3 text-md
                                        rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700
                                        transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                                 <i class="fas fa-paper-plane mr-2"></i>
                                 Hantar
                             </button>
                         @endif
-                        @if ($canGoBack && !preg_match('/1$/', $question['id']))
-                            <button type="button" onclick="navigateBack('{{ $section }}')"
-                                class="flex-1 text-sm bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold
-                                      hover:bg-blue-600 transition-all duration-300 text-center">
-                                <i class="fas fa-arrow-left mr-2"></i>
-                                Kembali
-                            </button>
-                        @endif
                         @if ($checkAnswer)
                             <button type="button" onclick="navigateNext('{{ $section }}')"
-                                class="flex-1 text-sm bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
-                                  hover:bg-green-600 transition-all duration-300 text-center">
+                                class="flex-1 text-md bg-gray-200 text-gray-700 py-3 px-3 rounded-xl font-semibold
+                                  hover:bg-gray-300 transition-all duration-300 text-center">
                                 <i class="fas fa-arrow-right mr-2"></i>
 
                                 Seterusnya
                             </button>
                         @endif
-                        <a href="{{ route('dashboard') }}"
-                            class="flex-1 text-sm bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold
-                                  hover:bg-gray-300 transition-all duration-300 text-center">
-                            <i class="fas fa-home mr-2"></i>
-                            Dashboard
-                        </a>
                     </div>
                 </form>
             </div>
@@ -604,6 +601,12 @@
         <div class="glass-card p-4">
             <div class="flex items-center justify-between text-sm text-gray-600">
                 <div>
+                    <a href="{{ route('dashboard') }}"
+                        class="flex-1 text-md bg-gray-200 text-gray-700 py-3 px-3 mr-5 rounded-xl font-semibold
+                                  hover:bg-gray-300 transition-all duration-300 text-center">
+                        <i class="fas fa-home mr-2"></i>
+                        Dashboard
+                    </a>
                     <span class="font-medium">Soalan {{ $question['id'] }}</span>
                     <span class="text-gray-400">dari {{ $debug_info['total_questions'] ?? '?' }}</span>
                 </div>
