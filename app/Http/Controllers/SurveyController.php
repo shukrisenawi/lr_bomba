@@ -291,6 +291,20 @@ class SurveyController extends Controller
             ->where('question_id', $currentQuestion['id'])
             ->first();
 
+        // Calculate navigation variables
+        $currentQuestionAnswered = $answer && !empty($answer->answer);
+        $totalRemaining = count($questions) - count($answeredQuestions);
+        $canGoNext = $currentQuestionAnswered && $totalRemaining > 0;
+
+        \Log::info('Question navigation debug', [
+            'question_id' => $currentQuestion['id'],
+            'answer_exists' => $answer !== null,
+            'answer_value' => $answer ? $answer->answer : null,
+            'currentQuestionAnswered' => $currentQuestionAnswered,
+            'totalRemaining' => $totalRemaining,
+            'canGoNext' => $canGoNext
+        ]);
+
         return view('survey.question-beautiful', [
             'section' => $section,
             'question' => $currentQuestion,
@@ -300,7 +314,9 @@ class SurveyController extends Controller
             'debug_info' => config('app.debug') ? [
                 'total_questions' => count($questions),
                 'answered' => count($answeredQuestions),
-                'remaining' => count($unansweredQuestions)
+                'remaining' => count($unansweredQuestions),
+                'current_question_answered' => $currentQuestionAnswered,
+                'can_go_next' => $canGoNext
             ] : null
         ]);
     }

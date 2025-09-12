@@ -204,7 +204,8 @@
                                 @endphp
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $optionValue }}" class="peer sr-only"
-                                        @if (!$isOptional && $section !== 'J') required @endif @if ($isChecked) checked @endif>
+                                        @if (!$isOptional && $section !== 'J') required @endif
+                                        @if ($isChecked) checked @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
                                                 cursor-pointer transition-all duration-300 hover:border-indigo-500
@@ -233,7 +234,8 @@
                                 @endphp
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $index }}" class="peer sr-only"
-                                        @if (!$isOptional && $section != 'J') required @endif @if ($isChecked) checked @endif>
+                                        @if (!$isOptional && $section != 'J') required @endif
+                                        @if ($isChecked) checked @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
                                             cursor-pointer transition-all duration-300 hover:border-indigo-500
@@ -366,7 +368,8 @@
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan nilai:</span>
                                 <div class="relative">
                                     <input type="number" name="answer" class="form-input-enhanced w-full text-lg"
-                                        placeholder="0" value="{{ $existingAnswer }}" @if ($section !== 'J') required @endif>
+                                        placeholder="0" value="{{ $existingAnswer }}"
+                                        @if ($section !== 'J') required @endif>
                                     @if (isset($question['unit']))
                                         <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                                             {{ $question['unit'] }}
@@ -415,7 +418,8 @@
 
                                 <div class="w-full">
                                     <input type="range" min="{{ $question['min'] }}" max="{{ $question['max'] }}"
-                                        value="{{ $existingAnswer }}" class="range w-full" step="1" name="answer" />
+                                        value="{{ $existingAnswer }}" class="range w-full" step="1"
+                                        name="answer" />
                                     <div class="flex justify-between px-2.5 mt-2 text-xs">
                                         @for ($i = $question['min']; $i <= $question['max']; $i++)
                                             <span>|</span>
@@ -534,7 +538,10 @@
                             </button>
                         @endif
                         @php
-                            $navigationState = session('survey_' . $section . '_navigation_state', ['mode' => 'forward', 'answered_index' => -1]);
+                            $navigationState = session('survey_' . $section . '_navigation_state', [
+                                'mode' => 'forward',
+                                'answered_index' => -1,
+                            ]);
                             $totalAnswered = $debug_info['answered'] ?? 0;
                             $totalRemaining = $debug_info['remaining'] ?? 0;
                             $isInBackMode = $navigationState['mode'] === 'back';
@@ -557,8 +564,11 @@
                             if ($isInBackMode && $navigationState['answered_index'] >= 0) {
                                 $canGoBack = true;
                             }
-                        @endphp
 
+                            $checkAnswer = \App\Models\SurveyAnswer::where('response_id', Auth::user()->id)
+                                ->where('question_id', $question['id'])
+                                ->first();
+                        @endphp
                         @if ($canGoBack && !preg_match('/1$/', $question['id']))
                             <button type="button" onclick="navigateBack('{{ $section }}')"
                                 class="flex-1 bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold
@@ -571,17 +581,15 @@
                                 @endif
                             </button>
                         @endif
-
-                        <button type="button" onclick="navigateNext('{{ $section }}')"
-                            class="flex-1 bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
+                        @if ($checkAnswer)
+                            <button type="button" onclick="navigateNext('{{ $section }}')"
+                                class="flex-1 bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
                                   hover:bg-green-600 transition-all duration-300 text-center">
-                            <i class="fas fa-arrow-right mr-2"></i>
-                            @if ($navigationState['answered_index'] === $totalAnswered - 1 && isset($debug_info['remaining']) && $debug_info['remaining'] > 0)
+                                <i class="fas fa-arrow-right mr-2"></i>
+
                                 Soalan Seterusnya
-                            @else
-                                Soalan Seterusnya
-                            @endif
-                        </button>
+                            </button>
+                        @endif
                         <a href="{{ route('dashboard') }}"
                             class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold
                                   hover:bg-gray-300 transition-all duration-300 text-center">
@@ -810,12 +818,12 @@
                 });
 
                 // Show success alert when form is submitted successfully
-                @if(session('answer_saved'))
+                @if (session('answer_saved'))
                     @php
                         $answerSaved = session('answer_saved');
                         $isUpdate = $answerSaved['is_update'] ?? false;
                     @endphp
-                    @if($isUpdate)
+                    @if ($isUpdate)
                         // Show SweetAlert2 for updates only
                         Swal.fire({
                             icon: 'success',
