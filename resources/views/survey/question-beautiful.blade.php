@@ -940,14 +940,24 @@
 
         // Direct navigation functions for back/next buttons
         function navigateBack(section) {
+            console.log('Navigating back for section:', section);
             const currentUrl = new URL(window.location.href);
+            // Clear any existing navigation parameters
+            currentUrl.searchParams.delete('back');
+            currentUrl.searchParams.delete('next');
             currentUrl.searchParams.set('back', 'true');
+            console.log('Navigating to:', currentUrl.toString());
             window.location.href = currentUrl.toString();
         }
 
         function navigateNext(section) {
+            console.log('Navigating next for section:', section);
             const currentUrl = new URL(window.location.href);
+            // Clear any existing navigation parameters
+            currentUrl.searchParams.delete('back');
+            currentUrl.searchParams.delete('next');
             currentUrl.searchParams.set('next', 'true');
+            console.log('Navigating to:', currentUrl.toString());
             window.location.href = currentUrl.toString();
         }
 

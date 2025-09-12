@@ -170,50 +170,75 @@ class SurveyController extends Controller
         // Check if next navigation is requested
         $isNextNavigation = request()->has('next') && request()->get('next') === 'true';
 
+        // Debug logging for navigation
+        \Log::info('Navigation debug', [
+            'section' => $section,
+            'isBackNavigation' => $isBackNavigation,
+            'isNextNavigation' => $isNextNavigation,
+            'total_answered' => count($answeredQuestions),
+            'all_params' => request()->all()
+        ]);
+
         // Handle navigation state using session
         $sessionKey = 'survey_' . $section . '_navigation_state';
         $navigationState = session($sessionKey, ['mode' => 'forward', 'answered_index' => -1]);
+
+        // Debug current navigation state
+        \Log::info('Current navigation state', [
+            'mode' => $navigationState['mode'],
+            'answered_index' => $navigationState['answered_index']
+        ]);
 
         // Find current question based on navigation type
         $currentQuestion = null;
         $unansweredQuestions = [];
 
         if ($isBackNavigation && !empty($answeredQuestions)) {
+            \Log::info('Processing back navigation');
             // For back navigation, move to previous answered question
             if ($navigationState['mode'] === 'forward') {
                 // Switching from forward to back mode, start from last answered
                 $navigationState['mode'] = 'back';
                 $navigationState['answered_index'] = count($answeredQuestions) - 1;
+                \Log::info('Switched to back mode, starting from last answered', ['index' => $navigationState['answered_index']]);
             } elseif ($navigationState['answered_index'] > 0) {
                 // Move to previous answered question
                 $navigationState['answered_index']--;
+                \Log::info('Moved to previous answered question', ['new_index' => $navigationState['answered_index']]);
             }
             // If already at first answered question (index 0), stay there
 
             // Get the question at the current index from answered questions
             if ($navigationState['answered_index'] >= 0 && $navigationState['answered_index'] < count($answeredQuestions)) {
                 $targetQuestionId = $answeredQuestions[$navigationState['answered_index']];
+                \Log::info('Target question ID for back navigation', ['question_id' => $targetQuestionId]);
                 foreach ($questions as $question) {
                     if ($question['id'] === $targetQuestionId) {
                         $currentQuestion = $question;
+                        \Log::info('Found current question for back navigation', ['question' => $question['id']]);
                         break;
                     }
                 }
             }
         } elseif ($isNextNavigation && !empty($answeredQuestions)) {
+            \Log::info('Processing next navigation');
             // For next navigation within answered questions
             if ($navigationState['mode'] === 'back') {
+                \Log::info('In back mode, processing next navigation');
                 // Move to next answered question
                 if ($navigationState['answered_index'] < count($answeredQuestions) - 1) {
                     $navigationState['answered_index']++;
+                    \Log::info('Moved to next answered question', ['new_index' => $navigationState['answered_index']]);
                 } else {
                     // If at the end of answered questions, switch to forward mode
                     $navigationState['mode'] = 'forward';
                     $navigationState['answered_index'] = -1;
+                    \Log::info('Reached end of answered questions, switching to forward mode');
                     // Find next unanswered question
                     foreach ($questions as $question) {
                         if (!in_array($question['id'], $answeredQuestions)) {
                             $currentQuestion = $question;
+                            \Log::info('Found next unanswered question', ['question' => $question['id']]);
                             break;
                         }
                     }
@@ -221,13 +246,17 @@ class SurveyController extends Controller
 
                 if ($navigationState['mode'] === 'back' && $navigationState['answered_index'] >= 0 && $navigationState['answered_index'] < count($answeredQuestions)) {
                     $targetQuestionId = $answeredQuestions[$navigationState['answered_index']];
+                    \Log::info('Target question ID for next navigation in back mode', ['question_id' => $targetQuestionId]);
                     foreach ($questions as $question) {
                         if ($question['id'] === $targetQuestionId) {
                             $currentQuestion = $question;
+                            \Log::info('Found current question for next navigation', ['question' => $question['id']]);
                             break;
                         }
                     }
                 }
+            } else {
+                \Log::info('Next navigation requested but not in back mode');
             }
         } else {
             // Normal navigation: Find next unanswered question
