@@ -167,17 +167,65 @@ class SurveyController extends Controller
             return redirect()->route('dashboard')->with('error', 'Tiada soalan dalam bahagian ini.');
         }
 
+        // Check if next navigation is requested
+        $isNextNavigation = request()->has('next') && request()->get('next') === 'true';
+
+        // Handle navigation state using session
+        $sessionKey = 'survey_' . $section . '_navigation_state';
+        $navigationState = session($sessionKey, ['mode' => 'forward', 'answered_index' => -1]);
+
         // Find current question based on navigation type
         $currentQuestion = null;
         $unansweredQuestions = [];
 
         if ($isBackNavigation && !empty($answeredQuestions)) {
-            // For back navigation, show the last answered question
-            $lastAnsweredQuestionId = end($answeredQuestions);
-            foreach ($questions as $question) {
-                if ($question['id'] === $lastAnsweredQuestionId) {
-                    $currentQuestion = $question;
-                    break;
+            // For back navigation, move to previous answered question
+            if ($navigationState['mode'] === 'forward') {
+                // Switching from forward to back mode, start from last answered
+                $navigationState['mode'] = 'back';
+                $navigationState['answered_index'] = count($answeredQuestions) - 1;
+            } elseif ($navigationState['answered_index'] > 0) {
+                // Move to previous answered question
+                $navigationState['answered_index']--;
+            }
+
+            // Get the question at the current index from answered questions
+            if ($navigationState['answered_index'] >= 0 && $navigationState['answered_index'] < count($answeredQuestions)) {
+                $targetQuestionId = $answeredQuestions[$navigationState['answered_index']];
+                foreach ($questions as $question) {
+                    if ($question['id'] === $targetQuestionId) {
+                        $currentQuestion = $question;
+                        break;
+                    }
+                }
+            }
+        } elseif ($isNextNavigation && !empty($answeredQuestions)) {
+            // For next navigation within answered questions
+            if ($navigationState['mode'] === 'back') {
+                // Move to next answered question
+                if ($navigationState['answered_index'] < count($answeredQuestions) - 1) {
+                    $navigationState['answered_index']++;
+                } else {
+                    // If at the end of answered questions, switch to forward mode
+                    $navigationState['mode'] = 'forward';
+                    $navigationState['answered_index'] = -1;
+                    // Find next unanswered question
+                    foreach ($questions as $question) {
+                        if (!in_array($question['id'], $answeredQuestions)) {
+                            $currentQuestion = $question;
+                            break;
+                        }
+                    }
+                }
+
+                if ($navigationState['mode'] === 'back' && $navigationState['answered_index'] >= 0 && $navigationState['answered_index'] < count($answeredQuestions)) {
+                    $targetQuestionId = $answeredQuestions[$navigationState['answered_index']];
+                    foreach ($questions as $question) {
+                        if ($question['id'] === $targetQuestionId) {
+                            $currentQuestion = $question;
+                            break;
+                        }
+                    }
                 }
             }
         } else {
@@ -187,10 +235,16 @@ class SurveyController extends Controller
                     $unansweredQuestions[] = $question;
                     if (!$currentQuestion) {
                         $currentQuestion = $question;
+                        // Reset to forward mode when moving to unanswered questions
+                        $navigationState['mode'] = 'forward';
+                        $navigationState['answered_index'] = -1;
                     }
                 }
             }
         }
+
+        // Store navigation state in session
+        session([$sessionKey => $navigationState]);
 
         if (!$currentQuestion) {
             // All questions answered, calculate score

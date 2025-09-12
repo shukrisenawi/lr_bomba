@@ -533,12 +533,46 @@
                                 Hantar Jawapan
                             </button>
                         @endif
-                        @if (isset($debug_info['answered']) && $debug_info['answered'] > 0)
+                        @php
+                            $navigationState = session('survey_' . $section . '_navigation_state', ['mode' => 'forward', 'answered_index' => -1]);
+                            $totalAnswered = $debug_info['answered'] ?? 0;
+                            $isInBackMode = $navigationState['mode'] === 'back';
+
+                            // Back button: show if there are answered questions OR if in back mode
+                            $canGoBack = $totalAnswered > 0 || $isInBackMode;
+
+                            // Next button: show if in back mode and not at the last answered question
+                            $canGoNext = $isInBackMode && $navigationState['answered_index'] < $totalAnswered - 1;
+
+                            // Special case: if at the last answered question and there are unanswered questions, show next
+                            if ($isInBackMode && $navigationState['answered_index'] === $totalAnswered - 1) {
+                                $canGoNext = isset($debug_info['remaining']) && $debug_info['remaining'] > 0;
+                            }
+                        @endphp
+
+                        @if ($canGoBack)
                             <a href="{{ route('survey.show', [$section, 'back' => 'true']) }}"
                                 class="flex-1 bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold
                                       hover:bg-blue-600 transition-all duration-300 text-center">
                                 <i class="fas fa-arrow-left mr-2"></i>
-                                Soalan Sebelumnya
+                                @if ($isInBackMode && $navigationState['answered_index'] === 0)
+                                    Soalan Pertama
+                                @else
+                                    Soalan Sebelumnya
+                                @endif
+                            </a>
+                        @endif
+
+                        @if ($canGoNext)
+                            <a href="{{ route('survey.show', [$section, 'next' => 'true']) }}"
+                                class="flex-1 bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
+                                      hover:bg-green-600 transition-all duration-300 text-center">
+                                <i class="fas fa-arrow-right mr-2"></i>
+                                @if ($navigationState['answered_index'] === $totalAnswered - 1 && isset($debug_info['remaining']) && $debug_info['remaining'] > 0)
+                                    Soalan Seterusnya
+                                @else
+                                    Soalan Seterusnya
+                                @endif
                             </a>
                         @endif
                         <a href="{{ route('dashboard') }}"
