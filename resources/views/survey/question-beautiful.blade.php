@@ -572,18 +572,16 @@
                             </button>
                         @endif
 
-                        @if ($canGoNext)
-                            <button type="button" onclick="navigateNext('{{ $section }}')"
-                                class="flex-1 bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
-                                      hover:bg-green-600 transition-all duration-300 text-center">
-                                <i class="fas fa-arrow-right mr-2"></i>
-                                @if ($navigationState['answered_index'] === $totalAnswered - 1 && isset($debug_info['remaining']) && $debug_info['remaining'] > 0)
-                                    Soalan Seterusnya
-                                @else
-                                    Soalan Seterusnya
-                                @endif
-                            </button>
-                        @endif
+                        <button type="button" onclick="navigateNext('{{ $section }}')"
+                            class="flex-1 bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
+                                  hover:bg-green-600 transition-all duration-300 text-center">
+                            <i class="fas fa-arrow-right mr-2"></i>
+                            @if ($navigationState['answered_index'] === $totalAnswered - 1 && isset($debug_info['remaining']) && $debug_info['remaining'] > 0)
+                                Soalan Seterusnya
+                            @else
+                                Soalan Seterusnya
+                            @endif
+                        </button>
                         <a href="{{ route('dashboard') }}"
                             class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold
                                   hover:bg-gray-300 transition-all duration-300 text-center">
