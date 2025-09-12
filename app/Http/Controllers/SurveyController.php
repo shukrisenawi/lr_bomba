@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log as LogFacade;
 use App\Models\User;
 
 class SurveyController extends Controller
@@ -171,7 +172,7 @@ class SurveyController extends Controller
         $isNextNavigation = request()->has('next') && request()->get('next') === 'true';
 
         // Debug logging for navigation
-        \Log::info('Navigation debug', [
+        Log::info('Navigation debug', [
             'section' => $section,
             'isBackNavigation' => $isBackNavigation,
             'isNextNavigation' => $isNextNavigation,
@@ -184,7 +185,7 @@ class SurveyController extends Controller
         $navigationState = session($sessionKey, ['mode' => 'forward', 'answered_index' => -1]);
 
         // Debug current navigation state
-        \Log::info('Current navigation state', [
+        Log::info('Current navigation state', [
             'mode' => $navigationState['mode'],
             'answered_index' => $navigationState['answered_index']
         ]);
@@ -194,51 +195,51 @@ class SurveyController extends Controller
         $unansweredQuestions = [];
 
         if ($isBackNavigation && !empty($answeredQuestions)) {
-            \Log::info('Processing back navigation');
+            Log::info('Processing back navigation');
             // For back navigation, move to previous answered question
             if ($navigationState['mode'] === 'forward') {
                 // Switching from forward to back mode, start from last answered
                 $navigationState['mode'] = 'back';
                 $navigationState['answered_index'] = count($answeredQuestions) - 1;
-                \Log::info('Switched to back mode, starting from last answered', ['index' => $navigationState['answered_index']]);
+                Log::info('Switched to back mode, starting from last answered', ['index' => $navigationState['answered_index']]);
             } elseif ($navigationState['answered_index'] > 0) {
                 // Move to previous answered question
                 $navigationState['answered_index']--;
-                \Log::info('Moved to previous answered question', ['new_index' => $navigationState['answered_index']]);
+                Log::info('Moved to previous answered question', ['new_index' => $navigationState['answered_index']]);
             }
             // If already at first answered question (index 0), stay there
 
             // Get the question at the current index from answered questions
             if ($navigationState['answered_index'] >= 0 && $navigationState['answered_index'] < count($answeredQuestions)) {
                 $targetQuestionId = $answeredQuestions[$navigationState['answered_index']];
-                \Log::info('Target question ID for back navigation', ['question_id' => $targetQuestionId]);
+                Log::info('Target question ID for back navigation', ['question_id' => $targetQuestionId]);
                 foreach ($questions as $question) {
                     if ($question['id'] === $targetQuestionId) {
                         $currentQuestion = $question;
-                        \Log::info('Found current question for back navigation', ['question' => $question['id']]);
+                        Log::info('Found current question for back navigation', ['question' => $question['id']]);
                         break;
                     }
                 }
             }
         } elseif ($isNextNavigation && !empty($answeredQuestions)) {
-            \Log::info('Processing next navigation');
+            Log::info('Processing next navigation');
             // For next navigation within answered questions
             if ($navigationState['mode'] === 'back') {
-                \Log::info('In back mode, processing next navigation');
+                Log::info('In back mode, processing next navigation');
                 // Move to next answered question
                 if ($navigationState['answered_index'] < count($answeredQuestions) - 1) {
                     $navigationState['answered_index']++;
-                    \Log::info('Moved to next answered question', ['new_index' => $navigationState['answered_index']]);
+                    Log::info('Moved to next answered question', ['new_index' => $navigationState['answered_index']]);
                 } else {
                     // If at the end of answered questions, switch to forward mode
                     $navigationState['mode'] = 'forward';
                     $navigationState['answered_index'] = -1;
-                    \Log::info('Reached end of answered questions, switching to forward mode');
+                    Log::info('Reached end of answered questions, switching to forward mode');
                     // Find next unanswered question
                     foreach ($questions as $question) {
                         if (!in_array($question['id'], $answeredQuestions)) {
                             $currentQuestion = $question;
-                            \Log::info('Found next unanswered question', ['question' => $question['id']]);
+                            Log::info('Found next unanswered question', ['question' => $question['id']]);
                             break;
                         }
                     }
@@ -246,17 +247,17 @@ class SurveyController extends Controller
 
                 if ($navigationState['mode'] === 'back' && $navigationState['answered_index'] >= 0 && $navigationState['answered_index'] < count($answeredQuestions)) {
                     $targetQuestionId = $answeredQuestions[$navigationState['answered_index']];
-                    \Log::info('Target question ID for next navigation in back mode', ['question_id' => $targetQuestionId]);
+                    Log::info('Target question ID for next navigation in back mode', ['question_id' => $targetQuestionId]);
                     foreach ($questions as $question) {
                         if ($question['id'] === $targetQuestionId) {
                             $currentQuestion = $question;
-                            \Log::info('Found current question for next navigation', ['question' => $question['id']]);
+                            Log::info('Found current question for next navigation', ['question' => $question['id']]);
                             break;
                         }
                     }
                 }
             } else {
-                \Log::info('Next navigation requested but not in back mode');
+                Log::info('Next navigation requested but not in back mode');
             }
         } else {
             // Normal navigation: Find next unanswered question
@@ -296,7 +297,7 @@ class SurveyController extends Controller
         $totalRemaining = count($questions) - count($answeredQuestions);
         $canGoNext = $currentQuestionAnswered && $totalRemaining > 0;
 
-        \Log::info('Question navigation debug', [
+        Log::info('Question navigation debug', [
             'question_id' => $currentQuestion['id'],
             'answer_exists' => $answer !== null,
             'answer_value' => $answer ? $answer->answer : null,
@@ -344,7 +345,7 @@ class SurveyController extends Controller
             $validationRules['files'] = 'nullable|array|max:' . $limit;
             $validationRules['files.*'] = 'file|mimes:jpeg,jpg,png,gif,mp4,mov,avi,wmv|max:20480'; // 20MB max
 
-            \Log::info('VideoImage validation rules:', [
+            Log::info('VideoImage validation rules:', [
                 'rules' => $validationRules,
                 'request_files' => $request->hasFile('files'),
                 'all_input' => $request->all()
@@ -360,9 +361,9 @@ class SurveyController extends Controller
 
         try {
             $request->validate($validationRules);
-            \Log::info('Validation passed', ['rules' => $validationRules]);
+            Log::info('Validation passed', ['rules' => $validationRules]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('Validation failed:', [
+            Log::error('Validation failed:', [
                 'errors' => $e->errors(),
                 'request_data' => $request->all(),
                 'validation_rules' => $validationRules
@@ -420,7 +421,7 @@ class SurveyController extends Controller
         }
 
         // Debug: Log the request data
-        \Log::info('Survey store request', [
+        Log::info('Survey store request', [
             'question_id' => $request->question_id,
             'answer' => $request->answer,
             'has_navigation_url' => $request->has('navigation_url'),
@@ -445,7 +446,7 @@ class SurveyController extends Controller
         );
 
         // Debug: Log the saved answer
-        \Log::info('Answer saved/updated', [
+        Log::info('Answer saved/updated', [
             'answer_id' => $surveyAnswer->id,
             'question_id' => $surveyAnswer->question_id,
             'answer' => $surveyAnswer->answer,
@@ -456,7 +457,7 @@ class SurveyController extends Controller
         // Check if navigation URL is provided (for auto-save navigation)
         if ($request->has('navigation_url') && !empty($request->navigation_url)) {
             // Log successful save with navigation
-            \Log::info('Answer saved successfully with navigation', [
+            Log::info('Answer saved successfully with navigation', [
                 'question_id' => $request->question_id,
                 'navigation_url' => $request->navigation_url
             ]);
@@ -843,8 +844,8 @@ class SurveyController extends Controller
             ]);
         } catch (\Exception $e) {
             // Log the error for debugging
-            \Log::error('Error in overallResults: ' . $e->getMessage());
-            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            Log::error('Error in overallResults: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
 
             // Return error view or redirect with error message
             return redirect()->route('dashboard')->with('error', 'Ralat memuat laporan: ' . $e->getMessage());
@@ -1054,7 +1055,7 @@ class SurveyController extends Controller
         $uploadedFiles = [];
 
         // Debug: Log the request data
-        \Log::info('VideoImage Upload Debug:', [
+        Log::info('VideoImage Upload Debug:', [
             'has_files' => $request->hasFile('files'),
             'all_files' => $request->allFiles(),
             'question_id' => $question['id'],
@@ -1066,7 +1067,7 @@ class SurveyController extends Controller
                 try {
                     // Check if file is valid before processing
                     if (!$file->isValid()) {
-                        \Log::error('Invalid file upload:', ['error' => $file->getErrorMessage()]);
+                        Log::error('Invalid file upload:', ['error' => $file->getErrorMessage()]);
                         continue;
                     }
 
@@ -1098,17 +1099,17 @@ class SurveyController extends Controller
                             'url' => asset('upload/' . $filename)
                         ];
 
-                        \Log::info('File uploaded successfully:', [
+                        Log::info('File uploaded successfully:', [
                             'filename' => $filename,
                             'original_name' => $originalName,
                             'size' => $fileSize,
                             'path' => $uploadPath . '/' . $filename
                         ]);
                     } else {
-                        \Log::error('Failed to move file:', ['filename' => $filename]);
+                        Log::error('Failed to move file:', ['filename' => $filename]);
                     }
                 } catch (\Exception $e) {
-                    \Log::error('Error processing file upload:', [
+                    Log::error('Error processing file upload:', [
                         'error' => $e->getMessage(),
                         'file' => $file->getClientOriginalName() ?? 'unknown'
                     ]);
@@ -1116,7 +1117,7 @@ class SurveyController extends Controller
                 }
             }
         } else {
-            \Log::warning('No files found in request for videoImage upload');
+            Log::warning('No files found in request for videoImage upload');
         }
 
         // Store the file information as JSON
@@ -1125,7 +1126,7 @@ class SurveyController extends Controller
             'upload_count' => count($uploadedFiles)
         ];
 
-        \Log::info('Saving answer data:', [
+        Log::info('Saving answer data:', [
             'answer_data' => $answerData,
             'response_id' => $response->id,
             'question_id' => $question['id']
@@ -1143,7 +1144,7 @@ class SurveyController extends Controller
                 ]
             );
 
-            \Log::info('Answer saved successfully:', ['answer_id' => $surveyAnswer->id]);
+            Log::info('Answer saved successfully:', ['answer_id' => $surveyAnswer->id]);
 
             $successMessage = count($uploadedFiles) > 0
                 ? 'Fail berjaya dimuat naik! ' . count($uploadedFiles) . ' fail telah disimpan.'
@@ -1152,7 +1153,7 @@ class SurveyController extends Controller
             return redirect()->route('survey.show', $response->survey_id)
                 ->with('success', $successMessage);
         } catch (\Exception $e) {
-            \Log::error('Error saving answer:', ['error' => $e->getMessage()]);
+            Log::error('Error saving answer:', ['error' => $e->getMessage()]);
             return redirect()->route('survey.show', $response->survey_id)
                 ->with('error', 'Ralat menyimpan fail: ' . $e->getMessage());
         }
@@ -1411,9 +1412,9 @@ class SurveyController extends Controller
             // Save the median scores to database
             $this->medianScoreService->saveMedianScores($medianScores);
 
-            \Log::info('Median scores calculated and saved for Section C', $medianScores);
+            Log::info('Median scores calculated and saved for Section C', $medianScores);
         } catch (\Exception $e) {
-            \Log::error('Error calculating median scores for Section C: ' . $e->getMessage());
+            Log::error('Error calculating median scores for Section C: ' . $e->getMessage());
         }
     }
 

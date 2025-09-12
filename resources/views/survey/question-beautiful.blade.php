@@ -528,15 +528,6 @@
 
                     <!-- Enhanced Action Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 pt-8">
-                        @if ($question['type'] != 'image')
-                            <button type="submit"
-                                class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6
-                                       rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700
-                                       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                                <i class="fas fa-paper-plane mr-2"></i>
-                                Hantar Jawapan
-                            </button>
-                        @endif
                         @php
                             $navigationState = session('survey_' . $section . '_navigation_state', [
                                 'mode' => 'forward',
@@ -565,36 +556,42 @@
                                 $canGoBack = true;
                             }
 
-                            $checkAnswer = \App\Models\SurveyAnswer::where('response_id', Auth::user()->id)
-                                ->where('question_id', $question['id'])
-                                ->first();
+                            $checkAnswer = \App\Models\SurveyAnswer::whereHas('response', function($query) {
+                                $query->where('user_id', Auth::user()->id);
+                            })->where('question_id', $question['id'])->first();
                         @endphp
+
+                        @if ($question['type'] != 'image')
+                            <button type="submit"
+                                class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 text-sm
+                                       rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700
+                                       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Hantar
+                            </button>
+                        @endif
                         @if ($canGoBack && !preg_match('/1$/', $question['id']))
                             <button type="button" onclick="navigateBack('{{ $section }}')"
-                                class="flex-1 bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold
+                                class="flex-1 text-sm bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold
                                       hover:bg-blue-600 transition-all duration-300 text-center">
                                 <i class="fas fa-arrow-left mr-2"></i>
-                                @if ($isInBackMode && $navigationState['answered_index'] === 0)
-                                    Soalan Pertama
-                                @else
-                                    Soalan Sebelumnya
-                                @endif
+                                Kembali
                             </button>
                         @endif
                         @if ($checkAnswer)
                             <button type="button" onclick="navigateNext('{{ $section }}')"
-                                class="flex-1 bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
+                                class="flex-1 text-sm bg-green-500 text-white py-4 px-6 rounded-xl font-semibold
                                   hover:bg-green-600 transition-all duration-300 text-center">
                                 <i class="fas fa-arrow-right mr-2"></i>
 
-                                Soalan Seterusnya
+                                Seterusnya
                             </button>
                         @endif
                         <a href="{{ route('dashboard') }}"
-                            class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold
+                            class="flex-1 text-sm bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold
                                   hover:bg-gray-300 transition-all duration-300 text-center">
-                            <i class="fas fa-arrow-left mr-2"></i>
-                            Kembali ke Dashboard
+                            <i class="fas fa-home mr-2"></i>
+                            Dashboard
                         </a>
                     </div>
                 </form>
