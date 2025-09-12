@@ -189,6 +189,9 @@
 
                     @if ($question['type'] === 'single_choice')
                         <div class="space-y-4">
+                            @php
+                                $existingAnswer = $answer ? $answer->value : null;
+                            @endphp
                             @foreach ($question['options'] as $index => $option)
                                 @php
                                     $optionText = is_array($option) ? $option['text'] ?? '' : $option;
@@ -197,10 +200,11 @@
                                     if ($optionText === '' || $optionText === null) {
                                         $optionText = 'Pilihan ' . ($index + 1);
                                     }
+                                    $isChecked = $existingAnswer !== null && $existingAnswer == $optionValue;
                                 @endphp
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $optionValue }}" class="peer sr-only"
-                                        @if (!$isOptional && $section !== 'J') required @endif>
+                                        @if (!$isOptional && $section !== 'J') required @endif @if ($isChecked) checked @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
                                                 cursor-pointer transition-all duration-300 hover:border-indigo-500
@@ -220,10 +224,16 @@
                         </div>
                     @elseif($question['type'] === 'radio_button_image')
                         <div class="space-y-4">
+                            @php
+                                $existingAnswer = $answer ? $answer->value : null;
+                            @endphp
                             @foreach ($question['options'] as $index => $option)
+                                @php
+                                    $isChecked = $existingAnswer !== null && $existingAnswer == $index;
+                                @endphp
                                 <label class="block">
                                     <input type="radio" name="answer" value="{{ $index }}" class="peer sr-only"
-                                        @if (!$isOptional && $section != 'J') required @endif>
+                                        @if (!$isOptional && $section != 'J') required @endif @if ($isChecked) checked @endif>
                                     <div
                                         class="relative flex items-center p-4 border-2 border-gray-200 rounded-xl
                                             cursor-pointer transition-all duration-300 hover:border-indigo-500
@@ -349,11 +359,14 @@
                         </div>
                     @elseif($question['type'] === 'numeric')
                         <div class="space-y-4">
+                            @php
+                                $existingAnswer = $answer ? $answer->answer : '';
+                            @endphp
                             <label class="block">
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan nilai:</span>
                                 <div class="relative">
                                     <input type="number" name="answer" class="form-input-enhanced w-full text-lg"
-                                        placeholder="0" @if ($section !== 'J') required @endif>
+                                        placeholder="0" value="{{ $existingAnswer }}" @if ($section !== 'J') required @endif>
                                     @if (isset($question['unit']))
                                         <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                                             {{ $question['unit'] }}
@@ -364,10 +377,13 @@
                         </div>
                     @elseif($question['type'] === 'text')
                         <div class="space-y-4">
+                            @php
+                                $existingAnswer = $answer ? $answer->answer : '';
+                            @endphp
                             <label class="block">
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan:</span>
                                 <input type="text" name="answer" class="form-input-enhanced w-full text-lg"
-                                    placeholder="Taip jawapan anda di sini"
+                                    placeholder="Taip jawapan anda di sini" value="{{ $existingAnswer }}"
                                     @if ($section !== 'J') required @endif>
                             </label>
                         </div>
@@ -390,13 +406,16 @@
                         </div>
                     @elseif($question['type'] === 'scale')
                         <div class="space-y-4">
+                            @php
+                                $existingAnswer = $answer ? $answer->answer : $question['min'];
+                            @endphp
                             <label class="block">
                                 <span class="text-gray-700 font-medium block mb-2">Masukkan jawapan berdasarkan skala di
                                     bawah:</span>
 
                                 <div class="w-full">
                                     <input type="range" min="{{ $question['min'] }}" max="{{ $question['max'] }}"
-                                        value="0" class="range w-full" step="1" name="answer" />
+                                        value="{{ $existingAnswer }}" class="range w-full" step="1" name="answer" />
                                     <div class="flex justify-between px-2.5 mt-2 text-xs">
                                         @for ($i = $question['min']; $i <= $question['max']; $i++)
                                             <span>|</span>
@@ -513,6 +532,14 @@
                                 <i class="fas fa-paper-plane mr-2"></i>
                                 Hantar Jawapan
                             </button>
+                        @endif
+                        @if (isset($debug_info['answered']) && $debug_info['answered'] > 0)
+                            <a href="{{ route('survey.show', [$section, 'back' => 'true']) }}"
+                                class="flex-1 bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold
+                                      hover:bg-blue-600 transition-all duration-300 text-center">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Soalan Sebelumnya
+                            </a>
                         @endif
                         <a href="{{ route('dashboard') }}"
                             class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold

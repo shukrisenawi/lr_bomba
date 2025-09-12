@@ -82,6 +82,9 @@ class SurveyController extends Controller
         }
         $user = Auth::user();
 
+        // Check if back navigation is requested
+        $isBackNavigation = request()->has('back') && request()->get('back') === 'true';
+
         // Validate survey file exists
         $surveyPath = storage_path('app/survey/1st_draft.json');
         if (!file_exists($surveyPath)) {
@@ -164,18 +167,31 @@ class SurveyController extends Controller
             return redirect()->route('dashboard')->with('error', 'Tiada soalan dalam bahagian ini.');
         }
 
-        // Find next unanswered question
+        // Find current question based on navigation type
         $currentQuestion = null;
         $unansweredQuestions = [];
 
-        foreach ($questions as $question) {
-            if (!in_array($question['id'], $answeredQuestions)) {
-                $unansweredQuestions[] = $question;
-                if (!$currentQuestion) {
+        if ($isBackNavigation && !empty($answeredQuestions)) {
+            // For back navigation, show the last answered question
+            $lastAnsweredQuestionId = end($answeredQuestions);
+            foreach ($questions as $question) {
+                if ($question['id'] === $lastAnsweredQuestionId) {
                     $currentQuestion = $question;
+                    break;
+                }
+            }
+        } else {
+            // Normal navigation: Find next unanswered question
+            foreach ($questions as $question) {
+                if (!in_array($question['id'], $answeredQuestions)) {
+                    $unansweredQuestions[] = $question;
+                    if (!$currentQuestion) {
+                        $currentQuestion = $question;
+                    }
                 }
             }
         }
+
         if (!$currentQuestion) {
             // All questions answered, calculate score
             $this->calculateScore($response, $section, $surveyData);
