@@ -22,7 +22,7 @@ class RespondentFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => 1,
+            'user_id' => 3,
             'phone_number' => $this->faker->phoneNumber,
             'age' => $this->faker->numberBetween(25, 55),
             'place_of_birth' => $this->faker->city,
