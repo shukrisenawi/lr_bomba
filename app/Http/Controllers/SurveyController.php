@@ -8,6 +8,7 @@ use App\Models\SurveyScore;
 use App\Services\ScoreCalculationService;
 use App\Services\SubsectionScoreCalculationService;
 use App\Services\MedianScoreCalculationService;
+use App\Services\SectionCStatusCalculationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -20,17 +21,20 @@ class SurveyController extends Controller
     protected $scoreService;
     protected $subsectionScoreService;
     protected $medianScoreService;
+    protected $sectionCStatusService;
     protected $partNoScore = ['I', 'J', 'K'];
 
     public function __construct(
         ScoreCalculationService $scoreService,
         \App\Services\SubsectionScoreCalculationService $subsectionScoreService,
-        MedianScoreCalculationService $medianScoreService
+        MedianScoreCalculationService $medianScoreService,
+        SectionCStatusCalculationService $sectionCStatusService
     ) {
         parent::__construct();
         $this->scoreService = $scoreService;
         $this->subsectionScoreService = $subsectionScoreService;
         $this->medianScoreService = $medianScoreService;
+        $this->sectionCStatusService = $sectionCStatusService;
     }
 
     private function ensureAdminAccess($section)
@@ -762,8 +766,10 @@ class SurveyController extends Controller
 
         // Get median scores for Section C if this is section C
         $medianScores = [];
+        $sectionCStatus = null;
         if ($section === 'C') {
             $medianScores = $this->medianScoreService->getMedianScores();
+            $sectionCStatus = $this->sectionCStatusService->calculateStatusAndRecommendations($response);
         }
 
         return view('survey.results-enhanced', [
@@ -772,7 +778,8 @@ class SurveyController extends Controller
             'sectionData' => $sectionData,
             'subsectionScores' => $subsectionScores,
             'hasSubsections' => $hasSubsections,
-            'medianScores' => $medianScores
+            'medianScores' => $medianScores,
+            'sectionCStatus' => $sectionCStatus
         ]);
     }
 
@@ -836,11 +843,22 @@ class SurveyController extends Controller
                 $overallStatus = 'SEBAHAGIAN LENGKAP';
             }
 
+            // Get median scores for Section C
+            $medianScores = $this->medianScoreService->getMedianScores();
+
+            // Calculate Section C status and recommendations if Section C exists
+            $sectionCStatus = null;
+            if (isset($responses['C'])) {
+                $sectionCStatus = $this->sectionCStatusService->calculateStatusAndRecommendations($responses['C']);
+            }
+
             return view('survey.overall-results', [
                 'sectionsData' => $sectionsData,
                 'respondent' => $respondent,
                 'overallStatus' => $overallStatus,
-                'surveyData' => $surveyData
+                'surveyData' => $surveyData,
+                'medianScores' => $medianScores,
+                'sectionCStatus' => $sectionCStatus
             ]);
         } catch (\Exception $e) {
             // Log the error for debugging
@@ -911,12 +929,19 @@ class SurveyController extends Controller
             // Get median scores for Section C
             $medianScores = $this->medianScoreService->getMedianScores();
 
+            // Calculate Section C status and recommendations if Section C exists
+            $sectionCStatus = null;
+            if (isset($responses['C'])) {
+                $sectionCStatus = $this->sectionCStatusService->calculateStatusAndRecommendations($responses['C']);
+            }
+
             return view('survey.overall-results', [
                 'sectionsData' => $sectionsData,
                 'respondent' => $respondent,
                 'overallStatus' => $overallStatus,
                 'surveyData' => $surveyData,
-                'medianScores' => $medianScores
+                'medianScores' => $medianScores,
+                'sectionCStatus' => $sectionCStatus
             ]);
         } catch (\Exception $e) {
             return response()->json([

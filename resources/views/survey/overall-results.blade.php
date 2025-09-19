@@ -151,6 +151,16 @@
                                         Sokongan Sosial: {{ $medianScores['Sokongan Sosial'] ?? 'N/A' }}
                                     </small>
                                 @endif
+                                @if (isset($sectionCStatus))
+                                    <br><small class="text-blue-600 font-semibold">
+                                        <strong>Status:</strong> {{ $sectionCStatus['status'] }}
+                                    </small>
+                                    @if ($sectionCStatus['recommendation'] !== '-')
+                                        <br><small class="text-green-600">
+                                            <strong>Saranan:</strong> {{ $sectionCStatus['recommendation'] }}
+                                        </small>
+                                    @endif
+                                @endif
                             </td>
                         </tr>
                         <tr class="bg-gray-50">
@@ -250,6 +260,49 @@
                         <i class="fas fa-info-circle mr-1"></i>
                         Median skor menunjukkan nilai tengah dari semua responden yang telah melengkapkan bahagian C
                     </div>
+                </div>
+            @endif
+
+            <!-- Section C Status and Recommendations -->
+            @if (isset($sectionCStatus))
+                <div class="p-6 bg-gradient-to-r from-green-50 to-teal-50 border-l-4 border-green-500">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fas fa-brain w-6 h-6 text-green-600"></i>
+                        <h3 class="text-lg font-bold text-gray-800">Status dan Saranan Bahagian C: Risiko Psikologi</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-sm font-medium text-gray-600 mb-2">Skor Individu Anda</div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-sm">Tuntutan Psikologi:</span>
+                                    <span class="font-semibold text-blue-600">{{ number_format($sectionCStatus['psychological_demand_score'], 2) }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm">Kawalan Keputusan:</span>
+                                    <span class="font-semibold text-blue-600">{{ number_format($sectionCStatus['decision_control_score'], 2) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="text-sm font-medium text-gray-600 mb-2">Status Kerja</div>
+                            <div class="text-lg font-bold text-green-600 mb-2">{{ $sectionCStatus['status'] }}</div>
+                            <div class="text-xs text-gray-500">
+                                Berdasarkan perbandingan dengan median skor semua responden
+                            </div>
+                        </div>
+                    </div>
+                    @if ($sectionCStatus['recommendation'] !== '-')
+                        <div class="mt-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
+                                <div>
+                                    <div class="font-medium text-gray-800 mb-1">Saranan:</div>
+                                    <div class="text-sm text-gray-600 leading-relaxed">{{ $sectionCStatus['recommendation'] }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             @endif
 

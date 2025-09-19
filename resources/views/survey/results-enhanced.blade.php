@@ -56,31 +56,32 @@
 
                                 @if ($section === 'C' && !empty($medianScores))
                                     @php
-                                        $subsectionMedianKey = match($subsection['name']) {
+                                        $subsectionMedianKey = match ($subsection['name']) {
                                             'Tuntutan Psikologi' => 'Tuntutan Psikologi',
                                             'Kawalan Keputusan' => 'Kawalan Keputusan',
                                             'Sokongan Sosial' => 'Sokongan Sosial',
-                                            default => null
+                                            default => null,
                                         };
                                     @endphp
                                     @if ($subsectionMedianKey && isset($medianScores[$subsectionMedianKey]))
                                         <div
                                             class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg">
-                                            <span class="font-medium text-gray-700">Median Skor Semua Responden: {{ number_format($medianScores[$subsectionMedianKey], 2) }}</span>
+                                            <span class="font-medium text-gray-700">Median Skor Semua Responden:
+                                                {{ number_format($medianScores[$subsectionMedianKey], 2) }}</span>
                                             <span class="text-sm font-medium text-blue-600">
                                                 @if ($subsection['score'] > $medianScores[$subsectionMedianKey])
-                                                    <i class="fas fa-arrow-up text-green-600 mr-1"></i>Di atas median
+                                                    <i class="fas fa-arrow-up text-green-600 mr-1"></i> Di atas median
                                                 @elseif ($subsection['score'] < $medianScores[$subsectionMedianKey])
-                                                    <i class="fas fa-arrow-down text-red-600 mr-1"></i>Di bawah median
+                                                    <i class="fas fa-arrow-down text-red-600 mr-1"></i> Di bawah median
                                                 @else
-                                                    <i class="fas fa-equals text-gray-600 mr-1"></i>Sama dengan median
+                                                    <i class="fas fa-equals text-gray-600 mr-1"></i> Sama dengan median
                                                 @endif
                                             </span>
                                         </div>
                                     @endif
                                 @endif
 
-                                @if (isset($subsection['category']) && $subsection['category'] && $section !== 'B')
+                                @if (isset($subsection['category']) && $subsection['category'] && $section !== 'B' && $section !== 'C')
                                     <div
                                         class="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
                                         <span class="font-medium text-gray-700">Status</span>
@@ -105,7 +106,7 @@
                             </div> --}}
                             </div>
 
-                            @if (isset($subsection['recommendation']) && $subsection['recommendation'] && $section !== 'B')
+                            @if (isset($subsection['recommendation']) && $subsection['recommendation'] && $section !== 'B' && $section !== 'C')
                                 <!-- Subsection Recommendations -->
                                 <div class="mt-4">
                                     <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4">
@@ -133,6 +134,52 @@
                         @endif
                     @endif
                 @endforeach
+
+                <!-- Section C Status and Recommendations Summary -->
+                @if ($section === 'C' && isset($sectionCStatus))
+                    <div class="mt-8 p-6 bg-gradient-to-r from-green-50 to-teal-50 border-l-4 border-green-500 rounded-lg">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <i class="fas fa-brain w-6 h-6 text-green-600"></i>
+                            <h3 class="text-lg font-bold text-gray-800">Status Kerja Berdasarkan Risiko Psikologi</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <div class="text-sm font-medium text-gray-600 mb-2">Skor Individu Anda</div>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-sm">Tuntutan Psikologi:</span>
+                                        <span
+                                            class="font-semibold text-blue-600">{{ number_format($sectionCStatus['psychological_demand_score'], 2) }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm">Kawalan Keputusan:</span>
+                                        <span
+                                            class="font-semibold text-blue-600">{{ number_format($sectionCStatus['decision_control_score'], 2) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <div class="text-sm font-medium text-gray-600 mb-2">Status Kerja</div>
+                                <div class="text-lg font-bold text-green-600 mb-2">{{ $sectionCStatus['status'] }}</div>
+                                <div class="text-xs text-gray-500">
+                                    Berdasarkan perbandingan dengan median skor semua responden
+                                </div>
+                            </div>
+                        </div>
+                        @if ($sectionCStatus['recommendation'] !== '-')
+                            <div class="mt-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
+                                    <div>
+                                        <div class="font-medium text-gray-800 mb-1">Saranan:</div>
+                                        <div class="text-sm text-gray-600 leading-relaxed">
+                                            {{ $sectionCStatus['recommendation'] }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                @endif
             @elseif ($response->scores->isNotEmpty())
                 <!-- Display Overall Scores (for sections without subsections) -->
                 @foreach ($response->scores as $score)
