@@ -76,22 +76,22 @@
 
         <x-input-text type="number" value="{{ old('monthly_income_self') }}">
             <x-slot:id>monthly_income_self</x-slot:id>
-            <x-slot:label>11. Anggaran Pendapatan Bulanan (Diri-sendiri) RM</x-slot:label>
+            <x-slot:label>11. Anggaran Pendapatan Bulanan (Diri-sendiri) RM (tanpa titik perpuluhan/sen)</x-slot:label>
         </x-input-text>
 
         <x-input-text type="number" value="{{ old('monthly_income_spouse') }}">
             <x-slot:id>monthly_income_spouse</x-slot:id>
-            <x-slot:label>12. Anggaran Pendapatan Bulanan (Pasangan) RM</x-slot:label>
+            <x-slot:label>12. Anggaran Pendapatan Bulanan (Pasangan) RM (tanpa titik perpuluhan/sen)</x-slot:label>
         </x-input-text>
 
         <x-input-text type="number" value="{{ old('other_income') }}">
             <x-slot:id>other_income</x-slot:id>
-            <x-slot:label>13. Lain-lain Sumber Pendapatan RM</x-slot:label>
+            <x-slot:label>13. Lain-lain Sumber Pendapatan RM (tanpa titik perpuluhan/sen)</x-slot:label>
         </x-input-text>
 
         <x-input-text type="number" value="{{ old('household_income') }}">
             <x-slot:id>household_income</x-slot:id>
-            <x-slot:label>14. Pendapatan isi rumah RM</x-slot:label>
+            <x-slot:label>14. Pendapatan isi rumah RM (tanpa titik perpuluhan/sen)</x-slot:label>
         </x-input-text>
 
         <x-radio-button :data="[
@@ -224,7 +224,24 @@
             <x-slot:label>22. Bahagian</x-slot:label>
         </x-dropdown>
 
-        <x-dropdown :value="old('state')" :data="['Selangor' => 'Selangor', 'Kuala Lumpur' => 'Kuala Lumpur', 'Putrajaya' => 'Putrajaya']">
+        <x-dropdown :value="old('state')" :data="[
+            'Perlis' => 'Perlis',
+            'Kedah' => 'Kedah',
+            'Pulau Pinang' => 'Pulau Pinang',
+            'Perak' => 'Perak',
+            'Selangor' => 'Selangor',
+            'Kuala Lumpur' => 'Kuala Lumpur',
+            'Putrajaya' => 'Putrajaya',
+            'Negeri Sembilan' => 'Negeri Sembilan',
+            'Melaka' => 'Melaka',
+            'Johor' => 'Johor',
+            'Pahang' => 'Pahang',
+            'Terengganu' => 'Terengganu',
+            'Kelantan' => 'Kelantan',
+            'Sarawak' => 'Sarawak',
+            'Sabah' => 'Sabah',
+            'Labuan' => 'Labuan',
+        ]">
             <x-slot:id>state</x-slot:id>
             <x-slot:label>23. Negeri</x-slot:label>
         </x-dropdown>
