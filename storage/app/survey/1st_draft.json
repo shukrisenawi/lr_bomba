@@ -2336,7 +2336,11 @@
             {
               "id": "K34",
               "text": "Sejauh manakah pekerja bertanggungjawab secara langsung terhadap pembaziran, kerosakan, kecacatan atau kehilangan aset material (contohnya, bahagian, peralatan, atau wang tunai) yang disebabkan oleh prestasi kerja yang tidak mencukupi atau kurang perhatian?",
-              "type": "text"
+              "type": "scale",
+              "min": 1,
+              "max": 5,
+              "textMin": "Sangat Rendah",
+              "textMax": "Sangat Tinggi"
             },
             {
               "id": "K35",
