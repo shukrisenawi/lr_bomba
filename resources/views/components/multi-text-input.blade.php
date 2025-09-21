@@ -1,22 +1,41 @@
-<div class="multi-text-container" data-question-id="{{ $questionId ?? '' }}">
+@props(['questionId' => '', 'label' => 'Masukkan jawapan:', 'existingAnswers' => []])
+
+<div class="multi-text-container" data-question-id="{{ $questionId }}">
     <label class="block text-sm font-semibold text-gray-700 mb-2">
-        {{ $label ?? 'Masukkan jawapan:' }}
+        {{ $label }}
     </label>
 
-    <div class="space-y-3" id="multiTextInputs-{{ $questionId ?? 'default' }}">
-        <!-- Initial input -->
-        <div class="flex items-center space-x-2 input-group">
-            <input type="text" name="multi_text_answers[]" class="form-input-enhanced flex-1 text-lg"
-                placeholder="Taip jawapan anda di sini" data-input-index="0">
-            <button type="button" class="add-input-btn text-green-500 hover:text-green-700 transition-colors"
-                onclick="addMultiTextInput(this)">
-                <i class="fas fa-plus-circle text-xl"></i>
-            </button>
-            <button type="button" class="remove-input-btn text-red-500 hover:text-red-700 transition-colors"
-                onclick="removeMultiTextInput(this)" style="display: none;">
-                <i class="fas fa-minus-circle text-xl"></i>
-            </button>
-        </div>
+    <div class="space-y-3" id="multiTextInputs-{{ $questionId }}">
+        @if(count($existingAnswers) > 0)
+            @foreach($existingAnswers as $index => $answer)
+                <div class="flex items-center space-x-2 input-group">
+                    <input type="text" name="multi_text_answers[]" class="form-input-enhanced flex-1 text-lg"
+                        placeholder="Taip jawapan anda di sini" data-input-index="{{ $index }}" value="{{ $answer }}">
+                    <button type="button" class="add-input-btn text-green-500 hover:text-green-700 transition-colors"
+                        onclick="addMultiTextInput(this)">
+                        <i class="fas fa-plus-circle text-xl"></i>
+                    </button>
+                    <button type="button" class="remove-input-btn text-red-500 hover:text-red-700 transition-colors"
+                        onclick="removeMultiTextInput(this)" style="display: {{ count($existingAnswers) > 1 ? 'block' : 'none' }};">
+                        <i class="fas fa-minus-circle text-xl"></i>
+                    </button>
+                </div>
+            @endforeach
+        @else
+            <!-- Initial input -->
+            <div class="flex items-center space-x-2 input-group">
+                <input type="text" name="multi_text_answers[]" class="form-input-enhanced flex-1 text-lg"
+                    placeholder="Taip jawapan anda di sini" data-input-index="0">
+                <button type="button" class="add-input-btn text-green-500 hover:text-green-700 transition-colors"
+                    onclick="addMultiTextInput(this)">
+                    <i class="fas fa-plus-circle text-xl"></i>
+                </button>
+                <button type="button" class="remove-input-btn text-red-500 hover:text-red-700 transition-colors"
+                    onclick="removeMultiTextInput(this)" style="display: none;">
+                    <i class="fas fa-minus-circle text-xl"></i>
+                </button>
+            </div>
+        @endif
     </div>
 
     <!-- Hidden input for JSON storage -->
@@ -150,6 +169,9 @@
                     updateMultiTextJson(container);
                 }
             });
+
+            // Initialize JSON on load
+            updateMultiTextJson(container);
         });
     });
 

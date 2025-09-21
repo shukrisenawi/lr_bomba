@@ -393,7 +393,15 @@
                     @elseif($question['type'] === 'multiText')
                         <div class="space-y-4">
                             @if (isset($question['multiLabel']))
-                                <x-multi-text-input-multi-label :question="$question" />
+                                @php
+                                    $existingAnswers = [];
+                                    if ($answer && $answer->answer) {
+                                        $existingAnswers = is_array($answer->answer)
+                                            ? $answer->answer
+                                            : json_decode($answer->answer, true) ?? [];
+                                    }
+                                @endphp
+                                <x-multi-text-input-multi-label :question="$question" :existingAnswers="$existingAnswers" />
                             @else
                                 @php
                                     $existingAnswers = [];
@@ -404,7 +412,7 @@
                                     }
                                 @endphp
                                 <x-multi-text-input :questionId="$question['id']"
-                                    label="Masukkan jawapan (boleh tambah lebih dari satu)" />
+                                    label="Masukkan jawapan (boleh tambah lebih dari satu)" :existingAnswers="$existingAnswers" />
                             @endif
                         </div>
                     @elseif($question['type'] === 'scale')

@@ -399,7 +399,22 @@ class SurveyController extends Controller
 
         // Handle multiText questions - ensure arrays are properly serialized
         if ($question && $question['type'] === 'multiText') {
-            if (is_array($answerInput)) {
+            // Check if this is a multiLabel question with answer_set data
+            if ($request->has('answer_set') && isset($question['multiLabel'])) {
+                $answerSet = $request->input('answer_set');
+                $processedData = [];
+
+                // Process each set
+                foreach ($answerSet as $setIndex => $setData) {
+                    $setObject = [];
+                    foreach ($question['multiLabel'] as $labelIndex => $label) {
+                        $setObject[$label] = $setData[$labelIndex] ?? '';
+                    }
+                    $processedData[] = $setObject;
+                }
+
+                $answerInput = json_encode($processedData);
+            } elseif (is_array($answerInput)) {
                 // Already an array, encode to JSON string
                 $answerInput = json_encode($answerInput);
             }

@@ -1,23 +1,43 @@
-@props(['question'])
+@props(['question', 'existingAnswers' => []])
 
 <div class="multi-text-multi-label-container" data-question-id="{{ $question['id'] }}">
     <div id="sets-container">
-        <!-- Initial Set -->
-        <div class="input-set border-2 border-gray-200 rounded-xl p-4 mb-4">
-            @foreach ($question['multiLabel'] as $index => $label)
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $label }}</label>
-                    <input type="text" name="answer_set[0][{{ $index }}]"
-                        class="form-input-enhanced w-full text-lg" placeholder="Taip jawapan anda di sini">
+        @if(count($existingAnswers) > 0)
+            @foreach($existingAnswers as $setIndex => $setData)
+                <div class="input-set border-2 border-gray-200 rounded-xl p-4 mb-4">
+                    @foreach ($question['multiLabel'] as $index => $label)
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $label }}</label>
+                            <input type="text" name="answer_set[{{ $setIndex }}][{{ $index }}]"
+                                class="form-input-enhanced w-full text-lg" placeholder="Taip jawapan anda di sini"
+                                value="{{ $setData[$label] ?? '' }}">
+                        </div>
+                    @endforeach
+                    <div class="text-right">
+                        <button type="button" class="remove-set-btn text-red-500 hover:text-red-700 transition-colors">
+                            <i class="fas fa-minus-circle text-xl"></i> Hapus Set
+                        </button>
+                    </div>
                 </div>
             @endforeach
-            <div class="text-right">
-                <button type="button" class="remove-set-btn text-red-500 hover:text-red-700 transition-colors"
-                    style="display: none;">
-                    <i class="fas fa-minus-circle text-xl"></i> Hapus Set
-                </button>
+        @else
+            <!-- Initial Set -->
+            <div class="input-set border-2 border-gray-200 rounded-xl p-4 mb-4">
+                @foreach ($question['multiLabel'] as $index => $label)
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">{{ $label }}</label>
+                        <input type="text" name="answer_set[0][{{ $index }}]"
+                            class="form-input-enhanced w-full text-lg" placeholder="Taip jawapan anda di sini">
+                    </div>
+                @endforeach
+                <div class="text-right">
+                    <button type="button" class="remove-set-btn text-red-500 hover:text-red-700 transition-colors"
+                        style="display: none;">
+                        <i class="fas fa-minus-circle text-xl"></i> Hapus Set
+                    </button>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
 
     <button type="button" id="add-set-btn"
@@ -37,7 +57,7 @@
         const jsonInput = container.querySelector('#multi-text-multi-label-json-{{ $question['id'] }}');
         const questionLabels = @json($question['multiLabel']);
 
-        let setCounter = 1;
+        let setCounter = {{ count($existingAnswers) > 0 ? count($existingAnswers) : 1 }};
 
         const updateRemoveButtons = () => {
             const sets = setsContainer.querySelectorAll('.input-set');
