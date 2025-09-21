@@ -154,7 +154,7 @@
         },
         {
           "id": "B6",
-          "text": "Adakah anda percaya bahawa penyakit/masalah kesihatan yang anda sedang alami sekarang, anda masih dapat melakukan pekerjaan anda untuk tempoh dua tahun lagi?",
+          "text": "Adakah anda percaya bahawa dengan keadaan kesihatan anda sekarang, anda masih berupaya untuk melakukan kerja ini untuk tempoh 2 tahun dari sekarang?",
           "type": "single_choice",
           "options": [
             "Tidak mungkin (1)",
@@ -348,7 +348,7 @@
             },
             {
               "id": "C10",
-              "text": "Pekerjaan saya memerlukan saya bekerja dengan sangat keras.",
+              "text": "Pekerjaan saya memerlukan saya bekerja dengan sangat kuat.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -359,7 +359,7 @@
             },
             {
               "id": "C11",
-              "text": "Saya bebas daripada tuntutan bercanggah yang dibuat oleh orang lain.",
+              "text": "Saya bebas daripada tuntutan bercanggah yang dibuat oleh orang lain berkaitan kerja saya.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -1405,7 +1405,7 @@
             },
             {
               "id": "H6",
-              "text": "Saya sinis tentang kerja saya memberi makna kepada orang lain.",
+              "text": "Saya ragu-ragu / kurang percaya sama ada kerja saya ini memberi makna kepada orang lain.",
               "type": "single_choice",
               "options": [
                 "Tidak pernah (1)",
@@ -1945,7 +1945,7 @@
         {
           "id": "J1",
           "image": "tubuh.png",
-          "text": "Adakah anda pada bila-bila masa dalam tempoh 12 bulan yang lalu mengalami masalah (seperti sakit, sengal, ketidakselesaan, kebas)",
+          "text": "Adakah anda pada bila-bila masa dalam tempoh 12 bulan yang lalu mengalami masalah (seperti sakit, sengal, ketidakselesaan, kebas) pada anggota badan berikut (boleh tanda lebih dari satu jawapan)",
           "type": "multiple_choice",
           "options": [
             "Leher",
@@ -1962,7 +1962,7 @@
         {
           "id": "J2",
           "image": "tubuh.png",
-          "text": "Dalam tempoh 12 bulan yang lalu, adakah anda terhalang daripada menjalankan aktiviti harian (contohnya kerja, kerja rumah, hobi) disebabkan oleh masalah ini?",
+          "text": "Dalam tempoh 12 bulan yang lalu, adakah anda terhalang daripada menjalankan aktiviti harian (contohnya kerja, kerja rumah, hobi) disebabkan oleh masalah pada anggota badan berikut (boleh tanda lebih dari satu jawapan)?",
           "type": "multiple_choice",
           "options": [
             "Leher",
@@ -1979,7 +1979,7 @@
         {
           "id": "J3",
           "image": "tubuh.png",
-          "text": "Dalam tempoh 12 bulan yang lalu, adakah anda berjumpa doktor untuk keadaan ini?",
+          "text": "Dalam tempoh 12 bulan yang lalu, adakah anda berjumpa doktor untuk keadaan pada anggota badan berikut (boleh tanda lebih dari satu jawapan)?",
           "type": "multiple_choice",
           "options": [
             "Leher",
@@ -2027,18 +2027,18 @@
           "questions": [
             {
               "id": "K1",
-              "text": "Ringkasan pekerjaan",
+              "text": "Ringkasan pekerjaan. Contoh: Secara amnya, pekerjaan saya ini adalah berkaitan operasi mengawal sempadan negara dari pencerobohan musuh, memeriksa dan menyelenggara jentera tentera dan menjalankan operasi menyelamat mangsa jika berlaku kejadian bencana alam seperti banjir, tanah runtuh dan gempa bumi.",
               "type": "text",
               "placeholder": "Secara amnya, pekerjaan saya ini adalah…"
             },
             {
               "id": "K2",
-              "text": "Syarat kelayakan minimum untuk pekerjaan ini yang anda tahu? (tahap pendidikan, kercegasan fizikal, tinggi, berat, kemahiran bahasa, kesihatan, latihan khas dll)",
+              "text": "Syarat kelayakan minimum untuk pekerjaan ini yang anda tahu? (Contoh: Kelulusan SPM, sihat fizikal dan mental, tinggi 160cm dan berat 65kg, boleh berbahasa Melayu dan Inggeris dengan baik, lulus ujian psikometrik)",
               "type": "text"
             },
             {
               "id": "K3",
-              "text": "Senarai tugas utama anda dan masa yang diperuntukan?",
+              "text": "Senarai tugas utama anda dan masa yang diperuntukan? (Contoh tugas utama: Memadam kebakaran). Jika lebih dari satu tugas utama, sila klik tambah set.",
               "type": "multiText",
               "multiLabel": [
                 "Senarai tugas utama",
@@ -2047,21 +2047,21 @@
             },
             {
               "id": "K4",
-              "text": "Apakah tugasan yang paling mencabar dari senarai ini? (pilih satu sahaja)",
+              "text": "Apakah tugas utama yang paling mencabar berdasarkan anda nyatakan tadi? (pilih satu sahaja)",
               "type": "single_choice",
               "referer": "K3",
               "optionsReferer": "K3"
             },
             {
               "id": "K5",
-              "text": "Tandakan tugasan yang dianggap sebagai latihan atau persediaan yang baik untuk pekerjaan anda ini? (boleh lebih dari satu)",
+              "text": "Berdasarkan tugas utama yang anda nyatakan, tandakan tugasan yang dianggap sebagai latihan atau persediaan yang baik untuk pekerjaan anda ini? (boleh lebih dari satu)",
               "type": "multiple_choice",
               "referer": "K3",
               "optionsReferer": "K3"
             },
             {
               "id": "K6",
-              "text": "Tugasan mana (jika ada) yang menyediakan sokongan sandaran jika pekerja berkenaan tidak hadir? (boleh lebih dari satu)",
+              "text": "Tugas utama mana (jika ada) yang anda nyatakan ini menyediakan sokongan sandaran jika pekerja berkenaan tidak hadir? (boleh lebih dari satu)",
               "type": "multiple_choice",
               "referer": "K3",
               "optionsReferer": "K3"
@@ -2073,7 +2073,7 @@
           "questions": [
             {
               "id": "K7",
-              "text": "Apakah pendidikan/latihan yang diperlukan untuk layak sepenuhnya bagi pekerjaan ini? Jika ya, bagaimana pengetahuan/latihan ini biasanya diperolehi?<br><br> Jenis pendidikan/latihan khusus",
+              "text": "Apakah pendidikan/latihan yang diperlukan untuk layak sepenuhnya bagi pekerjaan ini? Jika ya, bagaimana pengetahuan/latihan ini biasanya diperolehi?<br><br> Jenis pendidikan/latihan khusus (Contoh: Sijil SPM dan/atau Ujian Kecergasan Fizikal)",
               "type": "multiText"
             },
             {
@@ -2084,7 +2084,7 @@
             },
             {
               "id": "K9",
-              "text": "Apakah kemahiran/ pengetahuan khusus yang diperlukan untuk melaksanakan pekerjaan ini?",
+              "text": "Apakah kemahiran/ pengetahuan khusus yang diperlukan untuk melaksanakan pekerjaan ini? (Contoh: Asas memadam kebakaran, kemahiran menyelamat di air, prosedur menyelamat, kemahiran insaniah, CPR)",
               "type": "text"
             }
           ]
@@ -2094,7 +2094,7 @@
           "questions": [
             {
               "id": "K10",
-              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Tahap konsentrasi mental : Tinggi<br>Tempoh usaha/tindakan</strong>",
+              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Jika tahap konsentrasi mental adalah TINGGI, apakah tempoh usaha/tindakan yang perlu dilakukan?</strong>",
               "type": "single_choice",
               "options": [
                 "Sekejap-sekejap",
@@ -2104,7 +2104,7 @@
             },
             {
               "id": "K11",
-              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Tahap konsentrasi mental : Biasa<br>Tempoh usaha/tindakan</strong>",
+              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Jika tahap konsentrasi mental adalah BIASA, apakah tempoh usaha/tindakan yang perlu dilakukan?</strong>",
               "type": "single_choice",
               "options": [
                 "Sekejap-sekejap",
@@ -2114,7 +2114,7 @@
             },
             {
               "id": "K12",
-              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Tahap konsentrasi mental : Sederhana<br>Tempoh usaha/tindakan</strong>",
+              "text": "Sila nyatakan tuntutan mental yang diperlukan dalam pekerjaan ini dari segi tahap konsentrasi dan tempoh usaha.<br><strong>Jika tahap konsentrasi mental adalah SEDERHANA, apakah tempoh usaha/tindakan yang perlu dilakukan?</strong>",
               "type": "single_choice",
               "options": [
                 "Sekejap-sekejap",
@@ -2129,22 +2129,22 @@
           "questions": [
             {
               "id": "K13",
-              "text": "Senaraikan tuntutan fizikal dalam tugasan kerja yang dilakukan mengikut tahap kekerapan (contoh: berdiri memadamkan api, berjalan menaiki jentera bomba, mengusung mangsa kemalangan, memikul hos, memanjat tangga dll)<br><br>Tahap kekerapan : Sangat kerap (67% keatas/ 5.4-8 jam sehari)<br>Jenis mobiliti/ pergerakan dan aktiviti",
+              "text": "Senaraikan tuntutan fizikal dalam tugasan kerja yang dilakukan mengikut tahap kekerapan (contoh: berdiri memadamkan api, berjalan menaiki jentera bomba, mengusung mangsa kemalangan, memikul hos, memanjat tangga dll)<br><br>Nyatakan jenis pergerakan dalam tugasan/aktiviti kerja yang SANGAT KERAP anda lakukan (67% dan ke atas/ 5.4 – 8 jam sehari)",
               "type": "multiText"
             },
             {
               "id": "K14",
-              "text": "Tahap kekerapan : Kerap (34-66%/ 2.7- 5.3 jam sehari)<br>Jenis mobiliti/ pergerakan dan aktiviti",
+              "text": "Senaraikan tuntutan fizikal dalam tugasan kerja yang dilakukan mengikut tahap kekerapan (contoh: berdiri memadamkan api, berjalan menaiki jentera bomba, mengusung mangsa kemalangan, memikul hos, memanjat tangga dll)<br><br>Nyatakan jenis pergerakan dalam tugasan/aktiviti kerja yang KERAP anda lakukan (34 - 66% / 2.7 – 5.3 jam sehari)",
               "type": "multiText"
             },
             {
               "id": "K15",
-              "text": "Tahap kekerapan : Jarang-jarang (1-33%/ 5 minit – 2.6 jam sehari)<br>Jenis mobiliti/ pergerakan dan aktiviti",
+              "text": "Senaraikan tuntutan fizikal dalam tugasan kerja yang dilakukan mengikut tahap kekerapan (contoh: berdiri memadamkan api, berjalan menaiki jentera bomba, mengusung mangsa kemalangan, memikul hos, memanjat tangga dll)<br><br>Nyatakan jenis pergerakan dalam tugasan/aktiviti kerja yang JARANG-JARANG anda lakukan (1 - 33% / 5 minit – 2.6 jam sehari)",
               "type": "multiText"
             },
             {
               "id": "K16",
-              "text": "Tahap kekerapan : Sangat jarang (bawah 1%, kurang dari 5 minit sehari)<br>Jenis mobiliti/ pergerakan dan aktiviti",
+              "text": "Senaraikan tuntutan fizikal dalam tugasan kerja yang dilakukan mengikut tahap kekerapan (contoh: berdiri memadamkan api, berjalan menaiki jentera bomba, mengusung mangsa kemalangan, memikul hos, memanjat tangga dll)<br><br>Nyatakan jenis pergerakan dalam tugasan/aktiviti kerja yang SANGAT JARANG anda lakukan (bawah 1% / kurang dari 5 minit sehari)",
               "type": "multiText"
             },
             {
@@ -2340,7 +2340,7 @@
             },
             {
               "id": "K35",
-              "text": "Adakah anda mempunyai penyelia? Jika ya, huraikan penyeliaan yang dibuat, kekerapan dll.",
+              "text": "Adakah anda mempunyai penyelia? Jika ya, huraikan penyeliaan yang dibuat, kekerapan dll. (Contoh: 1. Menyusun jadual kerja anggota - seminggu sekali, 2. Mengurus rekod operasi – sebulan sekali, 3. M=Menilai prestasi anggota – setahun sekali)",
               "type": "text"
             }
           ]

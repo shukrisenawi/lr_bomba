@@ -29,7 +29,7 @@
                 </div>
             @endif
 
-            <form class="mt-8 space-y-6" method="POST" action="{{ route('login.submit') }}">
+            <form class="mt-8 mb-8 space-y-6" method="POST" action="{{ route('login.submit') }}">
                 @csrf
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
@@ -53,18 +53,16 @@
                         <label for="remember" class="ml-2 block text-sm text-gray-900">Ingat saya</label>
                     </div>
 
-                    <div class="text-sm">
-                        <a href="/register" class="font-medium text-blue-600 hover:text-blue-500">
+                    <div class="text-sm flex gap-6">
+                        <a href="{{ route('password.request') }}" class="font-medium text-gray-600 hover:text-blue-500">
+                            Lupa Kata Laluan?
+                        </a>
+                        <a href="/register" class="font-medium text-gray-600 hover:text-blue-500">
                             Daftar Baru
                         </a>
                     </div>
                 </div>
 
-                <div class="text-center">
-                    <a href="{{ route('password.request') }}" class="font-medium text-blue-600 hover:text-blue-500">
-                        Lupa Kata Laluan?
-                    </a>
-                </div>
 
                 <div>
                     <button type="submit"
