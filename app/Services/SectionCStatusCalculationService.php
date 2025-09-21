@@ -87,17 +87,28 @@ class SectionCStatusCalculationService
     }
 
     /**
-     * Get recommendation based on status
+     * Get recommendation based on status from JSON
      */
     private function getRecommendation(string $status): string
     {
-        $recommendations = [
-            'Pekerjaan Bertekanan Tinggi' => 'Anda mempunyai tuntutan kerja yang tinggi tetapi kawalan yang rendah ke atas kerja anda. Justeru, anda disarankan untuk mempelajari pengurusan tekanan (kawalan pernafasan dan lapangkan fikiran), aturan tugasan untuk bekerja lebih cekap dan menjaga keseimbangan antara kehidupan peribadi dan kerja. Manakala organisasi perlu memberi pekerja lebih ruang membuat keputusan ke atas tugas mereka, agihan beban kerja yang lebih realistik, dan meningkatkan sokongan sosial di tempat kerja.',
-            'Pekerjaan Aktif' => '-',
-            'Pekerjaan Pasif' => '-',
-            'Pekerjaan Bertekanan Rendah' => '-',
-        ];
+        // Load survey data from JSON
+        $surveyPath = storage_path('app/survey/1st_draft.json');
+        if (!file_exists($surveyPath)) {
+            return 'Fail soal selidik tidak dijumpai.';
+        }
 
-        return $recommendations[$status] ?? '-';
+        $surveyData = json_decode(file_get_contents($surveyPath), true);
+        if (!$surveyData || !isset($surveyData['sections'])) {
+            return 'Struktur soal selidik tidak sah.';
+        }
+
+        // Find Section C
+        $sectionC = collect($surveyData['sections'])->where('id', 'C')->first();
+        if (!$sectionC || !isset($sectionC['recommendations'])) {
+            return 'Bahagian C atau recommendations tidak dijumpai.';
+        }
+
+        // Get recommendation based on status
+        return $sectionC['recommendations'][$status] ?? 'Saranan tidak tersedia untuk status ini.';
     }
 }
