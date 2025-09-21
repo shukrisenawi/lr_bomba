@@ -2073,14 +2073,12 @@
           "questions": [
             {
               "id": "K7",
-              "text": "Apakah pendidikan/latihan yang diperlukan untuk layak sepenuhnya bagi pekerjaan ini? Jika ya, bagaimana pengetahuan/latihan ini biasanya diperolehi?<br><br> Jenis pendidikan/latihan khusus (Contoh: Sijil SPM dan/atau Ujian Kecergasan Fizikal)",
-              "type": "multiText"
-            },
-            {
-              "id": "K8",
-              "text": "Kaedah peroleh",
+              "text": "Apakah pendidikan/latihan yang diperlukan untuk layak sepenuhnya bagi pekerjaan ini? Jika ya, bagaimana pengetahuan/latihan ini biasanya diperolehi?<br><br>Jika lebih dari satu jawapan, sila klik tambah set.",
               "type": "multiText",
-              "referer": "K7"
+              "multiLabel": [
+                "Jenis pendidikan/latihan khusus (Contoh: Sijil SPM dan/atau Ujian Kecergasan Fizikal)",
+                "Kaedah Peroleh"
+              ]
             },
             {
               "id": "K9",
