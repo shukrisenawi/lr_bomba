@@ -36,7 +36,10 @@ class Respondent extends Model
         'bmi',
         'blood_type',
         'health_issue',
-        'other_health_issue'
+        'other_health_issue',
+        'assessment_summary',
+        'assessment_review',
+        'assessment_date'
     ];
 
     // Relasi ke tabel users

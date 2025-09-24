@@ -895,6 +895,45 @@ class SurveyController extends Controller
         }
     }
 
+    public function saveReview(Request $request, $respondentId)
+    {
+        try {
+            // Check if user is admin
+            if (Auth::user()->role !== 'admin') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Hanya admin boleh menyimpan ulasan.'
+                ], 403);
+            }
+
+            $request->validate([
+                'summary' => 'required|string|min:10',
+                'review' => 'required|string|min:10'
+            ]);
+
+            $respondent = \App\Models\Respondent::findOrFail($respondentId);
+
+            $respondent->update([
+                'assessment_summary' => $request->summary,
+                'assessment_review' => $request->review,
+                'assessment_date' => now()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ulasan dan ringkasan berjaya disimpan.'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error saving review: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Ralat menyimpan ulasan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function testOverallResults()
     {
         try {

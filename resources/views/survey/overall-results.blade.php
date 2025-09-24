@@ -43,10 +43,25 @@
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
                         <i class="fas fa-arrow-left mr-2"></i> Kembali ke Dashboard
                     </a>
-                    <button id="printBtn"
-                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center cursor-pointer">
-                        <i class="fas fa-print mr-2"></i> Print
-                    </button>
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            <div class="flex items-center space-x-2">
+                                <button id="saveBtn"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
+                                    <i class="fas fa-save mr-2"></i> Simpan Ulasan
+                                </button>
+                                <button id="printBtn" style="display: none;"
+                                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center cursor-pointer">
+                                    <i class="fas fa-print mr-2"></i> Print
+                                </button>
+                            </div>
+                        @else
+                            <button id="printBtn"
+                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center cursor-pointer">
+                                <i class="fas fa-print mr-2"></i> Print
+                            </button>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -68,9 +83,76 @@
                         STATUS: {{ $overallStatus === 'LENGKAP' ? '[✓] SELESAI' : '[!] BELUM LENGKAP' . $overallStatus }}
                     </div>
                 </div>
+                @auth
+                    @if(auth()->user()->role === 'admin')
+                        <div class="bg-white p-4 rounded-lg border border-gray-200 mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                                <i class="fas fa-edit text-blue-500 mr-2"></i>
+                                Ulasan dan Ringkasan Penilai (Admin)
+                            </h3>
+
+                            <form id="reviewForm" method="POST" action="{{ route('survey.save-review', $respondent->id ?? 1) }}">
+                                @csrf
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="summary" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Ringkasan Penilaian:
+                                        </label>
+                                        <textarea
+                                            id="summary"
+                                            name="summary"
+                                            rows="4"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Masukkan ringkasan penilaian keseluruhan...">{{ $respondent->assessment_summary ?? '' }}</textarea>
+                                    </div>
+                                    <div>
+                                        <label for="review" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Ulasan dan Cadangan:
+                                        </label>
+                                        <textarea
+                                            id="review"
+                                            name="review"
+                                            rows="4"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Masukkan ulasan dan cadangan untuk pekerja...">{{ $respondent->assessment_review ?? '' }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="text-sm text-gray-600">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        * Ringkasan dan ulasan perlu diisi sebelum mencetak laporan
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button type="button" id="cancelBtn"
+                                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                                            Batal
+                                        </button>
+                                        <button type="submit"
+                                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                                            <i class="fas fa-save mr-2"></i>
+                                            Simpan Ulasan
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    @endif
+                @endauth
+
                 <div class="text-sm text-gray-700 mb-4">
-                    <strong>Ringkasan:</strong> *perlu diisi oleh penilai/penyelidik sebelum dapat dipaparkan keseluruhan
-                    laporan penilaian ini
+                    <strong>Ringkasan:</strong>
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            @if($respondent->assessment_summary)
+                                {!! nl2br(e($respondent->assessment_summary)) !!}
+                            @else
+                                <span class="text-red-500">*perlu diisi oleh penilai/penyelidik sebelum dapat dipaparkan keseluruhan laporan penilaian ini</span>
+                            @endif
+                        @else
+                            {!! nl2br(e($respondent->assessment_summary ?? 'Tiada ringkasan tersedia')) !!}
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -429,7 +511,20 @@
                             <div class="text-sm"><strong>Skala Penilaian Kepenatan:</strong> Skor
                                 [{{ $survey['H']->scores[4]->score }}] [{{ $survey['H']->scores[4]->category }}]
                             </div>
-                            <div class="text-sm"><strong>Ulasan:</strong> -</div>
+                            <div class="text-sm">
+                                <strong>Ulasan:</strong>
+                                @auth
+                                    @if(auth()->user()->role === 'admin')
+                                        @if($respondent->assessment_review)
+                                            {!! nl2br(e($respondent->assessment_review)) !!}
+                                        @else
+                                            <span class="text-red-500">*perlu diisi oleh penilai</span>
+                                        @endif
+                                    @else
+                                        {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                    @endif
+                                @endauth
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -513,7 +608,20 @@
                             </ul>
                         </div>
 
-                        <div class="text-sm"><strong>Ulasan : </strong> -</div>
+                        <div class="text-sm">
+                            <strong>Ulasan:</strong>
+                            @auth
+                                @if(auth()->user()->role === 'admin')
+                                    @if($respondent->assessment_review)
+                                        {!! nl2br(e($respondent->assessment_review)) !!}
+                                    @else
+                                        <span class="text-red-500">*perlu diisi oleh penilai</span>
+                                    @endif
+                                @else
+                                    {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                @endif
+                            @endauth
+                        </div>
                     </div>
                 </div>
             </div>
@@ -531,7 +639,18 @@
                             <span class="font-bold">Indeks Kecergasan JBPM:</span> Skor [3] [Tidak Berisiko]
                         </div>
                         <div class="text-sm">
-                            <span class="font-bold">Ulasan:</span> -
+                            <span class="font-bold">Ulasan:</span>
+                            @auth
+                                @if(auth()->user()->role === 'admin')
+                                    @if($respondent->assessment_review)
+                                        {!! nl2br(e($respondent->assessment_review)) !!}
+                                    @else
+                                        <span class="text-red-500">*perlu diisi oleh penilai</span>
+                                    @endif
+                                @else
+                                    {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                @endif
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -546,7 +665,18 @@
                             [{{ $survey['I']->scores[2]->score }}] [{{ $survey['I']->scores[2]->category }}]
                         </div>
                         <div class="text-sm">
-                            <span class="font-bold">Ulasan:</span> -
+                            <span class="font-bold">Ulasan:</span>
+                            @auth
+                                @if(auth()->user()->role === 'admin')
+                                    @if($respondent->assessment_review)
+                                        {!! nl2br(e($respondent->assessment_review)) !!}
+                                    @else
+                                        <span class="text-red-500">*perlu diisi oleh penilai</span>
+                                    @endif
+                                @else
+                                    {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                @endif
+                            @endauth
                         </div>
                         <div class="text-sm">
                             <span class="font-bold">Penilaian Kendiri Muskuloskeletal:</span>
@@ -571,7 +701,18 @@
                             {!! $partsText !!}
                         </div>
                         <div class="text-sm">
-                            <span class="font-bold">Ulasan:</span>-
+                            <span class="font-bold">Ulasan:</span>
+                            @auth
+                                @if(auth()->user()->role === 'admin')
+                                    @if($respondent->assessment_review)
+                                        {!! nl2br(e($respondent->assessment_review)) !!}
+                                    @else
+                                        <span class="text-red-500">*perlu diisi oleh penilai</span>
+                                    @endif
+                                @else
+                                    {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                @endif
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -610,11 +751,88 @@
         // Add event listener when page loads
         document.addEventListener('DOMContentLoaded', function() {
             var printBtn = document.getElementById('printBtn');
+            var saveBtn = document.getElementById('saveBtn');
+            var reviewForm = document.getElementById('reviewForm');
+            var cancelBtn = document.getElementById('cancelBtn');
+
             if (printBtn) {
                 printBtn.addEventListener('click', printDocument);
                 console.log('Print button event listener added');
             } else {
                 console.error('Print button not found');
+            }
+
+            // Handle form submission
+            if (reviewForm) {
+                reviewForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    var formData = new FormData(this);
+                    var summary = document.getElementById('summary').value.trim();
+                    var review = document.getElementById('review').value.trim();
+
+                    // Check if both fields are filled
+                    if (!summary || !review) {
+                        alert('Sila isi kedua-dua Ringkasan Penilaian dan Ulasan dan Cadangan sebelum menyimpan.');
+                        return;
+                    }
+
+                    // Show loading state
+                    var submitBtn = this.querySelector('button[type="submit"]');
+                    var originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Menyimpan...';
+                    submitBtn.disabled = true;
+
+                    // Send AJAX request
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Hide form and show print button
+                            document.querySelector('.bg-white.p-4.rounded-lg').style.display = 'none';
+                            printBtn.style.display = 'inline-flex';
+
+                            // Update the summary and review sections
+                            document.querySelector('.text-sm.text-gray-700.mb-4 strong').nextSibling.textContent = summary;
+                            document.querySelectorAll('.text-sm strong').forEach(function(el) {
+                                if (el.textContent.includes('Ulasan:')) {
+                                    var nextEl = el.nextSibling;
+                                    if (nextEl && nextEl.nodeType === 3) {
+                                        nextEl.textContent = review;
+                                    }
+                                }
+                            });
+
+                            alert('Ulasan dan ringkasan berjaya disimpan!');
+                        } else {
+                            alert('Ralat menyimpan ulasan: ' + (data.message || 'Sila cuba lagi.'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ralat menyimpan ulasan. Sila cuba lagi.');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    });
+                });
+            }
+
+            // Handle cancel button
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
+                    document.getElementById('summary').value = '';
+                    document.getElementById('review').value = '';
+                });
             }
         });
     </script>

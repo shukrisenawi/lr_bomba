@@ -42,6 +42,7 @@ Route::get('/survey/test-overall-results', [SurveyController::class, 'testOveral
 
 Route::middleware(['auth'])->group(function () {
     Route::get('survey/overall-results', [SurveyController::class, 'overallResults'])->name('survey.overall-results');
+    Route::post('survey/save-review/{respondent}', [SurveyController::class, 'saveReview'])->name('survey.save-review');
     Route::prefix('survey')->group(function () {
         Route::get('/create', [SurveyController::class, 'create'])->name('survey.create');
         Route::post('/create', [SurveyController::class, 'storeSurvey'])->name('survey.store-survey');
