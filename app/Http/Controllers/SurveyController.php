@@ -911,12 +911,12 @@ class SurveyController extends Controller
             }
 
             $request->validate([
-                'summary' => 'required|string|min:10',
-                'review1' => 'required|string|min:10',
-                'review2' => 'required|string|min:10',
-                'review3' => 'required|string|min:10',
-                'review4' => 'required|string|min:10',
-                'review5' => 'required|string|min:10'
+                'summary' => 'required|string|min:5',
+                'review1' => 'required|string|min:5',
+                'review2' => 'required|string|min:5',
+                'review3' => 'required|string|min:5',
+                'review4' => 'required|string|min:5',
+                'review5' => 'required|string|min:5'
             ]);
 
             $respondent = \App\Models\Respondent::findOrFail($respondentId);

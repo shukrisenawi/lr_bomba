@@ -46,10 +46,7 @@
                     @auth
                         @if (session()->has('survey_admin_verified_overall'))
                             <div class="flex items-center space-x-2">
-                                <button id="saveBtn"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
-                                    <i class="fas fa-save mr-2"></i> Simpan Ulasan
-                                </button>
+
                                 <button id="printBtn" style="display: none;"
                                     class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center cursor-pointer">
                                     <i class="fas fa-print mr-2"></i> Print
@@ -100,48 +97,54 @@
                                     </label>
                                     <input type="text" id="summary" name="summary"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        placeholder="Masukkan ringkasan penilaian keseluruhan..." value="{{ $respondent->assessment_summary ?? '' }}">
+                                        placeholder="Masukkan ringkasan penilaian keseluruhan..."
+                                        value="{{ $respondent->assessment_summary ?? '' }}">
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <label for="review1" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan Kecergasan:
+                                            Ulasan profil kesihatan fizikal, mental & emosi:
                                         </label>
                                         <input type="text" id="review1" name="review1"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Kecergasan..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[0] ?? '' }}">
+                                            placeholder="Ulasan untuk Kecergasan..."
+                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[0] ?? '' }}">
                                     </div>
                                     <div>
                                         <label for="review2" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan Keupayaan Kerja:
+                                            Ulasan profil produktiviti kerja:
                                         </label>
                                         <input type="text" id="review2" name="review2"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Keupayaan Kerja..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[1] ?? '' }}">
+                                            placeholder="Ulasan untuk Keupayaan Kerja..."
+                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[1] ?? '' }}">
                                     </div>
                                     <div>
                                         <label for="review3" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan Risiko Psikologi:
+                                            Ulasan profil keupayaan kerja:
                                         </label>
                                         <input type="text" id="review3" name="review3"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Risiko Psikologi..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[2] ?? '' }}">
+                                            placeholder="Ulasan untuk Risiko Psikologi..."
+                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[2] ?? '' }}">
                                     </div>
                                     <div>
                                         <label for="review4" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan Kepenatan:
+                                            Ulasan REBA:
                                         </label>
                                         <input type="text" id="review4" name="review4"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Kepenatan..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[3] ?? '' }}">
+                                            placeholder="Ulasan untuk Kepenatan..."
+                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[3] ?? '' }}">
                                     </div>
                                     <div>
                                         <label for="review5" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan Risiko Ergonomik:
+                                            Ulasan Penilaian Kendiri Muskuloskeletal:
                                         </label>
                                         <input type="text" id="review5" name="review5"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Risiko Ergonomik..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[4] ?? '' }}">
+                                            placeholder="Ulasan untuk Risiko Ergonomik..."
+                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[4] ?? '' }}">
                                     </div>
                                 </div>
 
@@ -151,12 +154,12 @@
                                         * Ringkasan dan ulasan perlu diisi sebelum mencetak laporan
                                     </div>
                                     <div class="flex space-x-2">
-                                        <button type="button" id="cancelBtn"
+                                        <button type="button" id="cancelBtn" onclick="cancelData()"
                                             class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
                                             Batal
                                         </button>
-                                        <button type="button" id="saveBtn"
-                                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                                        <button type="button" id="saveBtn" onclick="saveData()"
+                                            class="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
                                             <i class="fas fa-save mr-2"></i>
                                             Simpan Ulasan
                                         </button>
@@ -344,7 +347,7 @@
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-left">
                                 @php
-                                    $answerI = $survey['I']->scores[0]->category;
+                                    $answerI = $survey['I']->scores[2]->category;
                                     if (
                                         strtoupper($answerI) == 'TIADA RISIKO' ||
                                         strtoupper($answerI) == 'RISIKO RENDAH, PERUBAHAN MUNGKIN DIPERLUKAN'
@@ -372,10 +375,10 @@
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
                                 Penilaian Keseluruhan
-                                Anggota Tubuh (REBA): {{ $survey['I']->scores[0]->score }}/15
+                                Anggota Tubuh (REBA): {{ $survey['I']->scores[2]->score }}/15
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-sm">
-                                {{ $survey['I']->scores[0]->recommendation }}</td>
+                                {{ $survey['I']->scores[2]->recommendation }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -770,116 +773,147 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         function printDocument() {
             window.print();
         }
 
+        function saveData() {
+            var saveBtn = document.getElementById('saveBtn');
+            var reviewForm = document.getElementById('reviewForm');
+
+            var summary = document.getElementById('summary').value.trim();
+            var review1 = document.getElementById('review1').value.trim();
+            var review2 = document.getElementById('review2').value.trim();
+            var review3 = document.getElementById('review3').value.trim();
+            var review4 = document.getElementById('review4').value.trim();
+            var review5 = document.getElementById('review5').value.trim();
+
+            // Check if all fields are filled and meet minimum length
+            if (!summary || summary.length < 5 ||
+                !review1 || review1.length < 5 ||
+                !review2 || review2.length < 5 ||
+                !review3 || review3.length < 5 ||
+                !review4 || review4.length < 5 ||
+                !review5 || review5.length < 5) {
+                alert(
+                    'Sila isi Ringkasan Penilaian (minimum 5 aksara) dan semua 5 Ulasan (minimum 5 aksara setiap satu) sebelum menyimpan.'
+                );
+                return;
+            }
+
+            // Show loading state
+            var originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Menyimpan...';
+            saveBtn.disabled = true;
+
+            // Create FormData
+            var formData = new FormData();
+            formData.append('summary', summary);
+            formData.append('review1', review1);
+            formData.append('review2', review2);
+            formData.append('review3', review3);
+            formData.append('review4', review4);
+            formData.append('review5', review5);
+
+            // Get CSRF token from meta tag
+            var csrfToken = document.querySelector('meta[name="csrf-token"]');
+            if (csrfToken) {
+                formData.append('_token', csrfToken.getAttribute('content'));
+            }
+
+            // Send AJAX request
+            fetch(reviewForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    // Check if response is ok
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Hide form and show print button
+                        var formContainer = document.querySelector('.bg-white.p-4.rounded-lg');
+                        if (formContainer) {
+                            formContainer.style.display = 'none';
+                        }
+
+                        var printButton = document.getElementById('printBtn');
+                        if (printButton) {
+                            printButton.style.display = 'inline-flex';
+                        }
+
+                        // Update the summary section
+                        var summaryElement = document.querySelector('.text-sm.text-gray-700.mb-4');
+                        if (summaryElement) {
+                            var strongElement = summaryElement.querySelector('strong');
+                            if (strongElement && strongElement.nextSibling) {
+                                strongElement.nextSibling.textContent = summary;
+                            }
+                        }
+
+                        // Update review sections - look for elements with "Ulasan:" text
+                        var reviewElements = document.querySelectorAll('.text-sm');
+                        var reviews = [review1, review2, review3, review4, review5];
+                        var reviewIndex = 0;
+
+                        reviewElements.forEach(function(el) {
+                            var strongEl = el.querySelector('strong');
+                            if (strongEl && strongEl.textContent.includes('Ulasan:')) {
+                                var nextEl = strongEl.nextSibling;
+                                if (nextEl && nextEl.nodeType === 3 && reviewIndex < reviews.length) {
+                                    nextEl.textContent = ' ' + reviews[reviewIndex];
+                                    reviewIndex++;
+                                }
+                            }
+                        });
+
+                        alert('Ulasan dan ringkasan berjaya disimpan!');
+                    } else {
+                        throw new Error(data.message || 'Ralat menyimpan ulasan');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ralat menyimpan ulasan: ' + error.message + '. Sila cuba lagi.');
+                })
+                .finally(() => {
+                    // Reset button state
+                    saveBtn.innerHTML = originalText;
+                    saveBtn.disabled = false;
+                });
+        }
+
+        function cancelData() {
+            document.getElementById('summary').value = '';
+            document.getElementById('review1').value = '';
+            document.getElementById('review2').value = '';
+            document.getElementById('review3').value = '';
+            document.getElementById('review4').value = '';
+            document.getElementById('review5').value = '';
+        }
+
         // Add event listener when page loads
         document.addEventListener('DOMContentLoaded', function() {
             var printBtn = document.getElementById('printBtn');
-            var saveBtn = document.getElementById('saveBtn');
-            var reviewForm = document.getElementById('reviewForm');
             var cancelBtn = document.getElementById('cancelBtn');
 
             if (printBtn) {
                 printBtn.addEventListener('click', printDocument);
             }
 
-            // Handle save button click
-            if (saveBtn) {
-                saveBtn.addEventListener('click', function(e) {
-                    var summary = document.getElementById('summary').value.trim();
-                    var review1 = document.getElementById('review1').value.trim();
-                    var review2 = document.getElementById('review2').value.trim();
-                    var review3 = document.getElementById('review3').value.trim();
-                    var review4 = document.getElementById('review4').value.trim();
-                    var review5 = document.getElementById('review5').value.trim();
-
-                    // Check if all fields are filled
-                    if (!summary || !review1 || !review2 || !review3 || !review4 || !review5) {
-                        alert(
-                            'Sila isi Ringkasan Penilaian dan semua 5 Ulasan sebelum menyimpan.');
-                        return;
-                    }
-
-                    // Create FormData
-                    var formData = new FormData();
-                    formData.append('summary', summary);
-                    formData.append('review1', review1);
-                    formData.append('review2', review2);
-                    formData.append('review3', review3);
-                    formData.append('review4', review4);
-                    formData.append('review5', review5);
-                    formData.append('_token', document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '');
-
-                    // Show loading state
-                    var originalText = saveBtn.innerHTML;
-                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Menyimpan...';
-                    saveBtn.disabled = true;
-
-                    // Send AJAX request
-                    fetch(reviewForm.action, {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Hide form and show print button
-                                document.querySelector('.bg-white.p-4.rounded-lg').style.display =
-                                    'none';
-                                if (printBtn) printBtn.style.display = 'inline-flex';
-
-                                // Update the summary and review sections
-                                document.querySelector('.text-sm.text-gray-700.mb-4 strong').nextSibling
-                                    .textContent = summary;
-                                // Update each review section
-                                var reviewSections = document.querySelectorAll('.text-sm strong');
-                                var reviews = [review1, review2, review3, review4, review5];
-                                var reviewIndex = 0;
-                                reviewSections.forEach(function(el) {
-                                    if (el.textContent.includes('Ulasan:')) {
-                                        var nextEl = el.nextSibling;
-                                        if (nextEl && nextEl.nodeType === 3 && reviewIndex < reviews.length) {
-                                            nextEl.textContent = reviews[reviewIndex];
-                                            reviewIndex++;
-                                        }
-                                    }
-                                });
-
-                                alert('Ulasan dan ringkasan berjaya disimpan!');
-                            } else {
-                                alert('Ralat menyimpan ulasan: ' + (data.message || 'Sila cuba lagi.'));
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Ralat menyimpan ulasan. Sila cuba lagi.');
-                        })
-                        .finally(() => {
-                            // Reset button state
-                            saveBtn.innerHTML = originalText;
-                            saveBtn.disabled = false;
-                        });
-                });
-            }
-
-            // Handle cancel button
             if (cancelBtn) {
-                cancelBtn.addEventListener('click', function() {
-                    document.getElementById('summary').value = '';
-                    document.getElementById('review1').value = '';
-                    document.getElementById('review2').value = '';
-                    document.getElementById('review3').value = '';
-                    document.getElementById('review4').value = '';
-                    document.getElementById('review5').value = '';
-                });
+                cancelBtn.addEventListener('click', cancelData);
             }
         });
     </script>
-@endsection
+@endpush
