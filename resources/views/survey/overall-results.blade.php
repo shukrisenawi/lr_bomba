@@ -4,6 +4,14 @@
 
 @section('content')
 
+    <style>
+        @media print {
+            #boxNav {
+                display: none !important;
+            }
+        }
+    </style>
+
     <div id="document" class="min-h-screen bg-white p-6">
         <div class="max-w-6xl mx-auto bg-white">
             <div class="text-center justify-center">
@@ -26,7 +34,7 @@
                 <p class="text-sm">Jabatan Bomba & Penyelamat Malaysia (JBPM)</p>
             </div>
 
-            <div class="p-4 bg-gray-50 border-b border-gray-200">
+            <div class="p-4 bg-gray-50 border-b border-gray-200" id="boxNav">
                 <div class="flex justify-between items-center">
                     <a href="{{ route('dashboard') }}"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
@@ -139,28 +147,28 @@
             </div>
 
             <div class="p-6 bg-blue-50">
-                <div class="flex justify-between items-center mb-4 space-x-4">
-                    <div class="bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold">
-                        STATUS KESELURUHAN
+                <div class="bg-blue-600 text-white px-3 py-1 rounded text-md mb-5 text-center font-semibold">
+                    STATUS KESELURUHAN
+                </div>
+
+                <div class="flex justify-between gap-10">
+                    <div class="flex items-center space-x-2 flex-wrap">
+                        <span class="text-md font-bold">Nama Pemohon:</span>
+                        <span class="font-semibold">[{{ $respondent->user->name ?? 'Tidak diketahui' }}]</span>
                     </div>
-                    <div class="flex justify-between gap-10">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-md font-bold">Nama Pemohon:</span>
-                            <span class="font-semibold">[{{ $respondent->user->name ?? 'Tidak diketahui' }}]</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-md font-bold">Jawatan & Gred:</span>
-                            <span class="font-semibold">[{{ $respondent->current_position ?? '' }}] [
-                                {{ $respondent->grade ?? '' }}]</span>
-                        </div>
+                    <div class="flex items-center space-x-2 flex-wrap">
+                        <span class="text-md font-bold">Jawatan & Gred:</span>
+                        <span class="font-semibold">[{{ $respondent->current_position ?? '' }}] [
+                            {{ $respondent->grade ?? '' }}]</span>
                     </div>
 
-                    <div class="bg-green-600 text-white px-3 py-1 rounded text-sm font-semibold">
-                        STATUS: [✓] SELESAI
+                    <div class="flex items-center space-x-2 flex-wrap">
+                        <span class="text-md font-bold">Status:</span>
+                        <span class="font-semibold">[✓] SELESAI</span>
                     </div>
                 </div>
 
-                <div class="text-md text-gray-700">
+                <div class="text-md text-gray-700 mt-5">
                     <strong>Ringkasan:</strong>
                     @auth
                         @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
