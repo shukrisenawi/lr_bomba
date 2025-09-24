@@ -542,17 +542,20 @@
                             <div class="text-sm"><strong>Skala Penilaian Kepenatan:</strong> Skor
                                 [{{ $survey['H']->scores[4]->score }}] [{{ $survey['H']->scores[4]->category }}]
                             </div>
+                            @php
+                                $ulasan = json_decode($respondent->assessment_review ?? '[]', true);
+                            @endphp
                             <div class="text-sm">
                                 <strong>Ulasan:</strong>
                                 @auth
                                     @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
-                                        @if ($respondent->assessment_review)
-                                            {!! nl2br(e($respondent->assessment_review)) !!}
+                                        @if ($ulasan && isset($ulasan[0]) && $ulasan[0])
+                                            {{ $ulasan[0] }}
                                         @else
                                             <span class="text-red-500">*perlu diisi oleh penilai</span>
                                         @endif
                                     @else
-                                        {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                        {{ $ulasan[0] ?? 'Tiada ulasan tersedia' }}
                                     @endif
                                 @endauth
                             </div>
@@ -643,13 +646,13 @@
                             <strong>Ulasan:</strong>
                             @auth
                                 @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
-                                    @if ($respondent->assessment_review)
-                                        {!! nl2br(e($respondent->assessment_review)) !!}
+                                    @if ($ulasan && isset($ulasan[1]) && $ulasan[1])
+                                        {{ $ulasan[1] }}
                                     @else
                                         <span class="text-red-500">*perlu diisi oleh penilai</span>
                                     @endif
                                 @else
-                                    {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                    {{ $ulasan[1] ?? 'Tiada ulasan tersedia' }}
                                 @endif
                             @endauth
                         </div>
@@ -673,13 +676,13 @@
                             <span class="font-bold">Ulasan:</span>
                             @auth
                                 @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
-                                    @if ($respondent->assessment_review)
-                                        {!! nl2br(e($respondent->assessment_review)) !!}
+                                    @if ($ulasan && isset($ulasan[2]) && $ulasan[2])
+                                        {{ $ulasan[2] }}
                                     @else
                                         <span class="text-red-500">*perlu diisi oleh penilai</span>
                                     @endif
                                 @else
-                                    {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                    {{ $ulasan[2] ?? 'Tiada ulasan tersedia' }}
                                 @endif
                             @endauth
                         </div>
@@ -699,13 +702,13 @@
                             <span class="font-bold">Ulasan:</span>
                             @auth
                                 @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
-                                    @if ($respondent->assessment_review)
-                                        {!! nl2br(e($respondent->assessment_review)) !!}
+                                    @if ($ulasan && isset($ulasan[3]) && $ulasan[3])
+                                        {{ $ulasan[3] }}
                                     @else
                                         <span class="text-red-500">*perlu diisi oleh penilai</span>
                                     @endif
                                 @else
-                                    {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                    {{ $ulasan[3] ?? 'Tiada ulasan tersedia' }}
                                 @endif
                             @endauth
                         </div>
@@ -735,13 +738,13 @@
                             <span class="font-bold">Ulasan:</span>
                             @auth
                                 @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
-                                    @if ($respondent->assessment_review)
-                                        {!! nl2br(e($respondent->assessment_review)) !!}
+                                    @if ($ulasan && isset($ulasan[4]) && $ulasan[4])
+                                        {{ $ulasan[4] }}
                                     @else
                                         <span class="text-red-500">*perlu diisi oleh penilai</span>
                                     @endif
                                 @else
-                                    {!! nl2br(e($respondent->assessment_review ?? 'Tiada ulasan tersedia')) !!}
+                                    {{ $ulasan[4] ?? 'Tiada ulasan tersedia' }}
                                 @endif
                             @endauth
                         </div>
