@@ -9,6 +9,46 @@
             #boxNav {
                 display: none !important;
             }
+
+
+
+            /* Add page break before office use section if needed */
+            .grid-cols-1.lg\\:grid-cols-3>div:last-child {
+                page-break-before: auto !important;
+                break-before: auto !important;
+            }
+
+            /* Ensure the office box content is properly styled for print */
+            .grid-cols-1.lg\\:grid-cols-3>div:last-child .bg-gray-600 {
+                background: #4b5563 !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .grid-cols-1.lg\\:grid-cols-3>div:last-child .bg-gray-100 {
+                background: #f3f4f6 !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            /* Add margin to main document to prevent overlap */
+            #document {
+                margin-bottom: 50px !important;
+            }
+
+            /* Protect elements with class 'own' from being cut in half */
+            .own {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: 15px !important;
+            }
+
+            /* Special protection for the 3-column grid with profiles */
+            .grid-cols-1.lg\\:grid-cols-3.own {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: 20px !important;
+            }
         }
     </style>
 
@@ -73,7 +113,7 @@
                                             placeholder="Masukkan ringkasan penilaian keseluruhan..."
                                             value="{{ $respondent->assessment_summary ?? '' }}">
                                     </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 own">
                                         <div>
                                             <label for="review1" class="block text-sm font-medium text-gray-700 mb-2">
                                                 Ulasan profil kesihatan fizikal, mental & emosi:
@@ -190,8 +230,8 @@
                     <thead>
                         <tr class="bg-blue-600 text-white">
                             <th class="border border-gray-300 px-4 py-2 text-left">KATEGORI</th>
-                            <th class="border border-gray-300 px-4 py-2 text-center w-50">STATUS</th>
-                            <th class="border border-gray-300 px-4 py-2 text-center w-50">SKOR</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center">STATUS</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center w-30">SKOR</th>
                             <th class="border border-gray-300 px-4 py-2 text-left">BUTIRAN</th>
                         </tr>
                     </thead>
@@ -561,7 +601,7 @@
                     </div>
                 </div>
 
-                <div class="border border-gray-300 overflow-hidden">
+                <div class="border border-gray-300 overflow-hidden own">
                     <div class="bg-orange-600 text-white p-2 px-3">
                         <div class="flex items-center space-x-2">
                             <i class="fas fa-chart-line w-5 h-5"></i>
@@ -658,7 +698,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 px-6 own">
                 <div class="border border-gray-300 overflow-hidden">
                     <div class="bg-blue-600 text-white p-2 px-3 text-center">
                         <span class="font-bold text-sm">PROFIL KEUPAYAAN KERJA</span>
@@ -687,7 +727,7 @@
                     </div>
                 </div>
 
-                <div class="border border-gray-300 overflow-hidden">
+                <div class="border border-gray-300 overflow-hidden own">
                     <div class="bg-green-600 text-white p-2 px-3 text-center">
                         <span class="font-bold text-sm">PROFIL ERGONOMIK PEKERJAAN</span>
                     </div>
@@ -749,7 +789,7 @@
                     </div>
                 </div>
 
-                <div class="border border-gray-300 text-left">
+                <div class="border border-gray-300 text-left own">
                     <div class="bg-gray-600 text-white p-2 px-3 text-center">
                         <span class="font-bold text-sm">UNTUK KEGUNAAN PEJABAT</span>
                     </div>
