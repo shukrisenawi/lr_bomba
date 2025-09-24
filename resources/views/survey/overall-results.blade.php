@@ -65,15 +65,12 @@
                             {{ $respondent->grade ?? '' }}</span>
                     </div>
                     <div class="bg-green-600 text-white px-3 py-1 rounded text-sm font-semibold">
-                        STATUS: {{ $overallStatus === 'LENGKAP' ? '[✓] FIT-TO-WORK' : '[!] ' . $overallStatus }}
+                        STATUS: {{ $overallStatus === 'LENGKAP' ? '[✓] SELESAI' : '[!] BELUM LENGKAP' . $overallStatus }}
                     </div>
                 </div>
                 <div class="text-sm text-gray-700 mb-4">
-                    <strong>Ringkasan:</strong> Hasil penilaian menunjukkan keupayaan dan produktiviti kerja yang sangat
-                    baik, namun terdapat aspek
-                    sederhana dalam kesihatan fizikal, mental, dan emosi yang perlu diberi perhatian. Isu ergonomik ringan
-                    telah
-                    dikenalpasti.
+                    <strong>Ringkasan:</strong> *perlu diisi oleh penilai/penyelidik sebelum dapat dipaparkan keseluruhan
+                    laporan penilaian ini
                 </div>
             </div>
 
@@ -82,8 +79,8 @@
                     <thead>
                         <tr class="bg-blue-600 text-white">
                             <th class="border border-gray-300 px-4 py-2 text-left">KATEGORI</th>
-                            <th class="border border-gray-300 px-4 py-2 text-center">STATUS</th>
-                            <th class="border border-gray-300 px-4 py-2 text-center">SKOR</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center w-50">STATUS</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center w-50">SKOR</th>
                             <th class="border border-gray-300 px-4 py-2 text-left">BUTIRAN</th>
                         </tr>
                     </thead>
@@ -95,17 +92,32 @@
                                     <span>Kecergasan</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">
-                                <div class="flex items-center justify-center">
-                                    <i class="fas fa-check-circle w-5 h-5 text-green-500"></i>
-                                    <span class="ml-1 text-sm">Baik</span>
-                                </div>
+
+                            <td class="border border-gray-300 px-4 py-2 text-left">
+                                @php
+                                    $answerL = $survey['L']->answers[0]->answer;
+                                    if (
+                                        strtoupper($answerL) == 'CEMERLANG' ||
+                                        strtoupper($answerL) == 'BAIK' ||
+                                        strtoupper($answerL) == 'LULUS'
+                                    ) {
+                                        $color1 = 'green';
+                                    } elseif (strtoupper($answerL) == 'GAGAL') {
+                                        $color1 = 'red';
+                                    } else {
+                                        $color1 = 'gray';
+                                    }
+
+                                @endphp
+                                <i class="fas fa-circle w-5 h-5 text-{{ $color1 }}-500"></i>
+                                <span class="ml-1 text-sm">
+                                    <?= $answerL ?></span>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
                                 {{ isset($sectionsData['A']) ? $sectionsData['A']['response']->scores->where('section', 'A')->first()->score ?? 'N/A' : 'N/A' }}
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-sm">Status fizikal, mental dan emosi pada
-                                tahap sederhana.</td>
+                            <td class="border border-gray-300 px-4 py-2 text-sm">Ujian UKTK (untuk Pegawai Gred KB1 - KB4
+                                Tahun 2025)</td>
                         </tr>
                         <tr class="bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2">
@@ -114,16 +126,30 @@
                                     <span>Keupayaan Kerja</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">
-                                <div class="flex items-center justify-center">
-                                    <i class="fas fa-check-circle w-5 h-5 text-green-500"></i>
-                                    <span class="ml-1 text-sm">Baik</span>
-                                </div>
+                            <td class="border border-gray-300 px-4 py-2 text-left">
+                                @php
+                                    $answerB = $survey['B']->scores[0]->category;
+                                    if (strtoupper($answerB) == 'LEMAH') {
+                                        $color2 = 'red';
+                                    } elseif (strtoupper($answerB) == 'SEDERHANA') {
+                                        $color2 = 'orange';
+                                    } elseif (strtoupper($answerB) == 'BAIK' || strtoupper($answerB) == 'CEMERLANG') {
+                                        $color2 = 'green';
+                                    } else {
+                                        $color2 = 'gray';
+                                    }
+
+                                @endphp
+                                <i class="fas fa-circle w-5 h-5 text-{{ $color2 }}-500"></i>
+                                <span class="ml-1 text-sm">
+                                    <?= $answerB ?></span>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
-                                {{ isset($sectionsData['B']) ? $sectionsData['B']['response']->scores->where('section', 'B')->first()->score ?? 'N/A' : 'N/A' }}
+                                Indek Kebolehan Bekerja
+                                (WAI): {{ $survey['B']->scores[0]->score }}/49
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-sm">Keupayaan kerja yang baik</td>
+                            <td class="border border-gray-300 px-4 py-2 text-sm">
+                                {{ $survey['B']->scores[0]->recommendation }}</td>
                         </tr>
                         <tr>
                             <td class="border border-gray-300 px-4 py-2">
@@ -132,35 +158,36 @@
                                     <span>Risiko Psikologi</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">
-                                <div class="flex items-center justify-center">
-                                    <i class="fas fa-exclamation-triangle w-5 h-5 text-yellow-500"></i>
-                                    <span class="ml-1 text-sm">Sederhana</span>
-                                </div>
+                            <td class="border border-gray-300 px-4 py-2 text-left">
+                                @php
+                                    $answerG = $survey['G']->scores[0]->category;
+                                    if (strtoupper($answerG) == 'TIDAK MENGALAMI SEBARANG SIMPTOM KEMURUNGAN') {
+                                        $labelG = 'Tiada Simpton';
+                                        $color3 = 'green';
+                                    } elseif (
+                                        strtoupper($answerG) == 'MENGALAMI SIMPTOM KEMURUNGAN YANG RINGAN/SEDERHANA'
+                                    ) {
+                                        $labelG = 'Ringan/Sederhana';
+                                        $color3 = 'orange';
+                                    } elseif (strtoupper($answerG) == 'MENGALAMI SIMPTOM KEMURUNGAN YANG TINGGI') {
+                                        $labelG = 'Tinggi';
+                                        $color3 = 'red';
+                                    } else {
+                                        $labelG = '-';
+                                        $color3 = 'gray';
+                                    }
+
+                                @endphp
+                                <i class="fas fa-circle w-5 h-5 text-{{ $color3 }}-500"></i>
+                                <span class="ml-1 text-sm">
+                                    <?= $labelG ?></span>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
-                                {{ isset($sectionsData['C']) ? $sectionsData['C']['response']->scores->where('section', 'C')->first()->score ?? 'N/A' : 'N/A' }}/60
+                                Skala Kemurungan CES-D:
+                                {{ $survey['G']->scores[0]->score }}/60
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-sm">
-                                Gejala ringan/ sederhana dikesan, perlu diberi perhatian
-                                @if (isset($medianScores))
-                                    <br><small class="text-gray-600">
-                                        <strong>Median Skor:</strong>
-                                        Tuntutan Psikologi: {{ $medianScores['Tuntutan Psikologi'] ?? 'N/A' }},
-                                        Kawalan Keputusan: {{ $medianScores['Kawalan Keputusan'] ?? 'N/A' }},
-                                        Sokongan Sosial: {{ $medianScores['Sokongan Sosial'] ?? 'N/A' }}
-                                    </small>
-                                @endif
-                                @if (isset($sectionCStatus))
-                                    <br><small class="text-blue-600 font-semibold">
-                                        <strong>Status:</strong> {{ $sectionCStatus['status'] }}
-                                    </small>
-                                    @if ($sectionCStatus['recommendation'] !== '-')
-                                        <br><small class="text-green-600">
-                                            <strong>Saranan:</strong> {{ $sectionCStatus['recommendation'] }}
-                                        </small>
-                                    @endif
-                                @endif
+                                {{ $survey['G']->scores[0]->recommendation }}
                             </td>
                         </tr>
                         <tr class="bg-gray-50">
@@ -170,17 +197,33 @@
                                     <span>Kepenatan</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">
-                                <div class="flex items-center justify-center">
-                                    <i class="fas fa-times-circle w-5 h-5 text-red-500"></i>
-                                    <span class="ml-1 text-sm">Tinggi</span>
-                                </div>
+                            <td class="border border-gray-300 px-4 py-2 text-left">
+                                @php
+                                    $answerH = $survey['H']->scores[4]->category;
+                                    if (strtoupper($answerH) == 'RENDAH') {
+                                        $color4 = 'green';
+                                    } elseif (strtoupper($answerH) == 'SEDERHANA') {
+                                        $color4 = 'orange';
+                                    } elseif (
+                                        strtoupper($answerH) == 'TINGGI' ||
+                                        strtoupper($answerH) == 'SANGAT TINGGI'
+                                    ) {
+                                        $color4 = 'red';
+                                    } else {
+                                        $color4 = 'gray';
+                                    }
+
+                                @endphp
+                                <i class="fas fa-circle w-5 h-5 text-{{ $color4 }}-500"></i>
+                                <span class="ml-1 text-sm">
+                                    <?= $answerH ?></span>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
-                                {{ isset($sectionsData['D']) ? $sectionsData['D']['response']->scores->where('section', 'D_Keseluruhan')->first()->score ?? 'N/A' : 'N/A' }}/100
+                                Instrumen Penilaian Kepenatan
+                                (BAT): {{ $survey['H']->scores[4]->score }}/5.00
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-sm">Mengalami risiko kependatan, perlu
-                                perhatian segera</td>
+                            <td class="border border-gray-300 px-4 py-2 text-sm">
+                                {{ $survey['H']->scores[4]->recommendation }}</td>
                         </tr>
                         <tr>
                             <td class="border border-gray-300 px-4 py-2">
@@ -189,17 +232,40 @@
                                     <span>Risiko Ergonomik</span>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">
-                                <div class="flex items-center justify-center">
-                                    <i class="fas fa-exclamation-triangle w-5 h-5 text-yellow-500"></i>
-                                    <span class="ml-1 text-sm">Rendah</span>
-                                </div>
+                            <td class="border border-gray-300 px-4 py-2 text-left">
+                                @php
+                                    $answerI = $survey['I']->scores[0]->category;
+                                    if (
+                                        strtoupper($answerI) == 'TIADA RISIKO' ||
+                                        strtoupper($answerI) == 'RISIKO RENDAH, PERUBAHAN MUNGKIN DIPERLUKAN'
+                                    ) {
+                                        $color5 = 'green';
+                                    } elseif (
+                                        strtoupper($answerI) ==
+                                        'RISIKO SEDERHANA, SIASATAN LANJUT, PERUBAHAN PERLU DIBUAT DALAM MASA TERDEKAT'
+                                    ) {
+                                        $color5 = 'orange';
+                                    } elseif (
+                                        strtoupper($answerI) == 'RISIKO TINGGI, SIASAT DAN LAKSANAKAN PERUBAHAN' ||
+                                        strtoupper($answerI) == 'RISIKO SANGAT TINGGI, LAKSANAKAN PERUBAHAN SEGERA'
+                                    ) {
+                                        $color5 = 'red';
+                                    } else {
+                                        $labelI = '-';
+                                        $color5 = 'gray';
+                                    }
+
+                                @endphp
+                                <i class="fas fa-circle w-5 h-5 text-{{ $color5 }}-500"></i>
+                                <span class="ml-1 text-sm">
+                                    <?= $answerI ?></span>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
-                                {{ isset($sectionsData['F']) ? $sectionsData['F']['response']->scores->where('section', 'F')->first()->score ?? 'N/A' : 'N/A' }}/15
+                                Penilaian Keseluruhan
+                                Anggota Tubuh (REBA): {{ $survey['I']->scores[0]->score }}/15
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-sm">Postur berisiko rendah, namun terdapat
-                                masalah kecil VSD</td>
+                            <td class="border border-gray-300 px-4 py-2 text-sm">
+                                {{ $survey['I']->scores[0]->recommendation }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -216,103 +282,113 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="border border-gray-300 px-4 py-2">Risiko Psikologi</td>
-                            <td class="border border-gray-300 px-4 py-2">Khidmat nasihat kaunseling berkesinambungan
-                            </td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">Kaunselor</td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">2 Minggu/ 2 Minggu selepas</td>
-                        </tr>
-                        <tr class="bg-gray-50">
-                            <td class="border border-gray-300 px-4 py-2">Kepenatan</td>
-                            <td class="border border-gray-300 px-4 py-2">Sesi kaunseling pengurusan kaunseling</td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">HR/Penyelja</td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">2 Minggu/ 2 Minggu selepas</td>
-                        </tr>
-                        <tr>
-                            <td class="border border-gray-300 px-4 py-2">Risiko Ergonomik</td>
-                            <td class="border border-gray-300 px-4 py-2">Latihan ergonomik/ teknik postur yang betul
-                                semasa bekerja</td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">Penyelja</td>
-                            <td class="border border-gray-300 px-4 py-2 text-center">1 Minggu/ 4 Minggu selepas</td>
-                        </tr>
+                        @php
+                            function tindakan($risiko)
+                            {
+                                if ($risiko == 1) {
+                                    return 'Ulang ujian berkaitan sehingga lulus';
+                                } elseif ($risiko == 2) {
+                                    return 'Intervensi kesihatan fizikal/mental/kerja';
+                                }
+                                return '-';
+                            }
+                            function tanggungjawab($risiko)
+                            {
+                                if ($risiko == 1) {
+                                    return 'Kaunselor';
+                                } elseif ($risiko == 2) {
+                                    return 'Penyelia';
+                                }
+                                return '-';
+                            }
+                        @endphp
+                        @if (strtoupper($answerL) == 'GAGAL')
+                            @php
+                                if (strtoupper($answerL) == 'GAGAL') {
+                                    $risiko = 0;
+                                }
+                            @endphp
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Kecergasan</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ tindakan(0) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan(0) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
+                                    tindakan diambil</td>
+                            </tr>
+                        @endif
+                        @if (strtoupper($answerB) == 'LEMAH' || strtoupper($answerB) == 'SEDERHANA')
+                            @php
+                                if (strtoupper($answerB) == 'LEMAH') {
+                                    $risiko = 0;
+                                } else {
+                                    $risiko = 1;
+                                }
+                            @endphp
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Keupayaan Kerja</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
+                                    tindakan diambil</td>
+                            </tr>
+                        @endif
+                        @if (strtoupper($answerG) == 'MENGALAMI SIMPTOM KEMURUNGAN YANG RINGAN/SEDERHANA' ||
+                                strtoupper($answerG) == 'MENGALAMI SIMPTOM KEMURUNGAN YANG TINGGI')
+                            @php
+                                if (strtoupper($answerG) == 'MENGALAMI SIMPTOM KEMURUNGAN YANG RINGAN/SEDERHANA') {
+                                    $risiko = 0;
+                                } else {
+                                    $risiko = 1;
+                                }
+                            @endphp
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Risiko Psikologi</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
+                                    tindakan diambil</td>
+                            </tr>
+                        @endif
+                        @if (strtoupper($answerH) == 'SEDERHANA' || strtoupper($answerH) == 'TINGGI' || strtoupper($answerH) == 'SANGAT TINGGI')
+                            @php
+                                if (strtoupper($answerH) == 'SEDERHANA') {
+                                    $risiko = 0;
+                                } else {
+                                    $risiko = 1;
+                                }
+                            @endphp
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Kepenatan</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
+                                    tindakan diambil</td>
+                            </tr>
+                        @endif
+                        @if (strtoupper($answerI) == 'RISIKO SEDERHANA, SIASATAN LANJUT, PERUBAHAN PERLU DIBUAT DALAM MASA TERDEKAT' ||
+                                strtoupper($answerI) == 'RISIKO TINGGI, SIASAT DAN LAKSANAKAN PERUBAHAN' ||
+                                strtoupper($answerI) == 'RISIKO SANGAT TINGGI, LAKSANAKAN PERUBAHAN SEGERA')
+                            @php
+                                if (
+                                    strtoupper($answerI) ==
+                                    'RISIKO SEDERHANA, SIASATAN LANJUT, PERUBAHAN PERLU DIBUAT DALAM MASA TERDEKAT'
+                                ) {
+                                    $risiko = 0;
+                                } else {
+                                    $risiko = 1;
+                                }
+                            @endphp
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Risiko Ergonomik</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
+                                    tindakan diambil</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
-
-            <!-- Median Scores Summary for Section C -->
-            @if (isset($medianScores) && !empty($medianScores))
-                <div class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500">
-                    <div class="flex items-center space-x-3 mb-4">
-                        <i class="fas fa-chart-line w-6 h-6 text-blue-600"></i>
-                        <h3 class="text-lg font-bold text-gray-800">Analisis Median Skor Bahagian C</h3>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        @foreach ($medianScores as $subsection => $median)
-                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                                <div class="text-sm font-medium text-gray-600 mb-1">{{ $subsection }}</div>
-                                <div class="text-2xl font-bold text-blue-600">{{ number_format($median, 2) }}</div>
-                                <div class="text-xs text-gray-500">Median dari semua responden</div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="mt-3 text-sm text-gray-600">
-                        <i class="fas fa-info-circle mr-1"></i>
-                        Median skor menunjukkan nilai tengah dari semua responden yang telah melengkapkan bahagian C
-                    </div>
-                </div>
-            @endif
-
-            <!-- Section C Status and Recommendations -->
-            @if (isset($sectionCStatus))
-                <div class="p-6 bg-gradient-to-r from-green-50 to-teal-50 border-l-4 border-green-500">
-                    <div class="flex items-center space-x-3 mb-4">
-                        <i class="fas fa-brain w-6 h-6 text-green-600"></i>
-                        <h3 class="text-lg font-bold text-gray-800">Status dan Saranan Bahagian C: Risiko Psikologi</h3>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                            <div class="text-sm font-medium text-gray-600 mb-2">Skor Individu Anda</div>
-                            <div class="space-y-2">
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Tuntutan Psikologi:</span>
-                                    <span class="font-semibold text-blue-600">{{ number_format($sectionCStatus['psychological_demand_score'], 2) }}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Kawalan Keputusan:</span>
-                                    <span class="font-semibold text-blue-600">{{ number_format($sectionCStatus['decision_control_score'], 2) }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                            <div class="text-sm font-medium text-gray-600 mb-2">Status Kerja</div>
-                            <div class="text-lg font-bold text-green-600 mb-2">{{ $sectionCStatus['status'] }}</div>
-                            <div class="text-xs text-gray-500">
-                                Berdasarkan perbandingan dengan median skor semua responden
-                            </div>
-                        </div>
-                    </div>
-                    @if ($sectionCStatus['recommendation'] !== '-')
-                        <div class="mt-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                            <div class="flex items-start space-x-3">
-                                <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
-                                <div>
-                                    <div class="font-medium text-gray-800 mb-1">Saranan:</div>
-                                    <div class="text-sm text-gray-600 leading-relaxed">{{ $sectionCStatus['recommendation'] }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            @endif
-
-            <div class="p-6 bg-yellow-50">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-calendar w-5 h-5 text-blue-600"></i>
-                    <span class="font-semibold">Tarikh Penilaian Seterusnya Dijadualkan: [1 Disember 2025]</span>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
                 <div class="border border-gray-300 rounded-lg overflow-hidden">
                     <div class="bg-red-600 text-white p-3">
@@ -322,27 +398,38 @@
                         </div>
                     </div>
                     <div class="p-4 space-y-3">
-                        <div class="text-sm">
-                            <span class="font-semibold">BMI:</span> Tahap Sihat: {{ $respondent->bmi ?? 'N/A' }}
+                        <div class="text-md">
+                            <span class="font-bold">Umur:</span>
+                            [{{ $respondent->age ? $respondent->age . ' Tahun' : 'Tidak diketahui' }}]
+                        </div>
+                        <div class="text-md">
+                            <span class="font-bold">BMI:</span> {{ $respondent->bmi ?? 'N/A' }}
                             [{{ $respondent->health ?? 'Tidak diketahui' }}]
                         </div>
-                        <div class="text-sm">
-                            <span class="font-semibold">BMI:</span> {{ $respondent->bmi ?? 'N/A' }}
-                            [{{ $respondent->health ?? 'Tidak diketahui' }}]
-                        </div>
-                        <div class="text-sm">
-                            <span class="font-semibold">Tahap Pernafasan:</span> Baik
+                        <div class="text-md">
+                            <span class="font-bold">Tahap Kesihatan:</span>
+                            @if ($respondent->health_issues)
+                                <ul class="list-disc list-inside">
+                                    @foreach (json_decode($respondent->health_issues, true) as $issue)
+                                        <li>{{ $issue }}</li>
+                                    @endforeach
+                                </ul>
+                            @elseif ($respondent->other_health_issue)
+                                {{ $respondent->other_health_issue }}
+                            @else
+                                Baik
+                            @endif
                         </div>
                         <div class="space-y-2">
-                            <div class="text-sm"><strong>Skala Kesiler 6 (Tekanan Psikologi):</strong> Skor [8] [Tidak
-                                mengalami tekanan psikologi]</div>
-                            <div class="text-sm"><strong>Skala Simptom Kemrunangan (CES-D):</strong> Skor [10]
-                                [Mengalami kemrunangan]</div>
-                            <div class="text-sm"><strong>Skala Penilaian Kepenatan:</strong> Skor [3.10]
-                                [{{ isset($sectionsData['E']) && isset($sectionsData['E']['subsectionScores'][0]) ? $sectionsData['E']['subsectionScores'][0]['category'] : 'Tidak diketahui' }}]
+                            <div class="text-md"><strong>Skala Kesiler 6 (Tekanan Psikologi):</strong> Skor
+                                [{{ $survey['F']->scores[0]->score }}] [{{ $survey['F']->scores[0]->category }}]
                             </div>
-                            <div class="text-sm"><strong>Ulasan:</strong> [Sangat tinggi tahap] sekerangapa pada tahap
-                                yang sederhana]</div>
+                            <div class="text-md"><strong>Skala Simptom Kemrunangan (CES-D):</strong> Skor
+                                [{{ $survey['G']->scores[0]->score }}] [{{ $survey['G']->scores[0]->category }}]</div>
+                            <div class="text-md"><strong>Skala Penilaian Kepenatan:</strong> Skor
+                                [{{ $survey['H']->scores[4]->score }}] [{{ $survey['H']->scores[4]->category }}]
+                            </div>
+                            <div class="text-md"><strong>Ulasan:</strong> -</div>
                         </div>
                     </div>
                 </div>
@@ -355,25 +442,41 @@
                         </div>
                     </div>
                     <div class="p-4 space-y-3">
-                        <div class="text-sm">
-                            <span class="font-semibold">Prestasi Kerja Keseluruhan Individu:</span> Skor
-                            {{ isset($sectionsData['E']) && isset($sectionsData['E']['subsectionScores'][0]) ? $sectionsData['E']['subsectionScores'][0]['score'] : 'N/A' }}
-                            [{{ isset($sectionsData['E']) && isset($sectionsData['E']['subsectionScores'][0]) ? $sectionsData['E']['subsectionScores'][0]['category'] : 'Tidak diketahui' }}]
+                        <div class="text-md">
+                            <span class="font-bold">Prestasi Kerja Keseluruhan Individu:</span> Skor
+                            [{{ $survey['E']->scores[3]->score }}] [{{ $survey['E']->scores[3]->category }}]
+                            <ul class="list-disc list-inside ml-4">
+                                <li><span class="font-semibold">Prestasi Tugas :</span> Skor
+                                    [{{ $survey['E']->scores[0]->score }}] [{{ $survey['E']->scores[0]->category }}]</li>
+                                <li><span class="font-semibold">Prestasi Konteksual :</span> Skor
+                                    [{{ $survey['E']->scores[1]->score }}] [{{ $survey['E']->scores[1]->category }}]</li>
+                                <li><span class="font-semibold">Perilaku Kerja Produktif :</span> Skor
+                                    [{{ $survey['E']->scores[2]->score }}] [{{ $survey['E']->scores[2]->category }}]</li>
+                            </ul>
                         </div>
-                        <div class="text-sm">
-                            <span class="font-semibold">Prestasi Kontekstual:</span> Skor [8.10] [Sederhana]
+                        <div class="text-md">
+                            <span class="font-bold">Impak Latihan Di Tempat Kerja:</span> Skor
+                            [{{ $survey['D']->scores[0]->score }}] [{{ $survey['D']->scores[0]->category }}]
+                            <ul class="list-disc list-inside ml-4">
+                                <li><span class="font-semibold">Prestasi Kerja :</span> Skor
+                                    [{{ $survey['D']->scores[1]->score }}] [{{ $survey['D']->scores[1]->category }}]</li>
+                                <li><span class="font-semibold">Sikap :</span> Skor
+                                    [{{ $survey['D']->scores[2]->score }}] [{{ $survey['D']->scores[2]->category }}]</li>
+                            </ul>
                         </div>
-                        <div class="text-sm">
-                            <span class="font-semibold">Prilaku Kerja Produktif:</span> Skor [3.49]
-                            [{{ isset($sectionsData['E']) && isset($sectionsData['E']['subsectionScores'][0]) ? $sectionsData['E']['subsectionScores'][0]['category'] : 'Tidak diketahui' }}]
+                        <div class="text-md">
+                            <span class="font-bold">Penilaian Kandungan Kerja:</span> [Pekerjaan Aktif]
+                            <ul class="list-disc list-inside ml-4">
+                                <li><span class="font-semibold">Tuntutan Psikologi :</span> Skor
+                                    [{{ $survey['C']->scores[0]->score }}] [Tinggi]</li>
+                                <li><span class="font-semibold">Kawalan Keputusan :</span> Skor
+                                    [{{ $survey['C']->scores[1]->score }}] [Rendah]</li>
+                                <li><span class="font-semibold">Sokongan Sosial :</span> Skor
+                                    [{{ $survey['C']->scores[2]->score }}] [Tinggi]</li>
+                            </ul>
                         </div>
-                        <div class="text-sm">
-                            <span class="font-semibold">Impak Kesihatan Ke Atas Tempat Kerja:</span> Skor [55] [Sangat
-                            Berkesan]
-                        </div>
-                        <div class="text-sm">
-                            <span class="font-semibold">Skala Kerja:</span> Skor [51] [Berkesam]
-                        </div>
+
+                        <div class="text-md"><strong>Ulasan : </strong> -</div>
                     </div>
                 </div>
             </div>

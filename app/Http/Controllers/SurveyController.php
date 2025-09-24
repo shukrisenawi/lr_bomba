@@ -811,6 +811,13 @@ class SurveyController extends Controller
             $surveyData = json_decode(file_get_contents(storage_path('app/survey/1st_draft.json')), true);
 
             // Get all completed survey responses for the user
+            $survey = SurveyResponse::with(['scores', 'answers'])
+                ->where('user_id', $user_id)
+                ->where('completed', true)
+                ->get()
+                ->keyBy('survey_id');
+
+
             $responses = SurveyResponse::with(['scores', 'answers'])
                 ->where('user_id', $user_id)
                 ->where('completed', true)
@@ -824,30 +831,32 @@ class SurveyController extends Controller
             $sectionsData = [];
             $overallStatus = 'TIDAK LENGKAP';
 
-            foreach ($surveyData['sections'] as $sectionData) {
-                $section = $sectionData['id'];
-                if (isset($responses[$section])) {
-                    $response = $responses[$section];
 
-                    // Calculate scores if not already calculated
-                    $this->calculateScore($response, $section, $surveyData);
 
-                    // Get subsection scores if available
-                    $subsectionScores = [];
-                    $hasSubsections = isset($sectionData['subsections']) && !empty($sectionData['subsections']);
-                    if ($hasSubsections) {
-                        $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
-                    }
+            // foreach ($surveyData['sections'] as $sectionData) {
+            //     $section = $sectionData['id'];
+            //     if (isset($responses[$section])) {
+            //         $response = $responses[$section];
 
-                    $sectionsData[$section] = [
-                        'title' => $sectionData['title_BM'],
-                        'response' => $response,
-                        'subsectionScores' => $subsectionScores,
-                        'hasSubsections' => $hasSubsections,
-                        'sectionData' => $sectionData
-                    ];
-                }
-            }
+            //         // Calculate scores if not already calculated
+            //         $this->calculateScore($response, $section, $surveyData);
+
+            //         // Get subsection scores if available
+            //         $subsectionScores = [];
+            //         $hasSubsections = isset($sectionData['subsections']) && !empty($sectionData['subsections']);
+            //         if ($hasSubsections) {
+            //             $subsectionScores = $this->subsectionScoreService->calculateSubsectionScores($response, $sectionData);
+            //         }
+
+            //         $sectionsData[$section] = [
+            //             'title' => $sectionData['title_BM'],
+            //             'response' => $response,
+            //             'subsectionScores' => $subsectionScores,
+            //             'hasSubsections' => $hasSubsections,
+            //             'sectionData' => $sectionData
+            //         ];
+            //     }
+            // }
 
             // Determine overall status
             $totalSections = count($surveyData['sections']);
@@ -870,6 +879,7 @@ class SurveyController extends Controller
             return view('survey.overall-results', [
                 'sectionsData' => $sectionsData,
                 'respondent' => $respondent,
+                'survey' => $survey,
                 'overallStatus' => $overallStatus,
                 'surveyData' => $surveyData,
                 'medianScores' => $medianScores,
