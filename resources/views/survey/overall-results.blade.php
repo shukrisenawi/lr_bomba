@@ -465,14 +465,50 @@
                             </ul>
                         </div>
                         <div class="text-sm">
-                            <span class="font-bold">Penilaian Kandungan Kerja:</span> [Pekerjaan Aktif]
+                            <span class="font-bold">Penilaian Kandungan Kerja:</span> [{{ $sectionCStatus['status'] ?? 'Pekerjaan Aktif' }}]
                             <ul class="list-disc list-inside ml-4">
                                 <li><span class="font-semibold">Tuntutan Psikologi :</span> Skor
-                                    [{{ $survey['C']->scores[0]->score }}] [Tinggi]</li>
+                                    [{{ $survey['C']->scores[0]->score }}]
+                                    @if(isset($medianScores['Tuntutan Psikologi']))
+                                        @if($survey['C']->scores[0]->score > $medianScores['Tuntutan Psikologi'])
+                                            [Di atas median]
+                                        @elseif($survey['C']->scores[0]->score < $medianScores['Tuntutan Psikologi'])
+                                            [Di bawah median]
+                                        @else
+                                            [Sama dengan median]
+                                        @endif
+                                    @else
+                                        [{{ $survey['C']->scores[0]->category }}]
+                                    @endif
+                                </li>
                                 <li><span class="font-semibold">Kawalan Keputusan :</span> Skor
-                                    [{{ $survey['C']->scores[1]->score }}] [Rendah]</li>
+                                    [{{ $survey['C']->scores[1]->score }}]
+                                    @if(isset($medianScores['Kawalan Keputusan']))
+                                        @if($survey['C']->scores[1]->score > $medianScores['Kawalan Keputusan'])
+                                            [Di atas median]
+                                        @elseif($survey['C']->scores[1]->score < $medianScores['Kawalan Keputusan'])
+                                            [Di bawah median]
+                                        @else
+                                            [Sama dengan median]
+                                        @endif
+                                    @else
+                                        [{{ $survey['C']->scores[1]->category }}]
+                                    @endif
+                                </li>
                                 <li><span class="font-semibold">Sokongan Sosial :</span> Skor
-                                    [{{ $survey['C']->scores[2]->score }}] [Tinggi]</li>
+                                    [{{ $survey['C']->scores[2]->score }}]
+                                    @if(isset($medianScores['Sokongan Sosial']))
+                                        @if($survey['C']->scores[2]->score > $medianScores['Sokongan Sosial'])
+                                            [Di atas median]
+                                        @elseif($survey['C']->scores[2]->score < $medianScores['Sokongan Sosial'])
+                                            [Di bawah median]
+                                        @else
+                                            [Sama dengan median]
+                                        @endif
+                                    @else
+                                        [{{ $survey['C']->scores[2]->category }}]
+                                    @endif
+                                </li>
                             </ul>
                         </div>
 
