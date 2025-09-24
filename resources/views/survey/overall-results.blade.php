@@ -465,12 +465,13 @@
                             </ul>
                         </div>
                         <div class="text-sm">
-                            <span class="font-bold">Penilaian Kandungan Kerja:</span> [{{ $sectionCStatus['status'] ?? 'Pekerjaan Aktif' }}]
+                            <span class="font-bold">Penilaian Kandungan Kerja:</span>
+                            [{{ $sectionCStatus['status'] ?? 'Pekerjaan Aktif' }}]
                             <ul class="list-disc list-inside ml-4">
                                 <li><span class="font-semibold">Tuntutan Psikologi :</span> Skor
                                     [{{ $survey['C']->scores[0]->score }}]
-                                    @if(isset($medianScores['Tuntutan Psikologi']))
-                                        @if($survey['C']->scores[0]->score > $medianScores['Tuntutan Psikologi'])
+                                    @if (isset($medianScores['Tuntutan Psikologi']))
+                                        @if ($survey['C']->scores[0]->score > $medianScores['Tuntutan Psikologi'])
                                             [Di atas median]
                                         @elseif($survey['C']->scores[0]->score < $medianScores['Tuntutan Psikologi'])
                                             [Di bawah median]
@@ -483,8 +484,8 @@
                                 </li>
                                 <li><span class="font-semibold">Kawalan Keputusan :</span> Skor
                                     [{{ $survey['C']->scores[1]->score }}]
-                                    @if(isset($medianScores['Kawalan Keputusan']))
-                                        @if($survey['C']->scores[1]->score > $medianScores['Kawalan Keputusan'])
+                                    @if (isset($medianScores['Kawalan Keputusan']))
+                                        @if ($survey['C']->scores[1]->score > $medianScores['Kawalan Keputusan'])
                                             [Di atas median]
                                         @elseif($survey['C']->scores[1]->score < $medianScores['Kawalan Keputusan'])
                                             [Di bawah median]
@@ -497,8 +498,8 @@
                                 </li>
                                 <li><span class="font-semibold">Sokongan Sosial :</span> Skor
                                     [{{ $survey['C']->scores[2]->score }}]
-                                    @if(isset($medianScores['Sokongan Sosial']))
-                                        @if($survey['C']->scores[2]->score > $medianScores['Sokongan Sosial'])
+                                    @if (isset($medianScores['Sokongan Sosial']))
+                                        @if ($survey['C']->scores[2]->score > $medianScores['Sokongan Sosial'])
                                             [Di atas median]
                                         @elseif($survey['C']->scores[2]->score < $medianScores['Sokongan Sosial'])
                                             [Di bawah median]
@@ -549,6 +550,25 @@
                         </div>
                         <div class="text-sm">
                             <span class="font-bold">Penilaian Kendiri Muskuloskeletal:</span>
+                            @php
+                                $sectionJData = $survey['J'] ?? null;
+                                $problematicParts = [];
+                                if ($sectionJData && isset($sectionJData->answers)) {
+                                    foreach ($sectionJData->answers as $answer) {
+                                        if (in_array($answer->question_id, ['J1', 'J2', 'J3', 'J4'])) {
+                                            $answerData = json_decode($answer->answer, true);
+                                            if (is_array($answerData)) {
+                                                $problematicParts = array_merge($problematicParts, $answerData);
+                                            }
+                                        }
+                                    }
+                                    $problematicParts = array_unique($problematicParts);
+                                }
+                                $partsText = !empty($problematicParts)
+                                    ? '[Masalah pada ' . strtolower(implode(', ', $problematicParts)) . ']'
+                                    : '[Tiada masalah dilaporkan]';
+                            @endphp
+                            {!! $partsText !!}
                         </div>
                         <div class="text-sm">
                             <span class="font-bold">Ulasan:</span>-
