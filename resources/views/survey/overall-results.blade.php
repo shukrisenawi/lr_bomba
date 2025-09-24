@@ -6,29 +6,18 @@
 
     <div id="document" class="min-h-screen bg-white p-6">
         <div class="max-w-6xl mx-auto bg-white">
-            <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center">
-                            <span class="text-red-600 font-bold text-lg">UPM</span>
-                        </div>
-                        <div>
-                            <h1 class="text-sm font-semibold">INSTITUT PENYELIDIKAN</h1>
-                            <h2 class="text-sm font-semibold">JASMANI & PSIKOLOGI</h2>
-                            <p class="text-xs opacity-90">Universiti Putra Malaysia</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                            <i class="fas fa-chart-line w-6 h-6 text-white"></i>
-                        </div>
-                        <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user w-6 h-6 text-white"></i>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs opacity-90">CONTOH</p>
-                        </div>
-                    </div>
+            <div class="text-center justify-center">
+
+                <div class="flex justify-center items-center space-x-4 mb-8 max-w-xl m-auto">
+                    <img src="../img/logo 1.png"
+                        class="h-16 sm:h-20 w-auto transform hover:scale-110 transition-transform duration-300"
+                        alt="Logo 1" />
+                    <img src="../img/logo 2.png"
+                        class="h-16 sm:h-20 w-auto transform hover:scale-110 transition-transform duration-300"
+                        alt="Logo 2" />
+                    <img src="../img/logo 3.png"
+                        class="h-16 sm:h-20 w-auto transform hover:scale-110 transition-transform duration-300"
+                        alt="Logo 3" />
                 </div>
             </div>
 
@@ -43,46 +32,14 @@
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
                         <i class="fas fa-arrow-left mr-2"></i> Kembali ke Dashboard
                     </a>
-                    @auth
-                        @if (session()->has('survey_admin_verified_overall'))
-                            <div class="flex items-center space-x-2">
-
-                                <button id="printBtn" style="display: none;"
-                                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center cursor-pointer">
-                                    <i class="fas fa-print mr-2"></i> Print
-                                </button>
-                            </div>
-                        @else
-                            <button id="printBtn"
-                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center cursor-pointer">
-                                <i class="fas fa-print mr-2"></i> Print
-                            </button>
-                        @endif
-                    @endauth
-                </div>
-            </div>
-
-            <div class="p-6 bg-blue-50">
-                <div class="flex items-center space-x-4 mb-4">
-                    <div class="bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold">
-                        STATUS KESELURUHAN
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm">Nama Pemohon:</span>
-                        <span class="font-semibold">{{ $respondent->user->name ?? 'Tidak diketahui' }}</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm">Jawatan & Gred:</span>
-                        <span class="font-semibold">{{ $respondent->current_position ?? '' }}
-                            {{ $respondent->grade ?? '' }}</span>
-                    </div>
-                    <div class="bg-green-600 text-white px-3 py-1 rounded text-sm font-semibold">
-                        STATUS: {{ $overallStatus === 'LENGKAP' ? '[✓] SELESAI' : '[!] BELUM LENGKAP' . $overallStatus }}
-                    </div>
+                    <button id="printBtn"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center cursor-pointer">
+                        <i class="fas fa-print mr-2"></i> Print
+                    </button>
                 </div>
                 @auth
                     @if (session()->has('survey_admin_verified_overall'))
-                        <div class="bg-white rounded-lg border border-gray-200 mb-4">
+                        <div class="bg-white rounded-lg border border-gray-200 my-3">
                             <div class="p-4 border-b border-gray-200">
                                 <button type="button" id="toggleFormBtn"
                                     class="w-full text-left flex items-center justify-between">
@@ -179,7 +136,31 @@
                     @endif
                 @endauth
 
-                <div class="text-sm text-gray-700 mb-4">
+            </div>
+
+            <div class="p-6 bg-blue-50">
+                <div class="flex justify-between items-center mb-4 space-x-4">
+                    <div class="bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold">
+                        STATUS KESELURUHAN
+                    </div>
+                    <div class="flex justify-between gap-10">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-md font-bold">Nama Pemohon:</span>
+                            <span class="font-semibold">[{{ $respondent->user->name ?? 'Tidak diketahui' }}]</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-md font-bold">Jawatan & Gred:</span>
+                            <span class="font-semibold">[{{ $respondent->current_position ?? '' }}] [
+                                {{ $respondent->grade ?? '' }}]</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-600 text-white px-3 py-1 rounded text-sm font-semibold">
+                        STATUS: [✓] SELESAI
+                    </div>
+                </div>
+
+                <div class="text-md text-gray-700">
                     <strong>Ringkasan:</strong>
                     @auth
                         @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
@@ -196,7 +177,7 @@
                 </div>
             </div>
 
-            <div class="p-6">
+            <div class="p-6 text-sm">
                 <table class="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr class="bg-blue-600 text-white">
@@ -512,11 +493,11 @@
                 </table>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
-                <div class="border border-gray-300 rounded-lg overflow-hidden">
-                    <div class="bg-red-600 text-white p-3">
+                <div class="border border-gray-300 overflow-hidden">
+                    <div class="bg-red-600 text-white p-2 px-3">
                         <div class="flex items-center space-x-2">
                             <i class="fas fa-heart w-5 h-5"></i>
-                            <span class="font-semibold">PROFIL KESIHATAN FIZIKAL, MENTAL & EMOSI</span>
+                            <span class="font-bold">PROFIL KESIHATAN FIZIKAL, MENTAL & EMOSI</span>
                         </div>
                     </div>
                     <div class="p-4 space-y-3">
@@ -572,11 +553,11 @@
                     </div>
                 </div>
 
-                <div class="border border-gray-300 rounded-lg overflow-hidden">
-                    <div class="bg-orange-600 text-white p-3">
+                <div class="border border-gray-300 overflow-hidden">
+                    <div class="bg-orange-600 text-white p-2 px-3">
                         <div class="flex items-center space-x-2">
                             <i class="fas fa-chart-line w-5 h-5"></i>
-                            <span class="font-semibold">PROFIL PRODUKTIVITI KERJA</span>
+                            <span class="font-bold">PROFIL PRODUKTIVITI KERJA</span>
                         </div>
                     </div>
                     <div class="p-4 space-y-3">
@@ -669,10 +650,10 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
-                <div class="border border-gray-300 rounded-lg overflow-hidden">
-                    <div class="bg-blue-600 text-white p-3 text-center">
-                        <span class="font-semibold text-sm">PROFIL KEUPAYAAN KERJA</span>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 px-6">
+                <div class="border border-gray-300 overflow-hidden">
+                    <div class="bg-blue-600 text-white p-2 px-3 text-center">
+                        <span class="font-bold text-sm">PROFIL KEUPAYAAN KERJA</span>
                     </div>
                     <div class="p-4 space-y-2">
                         <div class="text-sm">
@@ -698,9 +679,9 @@
                     </div>
                 </div>
 
-                <div class="border border-gray-300 rounded-lg overflow-hidden">
-                    <div class="bg-green-600 text-white p-3 text-center">
-                        <span class="font-semibold text-sm">PROFIL ERGONOMIK PEKERJAAN</span>
+                <div class="border border-gray-300 overflow-hidden">
+                    <div class="bg-green-600 text-white p-2 px-3 text-center">
+                        <span class="font-bold text-sm">PROFIL ERGONOMIK PEKERJAAN</span>
                     </div>
                     <div class="p-4 space-y-2">
                         <div class="text-sm">
@@ -760,25 +741,20 @@
                     </div>
                 </div>
 
-                <div class="border border-gray-300 rounded-lg">
-                    <div class="bg-gray-200 h-32 flex items-center justify-center">
-                        <i class="fas fa-map-marker w-8 h-8 text-gray-400"></i>
+                <div class="border border-gray-300 text-left">
+                    <div class="bg-gray-600 text-white p-2 px-3 text-center">
+                        <span class="font-bold text-sm">UNTUK KEGUNAAN PEJABAT</span>
                     </div>
                     <div class="p-2">
-                        <div class="text-xs text-center">
-                            <span class="font-semibold">Cadangan/Tindakan</span>
+                        <div class="text-sm">
+                            <span class="font-bold">Cadangan/Tindakan</span>
                         </div>
-                        <div class="h-16 bg-gray-100 mt-2 rounded"></div>
-                        <div class="text-xs text-center mt-2">
-                            <span class="font-semibold">Tarikh:</span>
+                        <div class="h-35 bg-gray-100 mt-2 rounded"></div>
+                        <div class="text-sm mt-2">
+                            <span class="font-bold">Tarikh:</span>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="bg-gray-100 p-4 text-center text-sm text-gray-600">
-                <p>Institut Penyelidikan Jasmani & Psikologi • Universiti Putra Malaysia</p>
-                <p>Laporan ini adalah sulit dan tidak boleh disebarkan tanpa kebenaran bertulis</p>
             </div>
         </div>
     </div>
