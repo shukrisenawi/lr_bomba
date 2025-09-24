@@ -203,7 +203,7 @@
 
             <!-- Action Buttons -->
             <div class="space-y-2">
-                @if (!session()->has('admin_id'))
+                @if (!session()->has('admin_id') && $overallStatus === 'LENGKAP')
                     <a href="{{ route('survey.admin.login-form', 'overall') }}" class="btn-enhanced w-full text-sm">
                         <i class="fas fa-lock mr-1"></i>
                         Admin log in
