@@ -4,8 +4,8 @@
 
 @section('content')
 
-    <div id="document" class="min-h-screen bg-gray-100 p-6">
-        <div class="max-w-6xl mx-auto bg-white shadow-lg">
+    <div id="document" class="min-h-screen bg-white p-6">
+        <div class="max-w-6xl mx-auto bg-white">
             <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-6">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
@@ -271,7 +271,7 @@
                 </table>
             </div>
 
-            <div class="p-6 bg-blue-50">
+            <div class="p-6 bg-blue-50 text-sm">
                 <table class="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr class="bg-blue-600 text-white">
@@ -398,15 +398,15 @@
                         </div>
                     </div>
                     <div class="p-4 space-y-3">
-                        <div class="text-md">
+                        <div class="text-sm">
                             <span class="font-bold">Umur:</span>
                             [{{ $respondent->age ? $respondent->age . ' Tahun' : 'Tidak diketahui' }}]
                         </div>
-                        <div class="text-md">
+                        <div class="text-sm">
                             <span class="font-bold">BMI:</span> {{ $respondent->bmi ?? 'N/A' }}
                             [{{ $respondent->health ?? 'Tidak diketahui' }}]
                         </div>
-                        <div class="text-md">
+                        <div class="text-sm">
                             <span class="font-bold">Tahap Kesihatan:</span>
                             @if ($respondent->health_issues)
                                 <ul class="list-disc list-inside">
@@ -421,15 +421,15 @@
                             @endif
                         </div>
                         <div class="space-y-2">
-                            <div class="text-md"><strong>Skala Kesiler 6 (Tekanan Psikologi):</strong> Skor
+                            <div class="text-sm"><strong>Skala Kesiler 6 (Tekanan Psikologi):</strong> Skor
                                 [{{ $survey['F']->scores[0]->score }}] [{{ $survey['F']->scores[0]->category }}]
                             </div>
-                            <div class="text-md"><strong>Skala Simptom Kemrunangan (CES-D):</strong> Skor
+                            <div class="text-sm"><strong>Skala Simptom Kemrunangan (CES-D):</strong> Skor
                                 [{{ $survey['G']->scores[0]->score }}] [{{ $survey['G']->scores[0]->category }}]</div>
-                            <div class="text-md"><strong>Skala Penilaian Kepenatan:</strong> Skor
+                            <div class="text-sm"><strong>Skala Penilaian Kepenatan:</strong> Skor
                                 [{{ $survey['H']->scores[4]->score }}] [{{ $survey['H']->scores[4]->category }}]
                             </div>
-                            <div class="text-md"><strong>Ulasan:</strong> -</div>
+                            <div class="text-sm"><strong>Ulasan:</strong> -</div>
                         </div>
                     </div>
                 </div>
@@ -442,7 +442,7 @@
                         </div>
                     </div>
                     <div class="p-4 space-y-3">
-                        <div class="text-md">
+                        <div class="text-sm">
                             <span class="font-bold">Prestasi Kerja Keseluruhan Individu:</span> Skor
                             [{{ $survey['E']->scores[3]->score }}] [{{ $survey['E']->scores[3]->category }}]
                             <ul class="list-disc list-inside ml-4">
@@ -454,7 +454,7 @@
                                     [{{ $survey['E']->scores[2]->score }}] [{{ $survey['E']->scores[2]->category }}]</li>
                             </ul>
                         </div>
-                        <div class="text-md">
+                        <div class="text-sm">
                             <span class="font-bold">Impak Latihan Di Tempat Kerja:</span> Skor
                             [{{ $survey['D']->scores[0]->score }}] [{{ $survey['D']->scores[0]->category }}]
                             <ul class="list-disc list-inside ml-4">
@@ -464,7 +464,7 @@
                                     [{{ $survey['D']->scores[2]->score }}] [{{ $survey['D']->scores[2]->category }}]</li>
                             </ul>
                         </div>
-                        <div class="text-md">
+                        <div class="text-sm">
                             <span class="font-bold">Penilaian Kandungan Kerja:</span> [Pekerjaan Aktif]
                             <ul class="list-disc list-inside ml-4">
                                 <li><span class="font-semibold">Tuntutan Psikologi :</span> Skor
@@ -476,7 +476,7 @@
                             </ul>
                         </div>
 
-                        <div class="text-md"><strong>Ulasan : </strong> -</div>
+                        <div class="text-sm"><strong>Ulasan : </strong> -</div>
                     </div>
                 </div>
             </div>
@@ -484,41 +484,38 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
                 <div class="border border-gray-300 rounded-lg overflow-hidden">
                     <div class="bg-blue-600 text-white p-3 text-center">
-                        <span class="font-semibold text-sm">PROFIL ERGONOMIK KERJA</span>
+                        <span class="font-semibold text-sm">PROFIL KEUPAYAAN KERJA</span>
                     </div>
                     <div class="p-4 space-y-2">
-                        <div class="text-xs">
-                            <span class="font-semibold">Indeks Kebolehan Kerja:</span> Skor [42] [Baik]
+                        <div class="text-sm">
+                            <span class="font-bold">Indeks Kebolehan Bekerja:</span> Skor [42] [Baik]
                         </div>
-                        <div class="text-xs">
-                            <span class="font-semibold">Indeks Risiko Ergonomik:</span> Skor [3] [Tidak Berisiko]
+                        <div class="text-sm">
+                            <span class="font-bold">Indeks Kecergasan JBPM:</span> Skor [3] [Tidak Berisiko]
                         </div>
-                        <div class="text-xs">
-                            <span class="font-semibold">Ulasan:</span> [Mempunyai keupayaan kerja yang baik dari segi
-                            penilaian kerja fizikal dan mental]
+                        <div class="text-sm">
+                            <span class="font-bold">Ulasan:</span> -
                         </div>
                     </div>
                 </div>
 
                 <div class="border border-gray-300 rounded-lg overflow-hidden">
                     <div class="bg-green-600 text-white p-3 text-center">
-                        <span class="font-semibold text-sm">PROFIL KESIHATAN (SEROLOGI)</span>
+                        <span class="font-semibold text-sm">PROFIL ERGONOMIK PEKERJAAN</span>
                     </div>
                     <div class="p-4 space-y-2">
-                        <div class="text-xs">
-                            <span class="font-semibold">Penilaian Anggota Badan Keseluruhan (REBA):</span> Skor
-                            {{ isset($sectionsData['A']) ? $sectionsData['A']['response']->scores->where('section', 'Skor REBA Akhir')->first()->score ?? 'N/A' : 'N/A' }}
-                            [Sederhana]
+                        <div class="text-sm">
+                            <span class="font-bold">Penilaian Anggota Badan Keseluruhan (REBA):</span> Skor
+                            [{{ $survey['I']->scores[2]->score }}] [{{ $survey['I']->scores[2]->category }}]
                         </div>
-                        <div class="text-xs">
-                            <span class="font-semibold">Ulasan:</span> [Risiko rendah, perubahan mungkin diperlukan]
+                        <div class="text-sm">
+                            <span class="font-bold">Ulasan:</span> -
                         </div>
-                        <div class="text-xs">
-                            <span class="font-semibold">Penilaian Kendiri Muskuloskeletal:</span>
+                        <div class="text-sm">
+                            <span class="font-bold">Penilaian Kendiri Muskuloskeletal:</span>
                         </div>
-                        <div class="text-xs">
-                            <span class="font-semibold">Ulasan:</span> [Postur berada dalam keadaan risiko MSD,
-                            tambahbaik berisiko MSD]
+                        <div class="text-sm">
+                            <span class="font-bold">Ulasan:</span>-
                         </div>
                     </div>
                 </div>
