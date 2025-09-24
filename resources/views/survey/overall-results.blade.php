@@ -82,90 +82,99 @@
                 </div>
                 @auth
                     @if (session()->has('survey_admin_verified_overall'))
-                        <div class="bg-white p-4 rounded-lg border border-gray-200 mb-4">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                                <i class="fas fa-edit text-blue-500 mr-2"></i>
-                                Ulasan dan Ringkasan Penilai (Admin)
-                            </h3>
+                        <div class="bg-white rounded-lg border border-gray-200 mb-4">
+                            <div class="p-4 border-b border-gray-200">
+                                <button type="button" id="toggleFormBtn"
+                                    class="w-full text-left flex items-center justify-between">
+                                    <h3 class="text-lg font-semibold text-gray-800">
+                                        <i class="fas fa-edit text-blue-500 mr-2"></i>
+                                        Ulasan dan Ringkasan Penilai (Admin)
+                                    </h3>
+                                    <i id="toggleIcon"
+                                        class="fas fa-chevron-down text-gray-500 transition-transform duration-200"></i>
+                                </button>
+                            </div>
+                            <div id="formContent" class="p-4"
+                                style="display: {{ $respondent->assessment_summary && $respondent->assessment_review ? 'none' : 'block' }};">
+                                <form id="reviewForm" method="POST"
+                                    action="{{ route('survey.save-review', $respondent->id ?? 1) }}">
+                                    @csrf
+                                    <div class="mb-4">
+                                        <label for="summary" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Ringkasan Penilaian:
+                                        </label>
+                                        <input type="text" id="summary" name="summary"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Masukkan ringkasan penilaian keseluruhan..."
+                                            value="{{ $respondent->assessment_summary ?? '' }}">
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label for="review1" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Ulasan profil kesihatan fizikal, mental & emosi:
+                                            </label>
+                                            <input type="text" id="review1" name="review1"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Ulasan untuk Kecergasan..."
+                                                value="{{ json_decode($respondent->assessment_review ?? '[]', true)[0] ?? '' }}">
+                                        </div>
+                                        <div>
+                                            <label for="review2" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Ulasan profil produktiviti kerja:
+                                            </label>
+                                            <input type="text" id="review2" name="review2"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Ulasan untuk Keupayaan Kerja..."
+                                                value="{{ json_decode($respondent->assessment_review ?? '[]', true)[1] ?? '' }}">
+                                        </div>
+                                        <div>
+                                            <label for="review3" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Ulasan profil keupayaan kerja:
+                                            </label>
+                                            <input type="text" id="review3" name="review3"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Ulasan untuk Risiko Psikologi..."
+                                                value="{{ json_decode($respondent->assessment_review ?? '[]', true)[2] ?? '' }}">
+                                        </div>
+                                        <div>
+                                            <label for="review4" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Ulasan REBA:
+                                            </label>
+                                            <input type="text" id="review4" name="review4"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Ulasan untuk Kepenatan..."
+                                                value="{{ json_decode($respondent->assessment_review ?? '[]', true)[3] ?? '' }}">
+                                        </div>
+                                        <div>
+                                            <label for="review5" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Ulasan Penilaian Kendiri Muskuloskeletal:
+                                            </label>
+                                            <input type="text" id="review5" name="review5"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Ulasan untuk Risiko Ergonomik..."
+                                                value="{{ json_decode($respondent->assessment_review ?? '[]', true)[4] ?? '' }}">
+                                        </div>
+                                    </div>
 
-                            <form id="reviewForm" method="POST"
-                                action="{{ route('survey.save-review', $respondent->id ?? 1) }}">
-                                @csrf
-                                <div class="mb-4">
-                                    <label for="summary" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Ringkasan Penilaian:
-                                    </label>
-                                    <input type="text" id="summary" name="summary"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        placeholder="Masukkan ringkasan penilaian keseluruhan..."
-                                        value="{{ $respondent->assessment_summary ?? '' }}">
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                    <div>
-                                        <label for="review1" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan profil kesihatan fizikal, mental & emosi:
-                                        </label>
-                                        <input type="text" id="review1" name="review1"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Kecergasan..."
-                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[0] ?? '' }}">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-sm text-gray-600">
+                                            <i class="fas fa-info-circle mr-1"></i>
+                                            * Ringkasan dan ulasan perlu diisi sebelum mencetak laporan
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <button type="button" id="cancelBtn" onclick="cancelData()"
+                                                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                                                Batal
+                                            </button>
+                                            <button type="button" id="saveBtn" onclick="saveData()"
+                                                class="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                                                <i class="fas fa-save mr-2"></i>
+                                                Simpan Ulasan
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label for="review2" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan profil produktiviti kerja:
-                                        </label>
-                                        <input type="text" id="review2" name="review2"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Keupayaan Kerja..."
-                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[1] ?? '' }}">
-                                    </div>
-                                    <div>
-                                        <label for="review3" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan profil keupayaan kerja:
-                                        </label>
-                                        <input type="text" id="review3" name="review3"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Risiko Psikologi..."
-                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[2] ?? '' }}">
-                                    </div>
-                                    <div>
-                                        <label for="review4" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan REBA:
-                                        </label>
-                                        <input type="text" id="review4" name="review4"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Kepenatan..."
-                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[3] ?? '' }}">
-                                    </div>
-                                    <div>
-                                        <label for="review5" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan Penilaian Kendiri Muskuloskeletal:
-                                        </label>
-                                        <input type="text" id="review5" name="review5"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Ulasan untuk Risiko Ergonomik..."
-                                            value="{{ json_decode($respondent->assessment_review ?? '[]', true)[4] ?? '' }}">
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center justify-between">
-                                    <div class="text-sm text-gray-600">
-                                        <i class="fas fa-info-circle mr-1"></i>
-                                        * Ringkasan dan ulasan perlu diisi sebelum mencetak laporan
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button type="button" id="cancelBtn" onclick="cancelData()"
-                                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                                            Batal
-                                        </button>
-                                        <button type="button" id="saveBtn" onclick="saveData()"
-                                            class="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                                            <i class="fas fa-save mr-2"></i>
-                                            Simpan Ulasan
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     @endif
                 @endauth
@@ -844,10 +853,15 @@
                 })
                 .then(data => {
                     if (data.success) {
-                        // Hide form and show print button
-                        var formContainer = document.querySelector('.bg-white.p-4.rounded-lg');
-                        if (formContainer) {
-                            formContainer.style.display = 'none';
+                        // Update toggle state to show form is completed
+                        var formContent = document.getElementById('formContent');
+                        var toggleIcon = document.getElementById('toggleIcon');
+                        if (formContent) {
+                            formContent.style.display = 'none';
+                        }
+                        if (toggleIcon) {
+                            toggleIcon.classList.remove('fa-chevron-up');
+                            toggleIcon.classList.add('fa-chevron-down');
                         }
 
                         var printButton = document.getElementById('printBtn');
@@ -909,6 +923,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             var printBtn = document.getElementById('printBtn');
             var cancelBtn = document.getElementById('cancelBtn');
+            var toggleFormBtn = document.getElementById('toggleFormBtn');
+            var formContent = document.getElementById('formContent');
+            var toggleIcon = document.getElementById('toggleIcon');
 
             if (printBtn) {
                 printBtn.addEventListener('click', printDocument);
@@ -916,6 +933,21 @@
 
             if (cancelBtn) {
                 cancelBtn.addEventListener('click', cancelData);
+            }
+
+            // Toggle form visibility
+            if (toggleFormBtn && formContent && toggleIcon) {
+                toggleFormBtn.addEventListener('click', function() {
+                    if (formContent.style.display === 'none') {
+                        formContent.style.display = 'block';
+                        toggleIcon.classList.remove('fa-chevron-down');
+                        toggleIcon.classList.add('fa-chevron-up');
+                    } else {
+                        formContent.style.display = 'none';
+                        toggleIcon.classList.remove('fa-chevron-up');
+                        toggleIcon.classList.add('fa-chevron-down');
+                    }
+                });
             }
         });
     </script>
