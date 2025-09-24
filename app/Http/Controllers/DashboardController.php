@@ -14,6 +14,7 @@ class DashboardController extends Controller
 
         $sections = $this->sections;
         $userResponses = SurveyResponse::where('user_id', Auth::id())->get()->keyBy('survey_id');
+        $respondent = \App\Models\Respondent::where('user_id', Auth::id())->first();
 
 
         $progress = [];
@@ -62,7 +63,8 @@ class DashboardController extends Controller
             'sections' => $sections,
             'responses' => $userResponses,
             'progress' => $progress,
-            'overallStatus' => $overallStatus
+            'overallStatus' => $overallStatus,
+            'respondent' => $respondent
         ]);
     }
 

@@ -145,7 +145,8 @@
         <!-- Result Card (Last Position) -->
         <div class="card-enhanced glass-card p-6 text-center">
             <!-- Section Icon -->
-            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div
+                class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fas fa-chart-line text-white text-2xl"></i>
             </div>
 
@@ -168,7 +169,8 @@
                         </linearGradient>
                     </defs>
                     <circle stroke="#e5e7eb" stroke-width="8" fill="none" r="52" cx="64" cy="64" />
-                    <circle stroke="url(#gradientResult)" stroke-width="8" fill="none" r="52" cx="64" cy="64" stroke-dasharray="326.73" stroke-dashoffset="{{ $strokeDashoffset }}" />
+                    <circle stroke="url(#gradientResult)" stroke-width="8" fill="none" r="52" cx="64"
+                        cy="64" stroke-dasharray="326.73" stroke-dashoffset="{{ $strokeDashoffset }}" />
                 </svg>
 
                 <div class="absolute inset-0 flex items-center justify-center">
@@ -178,18 +180,21 @@
 
             <!-- Status Badge -->
             <div class="mb-4">
-                @if($overallStatus === 'LENGKAP')
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                @if ($overallStatus === 'LENGKAP')
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                         <i class="fas fa-check-circle mr-1"></i>
                         Lengkap
                     </span>
                 @elseif($overallStatus === 'SEBAHAGIAN LENGKAP')
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
                         <i class="fas fa-clock mr-1"></i>
                         Sebahagian
                     </span>
                 @else
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
                         <i class="fas fa-file-alt mr-1"></i>
                         Belum Lengkap
                     </span>
@@ -204,11 +209,20 @@
                         Admin log in
                     </a>
                 @endif
-                @if($overallStatus === 'LENGKAP')
+                @if (
+                    $overallStatus === 'LENGKAP' &&
+                        isset($respondent) &&
+                        $respondent->assessment_summary &&
+                        !empty($respondent->assessment_review))
                     <a href="{{ route('survey.overall-results') }}" class="btn-enhanced w-full text-sm">
                         <i class="fas fa-eye mr-1"></i>
                         Lihat Laporan
                     </a>
+                @elseif($overallStatus === 'LENGKAP')
+                    <div class="text-center text-sm text-gray-500 py-2">
+                        <i class="fas fa-clock mr-1"></i>
+                        Tunggu ulasan admin untuk lihat laporan
+                    </div>
                 @else
                     <div class="text-center text-sm text-gray-500 py-2">
                         <i class="fas fa-clock mr-1"></i>

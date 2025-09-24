@@ -44,7 +44,7 @@
                         <i class="fas fa-arrow-left mr-2"></i> Kembali ke Dashboard
                     </a>
                     @auth
-                        @if(auth()->user()->role === 'admin')
+                        @if (session()->has('survey_admin_verified_overall'))
                             <div class="flex items-center space-x-2">
                                 <button id="saveBtn"
                                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
@@ -84,37 +84,64 @@
                     </div>
                 </div>
                 @auth
-                    @if(auth()->user()->role === 'admin')
+                    @if (session()->has('survey_admin_verified_overall'))
                         <div class="bg-white p-4 rounded-lg border border-gray-200 mb-4">
                             <h3 class="text-lg font-semibold text-gray-800 mb-4">
                                 <i class="fas fa-edit text-blue-500 mr-2"></i>
                                 Ulasan dan Ringkasan Penilai (Admin)
                             </h3>
 
-                            <form id="reviewForm" method="POST" action="{{ route('survey.save-review', $respondent->id ?? 1) }}">
+                            <form id="reviewForm" method="POST"
+                                action="{{ route('survey.save-review', $respondent->id ?? 1) }}">
                                 @csrf
+                                <div class="mb-4">
+                                    <label for="summary" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Ringkasan Penilaian:
+                                    </label>
+                                    <input type="text" id="summary" name="summary"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        placeholder="Masukkan ringkasan penilaian keseluruhan..." value="{{ $respondent->assessment_summary ?? '' }}">
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
-                                        <label for="summary" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ringkasan Penilaian:
+                                        <label for="review1" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Ulasan Kecergasan:
                                         </label>
-                                        <textarea
-                                            id="summary"
-                                            name="summary"
-                                            rows="4"
+                                        <input type="text" id="review1" name="review1"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Masukkan ringkasan penilaian keseluruhan...">{{ $respondent->assessment_summary ?? '' }}</textarea>
+                                            placeholder="Ulasan untuk Kecergasan..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[0] ?? '' }}">
                                     </div>
                                     <div>
-                                        <label for="review" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Ulasan dan Cadangan:
+                                        <label for="review2" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Ulasan Keupayaan Kerja:
                                         </label>
-                                        <textarea
-                                            id="review"
-                                            name="review"
-                                            rows="4"
+                                        <input type="text" id="review2" name="review2"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Masukkan ulasan dan cadangan untuk pekerja...">{{ $respondent->assessment_review ?? '' }}</textarea>
+                                            placeholder="Ulasan untuk Keupayaan Kerja..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[1] ?? '' }}">
+                                    </div>
+                                    <div>
+                                        <label for="review3" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Ulasan Risiko Psikologi:
+                                        </label>
+                                        <input type="text" id="review3" name="review3"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Ulasan untuk Risiko Psikologi..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[2] ?? '' }}">
+                                    </div>
+                                    <div>
+                                        <label for="review4" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Ulasan Kepenatan:
+                                        </label>
+                                        <input type="text" id="review4" name="review4"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Ulasan untuk Kepenatan..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[3] ?? '' }}">
+                                    </div>
+                                    <div>
+                                        <label for="review5" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Ulasan Risiko Ergonomik:
+                                        </label>
+                                        <input type="text" id="review5" name="review5"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Ulasan untuk Risiko Ergonomik..." value="{{ json_decode($respondent->assessment_review ?? '[]', true)[4] ?? '' }}">
                                     </div>
                                 </div>
 
@@ -128,7 +155,7 @@
                                             class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
                                             Batal
                                         </button>
-                                        <button type="submit"
+                                        <button type="button" id="saveBtn"
                                             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
                                             <i class="fas fa-save mr-2"></i>
                                             Simpan Ulasan
@@ -143,11 +170,12 @@
                 <div class="text-sm text-gray-700 mb-4">
                     <strong>Ringkasan:</strong>
                     @auth
-                        @if(auth()->user()->role === 'admin')
-                            @if($respondent->assessment_summary)
+                        @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
+                            @if ($respondent->assessment_summary)
                                 {!! nl2br(e($respondent->assessment_summary)) !!}
                             @else
-                                <span class="text-red-500">*perlu diisi oleh penilai/penyelidik sebelum dapat dipaparkan keseluruhan laporan penilaian ini</span>
+                                <span class="text-red-500">*perlu diisi oleh penilai/penyelidik sebelum dapat dipaparkan
+                                    keseluruhan laporan penilaian ini</span>
                             @endif
                         @else
                             {!! nl2br(e($respondent->assessment_summary ?? 'Tiada ringkasan tersedia')) !!}
@@ -514,8 +542,8 @@
                             <div class="text-sm">
                                 <strong>Ulasan:</strong>
                                 @auth
-                                    @if(auth()->user()->role === 'admin')
-                                        @if($respondent->assessment_review)
+                                    @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
+                                        @if ($respondent->assessment_review)
                                             {!! nl2br(e($respondent->assessment_review)) !!}
                                         @else
                                             <span class="text-red-500">*perlu diisi oleh penilai</span>
@@ -611,8 +639,8 @@
                         <div class="text-sm">
                             <strong>Ulasan:</strong>
                             @auth
-                                @if(auth()->user()->role === 'admin')
-                                    @if($respondent->assessment_review)
+                                @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
+                                    @if ($respondent->assessment_review)
                                         {!! nl2br(e($respondent->assessment_review)) !!}
                                     @else
                                         <span class="text-red-500">*perlu diisi oleh penilai</span>
@@ -641,8 +669,8 @@
                         <div class="text-sm">
                             <span class="font-bold">Ulasan:</span>
                             @auth
-                                @if(auth()->user()->role === 'admin')
-                                    @if($respondent->assessment_review)
+                                @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
+                                    @if ($respondent->assessment_review)
                                         {!! nl2br(e($respondent->assessment_review)) !!}
                                     @else
                                         <span class="text-red-500">*perlu diisi oleh penilai</span>
@@ -667,8 +695,8 @@
                         <div class="text-sm">
                             <span class="font-bold">Ulasan:</span>
                             @auth
-                                @if(auth()->user()->role === 'admin')
-                                    @if($respondent->assessment_review)
+                                @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
+                                    @if ($respondent->assessment_review)
                                         {!! nl2br(e($respondent->assessment_review)) !!}
                                     @else
                                         <span class="text-red-500">*perlu diisi oleh penilai</span>
@@ -703,8 +731,8 @@
                         <div class="text-sm">
                             <span class="font-bold">Ulasan:</span>
                             @auth
-                                @if(auth()->user()->role === 'admin')
-                                    @if($respondent->assessment_review)
+                                @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
+                                    @if ($respondent->assessment_review)
                                         {!! nl2br(e($respondent->assessment_review)) !!}
                                     @else
                                         <span class="text-red-500">*perlu diisi oleh penilai</span>
@@ -757,73 +785,87 @@
 
             if (printBtn) {
                 printBtn.addEventListener('click', printDocument);
-                console.log('Print button event listener added');
-            } else {
-                console.error('Print button not found');
             }
 
-            // Handle form submission
-            if (reviewForm) {
-                reviewForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    var formData = new FormData(this);
+            // Handle save button click
+            if (saveBtn) {
+                saveBtn.addEventListener('click', function(e) {
                     var summary = document.getElementById('summary').value.trim();
-                    var review = document.getElementById('review').value.trim();
+                    var review1 = document.getElementById('review1').value.trim();
+                    var review2 = document.getElementById('review2').value.trim();
+                    var review3 = document.getElementById('review3').value.trim();
+                    var review4 = document.getElementById('review4').value.trim();
+                    var review5 = document.getElementById('review5').value.trim();
 
-                    // Check if both fields are filled
-                    if (!summary || !review) {
-                        alert('Sila isi kedua-dua Ringkasan Penilaian dan Ulasan dan Cadangan sebelum menyimpan.');
+                    // Check if all fields are filled
+                    if (!summary || !review1 || !review2 || !review3 || !review4 || !review5) {
+                        alert(
+                            'Sila isi Ringkasan Penilaian dan semua 5 Ulasan sebelum menyimpan.');
                         return;
                     }
 
+                    // Create FormData
+                    var formData = new FormData();
+                    formData.append('summary', summary);
+                    formData.append('review1', review1);
+                    formData.append('review2', review2);
+                    formData.append('review3', review3);
+                    formData.append('review4', review4);
+                    formData.append('review5', review5);
+                    formData.append('_token', document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '');
+
                     // Show loading state
-                    var submitBtn = this.querySelector('button[type="submit"]');
-                    var originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Menyimpan...';
-                    submitBtn.disabled = true;
+                    var originalText = saveBtn.innerHTML;
+                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Menyimpan...';
+                    saveBtn.disabled = true;
 
                     // Send AJAX request
-                    fetch(this.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Hide form and show print button
-                            document.querySelector('.bg-white.p-4.rounded-lg').style.display = 'none';
-                            printBtn.style.display = 'inline-flex';
+                    fetch(reviewForm.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Hide form and show print button
+                                document.querySelector('.bg-white.p-4.rounded-lg').style.display =
+                                    'none';
+                                if (printBtn) printBtn.style.display = 'inline-flex';
 
-                            // Update the summary and review sections
-                            document.querySelector('.text-sm.text-gray-700.mb-4 strong').nextSibling.textContent = summary;
-                            document.querySelectorAll('.text-sm strong').forEach(function(el) {
-                                if (el.textContent.includes('Ulasan:')) {
-                                    var nextEl = el.nextSibling;
-                                    if (nextEl && nextEl.nodeType === 3) {
-                                        nextEl.textContent = review;
+                                // Update the summary and review sections
+                                document.querySelector('.text-sm.text-gray-700.mb-4 strong').nextSibling
+                                    .textContent = summary;
+                                // Update each review section
+                                var reviewSections = document.querySelectorAll('.text-sm strong');
+                                var reviews = [review1, review2, review3, review4, review5];
+                                var reviewIndex = 0;
+                                reviewSections.forEach(function(el) {
+                                    if (el.textContent.includes('Ulasan:')) {
+                                        var nextEl = el.nextSibling;
+                                        if (nextEl && nextEl.nodeType === 3 && reviewIndex < reviews.length) {
+                                            nextEl.textContent = reviews[reviewIndex];
+                                            reviewIndex++;
+                                        }
                                     }
-                                }
-                            });
+                                });
 
-                            alert('Ulasan dan ringkasan berjaya disimpan!');
-                        } else {
-                            alert('Ralat menyimpan ulasan: ' + (data.message || 'Sila cuba lagi.'));
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Ralat menyimpan ulasan. Sila cuba lagi.');
-                    })
-                    .finally(() => {
-                        // Reset button state
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                    });
+                                alert('Ulasan dan ringkasan berjaya disimpan!');
+                            } else {
+                                alert('Ralat menyimpan ulasan: ' + (data.message || 'Sila cuba lagi.'));
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Ralat menyimpan ulasan. Sila cuba lagi.');
+                        })
+                        .finally(() => {
+                            // Reset button state
+                            saveBtn.innerHTML = originalText;
+                            saveBtn.disabled = false;
+                        });
                 });
             }
 
@@ -831,7 +873,11 @@
             if (cancelBtn) {
                 cancelBtn.addEventListener('click', function() {
                     document.getElementById('summary').value = '';
-                    document.getElementById('review').value = '';
+                    document.getElementById('review1').value = '';
+                    document.getElementById('review2').value = '';
+                    document.getElementById('review3').value = '';
+                    document.getElementById('review4').value = '';
+                    document.getElementById('review5').value = '';
                 });
             }
         });

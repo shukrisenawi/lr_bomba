@@ -902,8 +902,8 @@ class SurveyController extends Controller
     public function saveReview(Request $request, $respondentId)
     {
         try {
-            // Check if user is admin
-            if (Auth::user()->role !== 'admin') {
+            // Check if user is admin or has admin session
+            if (Auth::user()->role !== 'admin' && !session()->has('survey_admin_verified_overall')) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Hanya admin boleh menyimpan ulasan.'
@@ -912,14 +912,26 @@ class SurveyController extends Controller
 
             $request->validate([
                 'summary' => 'required|string|min:10',
-                'review' => 'required|string|min:10'
+                'review1' => 'required|string|min:10',
+                'review2' => 'required|string|min:10',
+                'review3' => 'required|string|min:10',
+                'review4' => 'required|string|min:10',
+                'review5' => 'required|string|min:10'
             ]);
 
             $respondent = \App\Models\Respondent::findOrFail($respondentId);
 
+            $reviews = [
+                $request->review1,
+                $request->review2,
+                $request->review3,
+                $request->review4,
+                $request->review5
+            ];
+
             $respondent->update([
                 'assessment_summary' => $request->summary,
-                'assessment_review' => $request->review,
+                'assessment_review' => json_encode($reviews),
                 'assessment_date' => now()
             ]);
 
