@@ -5,7 +5,14 @@
 @section('content')
     <div class="text-left mb-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-2">Admin Access Required</h2>
-        <p class="text-gray-600">Bahagian {{ $section }} hanya boleh diakses oleh admin.</p>
+        <p class="text-gray-600">
+            @if($section === 'overall')
+                Keputusan Keseluruhan
+            @else
+                Bahagian {{ $section }}
+            @endif
+            hanya boleh diakses oleh admin.
+        </p>
     </div>
 
     @if ($errors->any())

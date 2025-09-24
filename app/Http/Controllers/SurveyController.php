@@ -39,7 +39,7 @@ class SurveyController extends Controller
 
     private function ensureAdminAccess($section)
     {
-        if (in_array($section, ['I', 'L'])) {
+        if (in_array($section, ['I', 'L', 'overall'])) {
             $user = Auth::user();
             if ($user && $user->role === 'admin') {
                 return null;
@@ -55,7 +55,7 @@ class SurveyController extends Controller
 
     public function showAdminLogin($section)
     {
-        if (!in_array($section, ['I', 'L'])) {
+        if (!in_array($section, ['I', 'L', 'overall'])) {
             return redirect()->route('survey.show', $section);
         }
         return view('survey.admin-login', ['section' => $section]);
@@ -74,7 +74,11 @@ class SurveyController extends Controller
 
         if ($admin && Hash::check($request->password, $admin->password)) {
             session()->put('survey_admin_verified_' . $section, true);
-            return redirect()->route('survey.show', $section)->with('success', 'Akses admin disahkan.');
+            if ($section === 'overall') {
+                return redirect()->route('survey.overall-results')->with('success', 'Akses admin disahkan.');
+            } else {
+                return redirect()->route('survey.show', $section)->with('success', 'Akses admin disahkan.');
+            }
         }
 
         return back()->withErrors(['email' => 'Kelayakan admin tidak sah.'])->withInput();

@@ -198,6 +198,12 @@
 
             <!-- Action Buttons -->
             <div class="space-y-2">
+                @if (!session()->has('admin_id'))
+                    <a href="{{ route('survey.admin.login-form', 'overall') }}" class="btn-enhanced w-full text-sm">
+                        <i class="fas fa-lock mr-1"></i>
+                        Admin log in
+                    </a>
+                @endif
                 @if($overallStatus === 'LENGKAP')
                     <a href="{{ route('survey.overall-results') }}" class="btn-enhanced w-full text-sm">
                         <i class="fas fa-eye mr-1"></i>
