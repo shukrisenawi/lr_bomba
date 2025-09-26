@@ -877,7 +877,7 @@
                 })
                 .then(data => {
                     if (data.success) {
-                        // Update toggle state to show form is completed
+                        // Hide form and show success state
                         var formContent = document.getElementById('formContent');
                         var toggleIcon = document.getElementById('toggleIcon');
                         if (formContent) {
@@ -888,37 +888,27 @@
                             toggleIcon.classList.add('fa-chevron-down');
                         }
 
+                        // Show print button if hidden
                         var printButton = document.getElementById('printBtn');
                         if (printButton) {
                             printButton.style.display = 'inline-flex';
                         }
 
-                        // Update the summary section
-                        var summaryElement = document.querySelector('.text-sm.text-gray-700.mb-4');
-                        if (summaryElement) {
-                            var strongElement = summaryElement.querySelector('strong');
-                            if (strongElement && strongElement.nextSibling) {
-                                strongElement.nextSibling.textContent = summary;
-                            }
-                        }
+                        // Clear form fields
+                        document.getElementById('summary').value = '';
+                        document.getElementById('review1').value = '';
+                        document.getElementById('review2').value = '';
+                        document.getElementById('review3').value = '';
+                        document.getElementById('review4').value = '';
+                        document.getElementById('review5').value = '';
 
-                        // Update review sections - look for elements with "Ulasan:" text
-                        var reviewElements = document.querySelectorAll('.text-sm');
-                        var reviews = [review1, review2, review3, review4, review5];
-                        var reviewIndex = 0;
-
-                        reviewElements.forEach(function(el) {
-                            var strongEl = el.querySelector('strong');
-                            if (strongEl && strongEl.textContent.includes('Ulasan:')) {
-                                var nextEl = strongEl.nextSibling;
-                                if (nextEl && nextEl.nodeType === 3 && reviewIndex < reviews.length) {
-                                    nextEl.textContent = ' ' + reviews[reviewIndex];
-                                    reviewIndex++;
-                                }
-                            }
-                        });
-
+                        // Show success message
                         alert('Ulasan dan ringkasan berjaya disimpan!');
+
+                        // Refresh the page to show updated data from server
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
                     } else {
                         throw new Error(data.message || 'Ralat menyimpan ulasan');
                     }
