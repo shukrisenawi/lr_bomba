@@ -106,7 +106,13 @@
                             </div> --}}
                             </div>
 
-                            @if (isset($subsection['recommendation']) && $subsection['recommendation'] && $section !== 'B' && $section !== 'C')
+                            @if (isset($subsection['recommendation']) &&
+                                    $subsection['recommendation'] &&
+                                    $section !== 'B' &&
+                                    $section !== 'C' &&
+                                    $subsection['name'] != 'Jumlah Skor Prestasi Tugas' &&
+                                    $subsection['name'] != 'Jumlah Skor Prestasi Konteksual' &&
+                                    $subsection['name'] != 'Jumlah Skor Perilaku Kerja Tidak Produktif')
                                 <!-- Subsection Recommendations -->
                                 <div class="mt-4">
                                     <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4">

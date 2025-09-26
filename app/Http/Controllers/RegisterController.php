@@ -76,7 +76,7 @@ class RegisterController extends Controller
                 'state' => 'nullable|string',
                 'years_of_service' => 'required|string',
                 'service_status' => 'required',
-                'password' => 'required|string|min:8|regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+                'password' => 'required|string|min:8|confirmed',
                 'health' => 'required|string',
                 'height' => 'required|numeric|min:50|max:250',
                 'weight' => 'required|numeric|min:20|max:200',
@@ -87,7 +87,7 @@ class RegisterController extends Controller
             ], [
                 'age.min' => 'Age must be at least 45 years old.',
                 'password.confirmed' => 'Password confirmation does not match',
-                'password.regex' => 'Kata laluan mesti sekurang-kurangnya 8 aksara dan mengandungi huruf, angka serta simbol.'
+                'password.min' => 'Kata laluan mesti sekurang-kurangnya 8 aksara.'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()

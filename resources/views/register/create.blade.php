@@ -273,9 +273,6 @@
             <h4 class="text-sm font-medium text-blue-800 mb-2">Syarat Kata Laluan:</h4>
             <ul class="text-sm text-blue-700 space-y-1">
                 <li>• Sekurang-kurangnya 8 aksara</li>
-                <li>• Mengandungi huruf (a-z, A-Z)</li>
-                <li>• Mengandungi angka (0-9)</li>
-                <li>• Mengandungi simbol (@$!%*?&)</li>
             </ul>
         </div>
         <div class="flex justify-center gap-4 mt-6">
