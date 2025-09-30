@@ -557,7 +557,22 @@
                         </div>
                         <div class="text-sm">
                             <span class="font-bold">BMI:</span> {{ $respondent->bmi ?? 'N/A' }}
-                            [{{ $respondent->health ?? 'Tidak diketahui' }}]
+                            @php
+                                $bmi = $respondent->bmi;
+                                $bmi_category = 'Tidak diketahui';
+                                if ($bmi !== null) {
+                                    if ($bmi < 18.5) {
+                                        $bmi_category = 'Kurang berat badan';
+                                    } elseif ($bmi >= 18.5 && $bmi < 25) {
+                                        $bmi_category = 'Berat badan normal';
+                                    } elseif ($bmi >= 25 && $bmi < 30) {
+                                        $bmi_category = 'Berat badan berlebihan';
+                                    } else {
+                                        $bmi_category = 'Obesiti';
+                                    }
+                                }
+                            @endphp
+                            [{{ $bmi_category }}]
                         </div>
                         <div class="text-sm">
                             <span class="font-bold">Tahap Kesihatan:</span>
@@ -707,10 +722,14 @@
                     </div>
                     <div class="p-4 space-y-2">
                         <div class="text-sm">
-                            <span class="font-bold">Indeks Kebolehan Bekerja:</span> Skor [42] [Baik]
+                            <span class="font-bold">Indeks Kebolehan Bekerja:</span> Skor
+                            [{{ $survey['B']->scores[0]->score ?? 'N/A' }}]
+                            [{{ $survey['B']->scores[0]->category ?? 'Tidak diketahui' }}]
                         </div>
                         <div class="text-sm">
-                            <span class="font-bold">Indeks Kecergasan JBPM:</span> Skor [3] [Tidak Berisiko]
+                            <span class="font-bold">Indeks Kecergasan JBPM:</span> Skor
+                            [{{ isset($sectionsData['A']) ? $sectionsData['A']['response']->scores->where('section', 'A')->first()->score ?? 'N/A' : 'N/A' }}]
+                            [{{ $survey['L']->answers[0]->answer ?? 'Tidak diketahui' }}]
                         </div>
                         <div class="text-sm">
                             <span class="font-bold">Ulasan:</span>
