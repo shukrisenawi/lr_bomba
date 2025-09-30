@@ -461,8 +461,8 @@
                             @endphp
                             <tr>
                                 <td class="border border-gray-300 px-4 py-2">Kecergasan</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ tindakan(0) }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan(0) }}</td>
+                                <td class="border border-gray-300 px-4 py-2">Ulang ujian berkaitan sehingga lulus</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">Penyelia</td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
                                     tindakan diambil</td>
                             </tr>
@@ -477,8 +477,8 @@
                             @endphp
                             <tr>
                                 <td class="border border-gray-300 px-4 py-2">Keupayaan Kerja</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ tindakan($risiko) }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2">Intervensi kesihatan fizikal/mental/kerja</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">Penyelia</td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
                                     tindakan diambil</td>
                             </tr>
@@ -494,8 +494,8 @@
                             @endphp
                             <tr>
                                 <td class="border border-gray-300 px-4 py-2">Risiko Psikologi</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ tindakan($risiko) }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2">Sesi khidmat kaunseling pengurusan emosi</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">Kaunselor</td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
                                     tindakan diambil</td>
                             </tr>
@@ -510,8 +510,9 @@
                             @endphp
                             <tr>
                                 <td class="border border-gray-300 px-4 py-2">Kepenatan</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ tindakan($risiko) }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2">Sesi khidmat kaunseling pengurusan kepenatan
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">Kaunselor</td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
                                     tindakan diambil</td>
                             </tr>
@@ -531,8 +532,9 @@
                             @endphp
                             <tr>
                                 <td class="border border-gray-300 px-4 py-2">Risiko Ergonomik</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ tindakan($risiko) }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">{{ tindakan($risiko) }}</td>
+                                <td class="border border-gray-300 px-4 py-2">Sesi latihan ergonomik/ teknik postur yang
+                                    betul semasa bekerja</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">Penyelia</td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">6 atau 12 bulan dari tarikh
                                     tindakan diambil</td>
                             </tr>
