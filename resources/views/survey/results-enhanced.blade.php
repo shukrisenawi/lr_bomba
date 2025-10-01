@@ -146,7 +146,7 @@
                     <div class="mt-8 p-6 bg-gradient-to-r from-green-50 to-teal-50 border-l-4 border-green-500 rounded-lg">
                         <div class="flex items-center space-x-3 mb-4">
                             <i class="fas fa-brain w-6 h-6 text-green-600"></i>
-                            <h3 class="text-lg font-bold text-gray-800">Status Kerja Berdasarkan Risiko Psikologi</h3>
+                            <h3 class="text-lg font-bold text-gray-800">Status Kerja</h3>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">

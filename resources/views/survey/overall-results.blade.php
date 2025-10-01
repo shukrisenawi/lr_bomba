@@ -193,7 +193,7 @@
 
                 <div class="flex justify-between gap-10">
                     <div class="flex items-center space-x-2 flex-wrap">
-                        <span class="text-md font-bold">Nama Pemohon:</span>
+                        <span class="text-md font-bold">Nama Pegawai:</span>
                         <span class="font-semibold">[{{ $respondent->user->name ?? 'Tidak diketahui' }}]</span>
                     </div>
                     <div class="flex items-center space-x-2 flex-wrap">

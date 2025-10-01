@@ -170,10 +170,31 @@
                 </x-input-text>
             </div>
         </div>
-        <x-input-text value="{{ old('current_position') }}">
+        <x-dropdown :data="[
+            'Ketua Pesuruhjaya Bomba (KPjB)' => 'Ketua Pesuruhjaya Bomba (KPjB)',
+            'Pesuruhjaya Bomba (PjB)' => 'Pesuruhjaya Bomba (PjB)',
+            'Timbalan Pesuruhjaya Bomba (TPjB)' => 'Timbalan Pesuruhjaya Bomba (TPjB)',
+            'Penolong Kanan Pesuruhjaya Bomba (PKPjB)' => 'Penolong Kanan Pesuruhjaya Bomba (PKPjB)',
+            'Penolong Pesuruhjaya Bomba (PPjB)' => 'Penolong Pesuruhjaya Bomba (PPjB)',
+            'Penguasa Kanan Bomba 1 (PgKB 1)' => 'Penguasa Kanan Bomba 1 (PgKB 1)',
+            'Penguasa Kanan Bomba 2 (PgKB 2)' => 'Penguasa Kanan Bomba 2 (PgKB 2)',
+            'Penguasa Bomba (PgB)' => 'Penguasa Bomba (PgB)',
+            'Timbalan Penguasa Bomba 1 (TPgB 1)' => 'Timbalan Penguasa Bomba 1 (TPgB 1)',
+            'Timbalan Penguasa Bomba 2 (TPgB 2)' => 'Timbalan Penguasa Bomba 2 (TPgB 2)',
+            'Penolong Kanan Penguasa Bomba (PKPgB)' => 'Penolong Kanan Penguasa Bomba (PKPgB)',
+            'Penolong Penguasa Bomba (PPgB)' => 'Penolong Penguasa Bomba (PPgB)',
+            'Pegawai Bomba Tinggi 1 (PBT 1)' => 'Pegawai Bomba Tinggi 1 (PBT 1)',
+            'Pegawai Bomba Tinggi 2 (PBT 2)' => 'Pegawai Bomba Tinggi 2 (PBT 2)',
+            'Pegawai Bomba Tinggi 2 (PBT 2) (KUP)' => 'Pegawai Bomba Tinggi 2 (PBT 2) (KUP)',
+            'Pegawai Bomba Kanan 1 (PBK 1)' => 'Pegawai Bomba Kanan 1 (PBK 1)',
+            'Pegawai Bomba Kanan 1 (PBK 1) (KUP)' => 'Pegawai Bomba Kanan 1 (PBK 1) (KUP)',
+            'Pegawai Bomba Kanan 2 (PBK 2)' => 'Pegawai Bomba Kanan 2 (PBK 2)',
+            'Pegawai Bomba Kanan 2 (PBK 2) (KUP)' => 'Pegawai Bomba Kanan 2 (PBK 2) (KUP)',
+            'Pegawai Bomba (PB)' => 'Pegawai Bomba (PB)',
+        ]" :value="old('current_position')">
             <x-slot:id>current_position</x-slot:id>
             <x-slot:label>19. Jawatan Semasa</x-slot:label>
-        </x-input-text>
+        </x-dropdown>
 
         <x-dropdown :data="[
             'JUSA A' => 'JUSA A',
