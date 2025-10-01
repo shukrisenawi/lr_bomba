@@ -715,7 +715,102 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 px-6 own">
+            <div class="gap-6 px-6 mb-6 own">
+                <div class="border border-gray-300 overflow-hidden own">
+                    <div class="bg-green-600 text-white p-2 px-3 text-center">
+                        <span class="font-bold text-sm">PROFIL ERGONOMIK PEKERJAAN</span>
+                    </div>
+                    <div class="grid grid-cols-1 grid-cols-2 gap-4 p-4">
+
+                        <div>
+                            <div class="p-4 space-y-2">
+                                <div class="text-sm">
+                                    <span class="font-bold">Penilaian Anggota Badan Keseluruhan (REBA):</span> Skor
+                                    [{{ $survey['I']->scores[2]->score }}] [{{ $survey['I']->scores[2]->category }}]
+                                </div>
+                                <div class="text-sm">
+                                    <span class="font-bold">Ulasan:</span>
+                                    @auth
+                                        @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
+                                            @if ($ulasan && isset($ulasan[3]) && $ulasan[3])
+                                                {{ $ulasan[3] }}
+                                            @else
+                                                <span class="text-red-500">*perlu diisi oleh penilai</span>
+                                            @endif
+                                        @else
+                                            {{ $ulasan[3] ?? 'Tiada ulasan tersedia' }}
+                                        @endif
+                                    @endauth
+                                </div>
+                                <div class="text-sm">
+                                    <span class="font-bold">Penilaian Kendiri Muskuloskeletal:</span>
+                                    @php
+                                        $sectionJData = $survey['J'] ?? null;
+                                        $problematicParts = [];
+                                        if ($sectionJData && isset($sectionJData->answers)) {
+                                            foreach ($sectionJData->answers as $answer) {
+                                                if (in_array($answer->question_id, ['J1', 'J2', 'J3', 'J4'])) {
+                                                    $answerData = json_decode($answer->answer, true);
+                                                    if (is_array($answerData)) {
+                                                        $problematicParts = array_merge($problematicParts, $answerData);
+                                                    }
+                                                }
+                                            }
+                                            $problematicParts = array_unique($problematicParts);
+                                        }
+                                        $partsText = !empty($problematicParts)
+                                            ? '[Masalah pada ' . strtolower(implode(', ', $problematicParts)) . ']'
+                                            : '[Tiada masalah dilaporkan]';
+                                    @endphp
+                                    {!! $partsText !!}
+                                </div>
+                                <div class="text-sm">
+                                    <span class="font-bold">Ulasan:</span>
+                                    @auth
+                                        @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
+                                            @if ($ulasan && isset($ulasan[4]) && $ulasan[4])
+                                                {{ $ulasan[4] }}
+                                            @else
+                                                <span class="text-red-500">*perlu diisi oleh penilai</span>
+                                            @endif
+                                        @else
+                                            {{ $ulasan[4] ?? 'Tiada ulasan tersedia' }}
+                                        @endif
+                                    @endauth
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            @php
+                                $rebaImage = null;
+                                // Find REBA image from Section I answers
+                                if (isset($survey['I']->answers)) {
+                                    foreach ($survey['I']->answers as $answer) {
+                                        $questionData = json_decode($answer->answer ?? '{}', true);
+                                        if (isset($questionData['files']) && !empty($questionData['files'])) {
+                                            $rebaImage = $questionData;
+                                            break;
+                                        }
+                                    }
+                                }
+                            @endphp
+
+                            @if ($rebaImage && isset($rebaImage['files']))
+                                <div class="grid grid-cols-1 grid-cols-2 gap-4">
+                                    @foreach ($rebaImage['files'] as $file)
+                                        @if (str_contains($file['mime_type'], 'image'))
+                                            <img src="{{ $file['url'] }}" alt="Gambar REBA"
+                                                class="w-full h-64 object-contain">
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="grid grid-cols-1 grid-cols-2 gap-6 px-6 own">
                 <div class="border border-gray-300 overflow-hidden">
                     <div class="bg-blue-600 text-white p-2 px-3 text-center">
                         <span class="font-bold text-sm">PROFIL KEUPAYAAN KERJA</span>
@@ -742,68 +837,6 @@
                                     @endif
                                 @else
                                     {{ $ulasan[2] ?? 'Tiada ulasan tersedia' }}
-                                @endif
-                            @endauth
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border border-gray-300 overflow-hidden own">
-                    <div class="bg-green-600 text-white p-2 px-3 text-center">
-                        <span class="font-bold text-sm">PROFIL ERGONOMIK PEKERJAAN</span>
-                    </div>
-                    <div class="p-4 space-y-2">
-                        <div class="text-sm">
-                            <span class="font-bold">Penilaian Anggota Badan Keseluruhan (REBA):</span> Skor
-                            [{{ $survey['I']->scores[2]->score }}] [{{ $survey['I']->scores[2]->category }}]
-                        </div>
-                        <div class="text-sm">
-                            <span class="font-bold">Ulasan:</span>
-                            @auth
-                                @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
-                                    @if ($ulasan && isset($ulasan[3]) && $ulasan[3])
-                                        {{ $ulasan[3] }}
-                                    @else
-                                        <span class="text-red-500">*perlu diisi oleh penilai</span>
-                                    @endif
-                                @else
-                                    {{ $ulasan[3] ?? 'Tiada ulasan tersedia' }}
-                                @endif
-                            @endauth
-                        </div>
-                        <div class="text-sm">
-                            <span class="font-bold">Penilaian Kendiri Muskuloskeletal:</span>
-                            @php
-                                $sectionJData = $survey['J'] ?? null;
-                                $problematicParts = [];
-                                if ($sectionJData && isset($sectionJData->answers)) {
-                                    foreach ($sectionJData->answers as $answer) {
-                                        if (in_array($answer->question_id, ['J1', 'J2', 'J3', 'J4'])) {
-                                            $answerData = json_decode($answer->answer, true);
-                                            if (is_array($answerData)) {
-                                                $problematicParts = array_merge($problematicParts, $answerData);
-                                            }
-                                        }
-                                    }
-                                    $problematicParts = array_unique($problematicParts);
-                                }
-                                $partsText = !empty($problematicParts)
-                                    ? '[Masalah pada ' . strtolower(implode(', ', $problematicParts)) . ']'
-                                    : '[Tiada masalah dilaporkan]';
-                            @endphp
-                            {!! $partsText !!}
-                        </div>
-                        <div class="text-sm">
-                            <span class="font-bold">Ulasan:</span>
-                            @auth
-                                @if (auth()->user()->role === 'admin' || session()->has('survey_admin_verified_overall'))
-                                    @if ($ulasan && isset($ulasan[4]) && $ulasan[4])
-                                        {{ $ulasan[4] }}
-                                    @else
-                                        <span class="text-red-500">*perlu diisi oleh penilai</span>
-                                    @endif
-                                @else
-                                    {{ $ulasan[4] ?? 'Tiada ulasan tersedia' }}
                                 @endif
                             @endauth
                         </div>
