@@ -247,13 +247,42 @@
                             <td class="border border-gray-300 px-4 py-2 text-left">
                                 @php
                                     $answerL = $survey['L']->answers[0]->answer;
+                                    $answerSelect = null;
+                                    if (strtoupper($survey['L']->answers[0]->answer) == 'CEMERLANG') {
+                                        $answerSelect = 0;
+                                    } elseif (strtoupper($survey['L']->answers[1]->answer) == 'CEMERLANG') {
+                                        $answerSelect = 1;
+                                    } elseif (strtoupper($survey['L']->answers[2]->answer) == 'CEMERLANG') {
+                                        $answerSelect = 2;
+                                    } elseif (strtoupper($survey['L']->answers[0]->answer) == 'BAIK') {
+                                        $answerSelect = 0;
+                                    } elseif (strtoupper($survey['L']->answers[1]->answer) == 'BAIK') {
+                                        $answerSelect = 1;
+                                    } elseif (strtoupper($survey['L']->answers[2]->answer) == 'BAIK') {
+                                        $answerSelect = 2;
+                                    } elseif (strtoupper($survey['L']->answers[2]->answer) == 'CEMERLANG') {
+                                        $answerSelect = 2;
+                                    } elseif (strtoupper($survey['L']->answers[0]->answer) == 'LULUS') {
+                                        $answerSelect = 0;
+                                    } elseif (strtoupper($survey['L']->answers[1]->answer) == 'LULUS') {
+                                        $answerSelect = 1;
+                                    } elseif (strtoupper($survey['L']->answers[2]->answer) == 'LULUS') {
+                                        $answerSelect = 2;
+                                    } elseif (strtoupper($survey['L']->answers[0]->answer) == 'GAGAL') {
+                                        $answerSelect = 0;
+                                    } elseif (strtoupper($survey['L']->answers[1]->answer) == 'GAGAL') {
+                                        $answerSelect = 1;
+                                    } elseif (strtoupper($survey['L']->answers[2]->answer) == 'GAGAL') {
+                                        $answerSelect = 2;
+                                    }
+
                                     if (
-                                        strtoupper($answerL) == 'CEMERLANG' ||
-                                        strtoupper($answerL) == 'BAIK' ||
-                                        strtoupper($answerL) == 'LULUS'
+                                        strtoupper($survey['L']->answers[$answerSelect]->answer) == 'CEMERLANG' ||
+                                        strtoupper($survey['L']->answers[$answerSelect]->answer) == 'BAIK' ||
+                                        strtoupper($survey['L']->answers[$answerSelect]->answer) == 'LULUS'
                                     ) {
                                         $color1 = 'green';
-                                    } elseif (strtoupper($answerL) == 'GAGAL') {
+                                    } elseif (strtoupper($survey['L']->answers[$answerSelect]->answer) == 'GAGAL') {
                                         $color1 = 'red';
                                     } else {
                                         $color1 = 'gray';
@@ -262,13 +291,13 @@
                                 @endphp
                                 <i class="fas fa-circle w-5 h-5 text-{{ $color1 }}-500"></i>
                                 <span class="ml-1 text-sm">
-                                    <?= $answerL ?></span>
+                                    <?= $survey['L']->answers[$answerSelect]->answer ?></span>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
                                 {{ isset($sectionsData['A']) ? $sectionsData['A']['response']->scores->where('section', 'A')->first()->score ?? 'N/A' : 'N/A' }}
                             </td>
-                            <td class="border border-gray-300 px-4 py-2 text-sm">Ujian UKTK (untuk Pegawai Gred KB1 - KB4
-                                Tahun 2025)</td>
+                            <td class="border border-gray-300 px-4 py-2 text-sm">
+                                <?= $survey['L']->answers[$answerSelect]->question ?></td>
                         </tr>
                         <tr class="bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2">
