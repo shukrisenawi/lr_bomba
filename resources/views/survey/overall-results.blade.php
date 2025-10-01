@@ -294,10 +294,88 @@
                                     <?= $survey['L']->answers[$answerSelect]->answer ?></span>
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-center font-semibold">
-                                {{ isset($sectionsData['A']) ? $sectionsData['A']['response']->scores->where('section', 'A')->first()->score ?? 'N/A' : 'N/A' }}
+                                N/A
                             </td>
                             <td class="border border-gray-300 px-4 py-2 text-sm">
-                                <?= $survey['L']->answers[$answerSelect]->question ?></td>
+                                <?= checkSoalan('L', $survey['L']->answers[$answerSelect]->question_id) ?>
+
+                                @php
+                                    /**
+                                     * Function untuk mendapatkan soalan berdasarkan section dan ID soalan
+                                     * Soalan dirujuk dari file JSON survey
+                                     *
+                                     * @param string $section ID section (contoh: "L")
+                                     * @param string $questionId ID soalan (contoh: "L1")
+                                     * @return string Teks soalan atau mesej error jika tidak dijumpai
+                                     */
+                                    function checkSoalan($section = 'L', $questionId = 'L1')
+                                    {
+                                        try {
+                                            // Load survey data dari file JSON
+                                            $surveyPath = storage_path('app/survey/1st_draft.json');
+                                            if (!file_exists($surveyPath)) {
+                                                return 'File survey tidak dijumpai';
+                                            }
+
+                                            $surveyData = json_decode(file_get_contents($surveyPath), true);
+                                            if (!$surveyData || !isset($surveyData['sections'])) {
+                                                return 'Struktur survey tidak sah';
+                                            }
+
+                                            // Cari section berdasarkan ID
+                                            $sectionData = null;
+                                            foreach ($surveyData['sections'] as $sec) {
+                                                if ($sec['id'] === $section) {
+                                                    $sectionData = $sec;
+                                                    break;
+                                                }
+                                            }
+
+                                            if (!$sectionData) {
+                                                return "Section {$section} tidak dijumpai";
+                                            }
+
+                                            // Cari soalan berdasarkan ID soalan
+                                            if (isset($sectionData['questions']) && !empty($sectionData['questions'])) {
+                                                // Untuk section dengan questions langsung (bukan subsections)
+                                                foreach ($sectionData['questions'] as $question) {
+                                                    if (isset($question['id']) && $question['id'] === $questionId) {
+                                                        return $question['text'] ??
+                                                            "Soalan {$questionId} tidak mempunyai teks";
+                                                    }
+                                                }
+                                            }
+
+                                            // Jika tidak dijumpai dalam questions langsung, cari dalam subsections
+                                            if (
+                                                isset($sectionData['subsections']) &&
+                                                !empty($sectionData['subsections'])
+                                            ) {
+                                                foreach ($sectionData['subsections'] as $subsection) {
+                                                    if (
+                                                        isset($subsection['questions']) &&
+                                                        !empty($subsection['questions'])
+                                                    ) {
+                                                        foreach ($subsection['questions'] as $question) {
+                                                            if (
+                                                                isset($question['id']) &&
+                                                                $question['id'] === $questionId
+                                                            ) {
+                                                                return $question['text'] ??
+                                                                    "Soalan {$questionId} tidak mempunyai teks";
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            return "Soalan {$questionId} tidak dijumpai dalam section {$section}";
+                                        } catch (\Exception $e) {
+                                            return 'Ralat mengambil soalan: ' . $e->getMessage();
+                                        }
+                                    }
+                                @endphp
+                            </td>
                         </tr>
                         <tr class="bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2">

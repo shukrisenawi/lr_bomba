@@ -2370,7 +2370,7 @@
         {
           "id": "L2",
           "type": "single_choice",
-          "text": "Keputusan Ujian UKB (untuk Pegawai Gred KB5 hingga JUSA Siri 1 Tahun",
+          "text": "Keputusan Ujian UKB (untuk Pegawai Gred KB5 hingga JUSA Siri 1 Tahun)",
           "options": [
             "Cemerlang",
             "Baik",
@@ -2382,7 +2382,7 @@
         {
           "id": "L3",
           "type": "single_choice",
-          "text": "Keputusan Ujian IPPT (untuk Pegawai Penerima Bayaran Insentif/ Pasukan Khas Tahun 2025",
+          "text": "Keputusan Ujian IPPT (untuk Pegawai Penerima Bayaran Insentif/ Pasukan Khas Tahun 2025)",
           "options": [
             "Cemerlang",
             "Baik",
