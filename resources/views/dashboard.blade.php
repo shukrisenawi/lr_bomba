@@ -29,10 +29,16 @@
                         Akses Halaman Admin
                     </h5>
                     <p class="text-muted">Akses senarai responder dan jawapan mereka</p>
-                    <a href="{{ route('admin.responders') }}" class="btn btn-primary">
-                        <i class="fas fa-eye me-1"></i>
-                        Lihat Senarai Responder
-                    </a>
+                    <div class="flex gap-2 flex-wrap">
+                        <a href="{{ route('admin.responders') }}" class="btn btn-primary">
+                            <i class="fas fa-eye me-1"></i>
+                            Lihat Senarai Responder
+                        </a>
+                        <a href="{{ route('admin.export') }}" class="btn btn-success">
+                            <i class="fas fa-file-excel me-1"></i>
+                            Export ke Excel
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

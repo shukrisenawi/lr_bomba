@@ -16,6 +16,10 @@
                         <p class="text-gray-600">Kelola dan pantau semua responder sistem</p>
                     </div>
                     <div class="flex gap-3">
+                        <a href="{{ route('admin.export') }}" class="btn btn-success rounded-3xl">
+                            <i class="fas fa-file-excel mr-2"></i>
+                            Export Excel
+                        </a>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit" class="btn rounded-3xl">

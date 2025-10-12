@@ -67,6 +67,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/responders/{id}', [AdminController::class, 'showResponder'])->name('admin.responder.show');
         Route::get('/users/{id}/role', [AdminController::class, 'userRole'])->name('admin.user.role');
         Route::get('/users/{id}/impersonate', [AdminController::class, 'impersonate'])->name('admin.responder.impersonate');
+        Route::get('/export', [AdminController::class, 'export'])->name('admin.export');
     });
 });
 

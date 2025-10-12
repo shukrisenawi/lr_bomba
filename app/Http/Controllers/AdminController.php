@@ -8,6 +8,8 @@ use App\Models\SurveyResponse;
 use App\Models\SurveyAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RespondersExport;
 
 class AdminController extends Controller
 
@@ -41,6 +43,14 @@ class AdminController extends Controller
             });
 
         return view('admin.responders.index-new', compact('responders'));
+    }
+
+    /**
+     * Export all responders data to Excel
+     */
+    public function export()
+    {
+        return Excel::download(new RespondersExport, 'data_responder_' . date('Y-m-d_H-i-s') . '.xlsx');
     }
 
     /**

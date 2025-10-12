@@ -71,27 +71,27 @@
             'Lain-lain' => 'Lain-lain',
         ]" :value="old('education_level')">
             <x-slot:id>education_level</x-slot:id>
-            <x-slot:label>10. Tahap Pendidikan Tertinggi</x-slot:label>
+            <x-slot:label>9. Tahap Pendidikan Tertinggi</x-slot:label>
         </x-dropdown>
 
         <x-input-text type="number" value="{{ old('monthly_income_self') }}">
             <x-slot:id>monthly_income_self</x-slot:id>
-            <x-slot:label>11. Anggaran Pendapatan Bulanan (Diri-sendiri) RM (tanpa titik perpuluhan/sen)</x-slot:label>
+            <x-slot:label>10. Anggaran Pendapatan Bulanan (Diri-sendiri) RM (tanpa titik perpuluhan/sen)</x-slot:label>
         </x-input-text>
 
         <x-input-text type="number" value="{{ old('monthly_income_spouse') }}">
             <x-slot:id>monthly_income_spouse</x-slot:id>
-            <x-slot:label>12. Anggaran Pendapatan Bulanan (Pasangan) RM (tanpa titik perpuluhan/sen)</x-slot:label>
+            <x-slot:label>11. Anggaran Pendapatan Bulanan (Pasangan) RM (tanpa titik perpuluhan/sen)</x-slot:label>
         </x-input-text>
 
         <x-input-text type="number" value="{{ old('other_income') }}">
             <x-slot:id>other_income</x-slot:id>
-            <x-slot:label>13. Lain-lain Sumber Pendapatan RM (tanpa titik perpuluhan/sen)</x-slot:label>
+            <x-slot:label>12. Lain-lain Sumber Pendapatan RM (tanpa titik perpuluhan/sen)</x-slot:label>
         </x-input-text>
 
         <x-input-text type="number" value="{{ old('household_income') }}">
             <x-slot:id>household_income</x-slot:id>
-            <x-slot:label>14. Pendapatan isi rumah RM (tanpa titik perpuluhan/sen)</x-slot:label>
+            <x-slot:label>13. Pendapatan isi rumah RM (tanpa titik perpuluhan/sen)</x-slot:label>
         </x-input-text>
 
         <x-radio-button :data="[
@@ -102,14 +102,14 @@
             'Teruk' => 'Teruk',
         ]" :value="old('health')">
             <x-slot:id>health</x-slot:id>
-            <x-slot:label>15. Secara umum, saya mengatakan bahawa kesihatan adalah</x-slot:label>
+            <x-slot:label>14. Secara umum, saya mengatakan bahawa kesihatan adalah</x-slot:label>
         </x-radio-button>
 
         <div class="flex gap-3">
             <div>
                 <x-input-text type="number" value="{{ old('height') }}">
                     <x-slot:id>height</x-slot:id>
-                    <x-slot:label>16. Tinggi (cm)</x-slot:label>
+                    <x-slot:label>15. Tinggi (cm)</x-slot:label>
                 </x-input-text>
             </div>
             <div>
@@ -136,7 +136,7 @@
             'O' => 'O',
         ]" :value="old('blood_type')">
             <x-slot:id>blood_type</x-slot:id>
-            <x-slot:label>17. Kumpulan Darah</x-slot:label>
+            <x-slot:label>16. Kumpulan Darah</x-slot:label>
         </x-radio-button>
         <div @if (old('other_health_issue')) x-data="{ open: true }" @else x-data="{ open: false }" @endif>
             <x-checkbox :data="[
@@ -159,7 +159,7 @@
             ]">
                 <x-slot:id>health_issue</x-slot:id>
                 <x-slot:data_value>{{ json_encode(old('health_issue', [])) }}</x-slot:data_value>
-                <x-slot:label>18. Masalah kesihatan yang anda sedang alami dan telah disahkan oleh pegawai
+                <x-slot:label>17. Masalah kesihatan yang anda sedang alami dan telah disahkan oleh pegawai
                     perubatan?(boleh lebih dari satu)</x-slot:label>
             </x-checkbox>
             <div x-show="open" class="pt-3">
@@ -193,7 +193,7 @@
             'Pegawai Bomba (PB)' => 'Pegawai Bomba (PB)',
         ]" :value="old('current_position')">
             <x-slot:id>current_position</x-slot:id>
-            <x-slot:label>19. Jawatan Semasa</x-slot:label>
+            <x-slot:label>18. Jawatan Semasa</x-slot:label>
         </x-dropdown>
 
         <x-dropdown :data="[
@@ -216,7 +216,7 @@
             'KB 19/KB 1' => 'KB 19/KB 1',
         ]" :value="old('grade')">
             <x-slot:id>grade</x-slot:id>
-            <x-slot:label>20. Gred</x-slot:label>
+            <x-slot:label>19. Gred</x-slot:label>
         </x-dropdown>
 
         <x-dropdown value="{{ old('location') }}" :data="[
@@ -226,7 +226,7 @@
             'Balai bomba' => 'Balai bomba',
         ]">
             <x-slot:id>location</x-slot:id>
-            <x-slot:label>21. Lokasi</x-slot:label>
+            <x-slot:label>20. Lokasi</x-slot:label>
         </x-dropdown>
 
         <x-dropdown :value="old('position')" :data="[
@@ -242,7 +242,7 @@
             'Integriti' => 'Integriti',
         ]">
             <x-slot:id>position</x-slot:id>
-            <x-slot:label>22. Bahagian</x-slot:label>
+            <x-slot:label>21. Bahagian</x-slot:label>
         </x-dropdown>
 
         <x-dropdown :value="old('state')" :data="[
@@ -264,12 +264,12 @@
             'Labuan' => 'Labuan',
         ]">
             <x-slot:id>state</x-slot:id>
-            <x-slot:label>23. Negeri</x-slot:label>
+            <x-slot:label>22. Negeri</x-slot:label>
         </x-dropdown>
 
         <x-input-text value="{{ old('years_of_service') }}" type="text">
             <x-slot:id>years_of_service</x-slot:id>
-            <x-slot:label>24. Tempoh Perkhidmatan (Tahun), <em>contohnya: 15 tahun</em></x-slot:label>
+            <x-slot:label>23. Tempoh Perkhidmatan (Tahun), <em>contohnya: 15 tahun</em></x-slot:label>
         </x-input-text>
 
         <x-radio-button :value="old('service_status')" :data="[
@@ -277,7 +277,7 @@
             'Pegawai Bomba Bantuan' => 'Pegawai Bomba Bantuan',
         ]">
             <x-slot:id>service_status</x-slot:id>
-            <x-slot:label>25. Status Perkhidmatan</x-slot:label>
+            <x-slot:label>24. Status Perkhidmatan</x-slot:label>
         </x-radio-button>
 
         <x-input-text type="password" required>
