@@ -118,19 +118,37 @@ class RespondersExport implements FromCollection, WithHeadings, WithStyles, With
                     }
 
                     // Untuk soalan yang tidak memiliki jawaban, isi dengan kosong
-                    for ($i = 1; $i <= 25; $i++) {
+                    // Section B hanya memiliki 10 soalan, section lainnya 25 soalan
+                    $maxQuestions = ($section === 'B') ? 10 : 25;
+                    for ($i = 1; $i <= $maxQuestions; $i++) {
                         $questionIdFormatted = $section . $i;
                         if (!isset($row[$questionIdFormatted])) {
                             $row[$questionIdFormatted] = '';
                         }
                     }
+
+                    // Untuk section B, isi B11-B25 dengan kosong (tidak digunakan)
+                    if ($section === 'B') {
+                        for ($i = 11; $i <= 25; $i++) {
+                            $questionIdFormatted = $section . $i;
+                            $row[$questionIdFormatted] = '';
+                        }
+                    }
                 } else {
                     // Jika tidak ada response untuk section ini, isi semua dengan kosong
-                    // Untuk section A, hanya sampai A24 (karena A25 tidak ada dalam demografi)
-                    $maxQuestions = ($section === 'A') ? 24 : 25;
+                    // Section B hanya memiliki 10 soalan, section lainnya 25 soalan
+                    $maxQuestions = ($section === 'B') ? 10 : 25;
                     for ($i = 1; $i <= $maxQuestions; $i++) {
                         $questionIdFormatted = $section . $i;
                         $row[$questionIdFormatted] = '';
+                    }
+
+                    // Untuk section B, isi B11-B25 dengan kosong (tidak digunakan)
+                    if ($section === 'B') {
+                        for ($i = 11; $i <= 25; $i++) {
+                            $questionIdFormatted = $section . $i;
+                            $row[$questionIdFormatted] = '';
+                        }
                     }
                 }
             }
@@ -162,8 +180,17 @@ class RespondersExport implements FromCollection, WithHeadings, WithStyles, With
         }
 
         // Section B sampai L - Survey responses
+        // Section B hanya memiliki 10 soalan, section lainnya 25 soalan
+        $sectionLimits = [
+            'B' => 10,  // Section B hanya 10 soalan
+            'C' => 25, 'D' => 25, 'E' => 25, 'F' => 25,
+            'G' => 25, 'H' => 25, 'I' => 25, 'J' => 25,
+            'K' => 25, 'L' => 25
+        ];
+
         for ($section = 'B'; $section <= 'L'; $section++) {
-            for ($i = 1; $i <= 25; $i++) {
+            $maxQuestions = $sectionLimits[$section];
+            for ($i = 1; $i <= $maxQuestions; $i++) {
                 $questionHeaders[] = $section . $i;
             }
         }
@@ -203,19 +230,26 @@ class RespondersExport implements FromCollection, WithHeadings, WithStyles, With
             'C' => 15, // No Telefon
         ];
 
-        // Tambah lebar untuk kolom soalan (D sampai dengan kolom yang sangat jauh)
+        // Tambah lebar untuk kolom soalan A1-A24 dan B1-L25
         // Setiap kolom soalan menggunakan lebar 8 untuk menghemat memori
         $questionColumns = [];
-        $baseColumns = range('A', 'Z');
 
-        // Untuk kolom D-Z (24 kolom pertama setelah A-C)
-        for ($i = 3; $i < 27; $i++) {
-            $colIndex = $i % 26;
-            $colLetter = $baseColumns[$colIndex];
-            if ($i >= 26) {
-                $colLetter = 'A' . $colLetter;
+        // Generate column letters untuk semua soalan
+        $columns = [];
+        for ($i = 1; $i <= 300; $i++) { // Cukup untuk semua kolom
+            $col = '';
+            $num = $i;
+            while ($num > 0) {
+                $num--;
+                $col = chr(65 + ($num % 26)) . $col;
+                $num = intval($num / 26);
             }
-            $questionColumns[$colLetter] = 8; // Lebar untuk kolom soalan
+            $columns[] = $col;
+        }
+
+        // Set lebar untuk semua kolom soalan
+        foreach ($columns as $col) {
+            $questionColumns[$col] = 8; // Lebar untuk kolom soalan
         }
 
         return array_merge($widths, $questionColumns);

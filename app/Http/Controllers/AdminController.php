@@ -26,6 +26,7 @@ class AdminController extends Controller
     public function responders()
     {
         $responders = User::with(['respondent', 'surveyResponses'])
+            ->where('role', 'user')
             ->get()
             ->map(function ($user) {
                 return [
