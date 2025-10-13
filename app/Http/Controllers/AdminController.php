@@ -23,6 +23,21 @@ class AdminController extends Controller
     /**
      * Display a listing of all responders
      */
+
+    public function test($section = "K", $user_id = 3)
+    {
+        $answers = SurveyAnswer::with('response')
+            ->whereHas('response', function ($query) use ($user_id, $section) {
+                $query->where('user_id', $user_id)
+                    ->where('survey_id', $section);
+            })
+            ->orderBy('id', 'asc')->get();
+        foreach ($answers as $answer) {
+            echo "Q{$answer->question_id}: '{$answer->answer}' (value: {$answer->value}, score: {$answer->score})\n";
+        }
+        return "Test route is working!";
+    }
+
     public function responders()
     {
         $responders = User::with(['respondent', 'surveyResponses'])

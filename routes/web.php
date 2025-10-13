@@ -68,6 +68,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/users/{id}/role', [AdminController::class, 'userRole'])->name('admin.user.role');
         Route::get('/users/{id}/impersonate', [AdminController::class, 'impersonate'])->name('admin.responder.impersonate');
         Route::get('/export', [AdminController::class, 'export'])->name('admin.export');
+        Route::get('/test', [AdminController::class, 'test'])->name('admin.test');
     });
 });
 

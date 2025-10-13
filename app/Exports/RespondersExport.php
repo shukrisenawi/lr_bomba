@@ -24,11 +24,7 @@ class RespondersExport implements FromCollection, WithHeadings, WithStyles, With
         // Ambil semua data responder dengan role 'user' saja
         $responders = User::with([
             'respondent',
-            'surveyResponses' => function($query) {
-                $query->with(['answers' => function($answerQuery) {
-                    $answerQuery->select('id', 'response_id', 'question_id', 'answer', 'value', 'score');
-                }]);
-            }
+            'surveyResponses.answers'
         ])->where('role', 'user')->get();
 
         $data = [];
@@ -95,60 +91,34 @@ class RespondersExport implements FromCollection, WithHeadings, WithStyles, With
             $sections = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
             foreach ($sections as $section) {
-                $response = $user->surveyResponses->where('survey_id', $section)->first();
 
-                if ($response) {
+                // Menggunakan query seperti fungsi surveyAnswerReport
+                $answers = SurveyAnswer::with('response')
+                    ->whereHas('response', function ($query) use ($user, $section) {
+                        $query->where('user_id', $user->id)
+                            ->where('survey_id', $section);
+                    })
+                    ->orderBy('question_id', 'asc')
+                    ->get();
+
+                if ($answers && $answers->count() > 0) {
                     // Inisialisasi array untuk menyimpan jawaban per question_id
                     $questionAnswers = [];
 
-                    foreach ($response->answers as $answer) {
+                    foreach ($answers as $answer) {
                         $questionId = $answer->question_id;
                         $answerValue = $answer->answer;
 
-                        // Pastikan question_id valid dan answer tidak kosong
-                        if ($questionId !== null && $questionId !== '' && $answerValue !== null) {
-                            $questionIdFormatted = $section . $questionId;
-                            $questionAnswers[$questionIdFormatted] = $answerValue;
+                        // Pastikan question_id valid dan answer ada
+                        if ($questionId !== null && $questionId !== '') {
+                            $questionIdFormatted = $questionId; // question_id sudah dalam format C1, C2, dll
+                            $questionAnswers[$questionIdFormatted] = $answerValue ?? '';
                         }
                     }
 
                     // Masukkan semua jawaban yang ditemukan ke row
                     foreach ($questionAnswers as $col => $value) {
                         $row[$col] = $value;
-                    }
-
-                    // Untuk soalan yang tidak memiliki jawaban, isi dengan kosong
-                    // Section B hanya memiliki 10 soalan, section lainnya 25 soalan
-                    $maxQuestions = ($section === 'B') ? 10 : 25;
-                    for ($i = 1; $i <= $maxQuestions; $i++) {
-                        $questionIdFormatted = $section . $i;
-                        if (!isset($row[$questionIdFormatted])) {
-                            $row[$questionIdFormatted] = '';
-                        }
-                    }
-
-                    // Untuk section B, isi B11-B25 dengan kosong (tidak digunakan)
-                    if ($section === 'B') {
-                        for ($i = 11; $i <= 25; $i++) {
-                            $questionIdFormatted = $section . $i;
-                            $row[$questionIdFormatted] = '';
-                        }
-                    }
-                } else {
-                    // Jika tidak ada response untuk section ini, isi semua dengan kosong
-                    // Section B hanya memiliki 10 soalan, section lainnya 25 soalan
-                    $maxQuestions = ($section === 'B') ? 10 : 25;
-                    for ($i = 1; $i <= $maxQuestions; $i++) {
-                        $questionIdFormatted = $section . $i;
-                        $row[$questionIdFormatted] = '';
-                    }
-
-                    // Untuk section B, isi B11-B25 dengan kosong (tidak digunakan)
-                    if ($section === 'B') {
-                        for ($i = 11; $i <= 25; $i++) {
-                            $questionIdFormatted = $section . $i;
-                            $row[$questionIdFormatted] = '';
-                        }
                     }
                 }
             }
@@ -164,11 +134,11 @@ class RespondersExport implements FromCollection, WithHeadings, WithStyles, With
      */
     public function headings(): array
     {
-        $headers = [
-            'Nama',
-            'Email',
-            'No Telefon',
-        ];
+        // $headers = [
+        //     'Nama',
+        //     'Email',
+        //     'No Telefon',
+        // ];
 
         // Tambah header untuk setiap soalan dengan format A1, A2, C1, dll
         // Berdasarkan struktur soalan yang ada dalam sistem
@@ -180,12 +150,19 @@ class RespondersExport implements FromCollection, WithHeadings, WithStyles, With
         }
 
         // Section B sampai L - Survey responses
-        // Section B hanya memiliki 10 soalan, section lainnya 25 soalan
+        // Section B hanya memiliki 10 soalan, Section C hanya 21 soalan, Section D hanya 12 soalan, section lainnya 25 soalan
         $sectionLimits = [
             'B' => 10,  // Section B hanya 10 soalan
-            'C' => 25, 'D' => 25, 'E' => 25, 'F' => 25,
-            'G' => 25, 'H' => 25, 'I' => 25, 'J' => 25,
-            'K' => 25, 'L' => 25
+            'C' => 21,  // Section C hanya 21 soalan (Tuntutan Psikologi + Kawalan Keputusan + Sokongan Sosial)
+            'D' => 12,  // Section D hanya 12 soalan
+            'E' => 18,
+            'F' => 6,
+            'G' => 20,
+            'H' => 12,
+            'I' => 15,
+            'J' => 4,
+            'K' => 34,
+            'L' => 3
         ];
 
         for ($section = 'B'; $section <= 'L'; $section++) {
@@ -194,8 +171,8 @@ class RespondersExport implements FromCollection, WithHeadings, WithStyles, With
                 $questionHeaders[] = $section . $i;
             }
         }
-
-        return array_merge($headers, $questionHeaders);
+        return $questionHeaders;
+        // return array_merge($headers, $questionHeaders);
     }
 
     /**
