@@ -101,9 +101,9 @@ class AuthController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|string|min:8|regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+            'password' => 'required|string|min:6|confirmed',
         ], [
-            'password.regex' => 'Kata laluan mesti sekurang-kurangnya 8 aksara dan mengandungi huruf, angka serta simbol.',
+            'password.min' => 'Kata laluan mesti sekurang-kurangnya 6 aksara.',
             'password.confirmed' => 'Pengesahan kata laluan tidak sepadan.'
         ]);
 
