@@ -171,14 +171,6 @@
             </div>
         </div>
         <x-dropdown :data="[
-            'Ketua Pesuruhjaya Bomba (KPjB)' => 'Ketua Pesuruhjaya Bomba (KPjB)',
-            'Pesuruhjaya Bomba (PjB)' => 'Pesuruhjaya Bomba (PjB)',
-            'Timbalan Pesuruhjaya Bomba (TPjB)' => 'Timbalan Pesuruhjaya Bomba (TPjB)',
-            'Penolong Kanan Pesuruhjaya Bomba (PKPjB)' => 'Penolong Kanan Pesuruhjaya Bomba (PKPjB)',
-            'Penolong Pesuruhjaya Bomba (PPjB)' => 'Penolong Pesuruhjaya Bomba (PPjB)',
-            'Penguasa Kanan Bomba 1 (PgKB 1)' => 'Penguasa Kanan Bomba 1 (PgKB 1)',
-            'Penguasa Kanan Bomba 2 (PgKB 2)' => 'Penguasa Kanan Bomba 2 (PgKB 2)',
-            'Penguasa Bomba (PgB)' => 'Penguasa Bomba (PgB)',
             'Timbalan Penguasa Bomba 1 (TPgB 1)' => 'Timbalan Penguasa Bomba 1 (TPgB 1)',
             'Timbalan Penguasa Bomba 2 (TPgB 2)' => 'Timbalan Penguasa Bomba 2 (TPgB 2)',
             'Penolong Kanan Penguasa Bomba (PKPgB)' => 'Penolong Kanan Penguasa Bomba (PKPgB)',
@@ -197,14 +189,6 @@
         </x-dropdown>
 
         <x-dropdown :data="[
-            'JUSA A' => 'JUSA A',
-            'JUSA B' => 'JUSA B',
-            'JUSA C' => 'JUSA C',
-            'KB 54/KB 14' => 'KB 54/KB 14',
-            'KB 52/KB 13' => 'KB 52/KB 13',
-            'KB 48/KB 12' => 'KB 48/KB 12',
-            'KB 44/KB 10' => 'KB 44/KB 10',
-            'KB 41/KB 9' => 'KB 41/KB 9',
             'KB 40/KB 8' => 'KB 40/KB 8',
             'KB 38/KB 7' => 'KB 38/KB 7',
             'KB 32/KB 6' => 'KB 32/KB 6',
@@ -216,60 +200,29 @@
             'KB 19/KB 1' => 'KB 19/KB 1',
         ]" :value="old('grade')">
             <x-slot:id>grade</x-slot:id>
-            <x-slot:label>19. Gred</x-slot:label>
+            <x-slot:label>19. Gred Hakiki</x-slot:label>
         </x-dropdown>
 
         <x-dropdown value="{{ old('location') }}" :data="[
-            'Ibu Pejabat Putrajaya' => 'Ibu Pejabat Putrajaya',
-            'Ibu Pejabat Negeri' => 'Ibu Pejabat Negeri',
-            'Zon daerah' => 'Zon daerah',
+            'Zon daerah' => 'Zon',
             'Balai bomba' => 'Balai bomba',
         ]">
             <x-slot:id>location</x-slot:id>
-            <x-slot:label>20. Lokasi</x-slot:label>
-        </x-dropdown>
-
-        <x-dropdown :value="old('position')" :data="[
-            'Operasi kebombaan dan penyelamat' => 'Operasi kebombaan dan penyelamat',
-            'Keselamatan kebakaran' => 'Keselamatan kebakaran',
-            'Latihan' => 'Latihan',
-            'Penyiasatan kebakaran' => 'Penyiasatan kebakaran',
-            'Udara' => 'Udara',
-            'Pembangunan, kejuruteraan dan logistik' => 'Pembangunan, kejuruteraan dan logistik',
-            'Perancangan dan penyelidikan' => 'Perancangan dan penyelidikan',
-            'Pengurusan korporat' => 'Pengurusan korporat',
-            'Pengurusan' => 'Pengurusan',
-            'Integriti' => 'Integriti',
-        ]">
-            <x-slot:id>position</x-slot:id>
-            <x-slot:label>21. Bahagian</x-slot:label>
+            <x-slot:label>20. Lokasi Bertugas</x-slot:label>
         </x-dropdown>
 
         <x-dropdown :value="old('state')" :data="[
-            'Perlis' => 'Perlis',
-            'Kedah' => 'Kedah',
-            'Pulau Pinang' => 'Pulau Pinang',
-            'Perak' => 'Perak',
             'Selangor' => 'Selangor',
             'Kuala Lumpur' => 'Kuala Lumpur',
             'Putrajaya' => 'Putrajaya',
-            'Negeri Sembilan' => 'Negeri Sembilan',
-            'Melaka' => 'Melaka',
-            'Johor' => 'Johor',
-            'Pahang' => 'Pahang',
-            'Terengganu' => 'Terengganu',
-            'Kelantan' => 'Kelantan',
-            'Sarawak' => 'Sarawak',
-            'Sabah' => 'Sabah',
-            'Labuan' => 'Labuan',
         ]">
             <x-slot:id>state</x-slot:id>
-            <x-slot:label>22. Negeri</x-slot:label>
+            <x-slot:label>21. Negeri</x-slot:label>
         </x-dropdown>
 
         <x-input-text value="{{ old('years_of_service') }}" type="text">
             <x-slot:id>years_of_service</x-slot:id>
-            <x-slot:label>23. Tempoh Perkhidmatan (Tahun), <em>contohnya: 15 tahun</em></x-slot:label>
+            <x-slot:label>22. Tempoh Perkhidmatan (Tahun), <em>contohnya: 15 tahun</em></x-slot:label>
         </x-input-text>
 
         <x-radio-button :value="old('service_status')" :data="[
@@ -277,7 +230,7 @@
             'Pegawai Bomba Bantuan' => 'Pegawai Bomba Bantuan',
         ]">
             <x-slot:id>service_status</x-slot:id>
-            <x-slot:label>24. Status Perkhidmatan</x-slot:label>
+            <x-slot:label>23. Status Perkhidmatan</x-slot:label>
         </x-radio-button>
 
         <x-input-text type="password" required>

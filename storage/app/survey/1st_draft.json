@@ -321,7 +321,7 @@
             },
             {
               "id": "C8",
-              "text": "Saya mempunyai banyak yang ingin dikatakan tentang apa yang berlaku dengan kerja saya.",
+              "text": "Saya mempunyai banyak yang ingin dikatakan tentang apa yang berlaku dengan kerja saya di peringkat jawatan kerja saya sekarang.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -337,7 +337,7 @@
           "questions": [
             {
               "id": "C9",
-              "text": "Pekerjaan saya memerlukan saya bekerja dengan sangat cepat.",
+              "text": "Pekerjaan saya memerlukan saya bekerja dengan pantas.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -348,7 +348,7 @@
             },
             {
               "id": "C10",
-              "text": "Pekerjaan saya memerlukan saya bekerja dengan sangat kuat.",
+              "text": "Pekerjaan saya memerlukan kekuatan tenaga.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -359,7 +359,7 @@
             },
             {
               "id": "C11",
-              "text": "Saya bebas daripada tuntutan bercanggah yang dibuat oleh orang lain berkaitan kerja saya.",
+              "text": "Saya bebas daripada arahan/permintaan bercanggah yang dibuat oleh orang lain berkaitan kerja saya.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -419,7 +419,7 @@
           "questions": [
             {
               "id": "C16",
-              "text": "Orang-orang yang saya bekerja bersama kompeten dalam melakukan tugas mereka.",
+              "text": "Saya bekerja bersama rakan sekerja yang kompeten dalam tugas.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -430,7 +430,7 @@
             },
             {
               "id": "C17",
-              "text": "Orang-orang yang saya bekerja bersama mengambil berat tentang saya.",
+              "text": "Saya bekerja bersama rakan sekerja yang mengambil berat tentang diri saya.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -441,7 +441,7 @@
             },
             {
               "id": "C18",
-              "text": "Orang-orang yang saya bekerja bersama membantu dalam menyiapkan kerja.",
+              "text": "Rakan sekerja membantu saya menyiapkan kerja.",
               "type": "single_choice",
               "options": [
                 "Sangat tidak setuju (1)",
@@ -568,7 +568,7 @@
         },
         {
           "id": "D6",
-          "text": "Kualiti kerja saya yang tidak berkaitan dengan kursus telah bertambah baik.",
+          "text": "Kualiti kerja saya bertambah baik walaupun dalam tugasan yang tidak berkaitan dengan kursus.",
           "type": "single_choice",
           "options": [
             "Sangat tidak setuju (1)",
@@ -750,7 +750,7 @@
           "questions": [
             {
               "id": "E1",
-              "text": "Prestasi tugas saya dalam 3 bulan lepas, saya dapat merancang kerja saya supaya saya dapat menyelesaikannya tepat pada waktunya.",
+              "text": "Prestasi tugas saya dalam 3 bulan lepas, saya dapat merancang kerja supaya boleh diselesaikan tepat pada waktunya.",
               "type": "scale",
               "min": 0,
               "max": 4,
@@ -759,7 +759,7 @@
             },
             {
               "id": "E2",
-              "text": "Prestasi tugas saya dalam 3 bulan lepas, saya ingat hasil kerja yang perlu saya capai.",
+              "text": "Prestasi tugas saya dalam 3 bulan lepas, Saya sentiasa mengingati hasil kerja yang perlu dicapai.",
               "type": "scale",
               "min": 0,
               "max": 4,
@@ -809,7 +809,7 @@
             },
             {
               "id": "E7",
-              "text": "Prestasi konteksual saya dalam 3 bulan lepas, saya mengambil tugas yang mencabar apabila ia tersedia.",
+              "text": "Prestasi konteksual saya dalam 3 bulan lepas, Saya menerima tugasan yang mencabar apabila diberikan peluang.",
               "type": "scale",
               "min": 0,
               "max": 4,
@@ -895,7 +895,7 @@
             },
             {
               "id": "E16",
-              "text": "Perilaku kerja yang tidak produktif saya dalam 3 bulan lepas, saya lebih fokus pada aspek negatif situasi di tempat kerja berbanding aspek positifnya.",
+              "text": "Perilaku kerja yang tidak produktif saya dalam 3 bulan lepas, dalam situasi di tempat kerja, saya lebih fokus kepada aspek negatif berbanding positif.",
               "type": "scale",
               "min": 0,
               "max": 4,
