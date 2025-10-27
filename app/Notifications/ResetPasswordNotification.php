@@ -37,11 +37,17 @@ class ResetPasswordNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+            ->view('emails.auth.reset')
             ->subject('Pemberitahuan Reset Kata Laluan')
-            ->line('Anda menerima e-mel ini kerana kami menerima permintaan reset kata laluan untuk akaun anda.')
-            ->action('Reset Kata Laluan', url('/reset-password/' . $this->token))
-            ->line('Pautan reset kata laluan ini akan tamat tempoh dalam 60 minit.')
-            ->line('Jika anda tidak meminta reset kata laluan, tiada tindakan lanjut diperlukan.');
+            ->with([
+                'introLines' => ['Anda menerima e-mel ini kerana kami menerima permintaan reset kata laluan untuk akaun anda.'],
+                'actionText' => 'Reset Kata Laluan',
+                'actionUrl' => url('/reset-password/' . $this->token),
+                'outroLines' => [
+                    'Pautan reset kata laluan ini akan tamat tempoh dalam 60 minit.',
+                    'Jika anda tidak meminta reset kata laluan, tiada tindakan lanjut diperlukan.'
+                ]
+            ]);
     }
 
     /**
