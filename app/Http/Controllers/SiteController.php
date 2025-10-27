@@ -19,7 +19,7 @@ class SiteController extends Controller
 
     public function testForgotPassword(Request $request)
     {
-        $email = $request->input('email', 'admin@bomba.com'); // Email default untuk test
+        $email = $request->input('email', 'shukrisenawi@gmail.com'); // Email default untuk test
 
         $user = User::where('email', $email)->first();
 
