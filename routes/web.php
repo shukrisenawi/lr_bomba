@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AdminSurveyController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,8 @@ Route::get('/', function () {
     }
 })->name('home');
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
+Route::get('/test', [SiteController::class, 'index'])->name('test');
+Route::get('/test-forgot-password', [SiteController::class, 'testForgotPassword'])->name('test.forgot-password');
 Route::post('/register', [RegisterController::class, 'storeConsent'])->name('register.store-consent');
 Route::get('/demography', [RegisterController::class, 'showDemographyForm'])->name('register.demography');
 Route::post('/demography', [RegisterController::class, 'storeDemography'])->name('register.store-demography');
