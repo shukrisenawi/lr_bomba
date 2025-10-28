@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Mail\Mailable;
 
 class ResetPasswordNotification extends Notification
 {
@@ -36,7 +37,7 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        $mail = (new MailMessage)
             ->subject('Pemberitahuan Reset Kata Laluan')
             ->greeting('Hello!')
             ->line('Anda menerima e-mel ini kerana kami menerima permintaan reset kata laluan untuk akaun anda.')
@@ -44,6 +45,15 @@ class ResetPasswordNotification extends Notification
             ->line('Pautan reset kata laluan ini akan tamat tempoh dalam 60 minit.')
             ->line('Jika anda tidak meminta reset kata laluan, tiada tindakan lanjut diperlukan.')
             ->view('emails.auth.reset');
+
+        // Add anti-spam headers using callback
+        $mail->withSymfonyMessage(function ($message) {
+            $message->getHeaders()
+                ->addTextHeader('X-Mailer', 'Sistemftwupm')
+                ->addTextHeader('List-Unsubscribe', '<mailto:unsubscribe@multivita2u.com>');
+        });
+
+        return $mail;
     }
 
     /**
