@@ -43,7 +43,13 @@ class ResetPasswordNotification extends Notification
             ->action('Reset Kata Laluan', url('/reset-password/' . $this->token))
             ->line('Pautan reset kata laluan ini akan tamat tempoh dalam 60 minit.')
             ->line('Jika anda tidak meminta reset kata laluan, tiada tindakan lanjut diperlukan.')
-            ->view('emails.auth.reset');
+            ->view('emails.auth.reset')
+            ->withSwiftMessage(function ($message) {
+                $message->getHeaders()
+                    ->addTextHeader('X-Mailer', 'Laravel')
+                    ->addTextHeader('List-Unsubscribe', '<mailto:unsubscribe@yourdomain.com>')
+                    ->addTextHeader('Return-Path', env('MAIL_FROM_ADDRESS', 'hello@example.com'));
+            });
     }
 
     /**
