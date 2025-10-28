@@ -50,8 +50,7 @@ class ResetPasswordNotification extends Notification
         $mail->withSymfonyMessage(function ($message) {
             $message->getHeaders()
                 ->addTextHeader('X-Mailer', 'Laravel Application')
-                ->addTextHeader('List-Unsubscribe', '<mailto:unsubscribe@yourdomain.com>')
-                ->addTextHeader('Return-Path', env('MAIL_FROM_ADDRESS', 'noreply@yourdomain.com'));
+                ->addTextHeader('List-Unsubscribe', '<mailto:unsubscribe@multivita2u.com>');
         });
 
         return $mail;
