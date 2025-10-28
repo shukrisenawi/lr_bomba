@@ -86,7 +86,7 @@ class AuthController extends Controller
         // Send notification
         $user->notify(new ResetPasswordNotification($token));
 
-        return back()->with(['status' => 'Link reset kata laluan telah dihantar ke e-mel anda.']);
+        return back()->with(['status' => 'Link reset kata laluan telah dihantar ke e-mel anda. Jika tidak menerima e-mel, sila semak di folder spam.']);
     }
 
     // Tampilkan halaman reset password
