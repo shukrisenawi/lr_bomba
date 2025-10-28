@@ -49,7 +49,7 @@ class ResetPasswordNotification extends Notification
         // Add anti-spam headers using callback
         $mail->withSymfonyMessage(function ($message) {
             $message->getHeaders()
-                ->addTextHeader('X-Mailer', 'Laravel Application')
+                ->addTextHeader('X-Mailer', 'Sistemftwupm')
                 ->addTextHeader('List-Unsubscribe', '<mailto:unsubscribe@multivita2u.com>');
         });
 
