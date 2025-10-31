@@ -1948,6 +1948,7 @@
           "text": "Adakah anda pada bila-bila masa dalam tempoh 12 bulan yang lalu mengalami masalah (seperti sakit, sengal, ketidakselesaan, kebas) pada anggota badan berikut (boleh tanda lebih dari satu jawapan)",
           "type": "multiple_choice",
           "options": [
+            "Tiada",
             "Leher",
             "Bahu",
             "Belakang atas",
@@ -1965,6 +1966,7 @@
           "text": "Dalam tempoh 12 bulan yang lalu, adakah anda terhalang daripada menjalankan aktiviti harian (contohnya kerja, kerja rumah, hobi) disebabkan oleh masalah pada anggota badan berikut (boleh tanda lebih dari satu jawapan)?",
           "type": "multiple_choice",
           "options": [
+            "Tiada",
             "Leher",
             "Bahu",
             "Belakang atas",
@@ -1982,6 +1984,7 @@
           "text": "Dalam tempoh 12 bulan yang lalu, adakah anda berjumpa doktor untuk keadaan pada anggota badan berikut (boleh tanda lebih dari satu jawapan)?",
           "type": "multiple_choice",
           "options": [
+            "Tiada",
             "Leher",
             "Bahu",
             "Belakang atas",
@@ -1999,6 +2002,7 @@
           "text": "Dalam tempoh 7 hari yang lalu, adakah anda mengalami masalah pada:",
           "type": "multiple_choice",
           "options": [
+            "Tiada",
             "Leher",
             "Bahu",
             "Belakang atas",
@@ -2027,7 +2031,7 @@
           "questions": [
             {
               "id": "K1",
-              "text": "Ringkasan pekerjaan. Contoh: Secara amnya, pekerjaan saya ini adalah berkaitan operasi mengawal sempadan negara dari pencerobohan musuh, memeriksa dan menyelenggara jentera tentera dan menjalankan operasi menyelamat mangsa jika berlaku kejadian bencana alam seperti banjir, tanah runtuh dan gempa bumi.",
+              "text": "Ringkasan pekerjaan. Contoh: Secara amnya, pekerjaan saya ini adalah berkaitan operasi memeriksa dan menyelenggara jentera tentera dan menjalankan operasi menyelamat mangsa jika berlaku kejadian bencana alam seperti banjir, tanah runtuh dan gempa bumi.",
               "type": "text",
               "placeholder": "Secara amnya, pekerjaan saya ini adalah…"
             },
