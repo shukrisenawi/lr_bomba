@@ -47,6 +47,11 @@ class DashboardController extends Controller
             // Calculate progress
             $progress[$key] = $totalQuestions > 0 ? round(($answeredCount / $totalQuestions) * 100) : 0;
             $progress[$key] = max(0, min(100, $progress[$key]));
+
+            // Auto-set completed to true if progress is 100%
+            if ($progress[$key] == 100 && !$response[$key]->completed) {
+                $response[$key]->update(['completed' => true]);
+            }
         }
 
         // Calculate overall status
